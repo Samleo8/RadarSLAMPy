@@ -35,18 +35,11 @@ def getRadarStream(dataPath):
 
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
-            fullShape = imgCart.shape + (NImgs,)
-            print(fullShape)
-            streamArr = np.zeros(fullShape)
+            fullShape = imgCart.shape + (NImgs, )
+            streamArr = np.empty(fullShape, dtype=imgCart.dtype)
 
         # Save converted image into stream
         streamArr[:, :, i] = imgCart
-
-        # cv2.imshow("Cart", imgCart)
-        # c = cv2.waitKey(0)
-
-        # if c == ord('q'):
-        #     return streamArr
 
     return streamArr
 
@@ -56,5 +49,18 @@ if __name__ == "__main__":
     dataPath = os.path.join("./data", datasetName, "radar")
 
     streamArr = getRadarStream(dataPath)
+    nImgs = streamArr.shape[2]
+
+    for i in range(nImgs):
+        imgCart = streamArr[:, :, i]
+
+        try:
+            cv2.imshow("Cart", imgCart)
+            c = cv2.waitKey(100)
+        except KeyboardInterrupt:
+            break
+
+        if c == ord('q'):
+            break
 
     cv2.destroyAllWindows()
