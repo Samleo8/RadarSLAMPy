@@ -1,0 +1,3 @@
+[submodule "g2opy"]
+	path = g2opy
+	url = git@github.com:uoip/g2opy.git
