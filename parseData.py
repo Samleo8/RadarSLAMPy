@@ -5,13 +5,14 @@ import os, sys
 
 
 def convertPolarToCartesian(imgPolar):
-    size = imgPolar.shape
-    center = tuple((np.array(imgPolar.shape) / 2))
-    print(center)
+    w, h = imgPolar.shape
+    
+    maxRadius = w
+    cartSize = (maxRadius * 2, maxRadius * 2)
+    center = np.array(cartSize) / 2
 
-    maxRadius = imgPolar.shape[0]
-    imgCart = cv2.warpPolar(imgPolar, size, center, maxRadius,
-                            cv2.WARP_POLAR_LOG + cv2.WARP_INVERSE_MAP)
+    flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
+    imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
 
     return imgCart
 
@@ -26,7 +27,10 @@ def getRadarStream(dataPath):
         imgCart = convertPolarToCartesian(imgPolar)
 
         cv2.imshow("Cart", imgCart)
-        cv2.waitKey(0)
+        c = cv2.waitKey(0)
+
+        if c == ord('q'):
+            return
 
     return
 
@@ -36,3 +40,5 @@ if __name__ == "__main__":
     dataPath = os.path.join("./data", datasetName, "radar")
 
     getRadarStream(dataPath)
+
+    cv2.destroyAllWindows()
