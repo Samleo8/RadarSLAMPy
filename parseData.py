@@ -16,7 +16,7 @@ def convertPolarToCartesian(imgPolar):
     return imgCart
 
 
-def getRadarStream(dataPath):
+def getRadarStream(dataPath, timestampPath):
     '''
     @brief Returns np array of radar images in Cartesian format
     @param[in] dataPath Path to radar image data
@@ -24,11 +24,18 @@ def getRadarStream(dataPath):
     '''
     streamArr = None
 
-    imgList = os.listdir(dataPath)
-    NImgs = len(imgList)
+    timestampPathArr = []
+    with open(timestampPath, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            stamp, valid = line.strip().split(" ")
+            if valid:
+                stampPath = os.path.join(dataPath, stamp + ".png")
+                timestampPathArr.append(stampPath)
 
-    for i, imgName in enumerate(imgList):
-        imgPath = os.path.join(dataPath, imgName)
+    NImgs = len(timestampPathArr)
+
+    for i, imgPath in enumerate(timestampPathArr):
         imgPolar = cv2.imread(imgPath, cv2.COLOR_BGR2GRAY)
 
         imgCart = convertPolarToCartesian(imgPolar)
@@ -47,8 +54,9 @@ def getRadarStream(dataPath):
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
     dataPath = os.path.join("./data", datasetName, "radar")
+    timestampPath = os.path.join("./data", datasetName, "radar.timestamps")
 
-    streamArr = getRadarStream(dataPath)
+    streamArr = getRadarStream(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
 
     for i in range(nImgs):
