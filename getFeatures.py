@@ -19,7 +19,7 @@ def getFeaturesPolarInd(polarImage: np.ndarray,
     @param[in] peakDistance Minimum distance to be counted as a peak
     @param[in] peakProminence Minimum prominence to be counted as a peak
 
-    @return (K x 2) Np array of polar coordinates with each row [rInd, thetaInd] being indices in the polar image
+    @return (K x 2) Np array of polar coordinates with each row [thetaInd, rInd] being indices in the polar image
     '''
     M, N = polarImage.shape
 
@@ -49,10 +49,10 @@ def getFeaturesPolarInd(polarImage: np.ndarray,
         # validPeakHeights = azimuthReading[validPeakInd]
         azimuthIndices = np.full_like(validPeakInd, azim_ind)
 
-        toAppend = np.vstack((validPeakInd, azimuthIndices)).T
+        toAppend = np.vstack((azimuthIndices, validPeakInd)).T
         pointCloudPolarIndices = np.vstack((pointCloudPolarIndices, toAppend))
 
-    return pointCloudPolarIndices
+    return pointCloudPolarIndices.astype(int)
 
 
 if __name__ == "__main__":
@@ -72,19 +72,23 @@ if __name__ == "__main__":
         # TODO: need to convert from polar to Cartesian form?
         # TODO: for now display via weird way
         featurePolarImage = np.zeros_like(imgPolar)
-        featurePolarImage = np.zeros_like(featurePolarIndices)
+        featureAzim, featureRange = featurePolarIndices[:, 0], featurePolarIndices[:, 1]
+        featurePolarImage[featureAzim, featureRange] = 255
 
-        break
+        # Display
+        imgCart = convertPolarImageToCartesian(imgPolar)
+        imgCartRGB = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR)
 
-        # imgCart = convertPolarImageToCartesian(imgPolar)
+        featureImgCart = convertPolarImageToCartesian(featurePolarImage)
+        imgCartRGB[:,:,2] = np.clip(featureImgCart + imgCartRGB[:,:,2], 0, 255)
 
-        # try:
-        #     cv2.imshow("Cartesian Stream", imgCart)
-        #     c = cv2.waitKey(100)
-        # except KeyboardInterrupt:
-        #     break
+        try:
+            cv2.imshow("Cartesian Stream with Features", imgCartRGB)
+            c = cv2.waitKey(100)
+        except KeyboardInterrupt:
+            break
 
-        # if c == ord('q'):
-        #     break
+        if c == ord('q'):
+            break
 
     # cv2.destroyAllWindows()
