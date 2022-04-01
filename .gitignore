@@ -1,5 +1,6 @@
 # Data
 data/full_seq*
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
