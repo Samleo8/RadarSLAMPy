@@ -12,7 +12,7 @@ class CartCoord(object):
     def __str__(self):
         return "CartCoord(%s,%s)" % (self.getX(), self.getY())
 
-    def addCoord(self, other: CartCoord) -> None:
+    def addCoord(self, other) -> None:
         self.increment(other.getX(), other.getY())
 
     def add(self, dx: float, dy: float) -> None:
@@ -42,7 +42,7 @@ class CartCoord(object):
     def getDistance(self, other) -> float:
         dx = self.x - other.x
         dy = self.y - other.y
-        
+
         return np.sqrt(dx**2 + dy**2)
 
     def getAngle(self, other):
@@ -50,6 +50,9 @@ class CartCoord(object):
         dy = self.y - other.y
 
         return np.arctan2(dy, dx)
+
+    def asTuple(self) -> tuple:
+        return (self.getX(), self.getY())
 
 class PolarCoord(object):
     '''Creates a point on a Cartesian coordinate plane with values x and y.'''
@@ -62,11 +65,20 @@ class PolarCoord(object):
     def __str__(self):
         return "PolarCoord(%s,%s)" % (self.getR(), self.getTheta())
 
-    def getR(self):
+    def getR(self) -> float:
         return self.r
 
-    def getTheta(self):
+    def getTheta(self) -> float:
         return self.theta
 
-    def scaleR(self, scaleFactor):
+    def scaleR(self, scaleFactor) -> None:
         self.r *= scaleFactor
+
+    def toCart(self) -> CartCoord:
+        x = self.r * np.cos(self.theta)
+        y = self.r * np.sin(self.theta)
+
+        return CartCoord(x, y)
+
+    def asTuple(self) -> tuple:
+        return (self.getR(), self.getTheta())
