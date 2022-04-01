@@ -2,6 +2,19 @@ import numpy as np
 import cv2
 import os, sys
 
+from Coord import CartCoord
+
+
+def drawCVPoint(img: np.ndarray, point: CartCoord,
+                point_color: tuple[int, int, int] = (0, 0, 255)):
+    if isinstance(point, CartCoord):
+        point = point.asTuple()
+
+    return cv2.circle(img,
+                      tuple(point),
+                      radius=0,
+                      color=point_color,
+                      thickness=-1)
 
 def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     w, h = imgPolar.shape
