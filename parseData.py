@@ -8,7 +8,7 @@ def convertPolarToCartesian(imgPolar):
 
     maxRadius = w
     cartSize = (maxRadius * 2, maxRadius * 2)
-    center = np.array(cartSize) / 2
+    center = tuple(np.array(cartSize) / 2)
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
