@@ -3,7 +3,7 @@ import cv2
 import os, sys
 
 
-def convertPolarToCartesian(imgPolar):
+def convertPolarToCartesian(imgPolar: np.ndarray):
     w, h = imgPolar.shape
 
     maxRadius = w
@@ -16,11 +16,11 @@ def convertPolarToCartesian(imgPolar):
     return imgCart
 
 
-def getRadarStream(dataPath, timestampPath):
+def getRadarStreamPolar(dataPath: str, timestampPath: str):
     '''
-    @brief Returns np array of radar images in Cartesian format
+    @brief Returns np array of radar images in POLAR format
     @param[in] dataPath Path to radar image data
-    @return (800 x 800 x N)
+    @return (W x H x N)
     '''
     streamArr = None
 
@@ -38,15 +38,13 @@ def getRadarStream(dataPath, timestampPath):
     for i, imgPath in enumerate(timestampPathArr):
         imgPolar = cv2.imread(imgPath, cv2.COLOR_BGR2GRAY)
 
-        imgCart = convertPolarToCartesian(imgPolar)
-
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
-            fullShape = imgCart.shape + (NImgs, )
-            streamArr = np.empty(fullShape, dtype=imgCart.dtype)
+            fullShape = imgPolar.shape + (NImgs, )
+            streamArr = np.empty(fullShape, dtype=imgPolar.dtype)
 
         # Save converted image into stream
-        streamArr[:, :, i] = imgCart
+        streamArr[:, :, i] = imgPolar
 
     return streamArr
 
@@ -56,14 +54,15 @@ if __name__ == "__main__":
     dataPath = os.path.join("data", datasetName, "radar")
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
-    streamArr = getRadarStream(dataPath, timestampPath)
+    streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
 
     for i in range(nImgs):
-        imgCart = streamArr[:, :, i]
+        imgPolar = streamArr[:, :, i]
+        imgCart = convertPolarToCartesian(imgPolar)
 
         try:
-            cv2.imshow("Cart", imgCart)
+            cv2.imshow("Cartesian Stream", imgCart)
             c = cv2.waitKey(100)
         except KeyboardInterrupt:
             break
