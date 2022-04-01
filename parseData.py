@@ -3,7 +3,7 @@ import cv2
 import os, sys
 
 
-def convertPolarImageToCartesian(imgPolar: np.ndarray):
+def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     w, h = imgPolar.shape
 
     maxRadius = w
@@ -16,7 +16,7 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray):
     return imgCart
 
 
-def getRadarStreamPolar(dataPath: str, timestampPath: str):
+def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
     '''
     @brief Returns np array of radar images in POLAR format
     @param[in] dataPath Path to radar image data
