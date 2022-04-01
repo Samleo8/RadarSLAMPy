@@ -53,8 +53,8 @@ def getRadarStream(dataPath, timestampPath):
 
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
-    dataPath = os.path.join("./data", datasetName, "radar")
-    timestampPath = os.path.join("./data", datasetName, "radar.timestamps")
+    dataPath = os.path.join("data", datasetName, "radar")
+    timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
     streamArr = getRadarStream(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
