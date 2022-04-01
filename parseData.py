@@ -3,7 +3,7 @@ import cv2
 import os, sys
 
 
-def convertPolarToCartesian(imgPolar: np.ndarray):
+def convertPolarImageToCartesian(imgPolar: np.ndarray):
     w, h = imgPolar.shape
 
     maxRadius = w
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     for i in range(nImgs):
         imgPolar = streamArr[:, :, i]
-        imgCart = convertPolarToCartesian(imgPolar)
+        imgCart = convertPolarImageToCartesian(imgPolar)
 
         try:
             cv2.imshow("Cartesian Stream", imgCart)
