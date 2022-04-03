@@ -43,10 +43,10 @@ class Trajectory():
         estimatedPoses = estTraj.getPoseAtTime(self.timestamps)
         rmse = np.sqrt(np.mean((np.linalg.norm(self.poses - estimatedPoses))**2))
         return rmse
-    
-def getGroundTruthTrajectory(gtPath : str, integrate=False):
+
+def getGroundTruthTrajectory(gtPath : str):
     '''
-    @brief Returns ground truth trajectory
+    @brief Returns ground truth trajectory given radar_odometry.csv
     @param[in] gtPath Path to ground truth file
     @return Trajectory object
     '''
@@ -55,7 +55,33 @@ def getGroundTruthTrajectory(gtPath : str, integrate=False):
         _ = next(gt_file) # headers
         gt_timestamps = []
         gt_poses = []
-        # import pdb; pdb.set_trace()
+
+        x, y, th = 0, 0, 0
+        for row in gt_reader:
+            timestamp = int(row[0]) # source_timestamp
+            gt_timestamps.append(timestamp)
+            dx = float(row[2]) # x
+            dy = float(row[3]) # y
+            dth = float(row[7]) # yaw
+            x += dx * np.cos(th) + dy * np.sin(th)
+            y += dx * -np.sin(th) + dy * np.cos(th)
+            th += dth
+            gt_poses.append([x,y])
+    gt_timestamps = np.array(gt_timestamps)
+    gt_poses = np.array(gt_poses)
+    return Trajectory(gt_timestamps, gt_poses)
+
+def getGroundTruthTrajectoryGPS(gtPath : str):
+    '''
+    @brief Returns ground truth trajectory given gps.csv
+    @param[in] gtPath Path to ground truth file
+    @return Trajectory object
+    '''
+    with open(gtPath) as gt_file:
+        gt_reader = csv.reader(gt_file)
+        _ = next(gt_file) # headers
+        gt_timestamps = []
+        gt_poses = []
         for row in gt_reader:
             timestamp = int(row[0]) # source_timestamp
             gt_timestamps.append(timestamp)
@@ -64,8 +90,6 @@ def getGroundTruthTrajectory(gtPath : str, integrate=False):
             gt_poses.append([x,y])
     gt_timestamps = np.array(gt_timestamps)
     gt_poses = np.array(gt_poses)
-    if integrate:
-        gt_poses = np.cumsum(gt_poses,axis=0) # integration
     return Trajectory(gt_timestamps, gt_poses)
 
 def viewResults(gtTraj, estTraj, title):
@@ -94,18 +118,20 @@ if __name__ == "__main__":
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
     # gps ground truth
-    gtPath = os.path.join("data", datasetName, "gps", "gps.csv")
-    gtTraj = getGroundTruthTrajectory(gtPath, integrate=False)
+    if datasetName == "tiny":
+        gtPath = os.path.join("data", datasetName, "gps", "gps.csv")
+        gtTraj = getGroundTruthTrajectoryGPS(gtPath)
+        gtTraj.plotTrajectory()
+
+    # radar odometry ground truth seems fishy
+    gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
+    gtTraj = getGroundTruthTrajectory(gtPath)
     gtTraj.plotTrajectory()
     estArr = gtTraj.getPoseAtTime(gtTraj.timestamps)
-    noise = np.random.multivariate_normal(mean=(1e-11,3e-11),cov=np.array([[1,.5],[.2,1]]) * 1e-9,size=(gtTraj.nFrames))
+    noise = np.random.multivariate_normal(mean=(.01,.01),cov=np.array([[.8,.2],[.2,.8]])*1e-2,size=(gtTraj.nFrames))
     noise = np.cumsum(noise,axis=0) # integration
     estArr = estArr + noise
     estTraj = Trajectory(gtTraj.timestamps, estArr)
     viewResults(gtTraj, estTraj, datasetName)
 
-    # radar odometry ground truth seems fishy
-    gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
-    gtTraj = getGroundTruthTrajectory(gtPath, integrate=True)
-    gtTraj.plotTrajectory()
-    plt.waitforbuttonpress()
+    plt.waitforbuttonpress(0)
