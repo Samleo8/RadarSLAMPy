@@ -1,10 +1,11 @@
-import numpy as np
-import cv2
-import os, sys
+import os
+import sys
 import csv
-from parseData import *
+import numpy as np
 from matplotlib import pyplot as plt
 import scipy.interpolate
+from utils import *
+from parseData import *
 
 class Trajectory():
     def __init__(self, timestamps, poses):
@@ -34,7 +35,8 @@ class Trajectory():
         ax.grid(True)
         ax.legend()
         # ax.set_aspect('equal', adjustable='box')
-        fig.show()
+        fig.canvas.draw()
+        plt.show(block=True)
 
     def computeRMSE(self, estTraj):
         '''
@@ -63,8 +65,8 @@ def getGroundTruthTrajectory(gtPath : str):
             dx = float(row[2]) # x
             dy = float(row[3]) # y
             dth = float(row[7]) # yaw
-            x += dx * np.cos(th) + dy * np.sin(th)
-            y += dx * -np.sin(th) + dy * np.cos(th)
+            x += dx * np.cos(th) + dy * -np.sin(th)
+            y += dx * np.sin(th) + dy * np.cos(th)
             th += dth
             gt_poses.append([x,y])
     gt_timestamps = np.array(gt_timestamps)
@@ -109,7 +111,8 @@ def viewResults(gtTraj, estTraj, title):
     ax.legend()
     ax.set_title(f'{title}: RMSE={estTraj.computeRMSE(gtTraj):.2f}')
     # ax.set_aspect('equal', adjustable='box')
-    fig.show()
+    fig.canvas.draw()
+    plt.show(block=True)
     savePath = os.path.join(os.getcwd(), 'results', title)
     plt.savefig(savePath)
     
@@ -117,21 +120,22 @@ if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
+    plt.ion()
+
     # gps ground truth
     if datasetName == "tiny":
         gtPath = os.path.join("data", datasetName, "gps", "gps.csv")
         gtTraj = getGroundTruthTrajectoryGPS(gtPath)
         gtTraj.plotTrajectory()
 
-    # radar odometry ground truth seems fishy
+    # radar odometry ground truth
     gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
     gtTraj = getGroundTruthTrajectory(gtPath)
     gtTraj.plotTrajectory()
-    estArr = gtTraj.getPoseAtTime(gtTraj.timestamps)
-    noise = np.random.multivariate_normal(mean=(.01,.01),cov=np.array([[.8,.2],[.2,.8]])*1e-2,size=(gtTraj.nFrames))
+    keyframe_timestamps = np.arange(gtTraj.timestamps[0], gtTraj.timestamps[-1], (gtTraj.timestamps[-1]-gtTraj.timestamps[0]) / 1000)
+    estArr = gtTraj.getPoseAtTime(keyframe_timestamps)
+    noise = np.random.multivariate_normal(mean=(.01,.05),cov=np.array([[.8,.2],[.2,.8]])*1e-2,size=(keyframe_timestamps.shape[0]))
     noise = np.cumsum(noise,axis=0) # integration
     estArr = estArr + noise
-    estTraj = Trajectory(gtTraj.timestamps, estArr)
+    estTraj = Trajectory(keyframe_timestamps, estArr)
     viewResults(gtTraj, estTraj, datasetName)
-
-    plt.waitforbuttonpress(0)
