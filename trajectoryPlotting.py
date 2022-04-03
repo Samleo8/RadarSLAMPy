@@ -112,9 +112,9 @@ def viewResults(gtTraj, estTraj, title):
     ax.set_title(f'{title}: RMSE={estTraj.computeRMSE(gtTraj):.2f}')
     # ax.set_aspect('equal', adjustable='box')
     fig.canvas.draw()
-    plt.show(block=True)
     savePath = os.path.join(os.getcwd(), 'results', title)
     plt.savefig(savePath)
+    plt.show(block=True)
     
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
