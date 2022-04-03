@@ -1,6 +1,7 @@
+**ini
+
 # Data
-data/full_seq*
-*.zip
+# data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

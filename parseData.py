@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import os, sys
+import csv
 
 from Coord import CartCoord
 
@@ -66,9 +67,29 @@ if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
     dataPath = os.path.join("data", datasetName, "radar")
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
+    gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
 
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
+
+    global_map = np.zeros((512, 512, 3), dtype=np.uint8)
+    cv2.imshow("Polar", global_map)
+    with open(gtPath) as gt_file:
+        gt_reader = csv.reader(gt_file)
+        headers = next(gt_file)
+
+        ins_timestamps = [0]
+        gt_timestamps = []
+        gt_poses = []
+        for row in gt_reader:
+            timestamp = int(row[0]) # source_timestamp
+            ins_timestamps.append(timestamp)
+            x = float(row[2])
+            y = float(row[3])
+            gt_poses.append([x,y]) # x,y
+            drawCVPoint(global_map, (int(x*100+100),int(y*100+100)), (0, 255, 0))
+            cv2.imshow("Polar", global_map)
+            cv2.waitKey(50)
 
     for i in range(nImgs):
         imgPolar = streamArr[:, :, i]
