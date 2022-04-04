@@ -43,7 +43,7 @@ class Trajectory():
         @brief Compute the Root Mean Square Error between the prediction and the actual trajectory
         '''
         estimatedPoses = estTraj.getPoseAtTime(self.timestamps)
-        rmse = np.sqrt(np.mean((np.linalg.norm(self.poses - estimatedPoses))**2))
+        rmse = np.sqrt(np.mean((np.linalg.norm(self.poses - estimatedPoses, axis=-1))**2))
         return rmse
 
 def getGroundTruthTrajectory(gtPath : str):
