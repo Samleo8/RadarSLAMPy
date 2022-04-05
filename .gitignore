@@ -3,7 +3,7 @@
 **ini
 
 # Data
-data/full_seq*
+data/full_seq*/radar/*
 *.zip
 *.tar*
 

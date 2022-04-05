@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 import cv2
 import os, sys
@@ -5,8 +6,42 @@ import csv
 
 from Coord import CartCoord
 
+RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm)
 
-def drawCVPoint(img: np.ndarray, point: CartCoord,
+
+def extractDataFromRadarImage(
+    polarImgData: np.ndarray
+) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
+    """
+    @brief Decode a single Oxford Radar RobotCar Dataset radar example
+    @param[in] polarImgData cv image
+    @return
+        fft_data (np.ndarray): Radar power readings along each azimuth
+        range_resolution (float): Range resolution of the polar radar data (metres per pixel)
+        azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
+        azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
+        valid (np.ndarray) Mask of whether azimuth data is an original sensor reading or interpolated from adjacent
+            azimuths
+        timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
+    """
+    # Hard coded configuration to simplify parsing code
+    range_resolution = RANGE_RESOLUTION_M
+    encoder_size = 5600
+
+    # Extract actual data and metadata from the image
+    timestamps = polarImgData[:, :8].copy().view(np.int64)
+    azimuths = (polarImgData[:, 8:10].copy().view(np.uint16) /
+                float(encoder_size) * 2 * np.pi).astype(np.float32)
+    valid = polarImgData[:, 10:11] == 255
+    range_azimuth_data = polarImgData[:, 11:].astype(np.float32) / 255.
+
+    azimuth_resolution = azimuths[1] - azimuths[0]
+
+    return range_azimuth_data, azimuths, range_resolution, azimuth_resolution, valid, timestamps
+
+
+def drawCVPoint(img: np.ndarray,
+                point: CartCoord,
                 point_color: tuple[int, int, int] = (0, 0, 255)):
     if isinstance(point, CartCoord):
         point = point.asTuple()
@@ -16,6 +51,7 @@ def drawCVPoint(img: np.ndarray, point: CartCoord,
                       radius=0,
                       color=point_color,
                       thickness=-1)
+
 
 def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     w, h = imgPolar.shape
@@ -34,7 +70,7 @@ def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
     '''
     @brief Returns np array of radar images in POLAR format
     @param[in] dataPath Path to radar image data
-    @return (W x H x N)
+    @return radar range-azimuth image (W x H x N)
     '''
     streamArr = None
 
@@ -50,10 +86,15 @@ def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
     NImgs = len(timestampPathArr)
 
     for i, imgPath in enumerate(timestampPathArr):
-        imgPolar = cv2.imread(imgPath, cv2.COLOR_BGR2GRAY)
+        imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
+        imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
+            extractDataFromRadarImage(imgPolarData)
 
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
+            print("Range Resolution:", range_resolution, "[m]")
+            print("Azimuth Resolution:", azimuth_resolution, "[rad]", np.rad2deg(azimuth_resolution), "[deg]")
+
             fullShape = imgPolar.shape + (NImgs, )
             streamArr = np.empty(fullShape, dtype=imgPolar.dtype)
 
@@ -67,29 +108,9 @@ if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
     dataPath = os.path.join("data", datasetName, "radar")
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
-    gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
 
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
-
-    global_map = np.zeros((512, 512, 3), dtype=np.uint8)
-    cv2.imshow("Polar", global_map)
-    with open(gtPath) as gt_file:
-        gt_reader = csv.reader(gt_file)
-        headers = next(gt_file)
-
-        ins_timestamps = [0]
-        gt_timestamps = []
-        gt_poses = []
-        for row in gt_reader:
-            timestamp = int(row[0]) # source_timestamp
-            ins_timestamps.append(timestamp)
-            x = float(row[2])
-            y = float(row[3])
-            gt_poses.append([x,y]) # x,y
-            drawCVPoint(global_map, (int(x*100+100),int(y*100+100)), (0, 255, 0))
-            cv2.imshow("Polar", global_map)
-            cv2.waitKey(50)
 
     for i in range(nImgs):
         imgPolar = streamArr[:, :, i]
