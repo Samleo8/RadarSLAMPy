@@ -94,10 +94,10 @@ if __name__ == "__main__":
 
             # cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
             # c = cv2.waitKey(10)
-        except KeyboardInterrupt:
-            break
 
-        if c == ord('q'):
+            # if c == ord('q'):
+            #     break
+        except KeyboardInterrupt:
             break
 
     cv2.destroyAllWindows()
