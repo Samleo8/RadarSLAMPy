@@ -2,7 +2,6 @@ from typing import Tuple
 import numpy as np
 import cv2
 import os, sys
-import csv
 
 from Coord import CartCoord
 
@@ -66,30 +65,55 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     return imgCart
 
 
-def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
-    '''
-    @brief Returns np array of radar images in POLAR format
-    @param[in] dataPath Path to radar image data
-    @return radar range-azimuth image (W x H x N)
-    '''
-    streamArr = None
+def getPolarImageFromImgPaths(
+    imgPathArr: list[str], index: int
+) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
+    imgPath = imgPathArr[i]
+    imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
+    imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
+        extractDataFromRadarImage(imgPolarData)
 
-    timestampPathArr = []
+    return imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps
+
+
+def getRadarImgPaths(dataPath: str, timestampPath: str) -> list[str]:
+    '''
+    @brief Obtain list of radar image paths
+    
+    @param[in] dataPath Path to radar image data
+    @param[in] timestampPath Path to radar timestamp data
+
+    @return list of strings containing paths to radar image
+    '''
+    imgPathArr = []
     with open(timestampPath, "r") as f:
         lines = f.readlines()
         for line in lines:
             stamp, valid = line.strip().split(" ")
             if valid:
                 stampPath = os.path.join(dataPath, stamp + ".png")
-                timestampPathArr.append(stampPath)
+                imgPathArr.append(stampPath)
 
-    NImgs = len(timestampPathArr)
+    return imgPathArr
+
+
+def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
+    '''
+    @brief Returns np array of radar images in POLAR format
+    @param[in] dataPath Path to radar image data
+    @param[in] timestampPath Path to radar timestamp data
+    
+    @return radar range-azimuth image (W x H x N)
+    '''
+    streamArr = None
+
+    imgPathArray = getRadarImgPaths(dataPath, timestampPath)
+
+    NImgs = len(imgPathArray)
 
     for i in range(NImgs):
-        imgPath = timestampPathArr[i]
-        imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
-        imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
-            extractDataFromRadarImage(imgPolarData)
+        imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = getPolarImageFromImgPaths(
+            imgPathArray, i)
 
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
