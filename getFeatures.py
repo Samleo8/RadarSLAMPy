@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import os, sys
 
-from skimage.feature import blob_doh
+from skimage.feature import blob_doh, blob_dog, blob_log
 from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 
@@ -11,7 +11,8 @@ def getBlobsFromCart(cartImage: np.ndarray,
                      min_sigma: int = 1,
                      max_sigma: int = 30,
                      num_sigma: int = 10,
-                     threshold=0.01) -> np.ndarray:
+                     threshold=0.01,
+                     method="doh") -> np.ndarray:
     '''
     @brief Given a radar image, generate a list of blob indices 
            based on Determinant of Hessian
@@ -23,11 +24,19 @@ def getBlobsFromCart(cartImage: np.ndarray,
     '''
     M, N = cartImage.shape
 
-    blobs = blob_doh(cartImage,
-                     min_sigma=min_sigma,
-                     max_sigma=max_sigma,
-                     num_sigma=num_sigma,
-                     threshold=threshold)
+    blob_fns = {"doh": blob_doh, "dog": blob_dog, "log": blob_log}
+
+    blob_fn = blob_fns.get(method, None)
+
+    if blob_fn is None:
+        raise NotImplementedError(
+            f"{method} not implemented! Use one of {blob_fns.keys()}")
+
+    blobs = blob_fn(cartImage,
+                    min_sigma=min_sigma,
+                    max_sigma=max_sigma,
+                    num_sigma=num_sigma,
+                    threshold=threshold)
 
     return blobs
 
@@ -45,7 +54,11 @@ if __name__ == "__main__":
 
         # TODO: What are the values for num, min and max sigma
         imgCart = convertPolarImageToCartesian(imgPolar)
-        blobIndices = getBlobsFromCart(imgCart, max_sigma=5, threshold=0.002)
+        blobIndices = getBlobsFromCart(imgCart,
+                                       max_sigma=5,
+                                       num_sigma=10,
+                                       threshold=0.002,
+                                       method="doh")
 
         # Display with radii?
         imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR)
