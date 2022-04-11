@@ -93,7 +93,8 @@ def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
             print("Range Resolution:", range_resolution, "[m]")
-            print("Azimuth Resolution:", azimuth_resolution, "[rad]", np.rad2deg(azimuth_resolution), "[deg]")
+            print("Azimuth Resolution:", azimuth_resolution, "[rad]",
+                  np.rad2deg(azimuth_resolution), "[deg]")
 
             fullShape = imgPolar.shape + (NImgs, )
             streamArr = np.empty(fullShape, dtype=imgPolar.dtype)
