@@ -1,4 +1,3 @@
-from turtle import distance
 import numpy as np
 import cv2
 import os, sys
@@ -9,7 +8,7 @@ from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 
 
-def getFeaturesPolarInd(polarImage: np.ndarray,
+def getPointCloudPolarInd(polarImage: np.ndarray,
                         peakDistance: float = None,
                         peakProminence: float = None) -> np.ndarray:
     '''
@@ -67,7 +66,7 @@ if __name__ == "__main__":
         imgPolar = streamArr[:, :, i]
 
         # TODO: What are the values for peak prominence and distance
-        featurePolarIndices = getFeaturesPolarInd(imgPolar)
+        featurePolarIndices = getPointCloudPolarInd(imgPolar)
 
         # TODO: need to convert from polar to Cartesian form?
         # TODO: for now display via weird way
