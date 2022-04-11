@@ -49,15 +49,16 @@ if __name__ == "__main__":
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
 
-    for i in range(nImgs):
-        imgPolar = streamArr[:, :, i]
+    for imgNo in range(nImgs):
+        imgPolar = streamArr[:, :, imgNo]
 
         # TODO: What are the values for num, min and max sigma
         imgCart = convertPolarImageToCartesian(imgPolar)
         blobIndices = getBlobsFromCart(imgCart,
-                                       max_sigma=5,
-                                       num_sigma=10,
-                                       threshold=0.002,
+                                       min_sigma=0.01,
+                                       max_sigma=10,
+                                       num_sigma=3,
+                                       threshold=.00075,
                                        method="doh")
 
         # Display with radii?
@@ -70,7 +71,7 @@ if __name__ == "__main__":
                 int(blobIndices[i, 0]), int(blobIndices[i, 1]), int(blobIndices[i, 2])
 
             coord = (blobX, blobY)
-            color = (255, 0, 0)
+            color = (0, 0, 255)
             imgCartBGR = cv2.circle(imgCartBGR,
                                     coord,
                                     radius=blobSigma,
@@ -79,6 +80,9 @@ if __name__ == "__main__":
 
         try:
             cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
+            toSavePath = os.path.join(".", "img", "blob",
+                                      f"{datasetName}_{imgNo}.png")
+            cv2.imwrite(toSavePath, imgCartBGR)
             c = cv2.waitKey(100)
         except KeyboardInterrupt:
             break
