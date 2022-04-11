@@ -11,7 +11,7 @@ def getBlobsPolarInd(cartImage: np.ndarray,
                      min_sigma: int = 1,
                      max_sigma: int = 30,
                      num_sigma: int = 10,
-                     threshold=0.1) -> np.ndarray:
+                     threshold=0.01) -> np.ndarray:
     '''
     @brief Given a radar image, generate a list of blob indices 
            based on Determinant of Hessian
