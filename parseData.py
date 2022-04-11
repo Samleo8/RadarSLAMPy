@@ -15,7 +15,7 @@ def extractDataFromRadarImage(
     @brief Decode a single Oxford Radar RobotCar Dataset radar example
     @param[in] polarImgData cv image
     @return
-        fft_data (np.ndarray): Radar power readings along each azimuth
+        range_azimuth_data (np.ndarray): Radar power readings along each azimuth
         range_resolution (float): Range resolution of the polar radar data (metres per pixel)
         azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
         azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
@@ -53,6 +53,11 @@ def drawCVPoint(img: np.ndarray,
 
 
 def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
+    '''
+    @brief Converts polar image to Cartesian formats
+    @param[in] imgPolar Polar image to convert
+    @return imgCart Converted Cartesian image
+    '''
     w, h = imgPolar.shape
 
     maxRadius = w
@@ -65,15 +70,53 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     return imgCart
 
 
-def getPolarImageFromImgPaths(
+def getDataFromImgPathsByIndex(
     imgPathArr: list[str], index: int
 ) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
+    '''
+    @brief Get information from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
+
+    @return
+        imgPolar (np.ndarray): Radar power readings along each azimuth
+        azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
+        range_resolution (float): Range resolution of the polar radar data (metres per pixel)
+        azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
+        valid (np.ndarray) Mask of whether azimuth data is an original sensor reading or interpolated from adjacent
+            azimuths
+        timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
+    '''
     imgPath = imgPathArr[i]
     imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
     imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
         extractDataFromRadarImage(imgPolarData)
 
-    return imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps
+
+def getPolarImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+    '''
+    @brief Get polar image from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
+
+    @return imgPolar Polar image
+    '''
+
+    imgPolar, _, _, _, _, _ = getDataFromImgPathsByIndex(imgPathArr, index)
+    return imgPolar
+
+
+def getCartImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+    '''
+    @brief Get polar image from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
+
+    @return imgCart Cartesian image
+    '''
+
+    imgPolar = getPolarImageFromImgPaths(imgPathArr, index)
+    return convertPolarImageToCartesian(imgPolar)
 
 
 def getRadarImgPaths(dataPath: str, timestampPath: str) -> list[str]:
@@ -112,8 +155,8 @@ def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
     NImgs = len(imgPathArray)
 
     for i in range(NImgs):
-        imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = getPolarImageFromImgPaths(
-            imgPathArray, i)
+        imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
+            getDataFromImgPathsByIndex(imgPathArray, i)
 
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
