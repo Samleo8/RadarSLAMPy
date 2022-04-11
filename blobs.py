@@ -23,15 +23,15 @@ for i in range(1):
     imgCart = convertPolarImageToCartesian(imgPolar).astype(np.double)
 
     start = tic()
-    blobs_log = blob_log(imgCart, max_sigma=30, num_sigma=3, threshold=.1)
+    blobs_log = blob_log(imgCart, max_sigma=2, num_sigma=1, threshold=.1)
     print(f'log: {toc(start):.5f} seconds')
 
     start = tic()
-    blobs_dog = blob_dog(imgCart, max_sigma=3, threshold=.1)
+    blobs_dog = blob_dog(imgCart, max_sigma=2, threshold=.1)
     print(f'dog: {toc(start):.5f} seconds')
 
     start = tic()
-    blobs_doh = blob_doh(imgCart, max_sigma=3, threshold=.01)
+    blobs_doh = blob_doh(imgCart, max_sigma=2, threshold=.001)
     print(f'doh: {toc(start):.5f} seconds')
     
     blobs_log[:, 2] = blobs_log[:, 2] * sqrt(2)
