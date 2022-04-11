@@ -3,6 +3,7 @@ import sys
 import numpy as np
 from math import sqrt
 from skimage.feature import blob_dog, blob_log, blob_doh
+from skimage.color import rgb2gray
 import matplotlib.pyplot as plt
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 from utils import tic, toc
@@ -21,22 +22,24 @@ nImgs = streamArr.shape[2]
 for i in range(1):
     imgPolar = streamArr[:, :, i]
     imgCart = convertPolarImageToCartesian(imgPolar).astype(np.double)
+    print(imgCart.shape)
+    # imgCartBW = rgb2gray(imgCart)
 
     start = tic()
-    blobs_log = blob_log(imgCart, max_sigma=2, num_sigma=1, threshold=.1)
+    blobs_log = blob_log(imgCart, min_sigma = 0.5, max_sigma=10, num_sigma=3, threshold=.1, log_scale=True)
     print(f'log: {toc(start):.5f} seconds')
 
     start = tic()
-    blobs_dog = blob_dog(imgCart, max_sigma=2, threshold=.1)
+    blobs_dog = blob_dog(imgCart, min_sigma = 0.5, max_sigma=10, threshold=.1)
     print(f'dog: {toc(start):.5f} seconds')
 
     start = tic()
-    blobs_doh = blob_doh(imgCart, max_sigma=2, threshold=.001)
+    blobs_doh = blob_doh(imgCart, min_sigma = 0.01, max_sigma=10, threshold=.0005, num_sigma=3, log_scale=False)
     print(f'doh: {toc(start):.5f} seconds')
     
-    blobs_log[:, 2] = blobs_log[:, 2] * sqrt(2)
-    blobs_dog[:, 2] = blobs_dog[:, 2] * sqrt(2)
-    blobs_doh[:, 2] = blobs_doh[:, 2] * sqrt(2)
+    blobs_log[:, 2] = blobs_log[:, 2]
+    blobs_dog[:, 2] = blobs_dog[:, 2]
+    blobs_doh[:, 2] = blobs_doh[:, 2]
     blobs_list = [blobs_log, blobs_dog, blobs_doh]
     colors = ['yellow', 'lime', 'red']
     titles = ['Laplacian of Gaussian', 'Difference of Gaussian',
