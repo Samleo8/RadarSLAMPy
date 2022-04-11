@@ -7,7 +7,7 @@ from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 
 
-def getBlobsPolarInd(cartImage: np.ndarray,
+def getBlobsFromCart(cartImage: np.ndarray,
                      min_sigma: int = 1,
                      max_sigma: int = 30,
                      num_sigma: int = 10,
@@ -23,11 +23,13 @@ def getBlobsPolarInd(cartImage: np.ndarray,
     '''
     M, N = cartImage.shape
 
-    return blob_doh(cartImage,
-                    min_sigma=min_sigma,
-                    max_sigma=max_sigma,
-                    num_sigma=num_sigma,
-                    threshold=threshold)
+    blobs = blob_doh(cartImage,
+                     min_sigma=min_sigma,
+                     max_sigma=max_sigma,
+                     num_sigma=num_sigma,
+                     threshold=threshold)
+
+    return blobs
 
 
 if __name__ == "__main__":
@@ -43,23 +45,28 @@ if __name__ == "__main__":
 
         # TODO: What are the values for num, min and max sigma
         imgCart = convertPolarImageToCartesian(imgPolar)
-        blobIndices = getBlobsPolarInd(imgCart)
+        blobIndices = getBlobsFromCart(imgCart, max_sigma=5, threshold=0.002)
 
         # Display with radii?
         imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR)
         nIndices = blobIndices.shape[0]
         print("Number of blobs detected", nIndices)
+
         for i in range(nIndices):
             blobY, blobX, blobSigma = \
-                blobIndices[:, 0], blobIndices[:, 1], blobIndices[:, 2]
+                int(blobIndices[i, 0]), int(blobIndices[i, 1]), int(blobIndices[i, 2])
 
             coord = (blobX, blobY)
             color = (255, 0, 0)
-            imgCartBGR = cv2.circle(imgCartBGR, coord, radius=blobSigma, color=color, thickness=1)
+            imgCartBGR = cv2.circle(imgCartBGR,
+                                    coord,
+                                    radius=blobSigma,
+                                    color=color,
+                                    thickness=1)
 
         try:
             cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
-            c = cv2.waitKey(0)
+            c = cv2.waitKey(100)
         except KeyboardInterrupt:
             break
 
