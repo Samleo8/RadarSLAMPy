@@ -85,7 +85,8 @@ def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
 
     NImgs = len(timestampPathArr)
 
-    for i, imgPath in enumerate(timestampPathArr):
+    for i in range(NImgs):
+        imgPath = timestampPathArr[i]
         imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
         imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
             extractDataFromRadarImage(imgPolarData)
@@ -111,6 +112,7 @@ if __name__ == "__main__":
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
+
     nImgs = streamArr.shape[2]
 
     for i in range(nImgs):
