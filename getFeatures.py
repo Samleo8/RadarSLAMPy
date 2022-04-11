@@ -47,8 +47,10 @@ if __name__ == "__main__":
     dataPath = os.path.join("data", datasetName, "radar")
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
+    print("Parsing stream", end="...", flush=True)
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
+    print("Complete!")
 
     # Img saving
     toSavePath = os.path.join(".", "img", "blob", datasetName)
@@ -88,8 +90,8 @@ if __name__ == "__main__":
             toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
             cv2.imwrite(toSaveImgPath, imgCartBGR)
 
-            cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
-            c = cv2.waitKey(100)
+            # cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
+            c = cv2.waitKey(10)
         except KeyboardInterrupt:
             break
 
