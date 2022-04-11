@@ -50,6 +50,10 @@ if __name__ == "__main__":
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
     nImgs = streamArr.shape[2]
 
+    # Img saving
+    toSavePath = os.path.join(".", "img", "blob", datasetName)
+    os.makedirs(toSavePath, exist_ok=True)
+
     for imgNo in range(nImgs):
         imgPolar = streamArr[:, :, imgNo]
 
@@ -59,7 +63,7 @@ if __name__ == "__main__":
                                        min_sigma=0.01,
                                        max_sigma=10,
                                        num_sigma=3,
-                                       threshold=.00075,
+                                       threshold=.0005,
                                        method="doh")
 
         # Display with radii?
@@ -81,10 +85,8 @@ if __name__ == "__main__":
 
         try:
             # Save blob images
-            toSavePath = os.path.join(".", "img", "blob", datasetName)
-            os.makedirs(toSavePath, exist_ok=True)
-            toSavePath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
-            cv2.imwrite(toSavePath, imgCartBGR)
+            toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
+            cv2.imwrite(toSaveImgPath, imgCartBGR)
 
             cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
             c = cv2.waitKey(100)
@@ -95,3 +97,13 @@ if __name__ == "__main__":
             break
 
     cv2.destroyAllWindows()
+
+    # Generate mp4 and save that
+    print("Generating mp4 with script (requires bash and FFMPEG command)...")
+    try:
+        os.system(f"./img/mp4-from-folder.sh {toSavePath}")
+        print(f"mp4 added to {toSavePath} folder!")
+    except:
+        print(
+            "Failed to generate mp4 with script. Likely failed system requirements."
+        )
