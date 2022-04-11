@@ -69,7 +69,9 @@ if __name__ == "__main__":
                                        method="doh")
 
         # Display with radii?
-        imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR)
+        imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR) * 255
+        imgCartBGR = imgCartBGR.astype(np.uint8)
+
         nIndices = blobIndices.shape[0]
         print("Blobs detected:", nIndices)
 
@@ -91,7 +93,7 @@ if __name__ == "__main__":
             cv2.imwrite(toSaveImgPath, imgCartBGR)
 
             # cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
-            c = cv2.waitKey(10)
+            # c = cv2.waitKey(10)
         except KeyboardInterrupt:
             break
 
