@@ -1,5 +1,16 @@
 import numpy as np
 
+import time
+import os
+import numpy as np
+from matplotlib import pyplot as plt
+
+def tic():
+    return time.time()
+
+def toc(tic):
+    return time.time() - tic
+
 def normalize_angles(th):
     """
     Normalize an angle to be between -pi and pi
