@@ -1,5 +1,5 @@
 import numpy as np
-
+import scipy.ndimage as sp
 '''
 KLT: Kanade Lucas Tomasi Tracker
 This tracker implements the KLT feature tracker, which tracks features between
@@ -73,20 +73,60 @@ cloud   - optional parameter: if true, then image 1 is given as a z x 2 array of
 def KLT(image0, image1, size, cloud = False, max_iters = 20):
     assert(image0.shape == image1.shape)
 
+    # Convert clouds to binary images
     if cloud:
         newImage0 = cloud_to_image(image0, size)
         newImage1 = cloud_to_image(image1, size)
+    else:
+        newImage0 = image0
+        newImage1 = image1
 
     A = np.eye(2)
-    b = 0
+    h = np.zeros((2,))
     iters = 0
     rows = np.arange(size[0])
     cols = np.arange(size[1])
     r_mat, c_mat = np.meshgrid(rows, cols)
 
+    # Iterative least squares to find the optimal transform
     while iters < max_iters:
-        indices = np.expand_dims(np.stack(c_mat, r_mat, axis = 2), axis = 
-        new_indices = A @ indices + b # Check that the indices are of correct dimensions
-        iters += 1
+        indices = np.expand_dims(np.stack(c_mat, r_mat, axis = 2), axis = 3)
+        #new_indices = A @ indices + b # Check that the indices are of correct dimensions
         
+        # M x N
+        warped_image = sp.affine_transform(newImage0, A, h, mode = 'constant')
+        # M x N
+        #dFx_dx = sp.gaussian_gradient_magnitude(warped_image, sigma = 1, 
+        #                                        mode = 'constant')
+        # Image gradient across x and y axes, M x N x 2
+        dFx_dx = np.stack(np.gradient(warped_image, axis = (0, 1)), axis = 2)
 
+
+        # 2 x 2 = [((M x N) - (M x N x 2)(2,) + (M x N)) * (M x N x 2) * (M x N x 2)]
+        numer = np.sum((newImage0 - warped_image - dFx_dx @ h) * (x * dF(x)/dx))
+        denom = np.sum(x * dF(x)/dx * (x * dF(x)/dx), axis = (0, 1))
+        delta_A = numer / denom
+        # (M x N) (M x N) (N x M)
+
+        # Compute the optimal h transform vector
+        # [((M x N) - (M x N x 2 x 1)(2 x 2))]
+        #delta_h = sum[(-F(Ax + h) - (delta_A x) dF(x)/dx + G(x)) * (dF(x)/dx)]
+        #    /sum [dF(x)/dx * dF(x)/dx)]
+        warped_x = A @ indices
+        A_delta = np.tensordot(warped_x, dFx_dx, axis = 1)
+        assert(A_delta.shape == size)
+        warped_grad = np.expand_dims(newImage1 - warped_image - A_delta, axis = 2)
+        numer = np.sum(warped_grad * dFx_dx, axis = (0, 1))
+        denom = np.sum(np.square(dFx_dx), axis = (0, 1))
+        delta_h = numer / denom
+        
+        # Accumulate the new transform
+        A = A + delta_A
+        h = h + delta_h
+        
+        iters += 1
+
+    return
+        
+if __name__ == '__main__':
+    pass
