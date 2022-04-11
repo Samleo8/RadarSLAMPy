@@ -1,3 +1,4 @@
+from genericpath import exists
 import numpy as np
 import cv2
 import os, sys
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         # Display with radii?
         imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR)
         nIndices = blobIndices.shape[0]
-        print("Number of blobs detected", nIndices)
+        print("Blobs detected:", nIndices)
 
         for i in range(nIndices):
             blobY, blobX, blobSigma = \
@@ -79,10 +80,13 @@ if __name__ == "__main__":
                                     thickness=1)
 
         try:
-            cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
-            toSavePath = os.path.join(".", "img", "blob",
-                                      f"{datasetName}_{imgNo}.png")
+            # Save blob images
+            toSavePath = os.path.join(".", "img", "blob", datasetName)
+            os.makedirs(toSavePath, exist_ok=True)
+            toSavePath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
             cv2.imwrite(toSavePath, imgCartBGR)
+
+            cv2.imshow("Cartesian Stream with Blob Features", imgCartBGR)
             c = cv2.waitKey(100)
         except KeyboardInterrupt:
             break
@@ -90,4 +94,4 @@ if __name__ == "__main__":
         if c == ord('q'):
             break
 
-    # cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
