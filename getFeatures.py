@@ -73,7 +73,7 @@ if __name__ == "__main__":
         imgCartBGR = imgCartBGR.astype(np.uint8)
 
         nIndices = blobIndices.shape[0]
-        print("Blobs detected:", nIndices)
+        print(imgNo, "| Blobs detected:", nIndices)
 
         for i in range(nIndices):
             blobY, blobX, blobSigma = \
