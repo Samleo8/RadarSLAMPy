@@ -70,6 +70,7 @@ image1  - current image. Same format as image0
 size    - image size (M, N)
 cloud   - optional parameter: if true, then image 1 is given as a z x 2 array of
           feature points
+visual  - boolean to enable cv2 imshow visualizations per iteration
 '''
 def KLT(image0, image1, size, cloud = False, max_iters = 20, visual = True):
     assert(image0.shape == image1.shape)
@@ -88,7 +89,7 @@ def KLT(image0, image1, size, cloud = False, max_iters = 20, visual = True):
         cv2.imshow("Diff Img", diff)
         cv2.waitKey(0)
 
-    A = np.eye(2) #np.zeros((2, 2))
+    A = np.eye(2)
     h = np.zeros((2,))
     
     iters = 0
@@ -99,56 +100,47 @@ def KLT(image0, image1, size, cloud = False, max_iters = 20, visual = True):
     # Iterative least squares to find the optimal transform
     while iters < max_iters:
         indices = np.expand_dims(np.stack((r_mat, c_mat), axis = 2), axis = 3)
-        #new_indices = A @ indices + b # Check that the indices are of correct dimensions
         
         # Apply affine transform F(Ax + b) to image F(x). M x N
-        # Note: A is the inverse transform. It is used to warp the new image's
-        # indices onto the old image, then the pixels are mapped, before sending
-        # these pixels back to the new image. Might have to invert A here.
-        A_inv = np.linalg.inv(A)
-        warped_image = sp.affine_transform(newImage0, A_inv, h, mode = 'constant')
+        warped_image = sp.affine_transform(newImage0, A, h, mode = 'nearest')
         if visual:
             cv2.imshow(f"Iteration {iters} warp", warped_image)
             cv2.waitKey(0)
+        loss = np.mean(np.square(warped_image - newImage1))
+        print(f"Iteration {iters} loss: {loss}")
 
-        '''
-        # Inner ALS optimization:
-        inner_iters = 0
-        max_inner_iters = 10
-        delta_A = np.zeros((2, 2))
-        delta_h = np.zeros((2,))
-        while (inner_iters < max_inner_iters):
-        '''
-        # M x N
-        #dFx_dx = sp.gaussian_gradient_magnitude(warped_image, sigma = 1, 
-        #                                        mode = 'constant')
         # Image gradient across x and y axes, M x N x 2
         dFx_dx = np.stack(np.gradient(warped_image, axis = (0, 1)), axis = 2)
 
         # Compute the optimal delta A in the linearized system
-        # 2 x 2 = [((M x N) - (M x N x 2)(2,) + (M x N)) * (M x N x 2) * (M x N x 2)]
-        #delta_A = sum[ 2 * (-F(Ax + h) - (delta_h) dF(x)/dx + G(x)) * (x * dF(x)/dx)]
+        # Dimensions: 2 x 2 = [((M x N) - (M x N x 2)(2,) + (M x N)) * (M x N x 2) * (M x N x 2)]
+        # Formula: delta_A = sum[ 2 * (-F(Ax + h) - (delta_h) dF(x)/dx + G(x)) * (x * dF(x)/dx)]
         #    /sum [2 * x * dF(x)/dx * (x * dF(x)/dx)]
-        # M x N x 1 x 1
-        pixel_grad_h = np.expand_dims(newImage1 - warped_image, axis = (2, 3)) #newImage1 - warped_image - dFx_dx @ delta_h
-        # M x N x 2 x 2
-        inner_Jacobian = np.expand_dims(dFx_dx, axis = 3) @ np.transpose(indices, axes = (0,1,3,2))
-        numer = np.sum(pixel_grad_h * inner_Jacobian, axis = (0, 1)) # M x N x 2 x 2
-        inner_Jacobian_T = np.transpose(inner_Jacobian, axes = (0, 1, 3, 2))
-        denom = np.sum(inner_Jacobian_T @ inner_Jacobian, axis = (0, 1)) # could be element-wise square, or some other config?
-        delta_A = numer @ np.linalg.inv(denom)
-        # (M x N) (M x N) (N x M)
 
-        # Compute the optimal h transform vector
-        # [((M x N) - (M x N x 2 x 1)(2 x 2))]
-        #delta_h = sum[(-F(Ax + h) - (delta_A x) dF(x)/dx + G(x)) * (dF(x)/dx)]
+        # (-F(Ax + h) - (delta_h) dF(x)/dx + G(x)): M x N x 1 x 1
+        # should be newImage1 - warped_image - dFx_dx @ delta_h, but delta_h is 0
+        pixel_grad_h = np.expand_dims(newImage1 - warped_image, axis = (2, 3)) 
+        # (x * dF(x)/dx): M x N x 2 x 2
+        inner_Jacobian = np.expand_dims(dFx_dx, axis = 3) @ np.transpose(indices, axes = (0,1,3,2))
+        # (-F(Ax + h) - (delta_h) dF(x)/dx + G(x)) * (x * dF(x)/dx)): M x N x 2 x 2
+        numer = np.sum(pixel_grad_h * inner_Jacobian, axis = (0, 1))
+        inner_Jacobian_T = np.transpose(inner_Jacobian, axes = (0, 1, 3, 2))
+        denom = np.sum(inner_Jacobian_T @ inner_Jacobian, axis = (0, 1))
+        delta_A = numer @ np.linalg.inv(denom)
+
+        # Compute the optimal delta_h vector
+        # Formula: delta_h = sum[(-F(Ax + h) - (delta_A x) dF(x)/dx + G(x)) * (dF(x)/dx)]
         #    /sum [dF(x)/dx * dF(x)/dx)]
-        #warped_x = delta_A @ indices
-        #print(warped_x.shape)
-        #print(dFx_dx.shape)
-        #A_delta = (np.expand_dims(dFx_dx, axis = 2) @ warped_x)[:, :, 0, 0]
-        #assert(A_delta.shape == size)
-        warped_grad = np.expand_dims(newImage1 - warped_image, axis = 2) #newImage1 - warped_image - A_delta
+
+        # The following code block allows us to use the delta_A solved above to
+        # improve the least squares solution for delta_h. It is removed for 
+        # debugging but can be added back in for faster convergence
+        '''
+        warped_x = delta_A @ indices
+        A_delta = (np.expand_dims(dFx_dx, axis = 2) @ warped_x)[:, :, 0, 0]
+        assert(A_delta.shape == size)
+        '''
+        warped_grad = np.expand_dims(newImage1 - warped_image, axis = 2) #replace with (newImage1 - warped_image - A_delta)
         numer = np.sum(warped_grad * dFx_dx, axis = (0, 1))
         dFx_dx = np.expand_dims(dFx_dx, axis = 2) # M x N x 1 x 2
         dFx_dx_T = np.transpose(dFx_dx, axes = (0, 1, 3, 2))
@@ -168,16 +160,22 @@ if __name__ == '__main__':
     # Testing function here
     data = np.load("data/KLT_test/aerialseq.npy")
     print(data.shape)
-    image0 = data[:, :, 50]
-    image1 = data[:, :, 50]
+    # Two images to track
+    image0 = data[:, :, 0]
+    image1 = data[:, :, 5]
     size = image0.shape
-    A, h = KLT(image0, image1, size, visual = False)
+    A, h = KLT(image0, image1, size, visual = False, max_iters = 50)
+    
+    # Visualize
     print(f"Final Transform:\nA:\n{A}\nh:\n{h}")
-    fit = sp.affine_transform(image0, np.linalg.inv(A), h, mode = 'constant')
+    fit = sp.affine_transform(image0, A, h, mode = 'nearest')
     cv2.imshow("Original New Image", image1)
     cv2.imshow("Original Old Image", image0)
     cv2.imshow("Best fit warp", fit)
     diff = np.square(image1-fit)
     cv2.imshow("Diff Img", diff)
     cv2.waitKey(0)
+    
+    loss = np.mean(diff)
+    print(f"Final loss: {loss}")
     pass
