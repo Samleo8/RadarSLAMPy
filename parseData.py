@@ -87,10 +87,9 @@ def getDataFromImgPathsByIndex(
             azimuths
         timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
     '''
-    imgPath = imgPathArr[i]
+    imgPath = imgPathArr[index]
     imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
-    imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
-        extractDataFromRadarImage(imgPolarData)
+    return extractDataFromRadarImage(imgPolarData)
 
 
 def getPolarImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
