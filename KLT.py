@@ -292,6 +292,16 @@ if __name__ == "__main__":
 
     cv2.destroyAllWindows()
 
+    # Generate mp4 and save that
+    print("Generating mp4 with script (requires bash and FFMPEG command)...")
+    try:
+        os.system(f"./img/mp4-from-folder.sh {toSavePath}")
+        print(f"mp4 added to {toSavePath} folder!")
+    except:
+        print(
+            "Failed to generate mp4 with script. Likely failed system requirements."
+        )
+
 # if __name__ == '__main__':
 #     # Testing function here
 #     data = np.load("data/KLT_test/aerialseq.npy")
