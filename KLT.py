@@ -89,7 +89,7 @@ def KLT(image0: np.ndarray,
         image1: np.ndarray,
         size: tuple[int, int],
         cloud: bool = False,
-        max_iters: int = 20,
+        max_iters: int = 10,
         visual: bool = True,
         verbose: bool = False) -> tuple[np.ndarray, np.ndarray]:
     # Convert clouds to binary images

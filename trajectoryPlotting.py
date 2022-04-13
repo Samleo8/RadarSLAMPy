@@ -11,19 +11,26 @@ class Trajectory():
     def __init__(self, timestamps, poses):
         '''
         @param[in] timestamps np.ndarray of timestamps (N)
-        @param[in] poses np.ndarray of poses (N x 2)
+        @param[in] poses np.ndarray of x,y,theta poses (N x 3)
         '''
         self.timestamps = timestamps
         self.poses = poses
         self.nFrames = timestamps.shape[0]
-        self.interpX = scipy.interpolate.interp1d(self.timestamps, self.poses[:,0], kind='cubic', bounds_error=False)
-        self.interpY = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
+    
+    def appendRelativePose(self, t, A, h):
+        self.timestamps = np.append(self.timestamps, t)
+        x, y, th = self.poses[-1,:]
+        x_p, y_p, th_p = A @ np.array([x, y, th]) + h
+        self.poses = np.vstack((self.poses, np.array([x_p, y_p, th_p])))
+        self.nFrames = self.timestamps.shape[0]
     
     def getPoseAtTime(self, t):
         '''
         @brief Given timestamps, return the pose at that time using cubic interpolation
         @param[in] t float or np.ndarray of timestamps
         '''
+        self.interpX = scipy.interpolate.interp1d(self.timestamps, self.poses[:,0], kind='cubic', bounds_error=False)
+        self.interpY = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
         return np.vstack((self.interpX(t), self.interpY(t))).T
 
     def plotTrajectory(self):
@@ -43,7 +50,7 @@ class Trajectory():
         @brief Compute the Root Mean Square Error between the prediction and the actual trajectory
         '''
         estimatedPoses = estTraj.getPoseAtTime(self.timestamps)
-        rmse = np.sqrt(np.mean((np.linalg.norm(self.poses - estimatedPoses, axis=-1))**2))
+        rmse = np.sqrt(np.mean((np.linalg.norm(self.poses[:,:-1] - estimatedPoses[:,:-1], axis=-1))**2))
         return rmse
 
 def getGroundTruthTrajectory(gtPath : str):
@@ -68,7 +75,7 @@ def getGroundTruthTrajectory(gtPath : str):
             x += dx * np.cos(th) + dy * -np.sin(th)
             y += dx * np.sin(th) + dy * np.cos(th)
             th += dth
-            gt_poses.append([x,y])
+            gt_poses.append([x,y,th])
     gt_timestamps = np.array(gt_timestamps)
     gt_poses = np.array(gt_poses)
     return Trajectory(gt_timestamps, gt_poses)
@@ -89,20 +96,23 @@ def getGroundTruthTrajectoryGPS(gtPath : str):
             gt_timestamps.append(timestamp)
             x = float(row[2]) # x
             y = float(row[3]) # y
-            gt_poses.append([x,y])
+            gt_poses.append([x,y,0])
     gt_timestamps = np.array(gt_timestamps)
     gt_poses = np.array(gt_poses)
     return Trajectory(gt_timestamps, gt_poses)
 
-def viewResults(gtTraj, estTraj, title):
+def viewResults(gtTraj, estTraj, title, fig=None):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory
     @param[in] estTrajectory Estimated trajectory
     @param[in] title Title of the plot
     '''
-    fig = plt.figure()
-    ax = fig.add_subplot()
+    if fig is None:
+        fig = plt.figure()
+        ax = fig.add_subplot()
+    else:
+        ax = fig.axes[0]
     ax.plot(gtTraj.poses[:,0], gtTraj.poses[:,1], 'b-', label='Ground Truth')
     ax.plot(estTraj.poses[:,0], estTraj.poses[:,1], 'r-', label='Estimated')
     ax.set_xlabel('x [m]')
