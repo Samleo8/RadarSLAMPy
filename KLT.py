@@ -5,6 +5,8 @@ import cv2
 
 import matplotlib.pyplot as plt
 import os, sys
+from utils import tic, toc
+
 from getFeatures import getBlobsFromCart
 
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
@@ -195,6 +197,7 @@ def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
     fit = sp.affine_transform(prevImg, A, h, mode='nearest')
 
     # Temporary display
+    '''
     plt.subplot(1, 2, 1)
     plt.imshow(prevImg)
     plt.scatter(prevFeatureInd[:, 1],
@@ -205,6 +208,8 @@ def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
     plt.axis("off")
 
     plt.subplot(1, 2, 2)
+    '''
+
     plt.imshow(currImg)
     plt.scatter(currFeatureInd[:, 1],
                 currFeatureInd[:, 0],
@@ -213,11 +218,11 @@ def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
                 label='Image 1 Features')
 
     # TODO: Remove, show feature points of old images
-    plt.scatter(prevFeatureInd[:, 1],
-                prevFeatureInd[:, 0],
-                marker='^',
-                color='green',
-                label='Image 0 Features')
+    # plt.scatter(prevFeatureInd[:, 1],
+    #             prevFeatureInd[:, 0],
+    #             marker='^',
+    #             color='green',
+    #             label='Image 0 Features')
 
     # NOTE: A and h are inverse poses
     transformedSourceFeatures = getTransformedFeatures(prevFeatureInd, A, h)
@@ -243,6 +248,10 @@ if __name__ == "__main__":
     imgPathArr = getRadarImgPaths(dataPath, timestampPath)
     nImgs = len(imgPathArr)
 
+    # Save images
+    toSavePath = os.path.join(".", "img", "track", datasetName)
+    os.makedirs(toSavePath, exist_ok=True)
+
     for imgNo in range(nImgs):
         currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
@@ -256,22 +265,27 @@ if __name__ == "__main__":
         currFeatureInd = blobIndices[:, :2].astype(int)
 
         if imgNo:
-            print("Computing affine transforms", end="... ", flush=True)
+            print(f"Computing affine transforms for {len(blobIndices)} blobs", end="... ", flush=True)
+            start = tic()
             A, h = KLT(prevFeatureInd,
                        currFeatureInd,
                        currImg.shape,
                        cloud=True,
                        visual=False)
-            print("Done.")
+            print(f"Done in {toc(start):.5f} seconds.")
 
             # np.savez("transform1.npz", A=A, h=h)
             # with np.load("transform1.npz") as data:
             #     A = data['A']
             #     h = data['h']
 
+            plt.clf()
             visualize_transform(prevImg, currImg, prevFeatureInd,
                                 currFeatureInd, A, h, show=False)
-            # plt.pause(100)
+            plt.tight_layout()
+
+            toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
+            plt.savefig(toSaveImgPath)
 
         prevImg = np.copy(currImg)
         prevFeatureInd = np.copy(currFeatureInd)
