@@ -95,7 +95,8 @@ def KLT(image0: np.ndarray,
         newImage0 = cloud_to_image(image0, size)
         newImage1 = cloud_to_image(image1, size)
     else:
-        assert (image0.shape == image1.shape)
+        if verbose:
+            assert (image0.shape == image1.shape)
 
         newImage0 = image0
         newImage1 = image1
@@ -124,7 +125,9 @@ def KLT(image0: np.ndarray,
             cv2.imshow(f"Iteration {iters} warp", warped_image)
             cv2.waitKey(0)
         loss = np.mean(np.square(warped_image - newImage1))
-        print(f"Iteration {iters} loss: {loss}")
+
+        if verbose:
+            print(f"Iteration {iters} loss: {loss}")
 
         # Image gradient across x and y axes, M x N x 2
         dFx_dx = np.stack(np.gradient(warped_image, axis=(0, 1)), axis=2)
@@ -170,7 +173,8 @@ def KLT(image0: np.ndarray,
         # Accumulate the new transform
         A = A + delta_A
         h = h + delta_h
-        print(f"Iteration {iters}:\ndA=\n{delta_A}\ndh:\n{delta_h}")
+        if verbose:
+            print(f"Iteration {iters}:\ndA=\n{delta_A}\ndh:\n{delta_h}")
 
         iters += 1
 
