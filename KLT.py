@@ -256,21 +256,21 @@ if __name__ == "__main__":
         currFeatureInd = blobIndices[:, :2].astype(int)
 
         if imgNo:
-            # A, h = KLT(prevFeatureInd,
-            #            currFeatureInd,
-            #            currImg.shape,
-            #            cloud=True,
-            #            visual=False,
-            #            max_iters=50)
+            print("Computing affine transforms", end="... ", flush=True)
+            A, h = KLT(prevFeatureInd,
+                       currFeatureInd,
+                       currImg.shape,
+                       cloud=True,
+                       visual=False)
+            print("Done.")
 
             # np.savez("transform1.npz", A=A, h=h)
-            with np.load("transform1.npz") as data:
-                A = data['A']
-                h = data['h']
+            # with np.load("transform1.npz") as data:
+            #     A = data['A']
+            #     h = data['h']
 
             visualize_transform(prevImg, currImg, prevFeatureInd,
                                 currFeatureInd, A, h)
-            break
 
         prevImg = np.copy(currImg)
         prevFeatureInd = np.copy(currFeatureInd)
