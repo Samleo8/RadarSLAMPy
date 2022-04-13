@@ -189,7 +189,7 @@ def getTransformedFeatures(prevFeatureInd, A, h):
 
 
 def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
-                        h):
+                        h, show=False):
     # Visualize
     print(f"Final Transform:\nA:\n{A}\nh:\n{h}")
     fit = sp.affine_transform(prevImg, A, h, mode='nearest')
@@ -231,8 +231,8 @@ def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
     plt.axis("off")
     plt.title("New Image")
 
-    plt.show()
-
+    if show:
+        plt.show()
 
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
@@ -270,7 +270,8 @@ if __name__ == "__main__":
             #     h = data['h']
 
             visualize_transform(prevImg, currImg, prevFeatureInd,
-                                currFeatureInd, A, h)
+                                currFeatureInd, A, h, show=False)
+            # plt.pause(100)
 
         prevImg = np.copy(currImg)
         prevFeatureInd = np.copy(currFeatureInd)
