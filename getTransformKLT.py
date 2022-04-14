@@ -43,7 +43,7 @@ def visualize_transform(prevImg: np.ndarray,
         plt.scatter(newFeatureCoord[:, 0],
                     newFeatureCoord[:, 1],
                     marker='+',
-                    color='lightblue',
+                    color='red',
                     alpha=alpha,
                     label=f'Tracked Features{extraLabel}')
 
@@ -218,7 +218,7 @@ if __name__ == "__main__":
             plt.savefig(toSaveImgPath)
 
             plt.suptitle(f"Tracking on Image {imgNo:04d}")
-            # plt.pause(0.01) # animation
+            plt.pause(0.01) # animation
 
             # Setup for next iteration
             blobCoord = good_new.copy()
