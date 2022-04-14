@@ -76,7 +76,7 @@ PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
 N_FEATURES_BEFORE_RETRACK = -1 # TODO: Make it dynamic (find the overall loss)
 
 # Thresholds for errors
-ERR_THRESHOLD = 8
+ERR_THRESHOLD = 8 # TODO: Figure out what this is: somewhat arbitrary for now?
 
 def calculateFeatureLossThreshold(nInitialFeatures):
     return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
@@ -104,6 +104,7 @@ def getTrackedPointsKLT(
 
     global N_FEATURES_BEFORE_RETRACK
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
+        # TODO: Make this a sub-routine that we can keep calling again
         newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
         # print(newFeatureCoord.shape)
         print("Added", newFeatureCoord.shape[0], "new features!")
