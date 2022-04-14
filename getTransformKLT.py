@@ -79,6 +79,18 @@ N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
 ERR_THRESHOLD = 10  # TODO: Figure out what this is: somewhat arbitrary for now?
 
 
+def calculateTransform(
+        srcCoords: np.ndarray,
+        targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    '''
+    @brief Calculate transform given 2 point correspondences
+    @see getCorrespondences.py
+    '''
+    A = np.zeros((2, 2))
+    h = np.zeros((2, 1))
+    return A, h
+
+
 # TODO: Make dynamic?
 def calculateFeatureLossThreshold(nInitialFeatures):
     global N_FEATURES_BEFORE_RETRACK
