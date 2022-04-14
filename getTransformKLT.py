@@ -71,7 +71,11 @@ LK_PARAMS = dict(
               )  # termination criteria
 )
 
-N_FEATURES_BEFORE_RETRACK = 50
+PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
+N_FEATURES_BEFORE_RETRACK = -1 # TODO: Make it dynamic (find the overall loss)
+
+def calculateFeatureLossThreshold(nInitialFeatures):
+    return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
 
 def getTrackedPointsKLT(
     srcImg: np.ndarray, targetImg: np.ndarray, blobCoordSrc: np.ndarray
@@ -102,8 +106,10 @@ def getTrackedPointsKLT(
         # NOTE: Also remove duplicate features, will sort the array
         featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)), axis=0)
         featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
-        
-        # nFeatures = featurePtSrc.shape[0]
+
+        # Recalculate threshold for feature retracking
+        nFeatures = featurePtSrc.shape[0]
+        N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(nFeatures)
 
     # Perform KLT to get corresponding points
     # Stupid conversions to appropriate types
@@ -138,13 +144,17 @@ if __name__ == "__main__":
     imgPathArr = getRadarImgPaths(dataPath, timestampPath)
     nImgs = len(imgPathArr)
 
+    # Save path
+    toSavePath = os.path.join(".", "img", "track_klt", datasetName)
+    os.makedirs(toSavePath, exist_ok=True)
+
     # Get initial features
     startImgInd = 0
     prevImg = getCartImageFromImgPaths(imgPathArr, startImgInd)
     blobCoord, blobRadii = getFeatures(prevImg)
 
-    toSavePath = os.path.join(".", "img", "track_klt", datasetName)
-    os.makedirs(toSavePath, exist_ok=True)
+    N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(blobCoord.shape[0])
+    print("Inital Features: ", N_FEATURES_BEFORE_RETRACK)
 
     for imgNo in range(startImgInd + 1, nImgs):
         currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
@@ -174,7 +184,9 @@ if __name__ == "__main__":
 
         toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
         plt.savefig(toSaveImgPath)
-        # plt.show()
+
+        plt.suptitle(f"Tracking on Image {imgNo:04d}")
+        plt.pause(0.01) # animation
 
         # Setup for next iteration
         blobCoord = good_new.copy()
