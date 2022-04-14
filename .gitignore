@@ -5,6 +5,7 @@
 # Data
 data/full_seq*/radar/*
 img/*/full_seq*/*.jpg
+img/*/full_seq*.mp4
 *.zip
 *.tar*
 
