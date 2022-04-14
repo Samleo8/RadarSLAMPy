@@ -103,11 +103,6 @@ def getTrackedPointsKLT(
 
     # Select good points (and also bad points, for visualization)
     goodCorrespondence = (correspondenceStatus == 1).flatten()
-    nGoodFeatures = np.count_nonzero(goodCorrespondence)
-    print(
-        f"Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
-    )
-
     badCorrespondence = ~goodCorrespondence
     if nextPtsGenerated is not None:
         good_new = nextPtsGenerated[goodCorrespondence, :]
@@ -116,7 +111,7 @@ def getTrackedPointsKLT(
         bad_new = nextPtsGenerated[badCorrespondence, :]
         bad_old = nextPtsGenerated[badCorrespondence, :]
     else:
-        print("Completely bad features!")
+        print("[ERROR] Completely bad features!")
         # TODO: Maybe re-run with new features?
 
     return good_new, good_old, bad_new, bad_old
@@ -158,11 +153,19 @@ if __name__ == "__main__":
         good_new, good_old, bad_new, bad_old = \
             getTrackedPointsKLT(prevImg, currImg, blobCoord)
 
+        nGoodFeatures = good_new.shape[0]
+        nBadFeatures = bad_new.shape[0]
+        nFeatures = nGoodFeatures + nBadFeatures
+
+        print(
+            f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
+        )
+
         # Visualizations
         plt.clf()
         visualize_transform(prevImg, currImg, good_old, good_new)
 
-        if bad_old.shape[0] > 0:
+        if nBadFeatures > 0:
             visualize_transform(None,
                                 None,
                                 bad_old,
