@@ -96,12 +96,13 @@ def getTrackedPointsKLT(
 
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
         newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
+        # print(newFeatureCoord.shape)
         print("Added", newFeatureCoord.shape[0], "new features!")
 
         # NOTE: Also remove duplicate features, will sort the array
-        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)))
-    
+        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)), axis=0)
         featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
+        
         # nFeatures = featurePtSrc.shape[0]
 
     # Perform KLT to get corresponding points
@@ -137,16 +138,15 @@ if __name__ == "__main__":
     imgPathArr = getRadarImgPaths(dataPath, timestampPath)
     nImgs = len(imgPathArr)
 
-    # TODO: What are the values for num, min and max
     # Get initial features
-    prevImg = getCartImageFromImgPaths(imgPathArr, 0)
+    startImgInd = 0
+    prevImg = getCartImageFromImgPaths(imgPathArr, startImgInd)
     blobCoord, blobRadii = getFeatures(prevImg)
-
 
     toSavePath = os.path.join(".", "img", "track_klt", datasetName)
     os.makedirs(toSavePath, exist_ok=True)
 
-    for imgNo in range(1, nImgs):
+    for imgNo in range(startImgInd + 1, nImgs):
         currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
         good_new, good_old, bad_new, bad_old = \
