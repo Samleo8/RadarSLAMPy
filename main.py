@@ -16,28 +16,38 @@ timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 imgPathArr = getRadarImgPaths(dataPath, timestampPath)
 nImgs = len(imgPathArr)
 
-traj = Trajectory()
+initTimestamp = radarImgPathToTimestamp(imgPathArr[0])
+traj = Trajectory([initTimestamp], [[0,0,0]])
+traj.plotTrajectory()
 
-# for imgNo in range(nImgs):
-#     currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
+for imgNo in range(nImgs):
+    currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
+    cv2.imshow("radar", currImg)
 
-#     blobIndices = getBlobsFromCart(currImg,
-#                                     min_sigma=0.01,
-#                                     max_sigma=10,
-#                                     num_sigma=3,
-#                                     threshold=.0005,
-#                                     method="doh")
-#     currFeatureInd = blobIndices[:, :2].astype(int)
+    blobIndices = getBlobsFromCart(currImg,
+                                    min_sigma=0.01,
+                                    max_sigma=10,
+                                    num_sigma=3,
+                                    threshold=.0005,
+                                    method="doh")
+    currFeatureInd = blobIndices[:, :2].astype(int)
 
-#     if imgNo:
-#         print(f"Computing affine transforms for {len(blobIndices)} blobs", end="... ", flush=True)
-#         start = tic()
-#         A, h = KLT(prevFeatureInd,
-#                     currFeatureInd,
-#                     currImg.shape,
-#                     cloud=True,
-#                     visual=False)
-#         print(f"Done in {toc(start):.5f} seconds.")
+    if imgNo:
+        print(f"Computing affine transforms for {len(blobIndices)} blobs", end="... ", flush=True)
+        start = tic()
+        A, h = KLT(prevFeatureInd,
+                    currFeatureInd,
+                    currImg.shape,
+                    cloud=True,
+                    max_iters=20,
+                    visual=False)
+        print(f"Done in {toc(start):.5f} seconds.")
+        timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
+        traj.appendRelativePose(timestamp, A, h)
+        traj.plotTrajectory()
 
-#     prevImg = np.copy(currImg)
-#     prevFeatureInd = np.copy(currFeatureInd)
+    prevImg = np.copy(currImg)
+    prevFeatureInd = np.copy(currFeatureInd)
+
+print('Done.')
+plt.show(block=True)

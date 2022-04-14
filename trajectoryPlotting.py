@@ -13,16 +13,25 @@ class Trajectory():
         @param[in] timestamps np.ndarray of timestamps (N)
         @param[in] poses np.ndarray of x,y,theta poses (N x 3)
         '''
-        self.timestamps = timestamps
-        self.poses = poses
-        self.nFrames = timestamps.shape[0]
+        self.timestamps = np.array(timestamps)
+        self.poses = np.array(poses)
+        self.nFrames = self.timestamps.shape[0]
+        self.fig, self.ax, self.lines = None, None, None
     
     def appendRelativePose(self, t, A, h):
         self.timestamps = np.append(self.timestamps, t)
+        # not sure im computing p_{t+1} correctly given A, h
+        # x_p, y_p = A @ np.array([x, y]) + h
         x, y, th = self.poses[-1,:]
-        x_p, y_p, th_p = A @ np.array([x, y, th]) + h
+        dx, dy = h
+        dth = np.arctan2(A[1,0], A[0,0])
+        th_p = th + dth
+        x_p = x + dx * np.cos(th_p) + dy * -np.sin(th_p)
+        y_p = y + dx * np.sin(th_p) + dy * np.cos(th_p)
         self.poses = np.vstack((self.poses, np.array([x_p, y_p, th_p])))
         self.nFrames = self.timestamps.shape[0]
+        print(f"A {A}\nh {h}")
+        print(f"Time {t}: [{x_p:.2f},{y_p:.2f},{th_p:.2f}] (delta {dx:.2f},{dy:.2f},{dth:.2f})")
     
     def getPoseAtTime(self, t):
         '''
@@ -33,17 +42,25 @@ class Trajectory():
         self.interpY = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
         return np.vstack((self.interpX(t), self.interpY(t))).T
 
-    def plotTrajectory(self):
-        fig = plt.figure()
-        ax = fig.add_subplot()
-        ax.plot(self.poses[:,0], self.poses[:,1], 'r-', label='Trajectory')
-        ax.set_xlabel('x [m]')
-        ax.set_ylabel('y [m]')
-        ax.grid(True)
-        ax.legend()
-        # ax.set_aspect('equal', adjustable='box')
-        fig.canvas.draw()
-        plt.show(block=True)
+    def plotTrajectory(self, block=False):
+        if not self.ax:
+            fig = plt.figure()
+            self.ax = fig.add_subplot()
+            self.ax.set_xlabel('x [m]')
+            self.ax.set_ylabel('y [m]')
+            self.ax.grid(True)
+            # ax.set_aspect('equal', adjustable='box')
+            fig.canvas.draw()
+            if not block:
+                plt.show(block=False)
+        if self.lines:
+            self.lines.pop(0).remove()
+        self.lines = self.ax.plot(self.poses[:,0], self.poses[:,1], 'r-', label='Trajectory')
+        self.ax.legend()
+        plt.pause(0.1)
+        if block:
+            plt.show(block=True)
+        
 
     def computeRMSE(self, estTraj):
         '''
@@ -136,12 +153,12 @@ if __name__ == "__main__":
     if datasetName == "tiny":
         gtPath = os.path.join("data", datasetName, "gps", "gps.csv")
         gtTraj = getGroundTruthTrajectoryGPS(gtPath)
-        gtTraj.plotTrajectory()
+        gtTraj.plotTrajectory(block=True)
 
     # radar odometry ground truth
     gtPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
     gtTraj = getGroundTruthTrajectory(gtPath)
-    gtTraj.plotTrajectory()
+    gtTraj.plotTrajectory(block=True)
     keyframe_timestamps = np.arange(gtTraj.timestamps[0], gtTraj.timestamps[-1], (gtTraj.timestamps[-1]-gtTraj.timestamps[0]) / 1000)
     estArr = gtTraj.getPoseAtTime(keyframe_timestamps)
     noise = np.random.multivariate_normal(mean=(.01,.05),cov=np.array([[.8,.2],[.2,.8]])*1e-2,size=(keyframe_timestamps.shape[0]))
