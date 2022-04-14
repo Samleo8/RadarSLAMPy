@@ -7,6 +7,7 @@ from skimage.feature import blob_doh, blob_dog, blob_log
 from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 
+# TODO: What are the values for num, min and max
 DEFAULT_FEATURE_PARAMS = dict(
     min_sigma=0.01,
     max_sigma=10,
