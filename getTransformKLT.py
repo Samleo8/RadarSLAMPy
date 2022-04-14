@@ -43,7 +43,7 @@ def visualize_transform(prevImg: np.ndarray,
         plt.scatter(newFeatureCoord[:, 0],
                     newFeatureCoord[:, 1],
                     marker='+',
-                    color='blue',
+                    color='lightblue',
                     alpha=alpha,
                     label=f'Tracked Features{extraLabel}')
 
