@@ -66,20 +66,25 @@ def visualize_transform(prevImg: np.ndarray,
 
 # https://github.com/opencv/opencv/tree/4.x/samples/python/tutorial_code/video/optical_flow/optical_flow.py
 LK_PARAMS = dict(
-    maxLevel=3,  # level of pyramid search
-    criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03
-              )  # termination criteria
-)
+    # level of pyramid search
+    maxLevel=3,
+    # termination criteria
+    criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
 # Thresholds for feature loss
 PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
-N_FEATURES_BEFORE_RETRACK = -1 # TODO: Make it dynamic (find the overall loss)
+N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
 
 # Thresholds for errors
-ERR_THRESHOLD = 8 # TODO: Figure out what this is: somewhat arbitrary for now?
+ERR_THRESHOLD = 10  # TODO: Figure out what this is: somewhat arbitrary for now?
 
+
+# TODO: Make dynamic?
 def calculateFeatureLossThreshold(nInitialFeatures):
-    return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
+    global N_FEATURES_BEFORE_RETRACK
+    return 80
+    # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
+
 
 def getTrackedPointsKLT(
     srcImg: np.ndarray, targetImg: np.ndarray, blobCoordSrc: np.ndarray
@@ -110,10 +115,11 @@ def getTrackedPointsKLT(
         print("Added", newFeatureCoord.shape[0], "new features!")
 
         # NOTE: Also remove duplicate features, will sort the array
-        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)), axis=0)
+        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)),
+                                 axis=0)
         featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
 
-        # Recalculate threshold for feature retracking
+        # TODO: Recalculate threshold for feature retracking?
         nFeatures = featurePtSrc.shape[0]
         N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(nFeatures)
 
@@ -154,7 +160,8 @@ if __name__ == "__main__":
     nImgs = len(imgPathArr)
 
     # Save path
-    toSavePath = os.path.join(".", "img", "track_klt_dynamic_thresholding", datasetName)
+    toSavePath = os.path.join(".", "img", "track_klt_thresholding",
+                              datasetName)
     os.makedirs(toSavePath, exist_ok=True)
 
     # Get initial features
@@ -162,7 +169,8 @@ if __name__ == "__main__":
     prevImg = getCartImageFromImgPaths(imgPathArr, startImgInd)
     blobCoord, blobRadii = getFeatures(prevImg)
 
-    N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(blobCoord.shape[0])
+    N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(
+        blobCoord.shape[0])
     print("Inital Features: ", N_FEATURES_BEFORE_RETRACK)
 
     for imgNo in range(startImgInd + 1, nImgs):
