@@ -7,42 +7,100 @@ import matplotlib.pyplot as plt
 
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
 
-def getTransformKLT(srcImg: np.ndarray, targetImg: np.ndarray,
-                    blobIndicesSrc: np.ndarray,
-                    blobIndicesTarget: np.ndarray) -> np.ndarray:
-    featurePtSrc = np.ascontiguousarray(np.fliplr(blobIndicesSrc[:, :-1]))
-    featurePtTarget = np.ascontiguousarray(np.fliplr(blobIndicesTarget[:, :-1]))
 
-    # Temporary display
+def visualize_transform(prevImg: np.ndarray,
+                        currImg: np.ndarray,
+                        prevFeatureInd: np.ndarray,
+                        newFeatureInd: np.ndarray,
+                        alpha: float = 1,
+                        extraLabel: str = "",
+                        show: bool = False) -> None:
+    '''
+    @brief Visualize transform of good and bad points in 2 images
+    '''
+    # Visualize
+    # Display prev img with old features
+    '''
     plt.subplot(1, 2, 1)
-    plt.imshow(srcImg)
-    plt.scatter(featurePtSrc[:, 0],
-                featurePtSrc[:, 1],
+    plt.imshow(prevImg)
+    plt.scatter(prevFeatureInd[:, 1],
+                prevFeatureInd[:, 0],
                 marker='.',
                 color='red')
+    plt.title("Old Image")
     plt.axis("off")
 
     plt.subplot(1, 2, 2)
-    plt.imshow(targetImg)
-    plt.scatter(featurePtTarget[:, 0], featurePtTarget[:, 1],
-                marker='.',
-                color='red')
+    '''
+
+    # Display current image with new features
+    if currImg is not None:
+        plt.imshow(currImg)
+
+    if newFeatureInd is not None:
+        plt.scatter(newFeatureInd[:, 1],
+                    newFeatureInd[:, 0],
+                    marker='+',
+                    color='blue',
+                    alpha=alpha,
+                    label=f'Tracked Features{extraLabel}')
+
+    # TODO: Remove, show feature points of old images
+    if prevFeatureInd is not None:
+        plt.scatter(prevFeatureInd[:, 1],
+                    prevFeatureInd[:, 0],
+                    marker='.',
+                    color='yellow',
+                    alpha=alpha,
+                    label=f'Image 0 Features{extraLabel}')
+
+    plt.legend()
     plt.axis("off")
-    plt.show()
+    plt.title("New Image")
 
-    # TODO: THIS!!
+    if show:
+        plt.show()
+
+
+# https://github.com/opencv/opencv/tree/4.x/samples/python/tutorial_code/video/optical_flow/optical_flow.py
+LK_PARAMS = dict(
+    maxLevel=2,  # level of pyramid search
+    criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03
+              )  # termination criteria
+)
+
+
+def getTrackedPointsKLT(srcImg: np.ndarray, targetImg: np.ndarray,
+                        blobIndicesSrc: np.ndarray) -> np.ndarray:
+    featurePtSrc = np.ascontiguousarray(np.fliplr(blobIndicesSrc[:, :-1]))
+
+    # TODO: Change window size based on average of blob sizes perhaps?
+    winSize = (15, 15)  # window size around features
+
+    # TODO: re-generate new features if below certain threshold
+
+    # Perform KLT to get corresponding points
     nextPtsGenerated, correspondenceStatus, inverseConfidence = \
-        cv2.calcOpticalFlowPyrLK(srcImg, targetImg, featurePtSrc, featurePtTarget)
+        cv2.calcOpticalFlowPyrLK(srcImg, targetImg, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
 
-    plt.scatter(nextPtsGenerated[:, 0],
-                nextPtsGenerated[:, 1],
-                marker='+',
-                color='blue')
+    # Select good points (and also bad points, for visualization)
+    goodCorrespondence = (correspondenceStatus == 1)
+    badCorrespondence = ~goodCorrespondence
+    if nextPtsGenerated is not None:
+        good_new = nextPtsGenerated[goodCorrespondence]
+        good_old = nextPtsGenerated[goodCorrespondence]
 
-    plt.tight_layout()
+        bad_new = nextPtsGenerated[badCorrespondence]
+        bad_old = nextPtsGenerated[badCorrespondence]
+    else:
+        print("Completely bad features!")
+
+    plt.clf()
+    visualize_transform(srcImg, targetImg, good_old, good_new)
+    visualize_transform(None, None, bad_old, bad_new, alpha=0.4, extraLabel=" (Bad Correspondences)")
     plt.show()
 
-    return None
+    return good_new
 
 
 if __name__ == "__main__":
@@ -54,21 +112,20 @@ if __name__ == "__main__":
     imgPathArr = getRadarImgPaths(dataPath, timestampPath)
     nImgs = len(imgPathArr)
 
-    for imgNo in range(nImgs):
+    # TODO: What are the values for num, min and max
+    # Get initial features
+    prevImg = getCartImageFromImgPaths(imgPathArr, 0)
+    blobIndices = getBlobsFromCart(prevImg,
+                                   min_sigma=0.01,
+                                   max_sigma=10,
+                                   num_sigma=3,
+                                   threshold=.0005,
+                                   method="doh")
+
+    for imgNo in range(1, nImgs):
         imgCart = getCartImageFromImgPaths(imgPathArr, imgNo)
 
-        # TODO: What are the values for num, min and max sigma
-        blobIndices = getBlobsFromCart(imgCart,
-                                       min_sigma=0.01,
-                                       max_sigma=10,
-                                       num_sigma=3,
-                                       threshold=.0005,
-                                       method="doh")
-
-        if imgNo:
-            getTransformKLT(prevImg, imgCart, prevBlobIndices, blobIndices)
-
+        blobIndices = getTrackedPointsKLT(prevImg, imgCart, blobIndices)
         prevImg = np.copy(imgCart)
-        prevBlobIndices = np.copy(blobIndices)
 
     cv2.destroyAllWindows()
