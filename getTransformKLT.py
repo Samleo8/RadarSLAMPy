@@ -1,3 +1,4 @@
+import shutil
 import numpy as np
 import cv2
 import os, sys
@@ -6,6 +7,7 @@ from getFeatures import getFeatures
 import matplotlib.pyplot as plt
 
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
+from utils import tic, toc
 
 
 def visualize_transform(prevImg: np.ndarray,
@@ -164,6 +166,12 @@ def getTrackedPointsKLT(
 
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
+    startImgInd = imgNo = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    REMOVE_OLD_RESULTS = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
+
+    assert (imgNo >= 0)
+
+    # Data and timestamp paths
     dataPath = os.path.join("data", datasetName, "radar")
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
@@ -172,14 +180,21 @@ if __name__ == "__main__":
     nImgs = len(imgPathArr)
 
     # Save path
-    toSavePath = os.path.join(".", "img", "track_klt_thresholding",
+    imgSavePath = os.path.join(".", "img", "track_klt_thresholding",
                               datasetName)
-    os.makedirs(toSavePath, exist_ok=True)
+
+    saveFeaturePath = os.path.join(
+        imgSavePath.strip(os.path.sep) + f"{imgNo}.npz")
+    os.makedirs(imgSavePath, exist_ok=True)
 
     # Get initial features
-    startImgInd = 0
-    prevImg = getCartImageFromImgPaths(imgPathArr, startImgInd)
-    blobCoord, blobRadii = getFeatures(prevImg)
+    prevImg = getCartImageFromImgPaths(imgPathArr, imgNo)
+
+    if os.path.exists(saveFeaturePath):
+        with np.load(saveFeaturePath) as data:
+            blobCoord, blobRadii = data["blobCoord"], data["blobRadii"]
+    else:
+        blobCoord, blobRadii = getFeatures(prevImg)
 
     N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(
         blobCoord.shape[0])
@@ -187,6 +202,7 @@ if __name__ == "__main__":
 
     for imgNo in range(startImgInd + 1, nImgs):
         try:
+            start = tic()
             currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
             good_new, good_old, bad_new, bad_old = \
@@ -197,7 +213,7 @@ if __name__ == "__main__":
             nFeatures = nGoodFeatures + nBadFeatures
 
             print(
-                f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
+                f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%) | Time: {toc(start):.2f}s"
             )
 
             # Visualizations
@@ -212,7 +228,7 @@ if __name__ == "__main__":
                                     alpha=0.4,
                                     extraLabel=" (Bad Correspondences)")
 
-            toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
+            toSaveImgPath = os.path.join(imgSavePath, f"{imgNo:04d}.jpg")
             plt.savefig(toSaveImgPath)
 
             plt.suptitle(f"Tracking on Image {imgNo:04d}")
@@ -224,13 +240,24 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             break
 
+    # Destroy windows/clear
     cv2.destroyAllWindows()
 
+    # Save feature npz for continuation
+    saveFeaturePath = os.path.join(
+        imgSavePath.strip(os.path.sep) + f"{imgNo}.npz")
+    np.savez(saveFeaturePath, blobCoord=blobCoord, blobRadii=blobRadii)
+
     # Generate mp4 and save that
+    # Also remove folder of images to save space
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
-        os.system(f"./img/mp4-from-folder.sh {toSavePath}")
-        print(f"mp4 added to {toSavePath} folder!")
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
+        print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
+
+        if REMOVE_OLD_RESULTS:
+            shutil.rmtree(imgSavePath)
+            print("Old results folder removed.")
     except:
         print(
             "Failed to generate mp4 with script. Likely failed system requirements."
