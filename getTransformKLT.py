@@ -10,8 +10,8 @@ from parseData import getCartImageFromImgPaths, getRadarImgPaths
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
-                        prevFeatureInd: np.ndarray,
-                        newFeatureInd: np.ndarray,
+                        prevFeatureCoord: np.ndarray,
+                        newFeatureCoord: np.ndarray,
                         alpha: float = 1,
                         extraLabel: str = "",
                         show: bool = False) -> None:
@@ -37,18 +37,18 @@ def visualize_transform(prevImg: np.ndarray,
     if currImg is not None:
         plt.imshow(currImg)
 
-    if newFeatureInd is not None:
-        plt.scatter(newFeatureInd[:, 1],
-                    newFeatureInd[:, 0],
+    if newFeatureCoord is not None:
+        plt.scatter(newFeatureCoord[:, 0],
+                    newFeatureCoord[:, 1],
                     marker='+',
                     color='blue',
                     alpha=alpha,
                     label=f'Tracked Features{extraLabel}')
 
     # TODO: Remove, show feature points of old images
-    if prevFeatureInd is not None:
-        plt.scatter(prevFeatureInd[:, 1],
-                    prevFeatureInd[:, 0],
+    if prevFeatureCoord is not None:
+        plt.scatter(prevFeatureCoord[:, 0],
+                    prevFeatureCoord[:, 1],
                     marker='.',
                     color='yellow',
                     alpha=alpha,
@@ -71,27 +71,21 @@ LK_PARAMS = dict(
               )  # termination criteria
 )
 
-FLIP_RC2XY = True  # check opencv
-
 
 def getTrackedPointsKLT(
-    srcImg: np.ndarray, targetImg: np.ndarray, blobIndicesSrc: np.ndarray
+    srcImg: np.ndarray, targetImg: np.ndarray, blobCoordSrc: np.ndarray
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     '''
     @brief Get tracked points using the OpenCV KLT algorithm given the
            src and target img, and points from the src img to track
     @param[in] srcIimg Source image
     @param[in] targetImg Target image
-    @param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)), [r, c] format
+    @param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)) @note [x, y] format
 
     @return good_new, good_old, bad_new, bad_old
     '''
     # NOTE: conversion to float32 type necessary
-    featurePtSrc = np.ascontiguousarray(blobIndicesSrc[:, :2]).astype(
-        np.float32)
-
-    if FLIP_RC2XY:
-        featurePtSrc = np.fliplr(featurePtSrc)
+    featurePtSrc = np.ascontiguousarray(blobCoordSrc[:, :2]).astype(np.float32)
 
     # TODO: Change window size based on average of blob sizes perhaps?
     winSize = (15, 15)  # window size around features
@@ -106,9 +100,6 @@ def getTrackedPointsKLT(
 
     nextPtsGenerated, correspondenceStatus, inverseConfidence = \
         cv2.calcOpticalFlowPyrLK(srcImgInt, targetImgInt, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
-
-    if FLIP_RC2XY:
-        nextPtsGenerated = np.fliplr(nextPtsGenerated)
 
     # Select good points (and also bad points, for visualization)
     goodCorrespondence = (correspondenceStatus == 1).flatten()
@@ -150,8 +141,13 @@ if __name__ == "__main__":
         num_sigma=3,
         threshold=.0005,  # lower threshold for more features
         method="doh")
-    blobIndices = blobs[:, :2]  # only get the [r,c] coordinates
-    blobRadii = blobs[:, 2]  # radii, possible use for window size?
+
+    # split up blobs information
+    # only get the [r,c] coordinates thne convert to [x,y] because opencv
+    blobCoord = np.fliplr(blobs[:, :2])
+
+    # radii, TODO: possible use for window size?
+    blobRadii = blobs[:, 2]
 
     toSavePath = os.path.join(".", "img", "track_klt", datasetName)
     os.makedirs(toSavePath, exist_ok=True)
@@ -160,7 +156,7 @@ if __name__ == "__main__":
         currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
         good_new, good_old, bad_new, bad_old = \
-            getTrackedPointsKLT(prevImg, currImg, blobIndices)
+            getTrackedPointsKLT(prevImg, currImg, blobCoord)
 
         # Visualizations
         plt.clf()
@@ -179,7 +175,7 @@ if __name__ == "__main__":
         # plt.show()
 
         # Setup for next iteration
-        blobIndices = good_new.copy()
+        blobCoord = good_new.copy()
         prevImg = np.copy(currImg)
 
     cv2.destroyAllWindows()
