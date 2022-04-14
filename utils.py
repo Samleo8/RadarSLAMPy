@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 import time
 import os
 import numpy as np
@@ -10,6 +10,12 @@ def tic():
 
 def toc(tic):
     return time.time() - tic
+
+def radarImgPathToTimestamp(radarImgPath):
+    """
+    eg: radarImgPathToTimestamp('data\\tiny\\radar\\1547131046353776.png') -> 1547131046353776
+    """
+    return int(os.path.basename(radarImgPath)[:-4])
 
 def normalize_angles(th):
     """

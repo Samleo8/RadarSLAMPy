@@ -33,7 +33,7 @@ def getBlobsFromCart(cartImage: np.ndarray,
         raise NotImplementedError(
             f"{method} not implemented! Use one of {blob_fns.keys()}")
 
-    blobs = blob_fn(cartImage,
+    blobs = blob_fn(cartImage.astype(np.double),
                     min_sigma=min_sigma,
                     max_sigma=max_sigma,
                     num_sigma=num_sigma,
