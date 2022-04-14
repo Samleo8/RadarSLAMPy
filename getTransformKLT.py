@@ -71,8 +71,12 @@ LK_PARAMS = dict(
               )  # termination criteria
 )
 
+# Thresholds for feature loss
 PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
 N_FEATURES_BEFORE_RETRACK = -1 # TODO: Make it dynamic (find the overall loss)
+
+# Thresholds for errors
+ERR_THRESHOLD = 8
 
 def calculateFeatureLossThreshold(nInitialFeatures):
     return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
@@ -98,6 +102,7 @@ def getTrackedPointsKLT(
     # Re-generate new features if below certain threshold
     nFeatures = featurePtSrc.shape[0]
 
+    global N_FEATURES_BEFORE_RETRACK
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
         newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
         # print(newFeatureCoord.shape)
@@ -118,6 +123,9 @@ def getTrackedPointsKLT(
 
     nextPtsGenerated, correspondenceStatus, inverseConfidence = \
         cv2.calcOpticalFlowPyrLK(srcImgInt, targetImgInt, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
+
+    # TODO: How to use inverseConfidence?
+    correspondenceStatus &= (inverseConfidence < ERR_THRESHOLD)
 
     # Select good points (and also bad points, for visualization)
     goodCorrespondence = (correspondenceStatus == 1).flatten()
@@ -145,7 +153,7 @@ if __name__ == "__main__":
     nImgs = len(imgPathArr)
 
     # Save path
-    toSavePath = os.path.join(".", "img", "track_klt", datasetName)
+    toSavePath = os.path.join(".", "img", "track_klt_dynamic_thresholding", datasetName)
     os.makedirs(toSavePath, exist_ok=True)
 
     # Get initial features
@@ -157,40 +165,43 @@ if __name__ == "__main__":
     print("Inital Features: ", N_FEATURES_BEFORE_RETRACK)
 
     for imgNo in range(startImgInd + 1, nImgs):
-        currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
+        try:
+            currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
-        good_new, good_old, bad_new, bad_old = \
-            getTrackedPointsKLT(prevImg, currImg, blobCoord)
+            good_new, good_old, bad_new, bad_old = \
+                getTrackedPointsKLT(prevImg, currImg, blobCoord)
 
-        nGoodFeatures = good_new.shape[0]
-        nBadFeatures = bad_new.shape[0]
-        nFeatures = nGoodFeatures + nBadFeatures
+            nGoodFeatures = good_new.shape[0]
+            nBadFeatures = bad_new.shape[0]
+            nFeatures = nGoodFeatures + nBadFeatures
 
-        print(
-            f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
-        )
+            print(
+                f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
+            )
 
-        # Visualizations
-        plt.clf()
-        visualize_transform(prevImg, currImg, good_old, good_new)
+            # Visualizations
+            plt.clf()
+            visualize_transform(prevImg, currImg, good_old, good_new)
 
-        if nBadFeatures > 0:
-            visualize_transform(None,
-                                None,
-                                bad_old,
-                                bad_new,
-                                alpha=0.4,
-                                extraLabel=" (Bad Correspondences)")
+            if nBadFeatures > 0:
+                visualize_transform(None,
+                                    None,
+                                    bad_old,
+                                    bad_new,
+                                    alpha=0.4,
+                                    extraLabel=" (Bad Correspondences)")
 
-        toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
-        plt.savefig(toSaveImgPath)
+            toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
+            plt.savefig(toSaveImgPath)
 
-        plt.suptitle(f"Tracking on Image {imgNo:04d}")
-        plt.pause(0.01) # animation
+            plt.suptitle(f"Tracking on Image {imgNo:04d}")
+            # plt.pause(0.01) # animation
 
-        # Setup for next iteration
-        blobCoord = good_new.copy()
-        prevImg = np.copy(currImg)
+            # Setup for next iteration
+            blobCoord = good_new.copy()
+            prevImg = np.copy(currImg)
+        except KeyboardInterrupt:
+            break
 
     cv2.destroyAllWindows()
 
