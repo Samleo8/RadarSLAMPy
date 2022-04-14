@@ -15,8 +15,8 @@ def getBlobsFromCart(cartImage: np.ndarray,
                      threshold=0.01,
                      method="doh") -> np.ndarray:
     '''
-    @brief Given a radar image, generate a list of blob indices 
-           based on Determinant of Hessian
+    @brief Given a radar image, generate a list of (K x 3)
+           blob indices based on Determinant of Hessian
     @note Uses default params from skimage.features function
 
     @param[in] cartImage Cartesian radar image
