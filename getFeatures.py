@@ -7,6 +7,13 @@ from skimage.feature import blob_doh, blob_dog, blob_log
 from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
 
+DEFAULT_FEATURE_PARAMS = dict(
+    min_sigma=0.01,
+    max_sigma=10,
+    num_sigma=3,
+    threshold=.0005,  # lower threshold for more features
+    method="doh")
+
 
 def getBlobsFromCart(cartImage: np.ndarray,
                      min_sigma: int = 1,
@@ -41,6 +48,17 @@ def getBlobsFromCart(cartImage: np.ndarray,
 
     return blobs
 
+def getFeatures(prevImg, feature_params:dict = DEFAULT_FEATURE_PARAMS):
+    blobs = getBlobsFromCart(prevImg, **feature_params)
+
+    # split up blobs information
+    # only get the [r,c] coordinates thne convert to [x,y] because opencv
+    blobCoord = np.fliplr(blobs[:, :2])
+
+    # radii, TODO: possible use for window size?
+    blobRadii = blobs[:, 2]
+
+    return blobCoord, blobRadii
 
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"

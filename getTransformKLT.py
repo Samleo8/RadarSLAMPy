@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import os, sys
-from getFeatures import getBlobsFromCart
+from getFeatures import getFeatures
 
 import matplotlib.pyplot as plt
 
@@ -71,6 +71,7 @@ LK_PARAMS = dict(
               )  # termination criteria
 )
 
+N_FEATURES_BEFORE_RETRACK = 50
 
 def getTrackedPointsKLT(
     srcImg: np.ndarray, targetImg: np.ndarray, blobCoordSrc: np.ndarray
@@ -90,8 +91,18 @@ def getTrackedPointsKLT(
     # TODO: Change window size based on average of blob sizes perhaps?
     winSize = (15, 15)  # window size around features
 
-    # TODO: re-generate new features if below certain threshold
+    # Re-generate new features if below certain threshold
     nFeatures = featurePtSrc.shape[0]
+
+    if nFeatures < N_FEATURES_BEFORE_RETRACK:
+        newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
+        print("Added", newFeatureCoord.shape[0], "new features!")
+
+        # NOTE: Also remove duplicate features, will sort the array
+        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)))
+    
+        featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
+        # nFeatures = featurePtSrc.shape[0]
 
     # Perform KLT to get corresponding points
     # Stupid conversions to appropriate types
@@ -129,20 +140,8 @@ if __name__ == "__main__":
     # TODO: What are the values for num, min and max
     # Get initial features
     prevImg = getCartImageFromImgPaths(imgPathArr, 0)
-    blobs = getBlobsFromCart(
-        prevImg,
-        min_sigma=0.01,
-        max_sigma=10,
-        num_sigma=3,
-        threshold=.0005,  # lower threshold for more features
-        method="doh")
+    blobCoord, blobRadii = getFeatures(prevImg)
 
-    # split up blobs information
-    # only get the [r,c] coordinates thne convert to [x,y] because opencv
-    blobCoord = np.fliplr(blobs[:, :2])
-
-    # radii, TODO: possible use for window size?
-    blobRadii = blobs[:, 2]
 
     toSavePath = os.path.join(".", "img", "track_klt", datasetName)
     os.makedirs(toSavePath, exist_ok=True)
