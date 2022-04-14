@@ -58,22 +58,40 @@ def visualize_transform(prevImg: np.ndarray,
     plt.axis("off")
     plt.title("New Image")
 
+    plt.tight_layout()
+
     if show:
         plt.show()
 
 
 # https://github.com/opencv/opencv/tree/4.x/samples/python/tutorial_code/video/optical_flow/optical_flow.py
 LK_PARAMS = dict(
-    maxLevel=2,  # level of pyramid search
+    maxLevel=3,  # level of pyramid search
     criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03
               )  # termination criteria
 )
 
+FLIP_RC2XY = True  # check opencv
 
-def getTrackedPointsKLT(srcImg: np.ndarray, targetImg: np.ndarray,
-                        blobIndicesSrc: np.ndarray) -> np.ndarray:
+
+def getTrackedPointsKLT(
+    srcImg: np.ndarray, targetImg: np.ndarray, blobIndicesSrc: np.ndarray
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    '''
+    @brief Get tracked points using the OpenCV KLT algorithm given the
+           src and target img, and points from the src img to track
+    @param[in] srcIimg Source image
+    @param[in] targetImg Target image
+    @param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)), [r, c] format
+
+    @return good_new, good_old, bad_new, bad_old
+    '''
     # NOTE: conversion to float32 type necessary
-    featurePtSrc = np.ascontiguousarray(blobIndicesSrc[:, :2]).astype(np.float32)
+    featurePtSrc = np.ascontiguousarray(blobIndicesSrc[:, :2]).astype(
+        np.float32)
+
+    if FLIP_RC2XY:
+        featurePtSrc = np.fliplr(featurePtSrc)
 
     # TODO: Change window size based on average of blob sizes perhaps?
     winSize = (15, 15)  # window size around features
@@ -89,30 +107,28 @@ def getTrackedPointsKLT(srcImg: np.ndarray, targetImg: np.ndarray,
     nextPtsGenerated, correspondenceStatus, inverseConfidence = \
         cv2.calcOpticalFlowPyrLK(srcImgInt, targetImgInt, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
 
+    if FLIP_RC2XY:
+        nextPtsGenerated = np.fliplr(nextPtsGenerated)
+
     # Select good points (and also bad points, for visualization)
     goodCorrespondence = (correspondenceStatus == 1).flatten()
     nGoodFeatures = np.count_nonzero(goodCorrespondence)
-    print(f"Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)")
+    print(
+        f"Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)"
+    )
 
     badCorrespondence = ~goodCorrespondence
     if nextPtsGenerated is not None:
-        good_new = nextPtsGenerated[goodCorrespondence,:]
-        good_old = nextPtsGenerated[goodCorrespondence,:]
+        good_new = nextPtsGenerated[goodCorrespondence, :]
+        good_old = nextPtsGenerated[goodCorrespondence, :]
 
-        bad_new = nextPtsGenerated[badCorrespondence,:]
-        bad_old = nextPtsGenerated[badCorrespondence,:]
+        bad_new = nextPtsGenerated[badCorrespondence, :]
+        bad_old = nextPtsGenerated[badCorrespondence, :]
     else:
         print("Completely bad features!")
+        # TODO: Maybe re-run with new features?
 
-    plt.clf()
-    visualize_transform(srcImg, targetImg, good_old, good_new)
-
-    if nGoodFeatures != nFeatures:
-        visualize_transform(None, None, bad_old, bad_new, alpha=0.4, extraLabel=" (Bad Correspondences)")
-        
-    plt.show()
-
-    return good_new
+    return good_new, good_old, bad_new, bad_old
 
 
 if __name__ == "__main__":
@@ -127,18 +143,53 @@ if __name__ == "__main__":
     # TODO: What are the values for num, min and max
     # Get initial features
     prevImg = getCartImageFromImgPaths(imgPathArr, 0)
-    blobs = getBlobsFromCart(prevImg,
-                                   min_sigma=0.01,
-                                   max_sigma=10,
-                                   num_sigma=3,
-                                   threshold=.0005, # lower threshold for more features
-                                   method="doh")
-    blobIndices = blobs[:, :2]
+    blobs = getBlobsFromCart(
+        prevImg,
+        min_sigma=0.01,
+        max_sigma=10,
+        num_sigma=3,
+        threshold=.0005,  # lower threshold for more features
+        method="doh")
+    blobIndices = blobs[:, :2]  # only get the [r,c] coordinates
+    blobRadii = blobs[:, 2]  # radii, possible use for window size?
+
+    toSavePath = os.path.join(".", "img", "track_klt", datasetName)
+    os.makedirs(toSavePath, exist_ok=True)
 
     for imgNo in range(1, nImgs):
-        imgCart = getCartImageFromImgPaths(imgPathArr, imgNo)
+        currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
-        blobIndices = getTrackedPointsKLT(prevImg, imgCart, blobIndices)
-        prevImg = np.copy(imgCart)
+        good_new, good_old, bad_new, bad_old = \
+            getTrackedPointsKLT(prevImg, currImg, blobIndices)
+
+        # Visualizations
+        plt.clf()
+        visualize_transform(prevImg, currImg, good_old, good_new)
+
+        if bad_old.shape[0] > 0:
+            visualize_transform(None,
+                                None,
+                                bad_old,
+                                bad_new,
+                                alpha=0.4,
+                                extraLabel=" (Bad Correspondences)")
+
+        toSaveImgPath = os.path.join(toSavePath, f"{imgNo:04d}.jpg")
+        plt.savefig(toSaveImgPath)
+        # plt.show()
+
+        # Setup for next iteration
+        blobIndices = good_new.copy()
+        prevImg = np.copy(currImg)
 
     cv2.destroyAllWindows()
+
+    # Generate mp4 and save that
+    print("Generating mp4 with script (requires bash and FFMPEG command)...")
+    try:
+        os.system(f"./img/mp4-from-folder.sh {toSavePath}")
+        print(f"mp4 added to {toSavePath} folder!")
+    except:
+        print(
+            "Failed to generate mp4 with script. Likely failed system requirements."
+        )
