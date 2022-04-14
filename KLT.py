@@ -218,11 +218,11 @@ def visualize_transform(prevImg, currImg, prevFeatureInd, currFeatureInd, A,
                 label='Image 1 Features')
 
     # TODO: Remove, show feature points of old images
-    # plt.scatter(prevFeatureInd[:, 1],
-    #             prevFeatureInd[:, 0],
-    #             marker='^',
-    #             color='green',
-    #             label='Image 0 Features')
+    plt.scatter(prevFeatureInd[:, 1],
+                prevFeatureInd[:, 0],
+                marker='^',
+                color='yellow',
+                label='Image 0 Features')
 
     # NOTE: A and h are inverse poses
     transformedSourceFeatures = getTransformedFeatures(prevFeatureInd, A, h)
