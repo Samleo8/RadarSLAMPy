@@ -2,7 +2,7 @@ import shutil
 import numpy as np
 import cv2
 import os, sys
-from getFeatures import getFeatures
+from getFeatures import getFeatures, appendNewFeatures
 
 import matplotlib.pyplot as plt
 
@@ -73,10 +73,6 @@ LK_PARAMS = dict(
     # termination criteria
     criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
-# Thresholds for feature loss
-PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
-N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
-
 # Thresholds for errors
 ERR_THRESHOLD = 10  # TODO: Figure out what this is: somewhat arbitrary for now?
 
@@ -91,13 +87,6 @@ def calculateTransform(
     A = np.zeros((2, 2))
     h = np.zeros((2, 1))
     return A, h
-
-
-# TODO: Make dynamic?
-def calculateFeatureLossThreshold(nInitialFeatures):
-    global N_FEATURES_BEFORE_RETRACK
-    return 80
-    # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
 
 
 def getTrackedPointsKLT(
@@ -123,19 +112,8 @@ def getTrackedPointsKLT(
 
     global N_FEATURES_BEFORE_RETRACK
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
-        # TODO: Make this a sub-routine that we can keep calling again
-        newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
-        # print(newFeatureCoord.shape)
-        print("Added", newFeatureCoord.shape[0], "new features!")
-
-        # NOTE: Also remove duplicate features, will sort the array
-        featurePtSrc = np.unique(np.vstack((featurePtSrc, newFeatureCoord)),
-                                 axis=0)
-        featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
-
-        # TODO: Recalculate threshold for feature retracking?
-        nFeatures = featurePtSrc.shape[0]
-        N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(nFeatures)
+        featurePtSrc, N_FEATURES_BEFORE_RETRACK = \
+            appendNewFeatures(srcImg, featurePtSrc)
 
     # Perform KLT to get corresponding points
     # Stupid conversions to appropriate types
@@ -146,12 +124,15 @@ def getTrackedPointsKLT(
         cv2.calcOpticalFlowPyrLK(srcImgInt, targetImgInt, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
 
     # TODO: How to use inverseConfidence?
-    correspondenceStatus &= (inverseConfidence < ERR_THRESHOLD)
 
-    # Select good points (and also bad points, for visualization)
-    goodCorrespondence = (correspondenceStatus == 1).flatten()
-    badCorrespondence = ~goodCorrespondence
     if nextPtsGenerated is not None:
+        correspondenceStatus &= (inverseConfidence < ERR_THRESHOLD)
+
+        # Select good points (and also bad points, for visualization)
+        goodCorrespondence = (correspondenceStatus == 1).flatten()
+        badCorrespondence = ~goodCorrespondence
+
+        # Prune according to good and bad
         good_new = nextPtsGenerated[goodCorrespondence, :]
         good_old = nextPtsGenerated[goodCorrespondence, :]
 
@@ -181,10 +162,10 @@ if __name__ == "__main__":
 
     # Save path
     imgSavePath = os.path.join(".", "img", "track_klt_thresholding",
-                              datasetName)
+                               datasetName)
 
     saveFeaturePath = os.path.join(
-        imgSavePath.strip(os.path.sep) + f"{imgNo}.npz")
+        imgSavePath.strip(os.path.sep) + f"_{imgNo}.npz")
     os.makedirs(imgSavePath, exist_ok=True)
 
     # Get initial features
@@ -192,13 +173,18 @@ if __name__ == "__main__":
 
     if os.path.exists(saveFeaturePath):
         with np.load(saveFeaturePath) as data:
-            blobCoord, blobRadii = data["blobCoord"], data["blobRadii"]
+            blobCoord = data["blobCoord"]
+            # blobRadii = data["blobRadii"]
+            # N_FEATURES_BEFORE_RETRACK = data["N_FEATURES_BEFORE_RETRACK"]
+            N_FEATURES_BEFORE_RETRACK = 80
     else:
-        blobCoord, blobRadii = getFeatures(prevImg)
+        blobCoord = np.empty((0, 2))
+        # blobRadii = np.empty((0, 1))
 
-    N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(
-        blobCoord.shape[0])
-    print("Inital Features: ", N_FEATURES_BEFORE_RETRACK)
+        blobCoord, N_FEATURES_BEFORE_RETRACK = appendNewFeatures(
+            prevImg, blobCoord)
+
+    print("Inital Features: ", blobCoord.shape[0])
 
     for imgNo in range(startImgInd + 1, nImgs):
         try:
@@ -245,8 +231,8 @@ if __name__ == "__main__":
 
     # Save feature npz for continuation
     saveFeaturePath = os.path.join(
-        imgSavePath.strip(os.path.sep) + f"{imgNo}.npz")
-    np.savez(saveFeaturePath, blobCoord=blobCoord, blobRadii=blobRadii)
+        imgSavePath.strip(os.path.sep) + f"_{imgNo}.npz")
+    np.savez(saveFeaturePath, blobCoord=blobCoord)  # , blobRadii=blobRadii)
 
     # Generate mp4 and save that
     # Also remove folder of images to save space

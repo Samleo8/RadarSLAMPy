@@ -49,7 +49,20 @@ def getBlobsFromCart(cartImage: np.ndarray,
 
     return blobs
 
-def getFeatures(prevImg, feature_params:dict = DEFAULT_FEATURE_PARAMS):
+
+# Thresholds for feature loss
+PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
+N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
+
+
+# TODO: Make dynamic?
+def calculateFeatureLossThreshold(nInitialFeatures):
+    global N_FEATURES_BEFORE_RETRACK
+    return 80
+    # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
+
+
+def getFeatures(prevImg, feature_params: dict = DEFAULT_FEATURE_PARAMS):
     blobs = getBlobsFromCart(prevImg, **feature_params)
 
     # split up blobs information
@@ -60,6 +73,22 @@ def getFeatures(prevImg, feature_params:dict = DEFAULT_FEATURE_PARAMS):
     blobRadii = blobs[:, 2]
 
     return blobCoord, blobRadii
+
+
+def appendNewFeatures(srcImg, oldFeaturesCoord):
+    newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
+    print("Added", newFeatureCoord.shape[0], "new features!")
+
+    # NOTE: Also remove duplicate features, will sort the array
+    featurePtSrc = np.unique(np.vstack((oldFeaturesCoord, newFeatureCoord)), axis=0)
+    featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
+
+    # TODO: Recalculate threshold for feature retracking?
+    nFeatures = featurePtSrc.shape[0]
+    N_FEATURES_BEFORE_RETRACK = calculateFeatureLossThreshold(nFeatures)
+
+    return featurePtSrc, N_FEATURES_BEFORE_RETRACK
+
 
 if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
