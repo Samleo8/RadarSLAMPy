@@ -72,32 +72,44 @@ LK_PARAMS = dict(
 
 def getTrackedPointsKLT(srcImg: np.ndarray, targetImg: np.ndarray,
                         blobIndicesSrc: np.ndarray) -> np.ndarray:
-    featurePtSrc = np.ascontiguousarray(np.fliplr(blobIndicesSrc[:, :-1]))
+    # NOTE: conversion to float32 type necessary
+    featurePtSrc = np.ascontiguousarray(blobIndicesSrc[:, :2]).astype(np.float32)
 
     # TODO: Change window size based on average of blob sizes perhaps?
     winSize = (15, 15)  # window size around features
 
     # TODO: re-generate new features if below certain threshold
+    nFeatures = featurePtSrc.shape[0]
 
     # Perform KLT to get corresponding points
+    # Stupid conversions to appropriate types
+    srcImgInt = (srcImg * 255).astype(np.uint8)
+    targetImgInt = (targetImg * 255).astype(np.uint8)
+
     nextPtsGenerated, correspondenceStatus, inverseConfidence = \
-        cv2.calcOpticalFlowPyrLK(srcImg, targetImg, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
+        cv2.calcOpticalFlowPyrLK(srcImgInt, targetImgInt, featurePtSrc, None, winSize=winSize, **LK_PARAMS)
 
     # Select good points (and also bad points, for visualization)
-    goodCorrespondence = (correspondenceStatus == 1)
+    goodCorrespondence = (correspondenceStatus == 1).flatten()
+    nGoodFeatures = np.count_nonzero(goodCorrespondence)
+    print(f"Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%)")
+
     badCorrespondence = ~goodCorrespondence
     if nextPtsGenerated is not None:
-        good_new = nextPtsGenerated[goodCorrespondence]
-        good_old = nextPtsGenerated[goodCorrespondence]
+        good_new = nextPtsGenerated[goodCorrespondence,:]
+        good_old = nextPtsGenerated[goodCorrespondence,:]
 
-        bad_new = nextPtsGenerated[badCorrespondence]
-        bad_old = nextPtsGenerated[badCorrespondence]
+        bad_new = nextPtsGenerated[badCorrespondence,:]
+        bad_old = nextPtsGenerated[badCorrespondence,:]
     else:
         print("Completely bad features!")
 
     plt.clf()
     visualize_transform(srcImg, targetImg, good_old, good_new)
-    visualize_transform(None, None, bad_old, bad_new, alpha=0.4, extraLabel=" (Bad Correspondences)")
+
+    if nGoodFeatures != nFeatures:
+        visualize_transform(None, None, bad_old, bad_new, alpha=0.4, extraLabel=" (Bad Correspondences)")
+        
     plt.show()
 
     return good_new
@@ -115,12 +127,13 @@ if __name__ == "__main__":
     # TODO: What are the values for num, min and max
     # Get initial features
     prevImg = getCartImageFromImgPaths(imgPathArr, 0)
-    blobIndices = getBlobsFromCart(prevImg,
+    blobs = getBlobsFromCart(prevImg,
                                    min_sigma=0.01,
                                    max_sigma=10,
                                    num_sigma=3,
-                                   threshold=.0005,
+                                   threshold=.0005, # lower threshold for more features
                                    method="doh")
+    blobIndices = blobs[:, :2]
 
     for imgNo in range(1, nImgs):
         imgCart = getCartImageFromImgPaths(imgPathArr, imgNo)
