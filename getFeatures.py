@@ -62,8 +62,17 @@ def calculateFeatureLossThreshold(nInitialFeatures):
     # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
 
 
-def getFeatures(prevImg, feature_params: dict = DEFAULT_FEATURE_PARAMS):
-    blobs = getBlobsFromCart(prevImg, **feature_params)
+def getFeatures(img, feature_params: dict = DEFAULT_FEATURE_PARAMS):
+    '''
+    @brief Get features from image using Hessian blob detector
+    @param[in] img Image to detect features from 
+    @param[in] feature_params Parameters for feature detection, @see DEFAULT_FEATURE_PARAMS
+
+    @return blobCoord (K x 2) array of [x, y] coordinates of center of blobs on the image
+    @return blobRadii (K x 1) array of radius of blobs
+    '''
+
+    blobs = getBlobsFromCart(img, **feature_params)
 
     # split up blobs information
     # only get the [r,c] coordinates thne convert to [x,y] because opencv
@@ -76,6 +85,14 @@ def getFeatures(prevImg, feature_params: dict = DEFAULT_FEATURE_PARAMS):
 
 
 def appendNewFeatures(srcImg, oldFeaturesCoord):
+    '''
+    @brief Append new features obtained from srcImg onto oldFeaturesCoord array
+    @see getFeatures()
+
+    @param[in] srcImg Source image to obtain features on
+    @param[in] oldFeaturesCoord (K x 2) array of [x, y] coordinate of features
+    '''
+
     newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
     print("Added", newFeatureCoord.shape[0], "new features!")
 
