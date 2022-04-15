@@ -95,7 +95,7 @@ def calculateTransform(
     h = np.zeros((2, 1))
 
     N = len(srcCoords)
-    
+
     # Form A and b
     A = np.empty((N * 2, 3))
     b = np.empty((N * 2, 1))
@@ -152,7 +152,7 @@ def calculateTransform(
         R = R_adjust @ R
         h[:, 0] += delta_h
     '''
-    
+
     return R, h
 
 
@@ -201,10 +201,10 @@ def getTrackedPointsKLT(
 
         # Prune according to good and bad
         good_new = nextPtsGenerated[goodCorrespondence, :]
-        good_old = nextPtsGenerated[goodCorrespondence, :]
+        good_old = featurePtSrc[goodCorrespondence, :]
 
         bad_new = nextPtsGenerated[badCorrespondence, :]
-        bad_old = nextPtsGenerated[badCorrespondence, :]
+        bad_old = featurePtSrc[badCorrespondence, :]
     else:
         print("[ERROR] Completely bad features!")
         # TODO: Maybe re-run with new features?
