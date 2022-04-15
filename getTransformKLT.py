@@ -88,7 +88,8 @@ def calculateTransform(
     targetCoords    - (N, 2) array of target points
     Outputs:
     (R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
-                      to old points srcCoords to get new points targetCoords
+                      to old points srcCoords to get new points targetCoords, i.e.
+                      R * srcCoords + h = targetCoords
     '''
     assert len(srcCoords) == len(targetCoords)
     R = np.zeros((2, 2))
@@ -99,6 +100,8 @@ def calculateTransform(
     # Form A and b
     A = np.empty((N * 2, 3))
     b = np.empty((N * 2, 1))
+
+    # TODO: Please make this numpy vectorized
     for i in range(N):
         src = srcCoords[i]
         target = targetCoords[i]
@@ -258,6 +261,7 @@ if __name__ == "__main__":
             start = tic()
             currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
+            # Obtain Point Correspondences
             good_new, good_old, bad_new, bad_old = \
                 getTrackedPointsKLT(prevImg, currImg, blobCoord)
 
@@ -268,6 +272,11 @@ if __name__ == "__main__":
             print(
                 f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%) | Time: {toc(start):.2f}s"
             )
+
+            # Obtain transforms
+            R, h = calculateTransform(good_old, good_new)
+
+            print("Transform:", R, h)
 
             # Visualizations
             plt.clf()
