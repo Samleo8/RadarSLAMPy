@@ -84,9 +84,30 @@ def calculateTransform(
     @brief Calculate transform given 2 point correspondences
     @see getCorrespondences.py
     '''
-    A = np.zeros((2, 2))
+    assert len(srcCoords) == len(targetCoords)
+    R = np.zeros((2, 2))
     h = np.zeros((2, 1))
-    return A, h
+
+    N = len(srcCoords)
+    
+    A = np.empty((N * 2, 3))
+    b = np.empty((N * 2, 1))
+    for i in range(N):
+        src = srcCoords[i]
+        target = targetCoords[i]
+
+        A[2 * i : 2 * i + 1, :] = np.array([[-src[1], 1, 0],
+                                            [src[0],  0, 1]])
+        b[2 * i : 2 * i + 1, 0] = np.array([src[0] - target[0],
+                                            -src[1] - target[1]])
+    # Negate b because we want to go from Ax + b to min|| Ax - b ||
+    x = np.linalg.inv(A.T @ A) @ A.T @ -b
+
+    R = np.array([[1, -x[0]],
+                  [x[0], 1]])
+    h = x[1:]
+    
+    return R, h
 
 
 def getTrackedPointsKLT(
