@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
 from utils import tic, toc
 
+from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
+from utils import radarImgPathToTimestamp
+
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
@@ -106,17 +109,18 @@ def calculateTransform(
         src = srcCoords[i]
         target = targetCoords[i]
 
-        A[2 * i : 2 * i + 1, :] = np.array([[-src[1], 1, 0],
+        A[2 * i : 2 * i + 2, :] = np.array([[-src[1], 1, 0],
                                             [src[0],  0, 1]])
-        b[2 * i : 2 * i + 1, 0] = np.array([src[0] - target[0],
-                                            -src[1] - target[1]])
+        # is it y_0 - y_1 or -y_0 - y_1?
+        b[2 * i : 2 * i + 2, 0] = np.array([src[0] - target[0],
+                                            src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
     x = np.linalg.inv(A.T @ A) @ A.T @ -b
 
     # Approximate least squares solution
-    R = np.array([[1, -x[0]],
-                  [x[0], 1]])
+    R = np.array([[1, -float(x[0])],
+                  [float(x[0]), 1]])
     h = x[1:]
 
     '''
@@ -233,10 +237,13 @@ if __name__ == "__main__":
     # Save path
     imgSavePath = os.path.join(".", "img", "track_klt_thresholding",
                                datasetName)
+    trajSavePath = os.path.join(".", "img", "track_klt_thresholding",
+                               datasetName + '_traj')
 
     saveFeaturePath = os.path.join(
         imgSavePath.strip(os.path.sep) + f"_{imgNo}.npz")
     os.makedirs(imgSavePath, exist_ok=True)
+    os.makedirs(trajSavePath, exist_ok=True)
 
     # Get initial features
     prevImg = getCartImageFromImgPaths(imgPathArr, imgNo)
@@ -255,6 +262,12 @@ if __name__ == "__main__":
             prevImg, blobCoord)
 
     print("Inital Features: ", blobCoord.shape[0])
+
+    # setup trajectory plotter
+    gtTrajPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
+    gtTraj = getGroundTruthTrajectory(gtTrajPath)
+    initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
+    estTraj = Trajectory([initTimestamp],[*gtTraj.getPoseAtTime(initTimestamp)])
 
     for imgNo in range(startImgInd + 1, nImgs):
         try:
@@ -276,7 +289,7 @@ if __name__ == "__main__":
             # Obtain transforms
             R, h = calculateTransform(good_old, good_new)
 
-            print("Transform:", R, h)
+            print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()
@@ -295,6 +308,12 @@ if __name__ == "__main__":
 
             plt.suptitle(f"Tracking on Image {imgNo:04d}")
             plt.pause(0.01) # animation
+
+            # Plot Trajectories
+            timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
+            estTraj.appendRelativePose(timestamp, R, h)
+            toSaveImgPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
+            plotGtAndEstTrajectory(gtTraj, estTraj, imgNo, savePath=toSaveImgPath)
 
             # Setup for next iteration
             blobCoord = good_new.copy()
