@@ -84,8 +84,13 @@ def calculateTransform(
     @brief Calculate transform given 2 point correspondences
     @see getCorrespondences.py
     '''
+<<<<<<< HEAD
     assert len(srcCoords) == len(targetCoords)
     R = np.zeros((2, 2))
+=======
+    # TODO: THIS @KEVIN
+    A = np.zeros((2, 2))
+>>>>>>> fa184e63a4febabc3455aa247954b8e21960dae6
     h = np.zeros((2, 1))
 
     N = len(srcCoords)

@@ -61,6 +61,9 @@ def calculateFeatureLossThreshold(nInitialFeatures):
     return 80
     # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
 
+def adaptiveNMS(img, blobs):
+    # TODO: This @ALEX
+    return blobs
 
 def getFeatures(img, feature_params: dict = DEFAULT_FEATURE_PARAMS):
     '''
@@ -73,6 +76,8 @@ def getFeatures(img, feature_params: dict = DEFAULT_FEATURE_PARAMS):
     '''
 
     blobs = getBlobsFromCart(img, **feature_params)
+
+    blobs = adaptiveNMS(img, blobs)
 
     # split up blobs information
     # only get the [r,c] coordinates thne convert to [x,y] because opencv
