@@ -83,18 +83,20 @@ def calculateTransform(
     '''
     @brief Calculate transform given 2 point correspondences
     @see getCorrespondences.py
+    Inputs:
+    srcCoords       - (N, 2) array of source points
+    targetCoords    - (N, 2) array of target points
+    Outputs:
+    (R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
+                      to old points srcCoords to get new points targetCoords
     '''
-<<<<<<< HEAD
     assert len(srcCoords) == len(targetCoords)
     R = np.zeros((2, 2))
-=======
-    # TODO: THIS @KEVIN
-    A = np.zeros((2, 2))
->>>>>>> fa184e63a4febabc3455aa247954b8e21960dae6
     h = np.zeros((2, 1))
 
     N = len(srcCoords)
     
+    # Form A and b
     A = np.empty((N * 2, 3))
     b = np.empty((N * 2, 1))
     for i in range(N):
@@ -105,12 +107,51 @@ def calculateTransform(
                                             [src[0],  0, 1]])
         b[2 * i : 2 * i + 1, 0] = np.array([src[0] - target[0],
                                             -src[1] - target[1]])
+
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
     x = np.linalg.inv(A.T @ A) @ A.T @ -b
 
+    # Approximate least squares solution
     R = np.array([[1, -x[0]],
                   [x[0], 1]])
     h = x[1:]
+
+    '''
+    # Iterative version: for precise R estimate
+    num_iters = 0
+    max_iters = 10
+    converged = False
+    R = eye(2)
+    h = np.zeros((2,1))
+    while num_iters < max_iters and not converged:
+        A = np.empty((N * 2, 3))
+        b = np.empty((N * 2, 1))
+        
+        src1 = (R @ srcCoords.T).T + h
+        target1 = (R @ targetCoords.T).T + h
+
+        for i in range(N):
+            src = src1[i]
+            target = target1[i]
+
+            A[2 * i : 2 * i + 1, :] = np.array([[-src[1], 1, 0],
+                                                [src[0],  0, 1]])
+            b[2 * i : 2 * i + 1, 0] = np.array([src[0] - target[0],
+                                                -src[1] - target[1]])
+
+        # Negate b because we want to go from Ax + b to min|| Ax - b ||
+        x = np.linalg.inv(A.T @ A) @ A.T @ -b
+
+        R_adjust = np.array([[1, -x[0]],
+                             [x[0], 1]])
+        delta_h = x[1:]
+
+        # Can define convergence with respect to R_adjust and delta_h here:
+        # convergence = ...
+
+        R = R_adjust @ R
+        h[:, 0] += delta_h
+    '''
     
     return R, h
 
