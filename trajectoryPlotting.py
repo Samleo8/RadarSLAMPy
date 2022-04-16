@@ -17,11 +17,24 @@ class Trajectory():
         self.poses = np.array(poses)
     
     def appendRelativePose(self, t, A, h):
+        # Add to timestamps
         self.timestamps = np.append(self.timestamps, t)
+        
         # not sure im computing p_{t+1} correctly given A, h
+        # Get all the relevant transform variables
+        transf_th = A[1,0]
+        transf_x = float(h[0])
+        transf_y = float(h[1])
+
+        # TODO: Supposedly 
+
+        # Pose x y theta
         x, y, th = self.poses[-1,:]
-        x_p, y_p, th_p = rel_to_abs_pose([x,y,th], [float(h[0]), float(h[1]), A[1,0]])
+
+        # Convert from relative pose wrt to current robot position to absolute pose
+        x_p, y_p, th_p = rel_to_abs_pose([x,y,th], [transf_x, transf_y, transf_th])
         self.poses = np.vstack((self.poses, np.array([x_p, y_p, th_p])))
+
         print(f"Time {t}: [{x_p:.2f},{y_p:.2f},{th_p:.2f}]")
     
     def getPoseAtTime(self, t):
