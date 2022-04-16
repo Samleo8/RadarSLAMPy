@@ -111,20 +111,17 @@ def calculateTransform(
         src = srcCoords[i]
         target = targetCoords[i]
 
-        A[2 * i : 2 * i + 2, :] = np.array([[-src[1], 1, 0],
-                                            [src[0],  0, 1]])
+        A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1, 0], [src[0], 0, 1]])
         # is it y_0 - y_1 or -y_0 - y_1?
-        b[2 * i : 2 * i + 2, 0] = np.array([src[0] - target[0],
-                                            src[1] - target[1]])
+        b[2 * i:2 * i + 2,
+          0] = np.array([src[0] - target[0], src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
     x = np.linalg.inv(A.T @ A) @ A.T @ -b
 
     # Approximate least squares solution
-    R = np.array([[1, -float(x[0])],
-                  [float(x[0]), 1]])
+    R = np.array([[1, -float(x[0])], [float(x[0]), 1]])
     h = x[1:]
-
     '''
     # Iterative version: for precise R estimate
     num_iters = 0
@@ -171,15 +168,21 @@ def getTrackedPointsKLT(
     '''
     @brief Get tracked points using the OpenCV KLT algorithm given the
            src and target img, and points from the src img to track
-    @param[in] srcIimg Source image
-    @param[in] targetImg Target image
+
+    @param[in] srcIimg      (M x N) Source image
+    @param[in] targetImg    (M x N) Target image
     @param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)) @note [x, y] format
 
-    @return good_new    New points considered as good correspondences
-    @return good_old    Old points considered as good correspondences
-    @return bad_new     New points considered as bad correspondences 
-    @return bad_old     Old points considered as bad correspondences
-    @return correspondenceStatus    Status of correspondences (1 for valid, 0 for invalid/error) 
+    @note  Will append k more features if it finds that there are not enough features to track
+    @note  Will also prune away features. Hence might have K' points instead
+
+    @return good_new    (K'  x 2) New points considered as good correspondences
+    @return good_old    (K'  x 2) Old points considered as good correspondences
+
+    @return bad_new     (K'' x 2) New points considered as bad correspondences 
+    @return bad_old     (K'' x 2) Old points considered as bad correspondences
+    
+    @return correspondenceStatus    ((K + k) x 2) Status of correspondences (1 for valid, 0 for invalid/error) 
     '''
     # NOTE: conversion to float32 type necessary
     featurePtSrc = np.ascontiguousarray(blobCoordSrc[:, :2]).astype(np.float32)
@@ -244,7 +247,7 @@ if __name__ == "__main__":
     imgSavePath = os.path.join(".", "img", "track_klt_thresholding",
                                datasetName)
     trajSavePath = os.path.join(".", "img", "track_klt_thresholding",
-                               datasetName + '_traj')
+                                datasetName + '_traj')
 
     saveFeaturePath = os.path.join(
         imgSavePath.strip(os.path.sep) + f"_{imgNo}.npz")
@@ -273,7 +276,8 @@ if __name__ == "__main__":
     gtTrajPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
-    estTraj = Trajectory([initTimestamp],[*gtTraj.getPoseAtTime(initTimestamp)])
+    estTraj = Trajectory([initTimestamp],
+                         [*gtTraj.getPoseAtTime(initTimestamp)])
 
     good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
@@ -298,8 +302,14 @@ if __name__ == "__main__":
 
             # Outlier rejection
             if prev_good_old is not None:
+                # Check if increase in number of features
+                prev_old_size = prev_good_old.shape[0]
+                if nFeatures > prev_old_size:
+                    corrStatus = corrStatus[:prev_old_size + 1, :]
+
                 prev_good_old = prev_good_old[corrStatus]
-                good_old, good_new = rejectOutliersRadarGeometry(prev_good_old, good_old, good_new)
+                good_old, good_new = rejectOutliersRadarGeometry(
+                    prev_good_old, good_old, good_new)
 
             # Obtain transforms
             R, h = calculateTransform(good_old, good_new)
@@ -322,13 +332,16 @@ if __name__ == "__main__":
             plt.savefig(toSaveImgPath)
 
             plt.suptitle(f"Tracking on Image {imgNo:04d}")
-            plt.pause(0.01) # animation
+            plt.pause(0.01)  # animation
 
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
             estTraj.appendRelativePose(timestamp, R, h)
             toSaveImgPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
-            plotGtAndEstTrajectory(gtTraj, estTraj, imgNo, savePath=toSaveImgPath)
+            plotGtAndEstTrajectory(gtTraj,
+                                   estTraj,
+                                   imgNo,
+                                   savePath=toSaveImgPath)
 
             # Setup for next iteration
             blobCoord = good_new.copy()
