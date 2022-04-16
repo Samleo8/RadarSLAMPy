@@ -27,26 +27,26 @@ def rejectOutliersRadarGeometry(
     # Check for appended features by comparing lengths
     K_prev = prev_old_coord.shape[0]
     K = prev_coord.shape[0]
-    assert K_prev <= K, "There should only be appended or same number of features, not less"
+    assert K_prev <= K, f"There should only be appended or same number of features, not less ({K_prev} > {K})"
 
-    pruning_mask = np.ones((K, 1))
+    pruning_mask = np.ones(K, dtype=bool)
 
     # TODO: Actually perform outlier rejection, now only returning the same coordinate back
 
     # Ensures that pruning only is done on non-appended features
-    orig_prev_coord = prev_coord.copy()[:K_prev + 1, :]
-    orig_new_coord = new_coord.copy()[:K_prev + 1, :]
+    orig_prev_coord = prev_coord.copy()[:K_prev, :]
+    orig_new_coord = new_coord.copy()[:K_prev, :]
 
     # Obtain Euclidean distances between coordinate correspondences
     dist1sq = (orig_prev_coord - prev_old_coord)**2
-    dist1sq = np.sum(dist1sq, axis=1)[:, np.newaxis]  # (K x 1)
+    dist1sq = np.sum(dist1sq, axis=1)  # (K, )
 
     dist2sq = (orig_new_coord - orig_prev_coord)**2
-    dist2sq = np.sum(dist2sq, axis=1)[:, np.newaxis]  # (K x 1)
+    dist2sq = np.sum(dist2sq, axis=1)  # (K, )
 
     # Difference in distances
     dist_sq_diff = np.abs(dist1sq - dist2sq)
-    pruning_mask[:K_prev + 1, :] = (dist_sq_diff > DISTSQ_THRESHOLD)
+    pruning_mask[:K_prev] = (dist_sq_diff > DISTSQ_THRESHOLD)
 
     nRejected = K - np.count_nonzero(pruning_mask)
     print(f"Outliers Rejected: {nRejected} ({100 * nRejected/K:.2f}%)")

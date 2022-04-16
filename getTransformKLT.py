@@ -305,17 +305,20 @@ if __name__ == "__main__":
                 # Check if appended new features
                 prev_old_size = prev_good_old.shape[0]
                 if nFeatures > prev_old_size:
-                    corrStatus = corrStatus[:prev_old_size + 1, :]
+                    corrStatus = corrStatus[:prev_old_size, :]
+                    print(corrStatus.shape, prev_good_old.shape)
 
                 # Appended features should be handled here
-                prev_good_old = prev_good_old[corrStatus]
+                prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
+                print(prev_good_old.shape)
+
                 good_old, good_new = rejectOutliersRadarGeometry(
                     prev_good_old, good_old, good_new)
 
             # Obtain transforms
             R, h = calculateTransform(good_old, good_new)
 
-            print(f"R={R}\nh={h}")
+            # print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()
