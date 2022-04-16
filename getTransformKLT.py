@@ -302,11 +302,12 @@ if __name__ == "__main__":
 
             # Outlier rejection
             if prev_good_old is not None:
-                # Check if increase in number of features
+                # Check if appended new features
                 prev_old_size = prev_good_old.shape[0]
                 if nFeatures > prev_old_size:
                     corrStatus = corrStatus[:prev_old_size + 1, :]
 
+                # Appended features should be handled here
                 prev_good_old = prev_good_old[corrStatus]
                 good_old, good_new = rejectOutliersRadarGeometry(
                     prev_good_old, good_old, good_new)
