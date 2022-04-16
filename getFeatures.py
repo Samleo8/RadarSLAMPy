@@ -101,9 +101,10 @@ def appendNewFeatures(srcImg, oldFeaturesCoord):
     newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
     print("Added", newFeatureCoord.shape[0], "new features!")
 
+    featurePtSrc = np.vstack((oldFeaturesCoord, newFeatureCoord))
     # NOTE: Also remove duplicate features, will sort the array
-    featurePtSrc = np.unique(np.vstack((oldFeaturesCoord, newFeatureCoord)), axis=0)
-    featurePtSrc = np.ascontiguousarray(featurePtSrc).astype(np.float32)
+    _, idx = np.unique(featurePtSrc, axis=0, return_index=True)
+    featurePtSrc = np.ascontiguousarray(featurePtSrc[np.sort(idx)]).astype(np.float32)
 
     # TODO: Recalculate threshold for feature retracking?
     nFeatures = featurePtSrc.shape[0]
