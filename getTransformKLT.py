@@ -1,14 +1,13 @@
 import shutil
-from cairo import Status
 import numpy as np
 import cv2
 import os, sys
-from getFeatures import getFeatures, appendNewFeatures
+from getFeatures import appendNewFeatures
 
 import matplotlib.pyplot as plt
 from outlierRejection import rejectOutliersRadarGeometry
 
-from parseData import getCartImageFromImgPaths, getRadarImgPaths
+from parseData import getCartImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTION_M
 from utils import tic, toc
 
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
@@ -121,7 +120,7 @@ def calculateTransform(
 
     # Approximate least squares solution
     R = np.array([[1, -float(x[0])], [float(x[0]), 1]])
-    h = x[1:]
+    h = x[1:] * RANGE_RESOLUTION_M
     '''
     # Iterative version: for precise R estimate
     num_iters = 0

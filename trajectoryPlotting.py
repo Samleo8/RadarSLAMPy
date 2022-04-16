@@ -26,8 +26,6 @@ class Trajectory():
         transf_x = float(h[0])
         transf_y = float(h[1])
 
-        # TODO: Supposedly 
-
         # Pose x y theta
         x, y, th = self.poses[-1,:]
 
@@ -37,7 +35,7 @@ class Trajectory():
 
         print(f"Time {t}: [{x_p:.2f},{y_p:.2f},{th_p:.2f}]")
     
-    def getPoseAtTime(self, t):
+    def getPoseAtTime(self, times):
         '''
         @brief Given timestamps, return the pose at that time using cubic interpolation
         @param[in] t float or np.ndarray of timestamps
@@ -46,10 +44,13 @@ class Trajectory():
             self.interpX = scipy.interpolate.interp1d(self.timestamps, self.poses[:,0], kind='cubic', bounds_error=False)
             self.interpY = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
             self.interpTH = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
-            return np.vstack((self.interpX(t), self.interpY(t), self.interpTH(t))).T
+            return np.vstack((self.interpX(times), self.interpY(times), self.interpTH(times))).T
         except:
-            print("Error: Could not interpolate trajectory")
-            return np.zeros((len(t), 3))
+            print("Warning: Could not interpolate trajectory")
+            poses = np.zeros((len(times), 3))
+            for i,t in enumerate(times):
+                poses[i,:] = self.poses[np.argmin(np.abs(self.timestamps - t))]
+            return poses
 
     def plotTrajectory(self, block=False):
         fig = plt.figure()

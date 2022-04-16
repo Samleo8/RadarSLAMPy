@@ -9,4 +9,4 @@ for fname in sorted(
 ):
     print(fname)
     images.append(imageio.imread(fname))
-imageio.mimsave("track_klt_thresholding/full_seq_1_traj.gif", images, fps=10)
+imageio.mimsave("track_klt_thresholding/full_seq_1_traj_1.gif", images, fps=10)
