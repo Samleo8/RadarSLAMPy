@@ -1,10 +1,12 @@
 import shutil
+from cairo import Status
 import numpy as np
 import cv2
 import os, sys
 from getFeatures import getFeatures, appendNewFeatures
 
 import matplotlib.pyplot as plt
+from outlierRejection import rejectOutliersRadarGeometry
 
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
 from utils import tic, toc
@@ -165,7 +167,7 @@ def calculateTransform(
 
 def getTrackedPointsKLT(
     srcImg: np.ndarray, targetImg: np.ndarray, blobCoordSrc: np.ndarray
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     '''
     @brief Get tracked points using the OpenCV KLT algorithm given the
            src and target img, and points from the src img to track
@@ -173,7 +175,11 @@ def getTrackedPointsKLT(
     @param[in] targetImg Target image
     @param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)) @note [x, y] format
 
-    @return good_new, good_old, bad_new, bad_old
+    @return good_new    New points considered as good correspondences
+    @return good_old    Old points considered as good correspondences
+    @return bad_new     New points considered as bad correspondences 
+    @return bad_old     Old points considered as bad correspondences
+    @return correspondenceStatus    Status of correspondences (1 for valid, 0 for invalid/error) 
     '''
     # NOTE: conversion to float32 type necessary
     featurePtSrc = np.ascontiguousarray(blobCoordSrc[:, :2]).astype(np.float32)
@@ -216,7 +222,7 @@ def getTrackedPointsKLT(
         print("[ERROR] Completely bad features!")
         # TODO: Maybe re-run with new features?
 
-    return good_new, good_old, bad_new, bad_old
+    return good_new, good_old, bad_new, bad_old, correspondenceStatus
 
 
 if __name__ == "__main__":
@@ -269,13 +275,17 @@ if __name__ == "__main__":
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
     estTraj = Trajectory([initTimestamp],[*gtTraj.getPoseAtTime(initTimestamp)])
 
+    good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
         try:
             start = tic()
             currImg = getCartImageFromImgPaths(imgPathArr, imgNo)
 
+            # Need previous good and old correspondences to perform outlier rejection
+            prev_good_old = good_old
+
             # Obtain Point Correspondences
-            good_new, good_old, bad_new, bad_old = \
+            good_new, good_old, bad_new, bad_old, corrStatus = \
                 getTrackedPointsKLT(prevImg, currImg, blobCoord)
 
             nGoodFeatures = good_new.shape[0]
@@ -285,6 +295,11 @@ if __name__ == "__main__":
             print(
                 f"{imgNo} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%) | Time: {toc(start):.2f}s"
             )
+
+            # Outlier rejection
+            if prev_good_old is not None:
+                prev_good_old = prev_good_old[corrStatus]
+                good_old, good_new = rejectOutliersRadarGeometry(prev_good_old, good_old, good_new)
 
             # Obtain transforms
             R, h = calculateTransform(good_old, good_new)
