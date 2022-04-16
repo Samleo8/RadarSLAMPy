@@ -1,6 +1,7 @@
 import numpy as np
 
-DISTSQ_THRESHOLD = 10 # NOTE: this is Euclid distance squared
+# TODO: Tune this
+DISTSQ_THRESHOLD = 16 # NOTE: this is Euclid distance squared (i.e. 16 = ~4 px of error allowed)
 
 def rejectOutliersRadarGeometry(
         prev_old_coord: np.ndarray, prev_coord: np.ndarray,
