@@ -1,8 +1,12 @@
 import numpy as np
 
 # TODO: Tune this
-DISTSQ_THRESHOLD = 16  # NOTE: this is Euclid distance squared (i.e. 16 = ~4 px of error allowed)
+DIST_THRESHOLD = 5 # Euclidean distance threshold
+# NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
+DISTSQ_THRESHOLD = DIST_THRESHOLD * DIST_THRESHOLD
 
+# For plotting/visualizing ransac
+DO_PLOT=True
 
 def rejectOutliersRadarGeometry(
         prev_old_coord: np.ndarray, prev_coord: np.ndarray,
@@ -82,7 +86,12 @@ def findLargestCluster1D(data: np.ndarray,
 
 def rejectOutliersRansacDist(
         prev_coord: np.ndarray,
-        new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        new_coord: np.ndarray,
+        n_iters: int = 15,
+        n_try_points_percentage: float = 0.85,
+        min_valid_percentage: float = 0.85,
+        dist_thresh: float = DISTSQ_THRESHOLD
+) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Find the largest 1D "cluster" of 1D points within certain threshold, and reject outliers accordingly
     '''
@@ -92,8 +101,44 @@ def rejectOutliersRansacDist(
     deltas2 = deltas**2
 
     dist2 = np.sum(deltas2, axis=1)
+    allmean = dist2.mean()
 
-    pruning_mask = findLargestCluster1D(dist2)
+    # Basic RANSAC Algorithm
+    # Want to find best "cluster" which has a mean of mu and variance/error of dist_thresh
+    N = deltas.shape[0]
+    n_try_points = int(n_try_points_percentage * N)
+    min_valid_points = int(min_valid_percentage * N)
+
+    if DO_PLOT:
+        import matplotlib.pyplot as plt
+        plt.clf()
+
+    ind_range = np.arange(N)
+
+    for it in range(n_iters):
+        if DO_PLOT:
+            # Background
+            plt.scatter(ind_range, dist2, color='blue', label='full')
+
+        # Find maybe inliners
+        maybeInliners_ind = np.random.choice(ind_range, size=n_try_points, replace=False)
+        maybeInliners = dist2[maybeInliners_ind]
+
+        # Find mu (which is the mean/"model" in this case)
+        mu = maybeInliners.mean()
+
+        if DO_PLOT:
+            plt.scatter(maybeInliners_ind, maybeInliners, marker='+', color='red', label='maybeInliner')
+            plt.axhline(y=mu, color='red',linestyle='dashed', label='mean')
+            plt.axhline(y=allmean,
+                        color='blue',
+                        linestyle='dashed',
+                        label='orig mean')
+            plt.show()
+
+        print(maybeInliners)
+
+    # pruning_mask = findLargestCluster1D(dist2)
 
     pruned_prev_coord = prev_coord[pruning_mask]
     pruned_new_coord = new_coord[pruning_mask]
@@ -119,20 +164,20 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
     @return pruned_new_coord    (k x 2) Pruned current/new coordinates
     '''
 
-    np.savez("outlier_test.npy",
+    np.savez("outlier_test.npz",
              prev_old_coord=prev_old_coord,
              prev_coord=prev_coord,
              new_coord=new_coord)
 
     good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
                                                      prev_coord, new_coord)
-    rejectOutliersRansacDist(good_old, good_new)
+    # rejectOutliersRansacDist(good_old, good_new)
 
     return good_old, good_new
 
 
 if __name__ == "__main__":
-    with np.load("outlier_test.npy") as data:
+    with np.load("outlier_test.npz") as data:
         prev_coord = data["prev_coord"]
         new_coord = data["new_coord"]
         prev_old_coord = data["prev_old_coord"]
