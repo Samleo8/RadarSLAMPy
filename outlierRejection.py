@@ -1,5 +1,6 @@
 import numpy as np
 from parseData import RANGE_RESOLUTION_CART_M  # m per px
+from getFeatures import N_FEATURES_BEFORE_RETRACK
 
 # TODO: Tune this
 DIST_THRESHOLD_M = 3  # why is the variance so fking high
@@ -44,8 +45,6 @@ def rejectOutliersRadarGeometry(
 
     pruning_mask = np.ones(K, dtype=bool)
 
-    # TODO: Actually perform outlier rejection, now only returning the same coordinate back
-
     # Ensures that pruning only is done on non-appended features
     orig_prev_coord = prev_coord.copy()[:K_prev, :]
     orig_new_coord = new_coord.copy()[:K_prev, :]
@@ -62,7 +61,7 @@ def rejectOutliersRadarGeometry(
     pruning_mask[:K_prev] = (dist_sq_diff > DISTSQ_THRESHOLD_PX)
 
     nRejected = K - np.count_nonzero(pruning_mask)
-    print(f"Outliers Rejected: {nRejected} ({100 * nRejected/K:.2f}%)")
+    print(f"Geometry-Based Outliers Rejected: {nRejected} ({100 * nRejected/K:.2f}%)")
 
     # Return pruned coordinates
     pruned_prev_coord = prev_coord[pruning_mask]
@@ -111,14 +110,18 @@ def rejectOutliersRansacDist(
 
     # Basic RANSAC Algorithm
     # Want to find best "cluster" which has a mean of mu and variance/error of dist_thresh
-    N = deltas.shape[0]
-    n_try_points = int(n_try_points_percentage * N)
-    min_valid_points = int(min_valid_percentage * N)
+    K = deltas.shape[0]
+    n_try_points = int(n_try_points_percentage * K)
+    min_valid_points = int(min_valid_percentage * K)
+
+    if K < N_FEATURES_BEFORE_RETRACK:
+        print("Too few features, will not perform distance RANSAC!")
+        return prev_coord, new_coord
 
     if DO_PLOT:
         import matplotlib.pyplot as plt
 
-    ind_range = np.arange(N)
+    ind_range = np.arange(K)
 
     # Find best error and "model" (mean)
     bestError = np.inf
@@ -242,10 +245,14 @@ def rejectOutliersRansacDist(
         plt.tight_layout()
         plt.legend()
 
-        plt.show()
+        plt.pause(0.01)
 
     pruned_prev_coord = prev_coord[pruning_mask]
     pruned_new_coord = new_coord[pruning_mask]
+
+    # Calculate how many rejections
+    nRejected = K - pruned_new_coord.shape[0]
+    print(f"Dist-Based Outliers Rejected: {nRejected} ({100 * nRejected / K:.2f}%)")
 
     return pruned_prev_coord, pruned_new_coord
 
