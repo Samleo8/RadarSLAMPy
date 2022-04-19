@@ -1,12 +1,15 @@
 import numpy as np
+from parseData import RANGE_RESOLUTION_CART_M  # m per px
 
 # TODO: Tune this
-DIST_THRESHOLD = 20 # Euclidean distance threshold
+DIST_THRESHOLD_M = 3  # why is the variance so fking high
+DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean distance threshold
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
-DISTSQ_THRESHOLD = DIST_THRESHOLD * DIST_THRESHOLD
+DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 # For plotting/visualizing ransac
-DO_PLOT=True
+DO_PLOT = True
+
 
 def rejectOutliersRadarGeometry(
         prev_old_coord: np.ndarray, prev_coord: np.ndarray,
@@ -52,7 +55,7 @@ def rejectOutliersRadarGeometry(
 
     # Difference in distances
     dist_sq_diff = np.abs(dist1sq - dist2sq)
-    pruning_mask[:K_prev] = (dist_sq_diff > DISTSQ_THRESHOLD)
+    pruning_mask[:K_prev] = (dist_sq_diff > DISTSQ_THRESHOLD_PX)
 
     nRejected = K - np.count_nonzero(pruning_mask)
     print(f"Outliers Rejected: {nRejected} ({100 * nRejected/K:.2f}%)")
@@ -65,7 +68,7 @@ def rejectOutliersRadarGeometry(
 
 
 def findLargestCluster1D(data: np.ndarray,
-                         max_diff=DISTSQ_THRESHOLD) -> np.ndarray:
+                         max_diff=DISTSQ_THRESHOLD_PX) -> np.ndarray:
     '''
     @brief Find largest "cluster" in 1D array by sorting and thresholding
     @param[in] data (N x 1) array of 1D data to find cluster
@@ -87,13 +90,13 @@ def findLargestCluster1D(data: np.ndarray,
 def rejectOutliersRansacDist(
         prev_coord: np.ndarray,
         new_coord: np.ndarray,
-        n_iters: int = 15,
-        n_try_points_percentage: float = 0.5,
-        min_valid_percentage: float = 0.85,
-        dist_thresh: float = DISTSQ_THRESHOLD
+        n_iters: int = 20,
+        n_try_points_percentage: float = 0.3,
+        min_valid_percentage: float = 0.75,
+        dist_thresh: float = DISTSQ_THRESHOLD_PX
 ) -> tuple[np.ndarray, np.ndarray]:
     '''
-    @brief Find the largest 1D "cluster" of 1D points within certain threshold, and reject outliers accordingly
+    @brief Using RANSAC, find the best mean of 1D distances within certain threshold, and reject outliers accordingly
     '''
 
     # Use distance as form of thresholding
@@ -101,7 +104,6 @@ def rejectOutliersRansacDist(
     deltas2 = deltas**2
 
     dist2 = np.sum(deltas2, axis=1)
-    allmean = dist2.mean()
 
     # Basic RANSAC Algorithm
     # Want to find best "cluster" which has a mean of mu and variance/error of dist_thresh
@@ -111,42 +113,132 @@ def rejectOutliersRansacDist(
 
     if DO_PLOT:
         import matplotlib.pyplot as plt
-        plt.clf()
 
     ind_range = np.arange(N)
 
-    for it in range(n_iters):
+    # Find best error and "model" (mean)
+    bestError = np.inf
+    bestMean = dist2.mean()
+
+    for _ in range(n_iters):
         if DO_PLOT:
+            plt.clf()
+
             # Background
-            plt.scatter(ind_range, dist2, color='blue', label='full')
+            plt.scatter(ind_range,
+                        dist2,
+                        color='blue',
+                        alpha=0.5,
+                        label='full')
 
         # Find maybe inliners
         perm_ind = np.random.permutation(ind_range)
-        maybeInliners_ind = perm_ind[:n_try_points]
-        maybeInliners = dist2[maybeInliners_ind]
-        
-        otherInliners = perm_ind[n_try_points:]
+        maybeInliersInd = perm_ind[:n_try_points]
+        maybeInliers = dist2[maybeInliersInd]
+
+        # Get the all possible other inliners
+        otherInliersInd = perm_ind[n_try_points:]
+        otherInliers = dist2[otherInliersInd]
 
         # Find mu (which is the mean/"model" in this case)
-        mu = maybeInliners.mean()
-        thresh = (otherInliners <= (mu - dist_thresh)) & (otherInliners <= (mu + dist_thresh))
+        mu = maybeInliers.mean()
+        mu_low = mu - dist_thresh
+        mu_high = mu + dist_thresh
+        thresh = (mu_low <= otherInliers) & (otherInliers <= mu_high)
+
+        # Get actual other inliners
+        otherInliersInd = otherInliersInd[thresh]
+        otherInliers = dist2[otherInliersInd]
+
+        nTotalInliers = otherInliersInd.shape[0] + n_try_points
+
+        # Potentially valid model
+        if nTotalInliers > min_valid_points:
+            inlierPointsInd = np.hstack([maybeInliersInd, otherInliersInd])
+            inlierPoints = dist2[inlierPointsInd]
+
+            # Get the actually inlier points given the mean for figuring out the error
+            newMean = inlierPoints.mean()
+
+            mu_low = newMean - dist_thresh
+            mu_high = newMean + dist_thresh
+            thresh = (mu_low <= inlierPoints) & (inlierPoints <= mu_high)
+            inlierPoints = dist2[inlierPointsInd[thresh]]
+
+            newError = np.abs(inlierPoints - newMean).sum()
+
+            if newError < bestError:
+                bestError = newError
+                bestMean = newMean
+
+                print(f"Better mean {bestMean} found, with err {bestError}!")
 
         if DO_PLOT:
-            plt.scatter(maybeInliners_ind, maybeInliners, marker='+', color='red', label='maybeInliner')
-            plt.axhline(y=mu, color='red',linestyle='dashed', label='mean')
-            plt.axhline(y=allmean+DISTSQ_THRESHOLD,
-                        color='blue',
+            plt.scatter(maybeInliersInd,
+                        maybeInliers,
+                        marker='+',
+                        color='red',
+                        label='maybeInliner')
+
+            plt.scatter(otherInliersInd,
+                        otherInliers,
+                        marker='x',
+                        color='green',
+                        label='otherInliner')
+
+            plt.axhline(y=mu,
+                        color='red',
                         linestyle='dashed',
-                        label='orig mean upper')
-            plt.axhline(y=allmean-DISTSQ_THRESHOLD,
-                color='blue',
-                linestyle='dashed',
-                label='orig mean low')
-            plt.show()
+                        alpha=0.4,
+                        label='mean')
+            plt.axhline(y=mu_low,
+                        color='red',
+                        linestyle='dashed',
+                        label='upper')
+            plt.axhline(y=mu_high,
+                        color='red',
+                        linestyle='dashed',
+                        label='lower')
+            plt.legend()
+            plt.tight_layout()
 
-        print(maybeInliners)
+            plt.pause(0.01)
 
-    # pruning_mask = findLargestCluster1D(dist2)
+    # Obtain the actual inliers using the best mean
+    mu_low = bestMean - dist_thresh
+    mu_high = bestMean + dist_thresh
+    pruning_mask = (mu_low <= dist2) & (dist2 <= mu_high)
+
+    print("Final (actual) best mean:", dist2[pruning_mask].mean())
+
+    if DO_PLOT: # DO_PLOT:
+        import matplotlib.pyplot as plt
+
+        print("Plotting final mean...")
+        plt.close()
+        plt.clf()
+
+        # Background
+        plt.scatter(ind_range, dist2, color='blue', alpha=0.5, label='full')
+
+        # Final means
+        plt.scatter(ind_range[pruning_mask],
+                    dist2[pruning_mask],
+                    color='green',
+                    alpha=0.5,
+                    label='final inliers')
+
+        plt.axhline(y=bestMean,
+                    color='green',
+                    linestyle='dashed',
+                    alpha=0.4,
+                    label='mean')
+        plt.axhline(y=mu_low, color='green', linestyle='dashed', label='upper')
+        plt.axhline(y=mu_high, color='green', linestyle='dashed', label='lower')
+        plt.tight_layout()
+        plt.legend()
+
+        plt.show()
 
     pruned_prev_coord = prev_coord[pruning_mask]
     pruned_new_coord = new_coord[pruning_mask]
@@ -179,12 +271,14 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
 
     good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
                                                      prev_coord, new_coord)
-    # rejectOutliersRansacDist(good_old, good_new)
+    good_old, good_new = rejectOutliersRansacDist(good_old, good_new, n_iters=20)
 
     return good_old, good_new
 
 
 if __name__ == "__main__":
+    print(f"Distance threshold: {DIST_THRESHOLD_M}[m] {DIST_THRESHOLD_PX}[px]")
+
     with np.load("outlier_test.npz") as data:
         prev_coord = data["prev_coord"]
         new_coord = data["new_coord"]
