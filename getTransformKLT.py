@@ -112,10 +112,10 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     t = -R @ t
 
     print(
-        f"Est distance: \n\t{dist:.2f}[px]\n\t{dist * RANGE_RESOLUTION_CART_M:.2f}[m]"
+        f"Est distance: \n\t{dist:.2f} [px]\n\t{dist * RANGE_RESOLUTION_CART_M:.2f} [m]"
     )
 
-    print(f"Est theta: \n\t{theta:.2f}[deg]\n\t{np.rad2deg(theta):.2f}")
+    print(f"Est theta: \n\t{theta:.2f} [rad]\n\t{np.rad2deg(theta):.2f} [deg]")
 
     return R, t
 
