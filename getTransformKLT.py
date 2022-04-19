@@ -13,6 +13,8 @@ from utils import tic, toc
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import radarImgPathToTimestamp
 
+PLOT_BAD_FEATURES = False
+
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
                         prevFeatureCoord: np.ndarray,
@@ -88,9 +90,14 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     deltas = (srcCoords - targetCoords)
     deltaAvg = np.mean(deltas, axis=0)
     deltaStdDev = np.std(deltas, axis=0)
-    
-    print("Estimated global frame x, y translation\n\t[px]:", deltaAvg)
+
+    print("Estimated global frame x, y translation")
+    print("\t[px]:", deltaAvg)
     print("\t[m]:", deltaAvg * RANGE_RESOLUTION_CART_M)
+
+    print("Deltas StdDev:")
+    print("\t[px]:", deltaStdDev)
+    print("\t[m]:", deltaStdDev * RANGE_RESOLUTION_CART_M)
 
     deltaX, deltaY = deltaAvg
 
@@ -366,13 +373,12 @@ if __name__ == "__main__":
             plt.clf()
             visualize_transform(prevImg, currImg, good_old, good_new)
 
-            if nBadFeatures > 0:
+            if PLOT_BAD_FEATURES and nBadFeatures > 0:
                 visualize_transform(None,
                                     None,
                                     bad_old,
                                     bad_new,
-                                    alpha=0,
-                                    # alpha=0.4,
+                                    alpha=0.4,
                                     extraLabel=" (Bad Correspondences)")
 
             toSaveImgPath = os.path.join(imgSavePath, f"{imgNo:04d}.jpg")
