@@ -300,6 +300,9 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
 if __name__ == "__main__":
     print(f"Distance threshold: {DIST_THRESHOLD_M} [m] {DIST_THRESHOLD_PX:.2f} [px]")
 
+    DO_PLOT = True
+    # PLOT_FINAL_ONLY = True
+
     with np.load("outlier_test.npz") as data:
         prev_coord = data["prev_coord"]
         new_coord = data["new_coord"]
