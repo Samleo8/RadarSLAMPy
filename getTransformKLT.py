@@ -5,7 +5,7 @@ import os, sys
 from getFeatures import appendNewFeatures
 
 import matplotlib.pyplot as plt
-from outlierRejection import rejectOutliersRadarGeometry
+from outlierRejection import rejectOutliers
 
 from parseData import getCartImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTION_CART_M
 from utils import tic, toc
@@ -87,6 +87,10 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     '''
     deltas = (srcCoords - targetCoords)
     deltaAvg = np.mean(deltas, axis=0)
+    deltaStdDev = np.std(deltas, axis=0)
+    
+    # TODO: Outlier rejection?
+    coordDist = 
 
     print("Estimated global frame x, y translation\n\t[px]:", deltaAvg)
     print("\t[m]:", deltaAvg * RANGE_RESOLUTION_CART_M)
@@ -352,8 +356,7 @@ if __name__ == "__main__":
                 prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
                 print(prev_good_old.shape)
 
-                good_old, good_new = rejectOutliersRadarGeometry(
-                    prev_good_old, good_old, good_new)
+                good_old, good_new = rejectOutliers(prev_good_old, good_old, good_new)
 
             # Obtain transforms
             # R, h = calculateTransform(good_old, good_new)

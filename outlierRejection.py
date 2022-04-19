@@ -1,7 +1,8 @@
 import numpy as np
 
 # TODO: Tune this
-DISTSQ_THRESHOLD = 16 # NOTE: this is Euclid distance squared (i.e. 16 = ~4 px of error allowed)
+DISTSQ_THRESHOLD = 16  # NOTE: this is Euclid distance squared (i.e. 16 = ~4 px of error allowed)
+
 
 def rejectOutliersRadarGeometry(
         prev_old_coord: np.ndarray, prev_coord: np.ndarray,
@@ -57,3 +58,15 @@ def rejectOutliersRadarGeometry(
     pruned_new_coord = new_coord[pruning_mask]
 
     return pruned_prev_coord, pruned_new_coord
+
+
+def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
+                   new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    '''
+        @brief Reject outliers using combination of various methods
+        '''
+
+    good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
+                                                     prev_coord, new_coord)
+
+    return good_old, good_new

@@ -39,7 +39,7 @@ def extractDataFromRadarImage(
 
     azimuth_resolution = azimuths[1] - azimuths[0]
 
-    print(range_azimuth_data.shape, polarImgData.shape)
+    # print(range_azimuth_data.shape, polarImgData.shape)
 
     return range_azimuth_data, azimuths, range_resolution, azimuth_resolution, valid, timestamps
 
