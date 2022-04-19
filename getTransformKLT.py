@@ -7,14 +7,11 @@ from getFeatures import appendNewFeatures
 import matplotlib.pyplot as plt
 from outlierRejection import rejectOutliersRadarGeometry
 
-from parseData import getCartImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTION_M
+from parseData import getCartImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTION_CART_M
 from utils import tic, toc
 
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import radarImgPathToTimestamp
-
-# TODO: Find and fix actual range resolution
-RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
@@ -105,7 +102,7 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     t = np.array((dist, 0))[:, np.newaxis]
 
     # Scale resolution
-    t *= RANGE_RESOLUTION_M * 2
+    t *= RANGE_RESOLUTION_CART_M
 
     # TODO: Invert transform
     R = R.T

@@ -5,8 +5,11 @@ import os, sys
 
 from Coord import CartCoord
 
-RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm)
+RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm per pixel)
 
+# TODO: Find and fix actual range resolution
+DOWNSAMPLE_FACTOR = 2
+RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
 
 def extractDataFromRadarImage(
     polarImgData: np.ndarray
@@ -36,6 +39,8 @@ def extractDataFromRadarImage(
 
     azimuth_resolution = azimuths[1] - azimuths[0]
 
+    print(range_azimuth_data.shape, polarImgData.shape)
+
     return range_azimuth_data, azimuths, range_resolution, azimuth_resolution, valid, timestamps
 
 
@@ -60,12 +65,14 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     '''
     w, h = imgPolar.shape
 
-    maxRadius = w
+    maxRadius = h // DOWNSAMPLE_FACTOR
     cartSize = (maxRadius * 2, maxRadius * 2)
     center = tuple(np.array(cartSize) / 2)
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
+
+    RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
 
     return imgCart
 
