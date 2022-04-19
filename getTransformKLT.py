@@ -13,6 +13,8 @@ from utils import tic, toc
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import radarImgPathToTimestamp
 
+# TODO: Find and fix actual range resolution
+RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
@@ -89,7 +91,9 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     deltas = (srcCoords - targetCoords)
     deltaAvg = np.mean(deltas, axis=0)
 
-    print("Estimated global frame x, y translation (px):", deltaAvg)
+    print("Estimated global frame x, y translation\n\t[px]:", deltaAvg)
+    print("\t[m]:", deltaAvg * RANGE_RESOLUTION_CART_M)
+
     deltaX, deltaY = deltaAvg
 
     theta = np.arctan2(deltaY, deltaX)
@@ -107,7 +111,11 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     R = R.T
     t = -R @ t
 
-    print(f"est distance: {dist}, est theta: {theta}")
+    print(
+        f"Est distance: \n\t{dist:.2f}[px]\n\t{dist * RANGE_RESOLUTION_CART_M:.2f}[m]"
+    )
+
+    print(f"Est theta: \n\t{theta:.2f}[deg]\n\t{np.rad2deg(theta):.2f}")
 
     return R, t
 
@@ -156,7 +164,7 @@ def calculateTransform(
     R = np.array([[cth, -sth], [sth, cth]])
     print(f"Pixel displacement: {x[1:]}")
 
-    h = x[1:] * RANGE_RESOLUTION_M
+    h = x[1:] * RANGE_RESOLUTION_CART_M
     '''
     # Iterative version: for precise R estimate
     num_iters = 0
@@ -383,7 +391,7 @@ if __name__ == "__main__":
                                    estTraj,
                                    imgNo,
                                    savePath=toSaveImgPath)
-            
+
             # Setup for next iteration
             blobCoord = good_new.copy()
             prevImg = np.copy(currImg)
@@ -405,12 +413,15 @@ if __name__ == "__main__":
     # Also remove folder of images to save space
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
+        # Save video sequence
         os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
             shutil.rmtree(imgSavePath)
             print("Old results folder removed.")
+
+        # Save
     except:
         print(
             "Failed to generate mp4 with script. Likely failed system requirements."
