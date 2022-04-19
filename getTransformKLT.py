@@ -107,19 +107,20 @@ def calculateTransform(
 
     # TODO: Please make this numpy vectorized
     for i in range(N):
-        src = srcCoords[i]
-        target = targetCoords[i]
-
+        src = np.flip(srcCoords[i])
+        target = np.flip(targetCoords[i])
+        # Convention: x = [lambda, hx, hy]
         A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1, 0], [src[0], 0, 1]])
         # is it y_0 - y_1 or -y_0 - y_1?
-        b[2 * i:2 * i + 2,
-          0] = np.array([src[0] - target[0], src[1] - target[1]])
+        b[2 * i:2 * i + 2, 0] = np.array([src[0] - target[0], src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
     x = np.linalg.inv(A.T @ A) @ A.T @ -b
 
     # Approximate least squares solution
-    R = np.array([[1, -float(x[0])], [float(x[0]), 1]])
+    theta = x[0]
+    R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+    print(f"Pixel displacement: {x[1:]}")
     h = x[1:] * RANGE_RESOLUTION_M
     '''
     # Iterative version: for precise R estimate

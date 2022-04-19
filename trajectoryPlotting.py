@@ -15,22 +15,65 @@ class Trajectory():
         '''
         self.timestamps = np.array(timestamps)
         self.poses = np.array(poses)
+        x = self.poses[-1, 0]
+        y = self.poses[-1, 1]
+        theta = self.poses[-1, 2]
+        first_pose_matrix_gt = np.array([[np.cos(theta), -np.sin(theta), x],
+                                        [np.sin(theta), np.cos(theta), y],
+                                        [0, 0, 1]])
+        self.pose_matrix = np.array([first_pose_matrix_gt]) # N x 3 x 3
     
+    '''
+    Ax_1 + b = x_0
+    => x_1 = A^-1(x_0 - b)
+    A_prime  [A h]
+             [0 1]
+    A_prime^-1 @ prev_pose = new_pose
+
+    A_prime^-1 : transformation from the old robot frame to the new robot frame
+    initial: global frame == robot_frame_0
+    pose_i = A_primei^-1 @ A_prime{i-1}^-1 @ A_prime{i-2}^-1 ... @ I
+    pose: 
+    [R t]
+    [0 1]
+    initial:
+    [100]
+    [010]
+    [001]
+    '''
     def appendRelativePose(self, t, A, h):
         # Add to timestamps
         self.timestamps = np.append(self.timestamps, t)
         
         # not sure im computing p_{t+1} correctly given A, h
         # Get all the relevant transform variables
-        transf_th = A[1,0]
+        transf_th = float(np.arctan2(A[0,0], A[1,0]))
         transf_x = float(h[0])
         transf_y = float(h[1])
+        print(f"theta: {transf_th:.04f}, dx: {transf_x:.04f}, dy: {transf_y:.04f}")
 
-        # Pose x y theta
+        # Previous pose x y theta
         x, y, th = self.poses[-1,:]
-
+        last_pose_matrix = self.pose_matrix[-1, :, :]
+        new_transform = np.block([[A,               h],
+                                  [np.zeros((1,2)), np.ones((1,1))]])
+        new_pose_matrix = np.linalg.inv(new_transform) @ last_pose_matrix
+        self.pose_matrix = np.concatenate((self.pose_matrix,
+                                        np.expand_dims(new_pose_matrix, axis=0)),
+                                          axis = 0)
+        
+        
         # Convert from relative pose wrt to current robot position to absolute pose
-        x_p, y_p, th_p = rel_to_abs_pose([x,y,th], [transf_x, transf_y, transf_th])
+        #x_p, y_p, th_p = rel_to_abs_pose([x,y,th], [transf_x, transf_y, transf_th])
+        
+        x_prime = x - transf_x
+        y_prime = y - transf_y
+        state = np.array([x_prime, y_prime])
+        new_state = np.linalg.inv(A) @ state
+        x_p = new_state[0]
+        y_p = new_state[1]
+        th_p = normalize_angles(th - transf_th)
+
         self.poses = np.vstack((self.poses, np.array([x_p, y_p, th_p])))
 
         print(f"Time {t}: [{x_p:.2f},{y_p:.2f},{th_p:.2f}]")
@@ -135,15 +178,19 @@ def plotGtAndEstTrajectory(gtTraj, estTraj, title, savePath=None):
     latestTimestamp = estTraj.timestamps[-1]
     timestamps = [x for x in gtTraj.timestamps if earliestTimestamp <= x <= latestTimestamp]
     gtPoses = gtTraj.getPoseAtTime(timestamps)
-    estPoses = estTraj.getPoseAtTime(timestamps)
+    #estPoses = estTraj.getPoseAtTime(timestamps)
+    estPosesX = estTraj.pose_matrix[:, 0, 2] # slices all X positions, matrix[0,2]
+    estPosesY = estTraj.pose_matrix[:, 1, 2]
     plt.plot(gtPoses[:,0], gtPoses[:,1], 'b-', label='Ground Truth')
-    plt.plot(estPoses[:,0], estPoses[:,1], 'r-', label='Estimated')
+    #plt.plot(estPoses[:,0], estPoses[:,1], 'r-', label='Estimated')
+    plt.plot(estPosesX, estPosesY, 'r-', label='Estimated')
     plt.xlabel('x [m]')
     plt.ylabel('y [m]')
     plt.grid(True)
     plt.legend()
     plt.axis('square')
-    plt.title(f'{title}: RMSE={computeRMSE(gtPoses, estPoses):.2f}')
+    #plt.title(f'{title}: RMSE={computeRMSE(gtPoses, estPoses):.2f}')
+    #plt.title(f'{title}: RMSE={computeRMSE(gtPoses, np.hstack((estPosesX, estPosesY))):.2f}')
     if savePath:
         plt.savefig(savePath)
     # plt.show(block=False)
