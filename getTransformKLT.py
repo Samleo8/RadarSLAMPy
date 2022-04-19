@@ -386,11 +386,11 @@ if __name__ == "__main__":
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
             estTraj.appendRelativePose(timestamp, R, h)
-            toSaveImgPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
+            toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,
                                    imgNo,
-                                   savePath=toSaveImgPath)
+                                   savePath=toSaveTrajPath)
 
             # Setup for next iteration
             blobCoord = good_new.copy()
@@ -421,7 +421,13 @@ if __name__ == "__main__":
             shutil.rmtree(imgSavePath)
             print("Old results folder removed.")
 
-        # Save
+        # Save traj sequence
+        os.system(f"./img/mp4-from-folder.sh {trajSavePath}")
+        print(f"mp4 saved to {trajSavePath.strip(os.path.sep)}.mp4")
+
+        if REMOVE_OLD_RESULTS:
+            shutil.rmtree(trajSavePath)
+            print("Old trajectory results folder removed.")
     except:
         print(
             "Failed to generate mp4 with script. Likely failed system requirements."
