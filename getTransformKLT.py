@@ -81,6 +81,29 @@ LK_PARAMS = dict(
 ERR_THRESHOLD = 10  # TODO: Figure out what this is: somewhat arbitrary for now?
 
 
+def estimateTransformUsingDelats(srcCoords: np.ndarray,
+                                 targetCoords: np.ndarray):
+    '''
+    @brief Estimate KLT [x, y] frame translation by taking average of deltaX and deltaYs from source
+    '''
+    # TODO: Negative sign allows us to "invert" the transform
+    deltas = - (srcCoords - targetCoords)
+    deltaAvg = np.mean(deltas, axis=0)
+
+    print("Estimated global frame x, y translation (px):", deltaAvg)
+    deltaX, deltaY = deltaAvg
+
+    theta = np.arctan2(deltaY, deltaX)
+    dist = np.sqrt(deltaX**2 + deltaY**2)
+
+    cth = np.cos(theta)
+    sth = np.sin(theta)
+    R = np.array([[cth, -sth], [sth, cth]])
+    t = np.array((dist, 0))[:, np.newaxis]
+
+    return R, t
+
+
 def calculateTransform(
         srcCoords: np.ndarray,
         targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -320,7 +343,9 @@ if __name__ == "__main__":
                     prev_good_old, good_old, good_new)
 
             # Obtain transforms
-            R, h = calculateTransform(good_old, good_new)
+            # R, h = calculateTransform(good_old, good_new)
+
+            R, h = estimateTransformUsingDelats(good_old, good_new)
 
             # print(f"R={R}\nh={h}")
 
