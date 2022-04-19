@@ -86,8 +86,7 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     '''
     @brief Estimate KLT [x, y] frame translation by taking average of deltaX and deltaYs from source
     '''
-    # TODO: Negative sign allows us to "invert" the transform
-    deltas = - (srcCoords - targetCoords)
+    deltas = (srcCoords - targetCoords)
     deltaAvg = np.mean(deltas, axis=0)
 
     print("Estimated global frame x, y translation (px):", deltaAvg)
@@ -100,6 +99,15 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     sth = np.sin(theta)
     R = np.array([[cth, -sth], [sth, cth]])
     t = np.array((dist, 0))[:, np.newaxis]
+
+    # Scale resolution
+    t *= RANGE_RESOLUTION_M * 2
+
+    # TODO: Invert transform
+    R = R.T
+    t = -R @ t
+
+    print(f"est distance: {dist}, est theta: {theta}")
 
     return R, t
 
@@ -375,7 +383,7 @@ if __name__ == "__main__":
                                    estTraj,
                                    imgNo,
                                    savePath=toSaveImgPath)
-
+            
             # Setup for next iteration
             blobCoord = good_new.copy()
             prevImg = np.copy(currImg)
@@ -385,8 +393,8 @@ if __name__ == "__main__":
     # Destroy windows/clear
     cv2.destroyAllWindows()
 
-    if datasetName.startswith("tiny"):
-        exit()
+    # if datasetName.startswith("tiny"):
+    #     exit()
 
     # Save feature npz for continuation
     saveFeaturePath = os.path.join(
