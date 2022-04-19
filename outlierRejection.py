@@ -1,7 +1,7 @@
 import numpy as np
 
 # TODO: Tune this
-DIST_THRESHOLD = 5 # Euclidean distance threshold
+DIST_THRESHOLD = 20 # Euclidean distance threshold
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD = DIST_THRESHOLD * DIST_THRESHOLD
 
@@ -88,7 +88,7 @@ def rejectOutliersRansacDist(
         prev_coord: np.ndarray,
         new_coord: np.ndarray,
         n_iters: int = 15,
-        n_try_points_percentage: float = 0.85,
+        n_try_points_percentage: float = 0.5,
         min_valid_percentage: float = 0.85,
         dist_thresh: float = DISTSQ_THRESHOLD
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -121,19 +121,27 @@ def rejectOutliersRansacDist(
             plt.scatter(ind_range, dist2, color='blue', label='full')
 
         # Find maybe inliners
-        maybeInliners_ind = np.random.choice(ind_range, size=n_try_points, replace=False)
+        perm_ind = np.random.permutation(ind_range)
+        maybeInliners_ind = perm_ind[:n_try_points]
         maybeInliners = dist2[maybeInliners_ind]
+        
+        otherInliners = perm_ind[n_try_points:]
 
         # Find mu (which is the mean/"model" in this case)
         mu = maybeInliners.mean()
+        thresh = (otherInliners <= (mu - dist_thresh)) & (otherInliners <= (mu + dist_thresh))
 
         if DO_PLOT:
             plt.scatter(maybeInliners_ind, maybeInliners, marker='+', color='red', label='maybeInliner')
             plt.axhline(y=mu, color='red',linestyle='dashed', label='mean')
-            plt.axhline(y=allmean,
+            plt.axhline(y=allmean+DISTSQ_THRESHOLD,
                         color='blue',
                         linestyle='dashed',
-                        label='orig mean')
+                        label='orig mean upper')
+            plt.axhline(y=allmean-DISTSQ_THRESHOLD,
+                color='blue',
+                linestyle='dashed',
+                label='orig mean low')
             plt.show()
 
         print(maybeInliners)
