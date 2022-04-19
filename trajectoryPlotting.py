@@ -55,6 +55,7 @@ class Trajectory():
         # Previous pose x y theta
         x, y, th = self.poses[-1,:]
         last_pose_matrix = self.pose_matrix[-1, :, :]
+
         new_transform = np.block([[A,               h],
                                   [np.zeros((1,2)), np.ones((1,1))]])
         new_pose_matrix = np.linalg.inv(new_transform) @ last_pose_matrix
