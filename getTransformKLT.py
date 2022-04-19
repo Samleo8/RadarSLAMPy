@@ -89,9 +89,6 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     deltaAvg = np.mean(deltas, axis=0)
     deltaStdDev = np.std(deltas, axis=0)
     
-    # TODO: Outlier rejection?
-    coordDist = 
-
     print("Estimated global frame x, y translation\n\t[px]:", deltaAvg)
     print("\t[m]:", deltaAvg * RANGE_RESOLUTION_CART_M)
 
@@ -401,8 +398,8 @@ if __name__ == "__main__":
     # Destroy windows/clear
     cv2.destroyAllWindows()
 
-    # if datasetName.startswith("tiny"):
-    #     exit()
+    if datasetName.startswith("tiny"):
+        exit()
 
     # Save feature npz for continuation
     saveFeaturePath = os.path.join(
