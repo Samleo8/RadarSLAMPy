@@ -42,7 +42,7 @@ def visualize_transform(prevImg: np.ndarray,
     if currImg is not None:
         plt.imshow(currImg)
 
-    if newFeatureCoord is not None:
+    if newFeatureCoord is not None or alpha == 0:
         plt.scatter(newFeatureCoord[:, 0],
                     newFeatureCoord[:, 1],
                     marker='+',
@@ -51,7 +51,7 @@ def visualize_transform(prevImg: np.ndarray,
                     label=f'Tracked Features{extraLabel}')
 
     # TODO: Remove, show feature points of old images
-    if prevFeatureCoord is not None:
+    if prevFeatureCoord is not None or alpha == 0:
         plt.scatter(prevFeatureCoord[:, 0],
                     prevFeatureCoord[:, 1],
                     marker='.',
@@ -61,7 +61,7 @@ def visualize_transform(prevImg: np.ndarray,
 
     plt.legend()
     plt.axis("off")
-    plt.title("New Image")
+    # plt.title("New Image")
 
     plt.tight_layout()
 
@@ -371,7 +371,8 @@ if __name__ == "__main__":
                                     None,
                                     bad_old,
                                     bad_new,
-                                    alpha=0.4,
+                                    alpha=0,
+                                    # alpha=0.4,
                                     extraLabel=" (Bad Correspondences)")
 
             toSaveImgPath = os.path.join(imgSavePath, f"{imgNo:04d}.jpg")
