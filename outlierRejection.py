@@ -1,6 +1,7 @@
 import numpy as np
 from parseData import RANGE_RESOLUTION_CART_M  # m per px
-from getFeatures import N_FEATURES_BEFORE_RETRACK
+
+N_FEATURES_BEFORE_RANSAC = 50
 
 # TODO: Tune this
 DIST_THRESHOLD_M = 3  # why is the variance so fking high
@@ -13,7 +14,7 @@ DO_PLOT = True
 PLOT_FINAL_ONLY = True
 
 PLOT_FINAL_ONLY &= DO_PLOT
-if PLOT_FINAL_ONLY: 
+if PLOT_FINAL_ONLY:
     DO_PLOT = False
 
 def rejectOutliersRadarGeometry(
@@ -100,6 +101,15 @@ def rejectOutliersRansacDist(
 ) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Using RANSAC, find the best mean of 1D distances within certain threshold, and reject outliers accordingly
+    @param[in] prev_coord   (K x 2) src/previous coordinate array, [x y] format
+    @param[in] new_coord    (K x 2) target/current coordinate array, [x y] format
+
+    @param[in] n_iters                  [RANSAC Param] Number of iterations to perform RANSAC
+    @param[in] n_try_points_percentage  [RANSAC Param] Percentage of total points to try in RANSAC
+    @param[in] n_try_points_percentage  [RANSAC Param] Percentage of total points to try in RANSAC
+
+    @return prev_coord   (K' x 2) pruned previous coordinate array, [x y] format
+    @return new_coord    (K' x 2) pruned coordinate array, [x y] format
     '''
 
     # Use distance as form of thresholding
@@ -114,7 +124,7 @@ def rejectOutliersRansacDist(
     n_try_points = int(n_try_points_percentage * K)
     min_valid_points = int(min_valid_percentage * K)
 
-    if K < N_FEATURES_BEFORE_RETRACK:
+    if K < N_FEATURES_BEFORE_RANSAC:
         print("Too few features, will not perform distance RANSAC!")
         return prev_coord, new_coord
 
