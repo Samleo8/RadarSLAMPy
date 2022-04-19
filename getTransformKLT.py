@@ -360,6 +360,9 @@ if __name__ == "__main__":
     # Destroy windows/clear
     cv2.destroyAllWindows()
 
+    if datasetName.startswith("tiny"):
+        exit()
+
     # Save feature npz for continuation
     saveFeaturePath = os.path.join(
         imgSavePath.strip(os.path.sep) + f"_{imgNo}.npz")
