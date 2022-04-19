@@ -9,7 +9,11 @@ DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 # For plotting/visualizing ransac
 DO_PLOT = True
+PLOT_FINAL_ONLY = True
 
+PLOT_FINAL_ONLY &= DO_PLOT
+if PLOT_FINAL_ONLY: 
+    DO_PLOT = False
 
 def rejectOutliersRadarGeometry(
         prev_old_coord: np.ndarray, prev_coord: np.ndarray,
@@ -211,7 +215,7 @@ def rejectOutliersRansacDist(
 
     print("Final (actual) best mean:", dist2[pruning_mask].mean())
 
-    if DO_PLOT: # DO_PLOT:
+    if DO_PLOT or PLOT_FINAL_ONLY:
         import matplotlib.pyplot as plt
 
         print("Plotting final mean...")
