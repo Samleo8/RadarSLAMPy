@@ -1,25 +1,43 @@
+from cProfile import label
 import numpy as np
 import matplotlib.pyplot as plt
 
 from parseData import RANGE_RESOLUTION_CART_M
 
-def plotFakeFeatures(srcCoord, targetCoord, targetCoord2=None, clear=False, show=False):
+
+def plotFakeFeatures(srcCoord,
+                     targetCoord,
+                     targetCoord2=None,
+                     clear=False,
+                     show=False):
     if clear:
         plt.clear()
 
-    plt.scatter(srcCoord[:, 0], srcCoord[:, 1], color='blue', marker='.')
-    plt.scatter(targetCoord[:, 0], targetCoord[:, 1], color='red', marker='+')
+    plt.scatter(srcCoord[:, 0],
+                srcCoord[:, 1],
+                color='blue',
+                marker='.',
+                label='Features 0')
+
+    plt.scatter(targetCoord[:, 0],
+                targetCoord[:, 1],
+                color='red',
+                marker='+',
+                label='Features 1')
 
     if targetCoord2 is not None:
         plt.scatter(targetCoord2[:, 0],
                     targetCoord2[:, 1],
                     color='green',
-                    marker='x')
+                    marker='x',
+                    label='Features 2')
+    plt.legend()
 
     plt.tight_layout()
 
     if show:
         plt.show()
+
 
 def generateFakeCorrespondences(srcCoord, A, h):
     '''
@@ -34,12 +52,14 @@ def generateFakeCorrespondences(srcCoord, A, h):
 
     return targetCoord.T
 
+
 def getRotationMatrix(theta_deg):
     th = np.deg2rad(theta_deg)
     cth = np.cos(th)
     sth = np.sin(th)
 
     return R
+
 
 def generateFakeFeatures(n_points=100, max_range_m=10):
     # Generate artificial correspondences in m to pixel
