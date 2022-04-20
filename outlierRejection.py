@@ -124,7 +124,7 @@ if __name__ == "__main__":
                                                 noiseToAdd=DIST_THRESHOLD_PX *
                                                 2)
         # Add some noise to the data as well to test thresholding
-        new_coord = addNoise(new_coord, variance=DIST_THRESHOLD_PX / 5) 
+        new_coord = addNoise(new_coord, variance=DIST_THRESHOLD_PX / 10) 
         print(outlier_ind, outlier_ind.shape)
     else:
         new_coord_perfect = None
