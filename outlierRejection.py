@@ -17,7 +17,8 @@ FORCE_OUTLIERS = True
 
 
 def rejectOutliers(prev_coord: np.ndarray,
-                   new_coord: np.ndarray, outlierInd=None) -> tuple[np.ndarray, np.ndarray]:
+                   new_coord: np.ndarray,
+                   outlierInd=None) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
@@ -84,7 +85,9 @@ def rejectOutliers(prev_coord: np.ndarray,
 
     if outlierInd is not None:
         fullN = len(set(np.concatenate((bestClique, outlierInd))))
-        assert (fullN == K), 'In perfect scenario, inliers and outliers should combine to form full set'
+        assert (
+            fullN == K
+        ), 'In perfect scenario, inliers and outliers should combine to form full set'
 
     print(f'Found clique of size {bestCliqueSize}!')
 
@@ -124,7 +127,7 @@ if __name__ == "__main__":
                                                 noiseToAdd=DIST_THRESHOLD_PX *
                                                 2)
         # Add some noise to the data as well to test thresholding
-        new_coord = addNoise(new_coord, variance=DIST_THRESHOLD_PX / 10) 
+        new_coord = addNoise(new_coord, variance=DIST_THRESHOLD_PX / 10)
         print(outlier_ind, outlier_ind.shape)
     else:
         new_coord_perfect = None
@@ -133,7 +136,8 @@ if __name__ == "__main__":
         f"Transform\n\ttheta = {theta_deg:.2f} deg\n\ttrans = {trans_vec.flatten()} px"
     )
 
-    pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord, outlier_ind)
+    pruned_prev_coord, pruned_new_coord = rejectOutliers(
+        prev_coord, new_coord, outlier_ind)
 
     plotFakeFeatures(prev_coord, new_coord, alpha=0.1, show=False)
 
