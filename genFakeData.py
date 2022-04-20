@@ -5,6 +5,20 @@ import matplotlib.pyplot as plt
 from parseData import RANGE_RESOLUTION_CART_M
 
 
+def transformCoords(srcCoord, A, h):
+    '''
+    @brief Transform coordinates to get correspondence points given A, h transformation matrix
+    @param[in] srcCoord Source coordinates (K x 2)
+    @param[in] A Rotation matrix (2 x 2)
+    @param[in] h Translation matrix (2 x 1)
+
+    @return targetCoord = A @ srcCoord + h (K x 2)
+    '''
+    targetCoord = A @ srcCoord.T + h
+
+    return targetCoord.T
+
+
 def plotFakeFeatures(srcCoord,
                      targetCoord,
                      targetCoord2=None,
@@ -39,26 +53,52 @@ def plotFakeFeatures(srcCoord,
         plt.show()
 
 
-def generateFakeCorrespondences(srcCoord, A, h):
+def generateFakeCorrespondences(srcCoord=None,
+                                n_points=100,
+                                theta_max_deg=20,
+                                max_translation_m=3):
     '''
-    @brief Generate fake (but perfect) correspondence points given A, h transformation matrix
-    @param[in] srcCoord Source coordinates (K x 2)
-    @param[in] A Rotation matrix (2 x 2)
-    @param[in] h Translation matrix (2 x 1)
+    @brief Generate fake correspondences with transform, randomly generated from max range and degree
+    @param[in] srcCoord Source coordinate to transform from. If none, will randomly generate features
+    @param[in] n_points Number of points to generate, only applies if srcCoord = None
+    @param[in] theta_max_deg Maximum degree of rotation
+    @param[in] max_range_m Maximum range (for translation) in meters
 
-    @return targetCoord = A @ srcCoord + h (K x 2)
+    @return srcCoord Generated or passed in srcCoord
+    @return targetCoord Corresponding targetCoord generated using (theta_deg, h)
+    @return theta_deg Theta component of transform
+    @return h Translation component of transform
     '''
-    targetCoord = A @ srcCoord.T + h
 
-    return targetCoord.T
+    if srcCoord is None:
+        max_range_m = max_translation_m * 3
+        srcCoord = generateFakeFeatures(n_points, max_range_m)
+    else:
+        n_points = srcCoord.shape[0]
+
+    theta_deg = np.random.random() * theta_max_deg
+    R = getRotationMatrix(theta_deg)
+    h = generateTranslationVector(max_translation_m)
+
+    targetCoord = transformCoords(srcCoord, R, h)
+
+    return srcCoord, targetCoord, theta_deg, h
 
 
 def getRotationMatrix(theta_deg):
     th = np.deg2rad(theta_deg)
+
     cth = np.cos(th)
     sth = np.sin(th)
+    R = np.array([[cth, -sth], [sth, cth]])
 
     return R
+
+
+def generateTranslationVector(max_range_m=10):
+    h = np.random.random((2, 1))
+    h *= max_range_m / RANGE_RESOLUTION_CART_M
+    return h
 
 
 def generateFakeFeatures(n_points=100, max_range_m=10):
