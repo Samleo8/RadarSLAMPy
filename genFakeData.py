@@ -103,6 +103,14 @@ def getRotationMatrix(theta_deg):
 
     return R
 
+def addNoise(data, variance=2.5):
+    '''
+    @brief Add 0-mean Gaussian random noise to correspondence data
+    '''
+    noise = np.random.normal(0, variance, size=data.shape)
+    noisy_data = data + noise
+
+    return noisy_data
 
 def generateTranslationVector(max_range_m=10):
     h = np.random.random((2, 1))
