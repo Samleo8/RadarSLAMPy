@@ -22,29 +22,37 @@ def transformCoords(srcCoord, A, h):
 def plotFakeFeatures(srcCoord,
                      targetCoord,
                      targetCoord2=None,
+                     title_append="",
+                     alpha=1,
                      clear=False,
                      show=False):
     if clear:
         plt.clear()
 
+    if len(title_append) > 0:
+        title_append = " " + title_append
+
     plt.scatter(srcCoord[:, 0],
                 srcCoord[:, 1],
                 color='blue',
                 marker='.',
-                label='Features 0')
+                alpha=alpha,
+                label=f'Features 0{title_append}')
 
     plt.scatter(targetCoord[:, 0],
                 targetCoord[:, 1],
                 color='red',
                 marker='+',
-                label='Features 1')
+                alpha=alpha,
+                label=f'Features 1{title_append}')
 
     if targetCoord2 is not None:
         plt.scatter(targetCoord2[:, 0],
                     targetCoord2[:, 1],
                     color='green',
                     marker='x',
-                    label='Features 2')
+                    alpha=alpha,
+                    label=f'Features 2{title_append}')
     plt.legend()
 
     plt.tight_layout()
