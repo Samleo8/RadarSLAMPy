@@ -290,8 +290,8 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
              prev_coord=prev_coord,
              new_coord=new_coord)
 
-    good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
-                                                     prev_coord, new_coord)
+    # good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
+    #                                                  prev_coord, new_coord)
     good_old, good_new = rejectOutliersRansacDist(good_old, good_new, n_iters=20)
 
     return good_old, good_new
