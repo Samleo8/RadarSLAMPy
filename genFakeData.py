@@ -103,14 +103,48 @@ def getRotationMatrix(theta_deg):
 
     return R
 
+
 def addNoise(data, variance=2.5):
     '''
     @brief Add 0-mean Gaussian random noise to correspondence data
+    @param[in] data Data to add noise to
+    @param[in] variance Variance for Gaussian noise
     '''
     noise = np.random.normal(0, variance, size=data.shape)
     noisy_data = data + noise
 
     return noisy_data
+
+
+def createOutliers(data, n_outliers, noiseToAdd=10):
+    '''
+    @brief Create outliers by adding a lot of noise to randomly chosen n_outliers
+    @param[in] data Data to create outliers in
+    @param[in] n_outliers Number of outliers forced into data
+    @param[in] noiseToAdd Amount of guaranteed base noise to add
+
+    @return noisy_data Noisy data with outliers
+    @return outlier_ind Indices of outliers
+    '''
+    K, dim = data.shape
+    assert n_outliers < K, "Cannot have more outliers than data"
+
+    outlier_ind = np.random.choice(np.arange(K),
+                                   size=n_outliers,
+                                   replace=False)
+
+    # Create very noisy data
+    # Allow for noise in negative direction too, starting with big outlier movement
+    noise = np.random.random((n_outliers, dim))
+    noise[noise > 0.5] = +noiseToAdd
+    noise[noise < 0.5] = -noiseToAdd
+
+    # Add small noise to the noiseToAdd so as to create randomness
+    noisy_data = data.copy()
+    noisy_data[outlier_ind, :] += addNoise(noise, 0.5)
+
+    return noisy_data, outlier_ind
+
 
 def generateTranslationVector(max_range_m=10):
     h = np.random.random((2, 1))
