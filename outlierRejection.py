@@ -1,3 +1,4 @@
+from math import dist
 import numpy as np
 from parseData import RANGE_RESOLUTION_CART_M  # m per px
 import networkx as nx
@@ -57,6 +58,15 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
     dist1 = cdist(orig_prev_coord, prev_old_coord)
     dist2 = cdist(orig_new_coord, orig_prev_coord)
 
+    distDiff = np.abs(dist1 - dist2)
+    print(distDiff) # for perfect should be 0?
+    distThreshMask = distDiff <= DIST_THRESHOLD_PX
+
+    # Plot distDiff for visualization
+    plt.spy(distThreshMask)
+    # plt.imshow(distDiff, cmap='hot', interpolation='nearest')
+    plt.show()
+
     # TODO: Form adj mat and graph
 
     # Return pruned coordinates
@@ -91,7 +101,6 @@ if __name__ == "__main__":
 
     print(f"Second Transform\n\ttheta = {theta_deg2}\n\ttrans = {h2.flatten()}")
 
-    plotFakeFeatures(prev_old_coord, prev_coord, new_coord)
-    plt.show()
+    # plotFakeFeatures(prev_old_coord, prev_coord, new_coord, show=True)
 
     rejectOutliers(prev_old_coord, prev_coord, new_coord)
