@@ -113,8 +113,8 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     t *= RANGE_RESOLUTION_CART_M
 
     # TODO: Invert transform
-    R = R.T
-    t = -R @ t
+    # R = R.T
+    # t = -R @ t
 
     print(
         f"Est distance: \n\t{dist:.2f} [px]\n\t{dist * RANGE_RESOLUTION_CART_M:.2f} [m]"
@@ -395,6 +395,7 @@ if __name__ == "__main__":
                                    estTraj,
                                    imgNo,
                                    savePath=toSaveTrajPath)
+            # plt.pause(0.01)
 
             # Setup for next iteration
             blobCoord = good_new.copy()
