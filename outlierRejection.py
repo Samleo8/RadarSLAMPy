@@ -4,7 +4,7 @@ from parseData import RANGE_RESOLUTION_CART_M  # m per px
 import networkx as nx
 from scipy.spatial.distance import cdist
 
-from genFakeData import createOutliers, generateFakeFeatures, getRotationMatrix, generateFakeCorrespondences, plotFakeFeatures
+from genFakeData import addNoise, createOutliers, generateFakeFeatures, getRotationMatrix, generateFakeCorrespondences, plotFakeFeatures
 
 # TODO: Tune this
 DIST_THRESHOLD_M = 2.5  # why is the variance so fking high
@@ -17,7 +17,7 @@ FORCE_OUTLIERS = True
 
 
 def rejectOutliers(prev_coord: np.ndarray,
-                   new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+                   new_coord: np.ndarray, outlierInd=None) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
@@ -67,7 +67,7 @@ def rejectOutliers(prev_coord: np.ndarray,
     # TODO: Use scipy sparse matrix?
     # Form graph using the distThreshMask matrix
     G = nx.Graph(distThreshMask)
-    print("Finding largest clique", end='...', flush=True)
+    print("Finding largest clique", end='... ', flush=True)
     G_cliques = nx.find_cliques(G)
 
     # Find largest clique by looping through all found cliques
@@ -81,6 +81,10 @@ def rejectOutliers(prev_coord: np.ndarray,
             bestClique = clique
 
     pruning_mask[np.array(bestClique)] = True
+
+    if outlierInd is not None:
+        fullN = len(set(np.concatenate((bestClique, outlierInd))))
+        assert (fullN == K), 'In perfect scenario, inliers and outliers should combine to form full set'
 
     print(f'Found clique of size {bestCliqueSize}!')
 
@@ -119,6 +123,8 @@ if __name__ == "__main__":
                                                 n_outliers,
                                                 noiseToAdd=DIST_THRESHOLD_PX *
                                                 2)
+        # Add some noise to the data as well to test thresholding
+        # new_coord = addNoise(new_coord, variance=DIST_THRESHOLD_PX / 4) 
         print(outlier_ind, outlier_ind.shape)
     else:
         new_coord_perfect = None
@@ -127,7 +133,7 @@ if __name__ == "__main__":
         f"Transform\n\ttheta = {theta_deg:.2f} deg\n\ttrans = {trans_vec.flatten()} px"
     )
 
-    pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord)
+    pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord, outlier_ind)
 
     plotFakeFeatures(prev_coord, new_coord, alpha=0.1, show=False)
 
