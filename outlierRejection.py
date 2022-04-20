@@ -13,12 +13,11 @@ DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean dist
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 
-def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
-                   new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def rejectOutliers(prev_coord: np.ndarray, new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
-    @details For the first and second correspondence, form a graph G1 and G2, 
+    @details For the first and second feature set, form a graph G1 and G2,
     where each point is a feature, and each edge is the distance between the 2 points.
     Because of radar geometry, the distance between any 2 points in G1 should be the 
     same (within threshold) as the same points in G2. 
@@ -55,11 +54,12 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
     # Obtain Euclidean distances between coordinate correspondences
     # TODO: Need to find Euclidean distance for every point with every other point
     # TODO: Use cdist
-    dist1 = cdist(orig_prev_coord, prev_old_coord)
-    dist2 = cdist(orig_new_coord, orig_prev_coord)
+    dist1 = cdist(orig_prev_coord, prev_old_coord, metric='euclidean')
+    dist2 = cdist(orig_new_coord, orig_prev_coord, metric='euclidean')
+    print(dist1)
 
     distDiff = np.abs(dist1 - dist2)
-    print(distDiff) # for perfect should be 0?
+    print(distDiff)  # for perfect should be 0?
     distThreshMask = distDiff <= DIST_THRESHOLD_PX
 
     # Plot distDiff for visualization
@@ -83,24 +83,31 @@ if __name__ == "__main__":
         f"Distance threshold: {DIST_THRESHOLD_M} [m] {DIST_THRESHOLD_PX:.2f} [px]"
     )
 
-    n_points = 10
-    theta_max_deg = 20
+    np.random.seed(42)
+
+    n_points = 3
+    theta_max_deg = 0 # 20
     max_translation_m = 3
     prev_old_coord, prev_coord, theta_deg1, h1 = generateFakeCorrespondences(
         n_points=n_points,
         theta_max_deg=theta_max_deg,
         max_translation_m=max_translation_m)
 
-    print(f"First Transform\n\ttheta = {theta_deg1}\n\ttrans = {h1.flatten()}")
+    print(
+        f"First Transform\n\ttheta = {theta_deg1:.2f} deg\n\ttrans = {h1.flatten()} px"
+    )
 
+    prev_coord_copy = prev_coord.copy()
     prev_coord, new_coord, theta_deg2, h2 = generateFakeCorrespondences(
         prev_coord,
         n_points=n_points,
         theta_max_deg=theta_max_deg,
         max_translation_m=max_translation_m)
 
-    print(f"Second Transform\n\ttheta = {theta_deg2}\n\ttrans = {h2.flatten()}")
+    print(
+        f"Second Transform\n\ttheta = {theta_deg2:.2f} deg\n\ttrans = {h2.flatten()} px"
+    )
 
-    # plotFakeFeatures(prev_old_coord, prev_coord, new_coord, show=True)
+    plotFakeFeatures(prev_old_coord, prev_coord, new_coord, show=True)
 
     rejectOutliers(prev_old_coord, prev_coord, new_coord)
