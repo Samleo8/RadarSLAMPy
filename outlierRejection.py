@@ -4,7 +4,7 @@ from parseData import RANGE_RESOLUTION_CART_M  # m per px
 N_FEATURES_BEFORE_RANSAC = 50
 
 # TODO: Tune this
-DIST_THRESHOLD_M = 3  # why is the variance so fking high
+DIST_THRESHOLD_M = 2.5  # why is the variance so fking high
 DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean distance threshold
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
@@ -290,9 +290,11 @@ def rejectOutliers(prev_old_coord: np.ndarray, prev_coord: np.ndarray,
              prev_coord=prev_coord,
              new_coord=new_coord)
 
-    # good_old, good_new = rejectOutliersRadarGeometry(prev_old_coord,
+    # prev_coord, new_coord = rejectOutliersRadarGeometry(prev_old_coord,
     #                                                  prev_coord, new_coord)
-    good_old, good_new = rejectOutliersRansacDist(good_old, good_new, n_iters=20)
+    good_old, good_new = rejectOutliersRansacDist(prev_coord,
+                                                  new_coord,
+                                                  n_iters=20)
 
     return good_old, good_new
 
