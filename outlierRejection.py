@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     np.random.seed(42)
 
-    n_points = 3
+    n_points = 10
     theta_max_deg = 0  # 20
     max_translation_m = 3
     prev_old_coord, prev_coord, theta_deg1, h1 = generateFakeCorrespondences(
