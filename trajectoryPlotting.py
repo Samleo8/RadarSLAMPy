@@ -41,16 +41,13 @@ class Trajectory():
     [010]
     [001]
     '''
-    def appendRelativePose(self, t, A, h):
+    def appendRelativePose(self, t, dist, theta):
         # Add to timestamps
         self.timestamps = np.append(self.timestamps, t)
         
         # not sure im computing p_{t+1} correctly given A, h
         # Get all the relevant transform variables
-        transf_th = float(np.arctan2(A[0,0], A[1,0]))
-        transf_x = float(h[0])
-        transf_y = float(h[1])
-        print(f"theta: {transf_th:.04f}, dx: {transf_x:.04f}, dy: {transf_y:.04f}")
+        # print(f"theta: {transf_th:.04f}, dx: {transf_x:.04f}, dy: {transf_y:.04f}")
 
         # Previous pose x y theta
         x, y, th = self.poses[-1,:]
@@ -58,7 +55,7 @@ class Trajectory():
 
         new_transform = np.block([[A,               h],
                                   [np.zeros((1,2)), np.ones((1,1))]])
-        new_pose_matrix = np.linalg.inv(new_transform) @ last_pose_matrix
+        new_pose_matrix = new_transform @ last_pose_matrix
         self.pose_matrix = np.concatenate((self.pose_matrix,
                                         np.expand_dims(new_pose_matrix, axis=0)),
                                           axis = 0)
