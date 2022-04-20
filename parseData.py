@@ -2,12 +2,14 @@ from typing import Tuple
 import numpy as np
 import cv2
 import os, sys
-import csv
 
 from Coord import CartCoord
 
-RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm)
+RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm per pixel)
 
+# TODO: Find and fix actual range resolution
+DOWNSAMPLE_FACTOR = 2
+RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
 
 def extractDataFromRadarImage(
     polarImgData: np.ndarray
@@ -16,7 +18,7 @@ def extractDataFromRadarImage(
     @brief Decode a single Oxford Radar RobotCar Dataset radar example
     @param[in] polarImgData cv image
     @return
-        fft_data (np.ndarray): Radar power readings along each azimuth
+        range_azimuth_data (np.ndarray): Radar power readings along each azimuth
         range_resolution (float): Range resolution of the polar radar data (metres per pixel)
         azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
         azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
@@ -37,6 +39,8 @@ def extractDataFromRadarImage(
 
     azimuth_resolution = azimuths[1] - azimuths[0]
 
+    # print(range_azimuth_data.shape, polarImgData.shape)
+
     return range_azimuth_data, azimuths, range_resolution, azimuth_resolution, valid, timestamps
 
 
@@ -54,41 +58,111 @@ def drawCVPoint(img: np.ndarray,
 
 
 def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
+    '''
+    @brief Converts polar image to Cartesian formats
+    @param[in] imgPolar Polar image to convert
+    @return imgCart Converted Cartesian image
+    '''
     w, h = imgPolar.shape
 
-    maxRadius = w
+    maxRadius = h // DOWNSAMPLE_FACTOR
     cartSize = (maxRadius * 2, maxRadius * 2)
     center = tuple(np.array(cartSize) / 2)
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
 
+    RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
+
     return imgCart
 
 
-def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
+def getDataFromImgPathsByIndex(
+    imgPathArr: list[str], index: int
+) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
     '''
-    @brief Returns np array of radar images in POLAR format
-    @param[in] dataPath Path to radar image data
-    @return radar range-azimuth image (W x H x N)
-    '''
-    streamArr = None
+    @brief Get information from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
 
-    timestampPathArr = []
+    @return
+        imgPolar (np.ndarray): Radar power readings along each azimuth
+        azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
+        range_resolution (float): Range resolution of the polar radar data (metres per pixel)
+        azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
+        valid (np.ndarray) Mask of whether azimuth data is an original sensor reading or interpolated from adjacent
+            azimuths
+        timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
+    '''
+    imgPath = imgPathArr[index]
+    imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
+    return extractDataFromRadarImage(imgPolarData)
+
+
+def getPolarImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+    '''
+    @brief Get polar image from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
+
+    @return imgPolar Polar image
+    '''
+
+    imgPolar, _, _, _, _, _ = getDataFromImgPathsByIndex(imgPathArr, index)
+    return imgPolar
+
+
+def getCartImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+    '''
+    @brief Get polar image from image path array, indexing accordingly
+    @param[in] imgPathArr List of image path as strings
+    @param[in] index Index to index into
+
+    @return imgCart Cartesian image
+    '''
+
+    imgPolar = getPolarImageFromImgPaths(imgPathArr, index)
+    return convertPolarImageToCartesian(imgPolar)
+
+
+def getRadarImgPaths(dataPath: str, timestampPath: str) -> list[str]:
+    '''
+    @brief Obtain list of radar image paths
+    
+    @param[in] dataPath Path to radar image data
+    @param[in] timestampPath Path to radar timestamp data
+
+    @return list of strings containing paths to radar image
+    '''
+    imgPathArr = []
     with open(timestampPath, "r") as f:
         lines = f.readlines()
         for line in lines:
             stamp, valid = line.strip().split(" ")
             if valid:
                 stampPath = os.path.join(dataPath, stamp + ".png")
-                timestampPathArr.append(stampPath)
+                imgPathArr.append(stampPath)
 
-    NImgs = len(timestampPathArr)
+    return imgPathArr
 
-    for i, imgPath in enumerate(timestampPathArr):
-        imgPolarData = cv2.imread(imgPath, cv2.IMREAD_GRAYSCALE)
+
+def getRadarStreamPolar(dataPath: str, timestampPath: str) -> np.ndarray:
+    '''
+    @brief Returns np array of radar images in POLAR format
+    @param[in] dataPath Path to radar image data
+    @param[in] timestampPath Path to radar timestamp data
+    
+    @return radar range-azimuth image (W x H x N)
+    '''
+    streamArr = None
+
+    imgPathArray = getRadarImgPaths(dataPath, timestampPath)
+
+    NImgs = len(imgPathArray)
+
+    for i in range(NImgs):
         imgPolar, azimuths, range_resolution, azimuth_resolution, valid, timestamps = \
-            extractDataFromRadarImage(imgPolarData)
+            getDataFromImgPathsByIndex(imgPathArray, i)
 
         # Generate pre-cached np array of streams, to save memory
         if streamArr is None:
@@ -111,6 +185,7 @@ if __name__ == "__main__":
     timestampPath = os.path.join("data", datasetName, "radar.timestamps")
 
     streamArr = getRadarStreamPolar(dataPath, timestampPath)
+
     nImgs = streamArr.shape[2]
 
     for i in range(nImgs):
