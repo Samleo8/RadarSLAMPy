@@ -102,7 +102,7 @@ if __name__ == "__main__":
         f"Distance threshold: {DIST_THRESHOLD_M} [m] {DIST_THRESHOLD_PX:.2f} [px]"
     )
 
-    np.random.seed(314159)
+    # np.random.seed(314159)
 
     n_points = 100
     n_outliers = int(n_points * 0.2)
