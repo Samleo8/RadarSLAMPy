@@ -79,32 +79,22 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     n_points = 10
-    theta_max_deg = 0  # 20
+    theta_max_deg = 20
     max_translation_m = 3
-    prev_old_coord, prev_coord, theta_deg1, h1 = generateFakeCorrespondences(
+
+    prev_coord, new_coord, theta_deg, trans_vec = generateFakeCorrespondences(
+        # prev_coord,
         n_points=n_points,
         theta_max_deg=theta_max_deg,
         max_translation_m=max_translation_m)
 
     print(
-        f"First Transform\n\ttheta = {theta_deg1:.2f} deg\n\ttrans = {h1.flatten()} px"
-    )
-
-    prev_coord_copy = prev_coord.copy()
-    prev_coord, new_coord, theta_deg2, h2 = generateFakeCorrespondences(
-        prev_coord,
-        n_points=n_points,
-        theta_max_deg=theta_max_deg,
-        max_translation_m=max_translation_m)
-
-    print(
-        f"Second Transform\n\ttheta = {theta_deg2:.2f} deg\n\ttrans = {h2.flatten()} px"
+        f"Transform\n\ttheta = {theta_deg:.2f} deg\n\ttrans = {trans_vec.flatten()} px"
     )
 
     pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord)
 
-    plotFakeFeatures(prev_old_coord,
-                     prev_coord,
+    plotFakeFeatures(prev_coord,
                      new_coord,
                      alpha=0.1,
                      show=False)
