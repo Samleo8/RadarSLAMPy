@@ -128,6 +128,8 @@ def createOutliers(data, n_outliers, noiseToAdd=10):
     @return noisy_data Noisy data with outliers
     @return outlier_ind Indices of outliers
     '''
+    n_outliers = int(n_outliers)
+    
     K, dim = data.shape
     assert n_outliers < K, "Cannot have more outliers than data"
 
