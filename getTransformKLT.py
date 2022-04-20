@@ -352,18 +352,18 @@ if __name__ == "__main__":
             )
 
             # Outlier rejection
-            if prev_good_old is not None:
-                # Check if appended new features
-                prev_old_size = prev_good_old.shape[0]
-                if nFeatures > prev_old_size:
-                    corrStatus = corrStatus[:prev_old_size, :]
-                    print(corrStatus.shape, prev_good_old.shape)
+            # if prev_good_old is not None:
+            #     # Check if appended new features
+            #     prev_old_size = prev_good_old.shape[0]
+            #     if nFeatures > prev_old_size:
+            #         corrStatus = corrStatus[:prev_old_size, :]
+            #         print(corrStatus.shape, prev_good_old.shape)
 
-                # Appended features should be handled here
-                prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
-                print(prev_good_old.shape)
+            #     # Appended features should be handled here
+            #     prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
+            #     print(prev_good_old.shape)
 
-                good_old, good_new = rejectOutliers(prev_good_old, good_old, good_new)
+            good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
             # R, h = calculateTransform(good_old, good_new)

@@ -28,12 +28,8 @@ def rejectOutliers(prev_coord: np.ndarray, new_coord: np.ndarray) -> tuple[np.nd
 
     @note  It is assumeed that the points correspond with each other
     
-    @param[in] prev_old_coord   (K' x 2) Coordinates of features that prev_coord were tracked from [x,y]
     @param[in] prev_coord       (K x 2) Coordinates of features which are being tracked from [x,y]
     @param[in] new_coord        (K x 2) New coordinates of features which are tracked to [x,y]
-
-    @note   It is possible that K' < K because features were appended. 
-            Consider all appended features as valid because we have no prior
 
     @return pruned_prev_coord   (k x 2) Pruned previous coordinates
     @return pruned_new_coord    (k x 2) Pruned current/new coordinates
@@ -41,24 +37,17 @@ def rejectOutliers(prev_coord: np.ndarray, new_coord: np.ndarray) -> tuple[np.nd
     assert prev_coord.shape == new_coord.shape, "Coordinates should be the same shape"
 
     # Check for appended features by comparing lengths
-    K_prev = prev_old_coord.shape[0]
     K = prev_coord.shape[0]
-    assert K_prev <= K, f"There should only be appended or same number of features, not less ({K_prev} > {K})"
-
     pruning_mask = np.ones(K, dtype=bool)
 
-    # Ensures that pruning only is done on non-appended features
-    orig_prev_coord = prev_coord.copy()[:K_prev, :]
-    orig_new_coord = new_coord.copy()[:K_prev, :]
+    # Obtain Euclidean distances between single point and every point in feature set
+    # Should really only need to worry about diagonal
+    dist_prev = cdist(prev_coord, prev_coord, metric='euclidean')
+    dist_new = cdist(new_coord, new_coord, metric='euclidean')
+    
+    assert np.all(dist_prev.T == dist_prev), "Dist matrix should be symmetric"
 
-    # Obtain Euclidean distances between coordinate correspondences
-    # TODO: Need to find Euclidean distance for every point with every other point
-    # TODO: Use cdist
-    dist1 = cdist(orig_prev_coord, prev_old_coord, metric='euclidean')
-    dist2 = cdist(orig_new_coord, orig_prev_coord, metric='euclidean')
-    print(dist1)
-
-    distDiff = np.abs(dist1 - dist2)
+    distDiff = np.abs(dist_prev - dist_new)
     print(distDiff)  # for perfect should be 0?
     distThreshMask = distDiff <= DIST_THRESHOLD_PX
 
@@ -110,4 +99,4 @@ if __name__ == "__main__":
 
     plotFakeFeatures(prev_old_coord, prev_coord, new_coord, show=True)
 
-    rejectOutliers(prev_old_coord, prev_coord, new_coord)
+    rejectOutliers(prev_coord, new_coord)
