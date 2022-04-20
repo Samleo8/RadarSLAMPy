@@ -71,6 +71,7 @@ def generateFakeCorrespondences(srcCoord=None,
     '''
 
     if srcCoord is None:
+        print("Generating fake features..")
         max_range_m = max_translation_m * 3
         srcCoord = generateFakeFeatures(n_points, max_range_m)
     else:
@@ -103,8 +104,6 @@ def generateTranslationVector(max_range_m=10):
 
 def generateFakeFeatures(n_points=100, max_range_m=10):
     # Generate artificial correspondences in m to pixel
-    n_points = 100
-
     a = np.random.random((n_points, 2))
 
     a *= max_range_m / RANGE_RESOLUTION_CART_M
