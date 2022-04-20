@@ -4,7 +4,7 @@ from parseData import RANGE_RESOLUTION_CART_M  # m per px
 import networkx as nx
 from scipy.spatial.distance import cdist
 
-from genFakeData import generateFakeFeatures, getRotationMatrix, generateFakeCorrespondences, plotFakeFeatures
+from genFakeData import createOutliers, generateFakeFeatures, getRotationMatrix, generateFakeCorrespondences, plotFakeFeatures
 
 # TODO: Tune this
 DIST_THRESHOLD_M = 2.5  # why is the variance so fking high
@@ -12,6 +12,8 @@ DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean dist
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
+# Turn on when ready to test true outlier rejection
+FORCE_OUTLIERS = False
 
 def rejectOutliers(prev_coord: np.ndarray,
                    new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -60,6 +62,7 @@ def rejectOutliers(prev_coord: np.ndarray,
     plt.show()
 
     # TODO: Use scipy sparse matrix?
+    # Form graph using the distDiff matrix
     G = nx.Graph(distDiff)
 
     # Return pruned coordinates
@@ -79,6 +82,8 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     n_points = 10
+    n_outliers=n_points*0.2
+
     theta_max_deg = 20
     max_translation_m = 3
 
@@ -88,6 +93,13 @@ if __name__ == "__main__":
         theta_max_deg=theta_max_deg,
         max_translation_m=max_translation_m)
 
+    # Force outliers
+    if FORCE_OUTLIERS:
+        new_coord_perfect = new_coord.copy()
+        new_coord, outlier_ind = createOutliers(new_coord, n_outliers)
+    else:
+        new_coord_perfect = None
+
     print(
         f"Transform\n\ttheta = {theta_deg:.2f} deg\n\ttrans = {trans_vec.flatten()} px"
     )
@@ -96,10 +108,19 @@ if __name__ == "__main__":
 
     plotFakeFeatures(prev_coord,
                      new_coord,
+                     new_coord_perfect,
                      alpha=0.1,
                      show=False)
 
     plotFakeFeatures(pruned_prev_coord,
                      pruned_new_coord,
                      title_append="(pruned)",
-                     show=True)
+                     show=False)
+
+    if FORCE_OUTLIERS:
+        plotFakeFeatures(new_coord[outlier_ind], None,
+                        title_append="(true outliers)",
+                        alpha=0.5,
+                        show=True)
+
+    plt.show()
