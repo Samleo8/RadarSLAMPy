@@ -129,7 +129,9 @@ def calculateTransform(
         srcCoords: np.ndarray,
         targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     '''
-    @brief Calculate transform given 2 point correspondences
+    @brief Calculate transform given 2 point correspondences.
+
+    TODO: Make this work with SVD 
     @see getCorrespondences.py
     Inputs:
     srcCoords       - (N, 2) array of source points
@@ -171,6 +173,7 @@ def calculateTransform(
 
     h = x[1:] * RANGE_RESOLUTION_CART_M
     '''
+
     # Iterative version: for precise R estimate
     num_iters = 0
     max_iters = 10
