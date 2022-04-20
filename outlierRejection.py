@@ -13,7 +13,8 @@ DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean dist
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 # Turn on when ready to test true outlier rejection
-FORCE_OUTLIERS = False
+FORCE_OUTLIERS = True
+
 
 def rejectOutliers(prev_coord: np.ndarray,
                    new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -41,29 +42,47 @@ def rejectOutliers(prev_coord: np.ndarray,
 
     # Check for appended features by comparing lengths
     K = prev_coord.shape[0]
-    pruning_mask = np.ones(K, dtype=bool)
+    pruning_mask = np.zeros(K, dtype=bool)
 
     # Obtain Euclidean distances between single point and every point in feature set
     # Should really only need to worry about diagonal
     dist_prev = cdist(prev_coord, prev_coord, metric='euclidean')
     dist_new = cdist(new_coord, new_coord, metric='euclidean')
 
-    assert np.all(dist_prev.T == dist_prev), "Prev dist matrix should be symmetric"
-    assert np.all(dist_new.T == dist_new), "New dist matrix should be symmetric"
+    assert np.all(
+        dist_prev.T == dist_prev), "Prev dist matrix should be symmetric"
+    assert np.all(
+        dist_new.T == dist_new), "New dist matrix should be symmetric"
 
     distDiff = np.abs(dist_prev - dist_new)
 
-    distThreshMask = distDiff <= DIST_THRESHOLD_PX
+    distThreshMask = (distDiff <= DIST_THRESHOLD_PX).astype(np.int8)
 
     # Plot distDiff for visualization
     import matplotlib.pyplot as plt
-    plt.spy(distThreshMask)
+    # plt.spy(distThreshMask)
     # plt.imshow(distDiff, cmap='hot', interpolation='nearest')
-    plt.show()
+    # plt.show()
 
     # TODO: Use scipy sparse matrix?
-    # Form graph using the distDiff matrix
-    G = nx.Graph(distDiff)
+    # Form graph using the distThreshMask matrix
+    G = nx.Graph(distThreshMask)
+    print("Finding largest clique", end='...', flush=True)
+    G_cliques = nx.find_cliques(G)
+
+    # Find largest clique by looping through all found cliques
+    # NOTE: Faster to loop through all cliques than to use maximum weight clique function
+    bestClique = []
+    bestCliqueSize = 0
+    for clique in G_cliques:
+        cliqueSize = len(clique)
+        if cliqueSize > bestCliqueSize:
+            bestCliqueSize = cliqueSize
+            bestClique = clique
+
+    pruning_mask[np.array(bestClique)] = True
+
+    print(f'Found clique of size {bestCliqueSize}!')
 
     # Return pruned coordinates
     pruned_prev_coord = prev_coord[pruning_mask]
@@ -79,13 +98,13 @@ if __name__ == "__main__":
         f"Distance threshold: {DIST_THRESHOLD_M} [m] {DIST_THRESHOLD_PX:.2f} [px]"
     )
 
-    np.random.seed(42)
+    np.random.seed(314159)
 
-    n_points = 10
-    n_outliers=n_points*0.2
+    n_points = 100
+    n_outliers = int(n_points * 0.2)
 
     theta_max_deg = 20
-    max_translation_m = 3
+    max_translation_m = 5
 
     prev_coord, new_coord, theta_deg, trans_vec = generateFakeCorrespondences(
         # prev_coord,
@@ -96,7 +115,11 @@ if __name__ == "__main__":
     # Force outliers
     if FORCE_OUTLIERS:
         new_coord_perfect = new_coord.copy()
-        new_coord, outlier_ind = createOutliers(new_coord, n_outliers)
+        new_coord, outlier_ind = createOutliers(new_coord,
+                                                n_outliers,
+                                                noiseToAdd=DIST_THRESHOLD_PX *
+                                                2)
+        print(outlier_ind, outlier_ind.shape)
     else:
         new_coord_perfect = None
 
@@ -106,10 +129,12 @@ if __name__ == "__main__":
 
     pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord)
 
-    plotFakeFeatures(prev_coord,
-                     new_coord,
+    plotFakeFeatures(prev_coord, new_coord, alpha=0.1, show=False)
+
+    plotFakeFeatures(None,
                      new_coord_perfect,
-                     alpha=0.1,
+                     alpha=0.4,
+                     title_append="(perfect)",
                      show=False)
 
     plotFakeFeatures(pruned_prev_coord,
@@ -118,9 +143,11 @@ if __name__ == "__main__":
                      show=False)
 
     if FORCE_OUTLIERS:
-        plotFakeFeatures(new_coord[outlier_ind], None,
-                        title_append="(true outliers)",
-                        alpha=0.5,
-                        show=True)
+        plotFakeFeatures(None,
+                         None,
+                         new_coord[outlier_ind],
+                         title_append="(true outliers)",
+                         alpha=0.8,
+                         show=True)
 
     plt.show()
