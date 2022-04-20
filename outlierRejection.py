@@ -1,4 +1,4 @@
-from math import dist
+import matplotlib.pyplot as plt
 import numpy as np
 from parseData import RANGE_RESOLUTION_CART_M  # m per px
 import networkx as nx
@@ -13,7 +13,8 @@ DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean dist
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 
-def rejectOutliers(prev_coord: np.ndarray, new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def rejectOutliers(prev_coord: np.ndarray,
+                   new_coord: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
@@ -44,19 +45,22 @@ def rejectOutliers(prev_coord: np.ndarray, new_coord: np.ndarray) -> tuple[np.nd
     # Should really only need to worry about diagonal
     dist_prev = cdist(prev_coord, prev_coord, metric='euclidean')
     dist_new = cdist(new_coord, new_coord, metric='euclidean')
-    
-    assert np.all(dist_prev.T == dist_prev), "Dist matrix should be symmetric"
+
+    assert np.all(dist_prev.T == dist_prev), "Prev dist matrix should be symmetric"
+    assert np.all(dist_new.T == dist_new), "New dist matrix should be symmetric"
 
     distDiff = np.abs(dist_prev - dist_new)
-    print(distDiff)  # for perfect should be 0?
+
     distThreshMask = distDiff <= DIST_THRESHOLD_PX
 
     # Plot distDiff for visualization
+    import matplotlib.pyplot as plt
     plt.spy(distThreshMask)
     # plt.imshow(distDiff, cmap='hot', interpolation='nearest')
     plt.show()
 
-    # TODO: Form adj mat and graph
+    # TODO: Use scipy sparse matrix?
+    G = nx.Graph(distDiff)
 
     # Return pruned coordinates
     pruned_prev_coord = prev_coord[pruning_mask]
@@ -75,7 +79,7 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     n_points = 3
-    theta_max_deg = 0 # 20
+    theta_max_deg = 0  # 20
     max_translation_m = 3
     prev_old_coord, prev_coord, theta_deg1, h1 = generateFakeCorrespondences(
         n_points=n_points,
@@ -97,6 +101,16 @@ if __name__ == "__main__":
         f"Second Transform\n\ttheta = {theta_deg2:.2f} deg\n\ttrans = {h2.flatten()} px"
     )
 
-    plotFakeFeatures(prev_old_coord, prev_coord, new_coord, show=True)
+    pruned_prev_coord, pruned_new_coord = rejectOutliers(prev_coord, new_coord)
 
-    rejectOutliers(prev_coord, new_coord)
+    plotFakeFeatures(prev_old_coord,
+                     prev_coord,
+                     new_coord,
+                     alpha=0.1,
+                     show=False)
+
+    plotFakeFeatures(prev_old_coord,
+                     prev_coord,
+                     new_coord,
+                     title_append="(pruned)",
+                     show=True)
