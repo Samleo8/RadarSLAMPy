@@ -99,8 +99,7 @@ if __name__ == "__main__":
                      alpha=0.1,
                      show=False)
 
-    plotFakeFeatures(prev_old_coord,
-                     prev_coord,
-                     new_coord,
+    plotFakeFeatures(pruned_prev_coord,
+                     pruned_new_coord,
                      title_append="(pruned)",
                      show=True)
