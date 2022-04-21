@@ -360,7 +360,7 @@ if __name__ == "__main__":
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
     estTraj = Trajectory([initTimestamp],
-                         [*gtTraj.getPoseTransformsAtTimes(initTimestamp)])
+                         [*gtTraj.getPoseAtTimes(initTimestamp)])
 
     good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
@@ -399,10 +399,11 @@ if __name__ == "__main__":
 
             # Obtain transforms
             R, h = calculateTransformSVD(good_old, good_new)
+            h *= RANGE_RESOLUTION_CART_M
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)
 
-            # print(f"R={R}\nh={h}")
+            print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()
@@ -424,7 +425,7 @@ if __name__ == "__main__":
 
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
-            estTraj.appendRelativePoseTransform(timestamp, R, h)
+            estTraj.appendRelativeTransform(timestamp, R, h)
             toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,

@@ -34,12 +34,14 @@ def getRotationMatrix(th, degrees=False):
 
 def convertPoseToTransform(poses):
     '''
-    @param[in] poses np.ndarray of (3,) or (3 x N)
-    @return pose_transforms np.ndarray of (3 x 3 x N)
+    @param[in] poses np.ndarray of (3,) or (N x 3)
+    @return pose_transforms np.ndarray of (3 x 3) or (N x 3 x 3)
     '''
     if type(poses) == list:
         poses = np.array(poses)
+    single = False
     if len(poses.shape) == 1:
+        single = True
         poses = np.expand_dims(poses, axis=0)
     xs = poses[:,0]
     ys = poses[:,1]
@@ -54,18 +56,25 @@ def convertPoseToTransform(poses):
     pose_transform[:,0,2] = xs
     pose_transform[:,1,2] = ys
     pose_transform[:,2,2] = 1
+    if single:
+        pose_transform = pose_transform[0,:,:]
     return pose_transform
 
 def convertTransformToPose(pose_transforms):
     '''
-    @param[in] pose_transforms np.ndarray of (3 x 3) or (3 x 3 x N)
-    @return poses np.ndarray of (3 x N)
+    @param[in] pose_transforms np.ndarray of (3 x 3) or (N x 3 x 3)
+    @return poses np.ndarray of (3,) or (N x 3)
     '''
     if type(pose_transforms) == list:
         pose_transforms = np.array(pose_transforms)
+    single = False
     if len(pose_transforms.shape) == 2:
+        single = True
         pose_transforms = np.expand_dims(pose_transforms, axis=0)
     ths = np.arctan2(pose_transforms[:,1,0], pose_transforms[:,0,0])
     xs = pose_transforms[:,0,2]
     ys = pose_transforms[:,1,2]
-    return np.stack([xs, ys, ths], axis=1)
+    pose_transforms = np.stack([xs, ys, ths], axis=1)
+    if single:
+        pose_transforms = pose_transforms[0, :]
+    return pose_transforms
