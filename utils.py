@@ -23,45 +23,49 @@ def normalize_angles(th):
     """
     return (th + np.pi) % (2 * np.pi) - np.pi
 
-def abs_to_rel_pose(rob_pose, rel_pose):
-    """
-    rob_pose wrt to world
-    rel_pose wrt to world
-    return rel_pose wrt to rob
-    """
-    T = np.array(
-        [
-            [np.cos(rob_pose[2]), -np.sin(rob_pose[2]), rob_pose[0]],
-            [np.sin(rob_pose[2]), np.cos(rob_pose[2]), rob_pose[1]],
-            [0, 0, 1],
-        ]
-    )
+def getRotationMatrix(th, degrees=False):
+    if degrees:
+        th = np.deg2rad(th)
+    cth = np.cos(th)
+    sth = np.sin(th)
+    R = np.array([[cth, -sth], [sth, cth]])
 
-    xy = np.linalg.inv(T) @ np.array([rel_pose[0], rel_pose[1], 1])
-    th = normalize_angles(rel_pose[2] - rob_pose[2])
-    rel_pose = np.array([float(xy[0]), float(xy[1]), th])
-    return rel_pose
+    return R
 
+def convertPoseToTransform(poses):
+    '''
+    @param[in] poses np.ndarray of (3,) or (3 x N)
+    @return pose_transforms np.ndarray of (3 x 3 x N)
+    '''
+    if type(poses) == list:
+        poses = np.array(poses)
+    if len(poses.shape) == 1:
+        poses = np.expand_dims(poses, axis=0)
+    xs = poses[:,0]
+    ys = poses[:,1]
+    ths = poses[:,2]
+    cths = np.cos(ths)
+    sths = np.sin(ths)
+    pose_transform = np.zeros((len(ths),3,3))
+    pose_transform[:,0,0] = cths
+    pose_transform[:,0,1] = -sths
+    pose_transform[:,1,0] = sths
+    pose_transform[:,1,1] = cths
+    pose_transform[:,0,2] = xs
+    pose_transform[:,1,2] = ys
+    pose_transform[:,2,2] = 1
+    return pose_transform
 
-def rel_to_abs_pose(rob_pose, rel_pose):
-    """
-    rob_pose wrt to world
-    rel_pose wrt to robot
-    return rel_pose wrt to world
-    """
-    rob_x, rob_y, rob_th = rob_pose[0], rob_pose[1], rob_pose[2]
-    cth = np.cos(rob_th)
-    sth = np.sin(rob_th)
-
-    T = np.array([
-        [cth, -sth, rob_x],
-        [sth, cth, rob_y],
-        [0, 0, 1],
-    ])
-
-    rel_x, rel_y, rel_th = rel_pose[0], rel_pose[1], rel_pose[2]
-    xy_homo = T @ np.array([rel_x, rel_y, 1]).astype(float)
-    th = normalize_angles(rel_th + rob_th)
-
-    abs_pose = np.array([xy_homo[0], xy_homo[1], th])
-    return abs_pose
+def convertTransformToPose(pose_transforms):
+    '''
+    @param[in] pose_transforms np.ndarray of (3 x 3) or (3 x 3 x N)
+    @return poses np.ndarray of (3 x N)
+    '''
+    if type(pose_transforms) == list:
+        pose_transforms = np.array(pose_transforms)
+    if len(pose_transforms.shape) == 2:
+        pose_transforms = np.expand_dims(pose_transforms, axis=0)
+    ths = np.arctan2(pose_transforms[:,1,0], pose_transforms[:,0,0])
+    xs = pose_transforms[:,0,2]
+    ys = pose_transforms[:,1,2]
+    return np.stack([xs, ys, ths], axis=1)

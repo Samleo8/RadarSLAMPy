@@ -328,7 +328,7 @@ if __name__ == "__main__":
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
     estTraj = Trajectory([initTimestamp],
-                         [*gtTraj.getPoseAtTime(initTimestamp)])
+                         [*gtTraj.getPoseTransformsAtTimes(initTimestamp)])
 
     good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
@@ -392,7 +392,7 @@ if __name__ == "__main__":
 
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
-            estTraj.appendRelativePose(timestamp, R, h)
+            estTraj.appendRelativePoseTransform(timestamp, R, h)
             toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,

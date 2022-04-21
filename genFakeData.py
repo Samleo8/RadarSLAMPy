@@ -1,6 +1,6 @@
-from cProfile import label
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import getRotationMatrix
 
 from parseData import RANGE_RESOLUTION_CART_M
 
@@ -86,22 +86,12 @@ def generateFakeCorrespondences(srcCoord=None,
         n_points = srcCoord.shape[0]
 
     theta_deg = np.random.random() * theta_max_deg
-    R = getRotationMatrix(theta_deg)
+    R = getRotationMatrix(theta_deg, degrees=True)
     h = generateTranslationVector(max_translation_m)
 
     targetCoord = transformCoords(srcCoord, R, h)
 
     return srcCoord, targetCoord, theta_deg, h
-
-
-def getRotationMatrix(theta_deg):
-    th = np.deg2rad(theta_deg)
-
-    cth = np.cos(th)
-    sth = np.sin(th)
-    R = np.array([[cth, -sth], [sth, cth]])
-
-    return R
 
 
 def addNoise(data, variance=2.5):

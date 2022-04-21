@@ -4,7 +4,7 @@ from parseData import RANGE_RESOLUTION_CART_M  # m per px
 import networkx as nx
 from scipy.spatial.distance import cdist
 
-from genFakeData import generateFakeFeatures, getRotationMatrix, generateFakeCorrespondences, plotFakeFeatures
+from genFakeData import generateFakeCorrespondences, plotFakeFeatures
 
 # TODO: Tune this
 DIST_THRESHOLD_M = 2.5  # why is the variance so fking high
