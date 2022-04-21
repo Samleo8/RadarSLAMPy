@@ -12,13 +12,12 @@ DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean dist
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
-# Turn on when ready to test true outlier rejection
-FORCE_OUTLIERS = True
 
-
-def rejectOutliers(prev_coord: np.ndarray,
-                   new_coord: np.ndarray,
-                   outlierInd=None) -> tuple[np.ndarray, np.ndarray]:
+def rejectOutliers(
+    prev_coord: np.ndarray,
+    new_coord: np.ndarray,
+    #    outlierInd=None
+) -> tuple[np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
@@ -56,16 +55,8 @@ def rejectOutliers(prev_coord: np.ndarray,
         dist_new.T == dist_new), "New dist matrix should be symmetric"
 
     distDiff = np.abs(dist_prev - dist_new)
-
     distThreshMask = (distDiff <= DIST_THRESHOLD_PX).astype(np.int8)
 
-    # Plot distDiff for visualization
-    import matplotlib.pyplot as plt
-    # plt.spy(distThreshMask)
-    # plt.imshow(distDiff, cmap='hot', interpolation='nearest')
-    # plt.show()
-
-    # TODO: Use scipy sparse matrix?
     # Form graph using the distThreshMask matrix
     G = nx.Graph(distThreshMask)
     print("Finding largest clique", end='... ', flush=True)
@@ -81,13 +72,14 @@ def rejectOutliers(prev_coord: np.ndarray,
             bestCliqueSize = cliqueSize
             bestClique = clique
 
+    # Set the pruning mask using largest maximal clique
     pruning_mask[np.array(bestClique)] = True
 
-    if outlierInd is not None:
-        fullN = len(set(np.concatenate((bestClique, outlierInd))))
-        assert (
-            fullN == K
-        ), 'In perfect scenario, inliers and outliers should combine to form full set'
+    # if outlierInd is not None:
+    #     fullN = len(set(np.concatenate((bestClique, outlierInd))))
+    #     assert (
+    #         fullN == K
+    #     ), 'In perfect scenario, inliers and outliers should combine to form full set'
 
     print(f'Found clique of size {bestCliqueSize}!')
 
@@ -104,6 +96,9 @@ if __name__ == "__main__":
     print(
         f"Distance threshold: {DIST_THRESHOLD_M} [m] {DIST_THRESHOLD_PX:.2f} [px]"
     )
+
+    # Turn on when ready to test true outlier rejection
+    FORCE_OUTLIERS = True
 
     # np.random.seed(314159)
 
@@ -137,7 +132,9 @@ if __name__ == "__main__":
     )
 
     pruned_prev_coord, pruned_new_coord = rejectOutliers(
-        prev_coord, new_coord, outlier_ind)
+        prev_coord, new_coord
+        # outlier_ind
+    )
 
     plotFakeFeatures(prev_coord, new_coord, alpha=0.1, show=False)
 
@@ -160,4 +157,4 @@ if __name__ == "__main__":
                          alpha=0.8,
                          show=True)
 
-    # plt.show()
+    plt.show()
