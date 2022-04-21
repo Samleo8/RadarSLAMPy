@@ -56,6 +56,8 @@ def rejectOutliers(
 
     distDiff = np.abs(dist_prev - dist_new)
     distThreshMask = (distDiff <= DIST_THRESHOLD_PX).astype(np.int8)
+    
+    print("Mean Distance Error:", distDiff.mean(), "[px] | Threshold:", DIST_THRESHOLD_PX, "[px]")
 
     # Form graph using the distThreshMask matrix
     G = nx.Graph(distThreshMask)
@@ -82,6 +84,9 @@ def rejectOutliers(
     #     ), 'In perfect scenario, inliers and outliers should combine to form full set'
 
     print(f'Found clique of size {bestCliqueSize}!')
+
+    nRejected = K - bestCliqueSize
+    print(f"Outliers Rejected: {nRejected} ({100 * nRejected/K:.2f}%)")
 
     # Return pruned coordinates
     pruned_prev_coord = prev_coord[pruning_mask]
