@@ -1,5 +1,5 @@
 from utils import *
-from trajectoryPlotting import Trajectory
+from trajectoryPlotting import Trajectory, plotGtAndEstTrajectory
 import numpy as np
 from getTransformKLT import calculateTransformSVD
 
@@ -34,16 +34,16 @@ commands = np.array([
     [-2, 0, -2],
     [-1, 0, -2],
     [-.5, 0, -2],
-    [-.5, 0, -2],
-    [-1, 0, -1],
-    [-1, 0, -1],
+    [-.5, .1, -2],
+    [-1, -.1, -1],
+    [-1, .1, -1],
     [-3, 0, -3],
     [-5, 0, 0],
 ])
 commands[:,2] = np.deg2rad(commands[:,2])
 
 # integrate command to get gt poses
-poses = []
+poses = [[0,0,0]]
 x, y, th = 0, 0, 0
 for row in commands:
     dx = float(row[0])
@@ -55,11 +55,8 @@ for row in commands:
     poses.append([x,y,th])
 poses = np.array(poses)
 pose_transforms = convertPoseToTransform(poses)
-
-# create trajectory object
 times = [*range(len(poses))]
 T = len(times)
-gtTraj = Trajectory(times,poses)
 
 # calculate xlims and ylims of trajectory
 xlims = [-100, 100]
@@ -87,6 +84,8 @@ for t in range(T):
         relLandmarks.append([l_x_rob,l_y_rob])
     relLandmarksOverTime.append(relLandmarks)
 relLandmarksOverTime = np.array(relLandmarksOverTime)
+noise = np.random.randn(T,len(relLandmarksOverTime[0]),2) * .5
+relLandmarksOverTime += noise
 
 # plot trajectory and landmarks
 for t in range(T):
@@ -97,16 +96,27 @@ for t in range(T):
     plt.ylim(ylims[0],ylims[1])
     if t == 0:
         plt.show(block=False)
-    plt.pause(0.1)
+    plt.pause(0.01)
+
+# create trajectory objects
+gtTraj = Trajectory(times,poses)
+estTraj = Trajectory([0],[[0,0,0]])
 
 for t in range(1,T):
+    # estimate transform
     good_old = relLandmarksOverTime[t-1]
     good_new = relLandmarksOverTime[t]
     R, h = calculateTransformSVD(good_old, good_new)
     R_th = np.arctan2(R[1, 0], R[0, 0]) * 180 / np.pi
-    print(f"[Calculated]: \t R_th={R_th}   \t h={h.T}")
-    dth_gt = poses[t,2] - poses[t-1,2]
-    dxy_wrld_gt = poses[t,:2] - poses[t-1,:2]
-    T = np.linalg.inv(pose_transforms[t-1])
-    dxy_rob_gt = (T @ [*dxy_wrld_gt, 1])[:2]
-    print(f"    [Actual]: \t d_th={dth_gt} \t h={dxy_rob_gt.T}")
+    dx_rob_est, dy_rob_est, dth_rob_est = -R_th, -float(h[0]), -float(h[1])
+    print(f"[Calculated]: d_th={dth_rob_est:.2f}\th=[{dx_rob_est:.2f},{dy_rob_est:.2f}]")
+    
+    # get actual transform
+    dx_rob_gt, dy_rob_gt, dth_rob_gt = commands[t-1]
+    dth_rob_gt = np.rad2deg(dth_rob_gt)
+    print(f"    [Actual]: d_th={dth_rob_gt:.2f}\th={[dx_rob_gt,dy_rob_gt]}")
+    estTraj.appendRelativeTransform(t, R, h)
+
+plt.show(block=True)
+plotGtAndEstTrajectory(gtTraj, estTraj)
+plt.show(block=True)

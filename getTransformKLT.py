@@ -403,7 +403,7 @@ if __name__ == "__main__":
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)
 
-            print(f"R={R}\nh={h}")
+            # print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()

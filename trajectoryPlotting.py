@@ -20,6 +20,7 @@ class Trajectory():
     def appendRelativeTransform(self, time, R, h):
         '''
         @brief Append a relative transform to the trajectory
+               h should already be scaled by radar resolution
         @param[in] time timestamp of the transform
         @param[in] R rotation matrix (2 x 2)
         @param[in] h translation vector (2 x 1)
@@ -28,14 +29,13 @@ class Trajectory():
         self.timestamps = np.append(self.timestamps, time)
         
         # Convert R, h to transformation matrix
-        # Scale h by radar resolution
         A = np.block([
             [R              , h             ],
             [np.zeros((1,2)), 1             ]
         ])
 
         # Update pose_transforms and poses
-        self.pose_transform = A @ self.pose_transform
+        self.pose_transform = self.pose_transform @ np.linalg.inv(A)
         new_pose = convertTransformToPose(self.pose_transform)
         self.poses = np.vstack((self.poses, new_pose))
 
@@ -67,7 +67,6 @@ class Trajectory():
         plt.title(title)
         if savePath:
             plt.savefig(savePath)
-        plt.show(block=True)
 
 def computePosesRMSE(gtPoses, estPoses):
     '''
