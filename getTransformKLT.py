@@ -359,8 +359,9 @@ if __name__ == "__main__":
     gtTrajPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
-    estTraj = Trajectory([initTimestamp],
-                         [*gtTraj.getPoseAtTimes(initTimestamp)])
+    
+    initPose = gtTraj.getPoseAtTimes(initTimestamp)[0,:]
+    estTraj = Trajectory([initTimestamp], [initPose])
 
     good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
@@ -403,7 +404,7 @@ if __name__ == "__main__":
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)
 
-            # print(f"R={R}\nh={h}")
+            print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()

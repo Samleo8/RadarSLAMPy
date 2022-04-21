@@ -48,7 +48,7 @@ class Trajectory():
             # attempt cubic interpolation, will fail if insufficient points
             interpX = scipy.interpolate.interp1d(self.timestamps, self.poses[:,0], kind='cubic', bounds_error=False)
             interpY = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
-            interpTH = scipy.interpolate.interp1d(self.timestamps, self.poses[:,1], kind='cubic', bounds_error=False)
+            interpTH = scipy.interpolate.interp1d(self.timestamps, self.poses[:,2], kind='cubic', bounds_error=False)
             poses = np.vstack((interpX(times), interpY(times), interpTH(times))).T
         except:
             # if cubic interpolation fails, return recorded pose at nearest timestamp
@@ -122,6 +122,7 @@ def getGroundTruthTrajectory(gtPath):
             x += dx * np.cos(th) + dy * -np.sin(th)
             y += dx * np.sin(th) + dy * np.cos(th)
             th += dth
+            th = normalize_angles(th)
             gt_poses.append([x,y,th])
     gt_timestamps = np.array(gt_timestamps)
     gt_poses = np.array(gt_poses)

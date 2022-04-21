@@ -64,6 +64,7 @@ ylims = [-100, 100]
 
 # generate landmarks
 gtLandmarks = (np.random.rand(200,2) - .5) * 100
+plt.title('ground truth')
 plt.scatter(gtLandmarks[:,0], gtLandmarks[:,1])
 quiver(poses)
 plt.xlim(xlims[0],xlims[1])
@@ -109,14 +110,13 @@ for t in range(1,T):
     R, h = calculateTransformSVD(good_old, good_new)
     R_th = np.arctan2(R[1, 0], R[0, 0]) * 180 / np.pi
     dx_rob_est, dy_rob_est, dth_rob_est = -R_th, -float(h[0]), -float(h[1])
-    print(f"[Calculated]: d_th={dth_rob_est:.2f}\th=[{dx_rob_est:.2f},{dy_rob_est:.2f}]")
+    print(f"[Calculated]: d_th={dth_rob_est:.2f} \t h=[{dx_rob_est:.2f},{dy_rob_est:.2f}]")
     
     # get actual transform
     dx_rob_gt, dy_rob_gt, dth_rob_gt = commands[t-1]
     dth_rob_gt = np.rad2deg(dth_rob_gt)
-    print(f"    [Actual]: d_th={dth_rob_gt:.2f}\th={[dx_rob_gt,dy_rob_gt]}")
+    print(f"    [Actual]: d_th={dth_rob_gt:.2f} \t h={[dx_rob_gt,dy_rob_gt]}")
     estTraj.appendRelativeTransform(t, R, h)
 
-plt.show(block=True)
 plotGtAndEstTrajectory(gtTraj, estTraj)
 plt.show(block=True)
