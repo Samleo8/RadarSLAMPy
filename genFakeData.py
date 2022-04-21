@@ -32,19 +32,21 @@ def plotFakeFeatures(srcCoord,
     if len(title_append) > 0:
         title_append = " " + title_append
 
-    plt.scatter(srcCoord[:, 0],
-                srcCoord[:, 1],
-                color='blue',
-                marker='.',
-                alpha=alpha,
-                label=f'Features 0{title_append}')
+    if srcCoord is not None:
+        plt.scatter(srcCoord[:, 0],
+                    srcCoord[:, 1],
+                    color='blue',
+                    marker='.',
+                    alpha=alpha,
+                    label=f'Features 0{title_append}')
 
-    plt.scatter(targetCoord[:, 0],
-                targetCoord[:, 1],
-                color='red',
-                marker='+',
-                alpha=alpha,
-                label=f'Features 1{title_append}')
+    if targetCoord is not None:
+        plt.scatter(targetCoord[:, 0],
+                    targetCoord[:, 1],
+                    color='red',
+                    marker='+',
+                    alpha=alpha,
+                    label=f'Features 1{title_append}')
 
     if targetCoord2 is not None:
         plt.scatter(targetCoord2[:, 0],
@@ -116,6 +118,8 @@ def createOutliers(data, n_outliers, noiseToAdd=10):
     @return noisy_data Noisy data with outliers
     @return outlier_ind Indices of outliers
     '''
+    n_outliers = int(n_outliers)
+    
     K, dim = data.shape
     assert n_outliers < K, "Cannot have more outliers than data"
 
