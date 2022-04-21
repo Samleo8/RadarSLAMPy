@@ -124,6 +124,39 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
 
     return R, t
 
+def calculateTransformSVD(
+        srcCoords: np.ndarray,
+        targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    '''
+    @brief Calculate transform given 2 point correspondences using SVD.
+    Conventions:
+    Rx1 + h = x0
+
+    Reference: https://www.sciencedirect.com/science/article/pii/002192909400116L
+    @see getCorrespondences.py
+    Inputs:
+    srcCoords       - (N, 2) array of source points, x0
+    targetCoords    - (N, 2) array of target points, x1
+    Outputs:
+    (R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
+                      to old points srcCoords to get new points targetCoords, i.e.
+                      R * srcCoords + h = targetCoords
+    '''
+    x0_mean = np.mean(srcCoords, axis = 0, keepdims = True)
+    norm_x0 = srcCoords - x0_mean
+    x1_mean = np.mean(targetCoords, axis = 0, keepdims = True)
+    norm_x1 = targetCoords - x1_mean
+    C = norm_x1.T @ norm_x0 # 2 x 2
+
+    U, _ , V_T = np.linalg.svd(C) 
+    det = np.linalg.det(U @ V_T)
+    remove_reflection = np.eye(C.shape[0])
+    remove_reflection[-1, -1] = det
+    R = U @ remove_reflection @ V_T
+
+    h = x1_mean - (R @ x0_mean.T).T
+
+    return R, h.T
 
 def calculateTransform(
         srcCoords: np.ndarray,
@@ -153,16 +186,15 @@ def calculateTransform(
 
     # TODO: Please make this numpy vectorized
     for i in range(N):
-        src = np.flip(srcCoords[i])
-        target = np.flip(targetCoords[i])
+        src = srcCoords[i]
+        target = targetCoords[i]
         # Convention: x = [lambda, hx, hy]
         A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1, 0], [src[0], 0, 1]])
-        # is it y_0 - y_1 or -y_0 - y_1?
         b[2 * i:2 * i + 2,
           0] = np.array([src[0] - target[0], src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
-    x = np.linalg.inv(A.T @ A) @ A.T @ -b
+    x = np.linalg.inv(A.T @ A) @ A.T @ b
 
     # Approximate least squares solution
     theta = float(x[0])
@@ -171,7 +203,7 @@ def calculateTransform(
     R = np.array([[cth, -sth], [sth, cth]])
     print(f"Pixel displacement: {x[1:]}")
 
-    h = x[1:] * RANGE_RESOLUTION_CART_M
+    h = x[1:]
     '''
 
     # Iterative version: for precise R estimate
@@ -366,9 +398,9 @@ if __name__ == "__main__":
             good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
-            # R, h = calculateTransform(good_old, good_new)
+            R, h = calculateTransformSVD(good_old, good_new)
 
-            R, h = estimateTransformUsingDelats(good_old, good_new)
+            #R, h = estimateTransformUsingDelats(good_old, good_new)
 
             # print(f"R={R}\nh={h}")
 
