@@ -3,7 +3,6 @@ import sys
 import csv
 import numpy as np
 from matplotlib import pyplot as plt
-import scipy.interpolate
 from utils import *
 from parseData import *
 
