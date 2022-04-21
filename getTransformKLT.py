@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import os, sys
 from getFeatures import appendNewFeatures
+from genFakeData import *
 
 import matplotlib.pyplot as plt
 from outlierRejection import rejectOutliers
@@ -142,11 +143,11 @@ def calculateTransformSVD(
                       to old points srcCoords to get new points targetCoords, i.e.
                       R * srcCoords + h = targetCoords
     '''
-    x0_mean = np.mean(srcCoords, axis = 0, keepdims = True)
-    norm_x0 = srcCoords - x0_mean
     x1_mean = np.mean(targetCoords, axis = 0, keepdims = True)
     norm_x1 = targetCoords - x1_mean
-    C = norm_x1.T @ norm_x0 # 2 x 2
+    x0_mean = np.mean(srcCoords, axis = 0, keepdims = True)
+    norm_x0 = srcCoords - x0_mean
+    C = norm_x0.T @ norm_x1 # 2 x 2
 
     U, _ , V_T = np.linalg.svd(C) 
     det = np.linalg.det(U @ V_T)
@@ -154,7 +155,7 @@ def calculateTransformSVD(
     remove_reflection[-1, -1] = det
     R = U @ remove_reflection @ V_T
 
-    h = x1_mean - (R @ x0_mean.T).T
+    h = x0_mean - (R @ x1_mean.T).T
 
     return R, h.T
 
@@ -400,6 +401,13 @@ if __name__ == "__main__":
 
             # Obtain transforms
             R, h = calculateTransformSVD(good_old, good_new)
+            print(h)
+            h[0] += 0
+            # for i in range(good_old.shape[0]):
+            #     plotFakeFeatures(good_old[i:i+1,:], (R @ good_new[i:i+1,:].T + h).T, show= True)
+            transformed_pts = (R @ good_new.T + h).T
+            print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
+            plotFakeFeatures(good_old, transformed_pts, good_new, show= True)
             h *= RANGE_RESOLUTION_CART_M
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)

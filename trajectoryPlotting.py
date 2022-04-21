@@ -35,7 +35,7 @@ class Trajectory():
         ])
 
         # Update pose_transforms and poses
-        self.pose_transform = self.pose_transform @ np.linalg.inv(A)
+        self.pose_transform = A @ self.pose_transform
         new_pose = convertTransformToPose(self.pose_transform)
         self.poses = np.vstack((self.poses, new_pose))
 
