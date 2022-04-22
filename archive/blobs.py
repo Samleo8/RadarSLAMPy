@@ -40,13 +40,13 @@ for i in range(1):
     blobs_log[:, 2] = blobs_log[:, 2]
     blobs_dog[:, 2] = blobs_dog[:, 2]
     blobs_doh[:, 2] = blobs_doh[:, 2]
-    blobs_list = [blobs_log, blobs_dog, blobs_doh]
-    colors = ['yellow', 'lime', 'red']
-    titles = ['Laplacian of Gaussian', 'Difference of Gaussian',
+    blobs_list = [[], blobs_log, blobs_dog, blobs_doh]
+    colors = ['yellow', 'yellow', 'lime', 'red']
+    titles = ['None', 'Laplacian of Gaussian', 'Difference of Gaussian',
             'Determinant of Hessian']
     sequence = zip(blobs_list, colors, titles)
 
-    fig, axes = plt.subplots(1, 3, figsize=(9, 3), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 4, figsize=(9, 3), sharex=True, sharey=True)
     ax = axes.ravel()
 
     for idx, (blobs, color, title) in enumerate(sequence):
