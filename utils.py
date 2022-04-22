@@ -11,8 +11,11 @@ def tic():
 def toc(tic):
     return time.time() - tic
 
-def f_arr(xs):
-    return '[' + ','.join([f'{x:03f}' for x in xs]) + ']'
+def f_arr(xs, th_deg=False):
+    xs_str = [f'{x:.03f}' for x in xs]
+    if th_deg:
+        xs_str[-1] += '°'
+    return '[' + ','.join(xs_str) + ']'
 
 def radarImgPathToTimestamp(radarImgPath):
     """
@@ -91,7 +94,7 @@ def convertRandHtoDeltas(R, h):
     dth = np.arctan2(R[1,0], R[0,0])
     return np.array([dx, dy, dth])
 
-def quiver(poses, c='r'):
+def quiver(poses, c='r', label='Trajectory'):
     poses = np.array(poses)
     plt.quiver(
         poses[:, 0],
@@ -102,4 +105,5 @@ def quiver(poses, c='r'):
         width=0.02,
         scale=10,
         alpha=.5,
+        label=label,
     )

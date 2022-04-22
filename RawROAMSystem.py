@@ -142,10 +142,7 @@ class RawROAMSystem():
 
         timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
         est_deltas = convertRandHtoDeltas(R, h)
-        dx = est_deltas[0]
-        dy = est_deltas[1]
-        dth = est_deltas[2]
-        self.estTraj.appendRelativeDeltas(timestamp, [dx, dy, dth])
+        self.estTraj.appendRelativeDeltas(timestamp, est_deltas)
         # self.estTraj.appendRelativeTransform(timestamp, R, h)
 
     def plot(self, prevImg, currImg, good_old, good_new, R, h, seqInd):
@@ -168,22 +165,27 @@ class RawROAMSystem():
 
         # Get timestamps for plotting etc
         currTimestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
-        gt_deltas_deg = gtTraj.getGroundTruthDeltasAtTime(currTimestamp)
-        gt_deltas_deg[2] = np.rad2deg(gt_deltas_deg[2])
 
-        est_deltas_deg = convertRandHtoDeltas(R, h)
-        est_deltas_deg[2] = np.rad2deg(est_deltas_deg[2])
+        # debugging information with current poses and relative changes
+        # these are in DEGREES for debugging purposes
+        gt_deltas = gtTraj.getGroundTruthDeltasAtTime(currTimestamp)
+        gt_deltas[2] = np.rad2deg(gt_deltas[2])
+        est_deltas = convertRandHtoDeltas(R, h)
+        est_deltas[2] = np.rad2deg(est_deltas[2])
+        est_pose = estTraj.poses[-1]
+        est_pose[2] = np.rad2deg(est_pose[2])
 
-        print(f"GT Deltas: {f_arr(gt_deltas_deg)} (*dth in degrees)")
-        print(f"Est Deltas: {f_arr(est_deltas_deg)} (*dth in degrees)")
+        print(f"GT Deltas: {f_arr(gt_deltas, th_deg=True)}")
+        print(f"EST Deltas: {f_arr(est_deltas, th_deg=True)}")
+        print(f"EST Pose: {f_arr(est_pose, th_deg=True)}")
 
         # Plot Trajectories
         toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         plotGtAndEstTrajectory(gtTraj,
                                estTraj, f'[{seqInd}]\n'
-                               f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
-                               f'GT Deltas: {f_arr(gt_deltas_deg)}\n'
-                               f'Est Deltas: {f_arr(est_deltas_deg)}\n',
+                               f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
+                               f'EST Deltas: {f_arr(est_deltas, th_deg=True)}\n'
+                               f'EST Pose: {f_arr(est_pose, th_deg=True)}\n',
                                savePath=toSaveTrajPath)
 
 
