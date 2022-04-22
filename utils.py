@@ -15,7 +15,7 @@ def toc(tic):
 
 
 def f_arr(xs):
-    return '[' + ','.join([f'{x:03f}' for x in xs]) + ']'
+    return '[' + ','.join([f'{x:.3f}' for x in xs]) + ']'
 
 
 def radarImgPathToTimestamp(radarImgPath):
