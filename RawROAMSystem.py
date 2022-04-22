@@ -6,7 +6,7 @@ import numpy as np
 from getFeatures import appendNewFeatures
 from parseData import getCartImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
-from utils import convertRandHtoDeltas, f_arr, radarImgPathToTimestamp
+from utils import convertRandHtoDeltas, f_arr, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
 
 
@@ -51,6 +51,9 @@ class RawROAMSystem():
             "trajSave": trajSavePath,
             "imgSave": imgSavePath
         }
+
+        # Initialize visualization
+        self.fig = plt.figure(figsize=(11, 5))
 
         # Initialize Trajectories
         self.gtTraj = None  # set in run() function
@@ -145,18 +148,51 @@ class RawROAMSystem():
         self.estTraj.appendRelativeDeltas(timestamp, est_deltas)
         # self.estTraj.appendRelativeTransform(timestamp, R, h)
 
-    def plot(self, prevImg, currImg, good_old, good_new, R, h, seqInd):
-        plt.clf()
-        
-        self.tracker.plot(prevImg, currImg, good_old, good_new, seqInd)
-        plt.show(block=False)
+    def plot(self,
+             prevImg,
+             currImg,
+             good_old,
+             good_new,
+             R,
+             h,
+             seqInd,
+             save=True):
 
-        self.plotTraj(seqInd, R, h)
+        # Draw as subplots
+        self.fig.clear()
+
+        ax1 = self.fig.add_subplot(1, 2, 1)
+        self.tracker.plot(prevImg,
+                          currImg,
+                          good_old,
+                          good_new,
+                          seqInd,
+                          save=False,
+                          show=False)
+
+        ax2 = self.fig.add_subplot(1, 2, 2)
+        self.plotTraj(seqInd, R, h, save=False, show=False)
         
+        trajSavePath = self.filePaths["trajSave"]
+        trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+        # plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
+        
+        plt.tight_layout()
+        self.fig.savefig(trajSavePathInd)
+
+        # # Save by subplot
+        # if save:
+        #     imgSavePath = self.filePaths["imgSave"]
+        #     imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+        #     plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
+
+        #     trajSavePath = self.filePaths["trajSave"]
+        #     trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+        #     plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
+
         plt.pause(0.01)
 
-
-    def plotTraj(self, seqInd, R, h):
+    def plotTraj(self, seqInd, R, h, save=False, show=False):
         # Init locals
         gtTraj = self.gtTraj
         estTraj = self.estTraj
@@ -180,13 +216,20 @@ class RawROAMSystem():
         print(f"EST Pose: {f_arr(est_pose, th_deg=True)}")
 
         # Plot Trajectories
-        toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+        toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg") \
+             if save else None
+
+        info = f'Est Pose: {f_arr(estTraj.poses[-1], th_deg=True)}\n'
+        info += f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
+        info += f'Est Deltas: {f_arr(est_deltas, th_deg=True)}'
         plotGtAndEstTrajectory(gtTraj,
-                               estTraj, f'[{seqInd}]\n'
-                               f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
-                               f'EST Deltas: {f_arr(est_deltas, th_deg=True)}\n'
-                               f'EST Pose: {f_arr(est_pose, th_deg=True)}\n',
+                               estTraj,
+                               title=f'[{seqInd}]',
+                               info=info,
                                savePath=toSaveTrajPath)
+
+        if show:
+            plt.pause(0.01)
 
 
 if __name__ == "__main__":
@@ -203,6 +246,7 @@ if __name__ == "__main__":
     try:
         system.run()
     except KeyboardInterrupt:
+        exit()
         pass
 
     imgSavePath = system.filePaths["imgSave"]

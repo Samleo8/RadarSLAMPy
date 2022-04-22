@@ -114,16 +114,17 @@ def computePosesRMSE(gtPoses, estPoses):
 def plotGtAndEstTrajectory(gtTraj,
                            estTraj,
                            title='GT and EST Trajectories',
+                           info=None,
                            savePath=None,
-                           arrow=True,
-                           clear=True):
+                           arrow=True):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory
     @param[in] estTrajectory Estimated trajectory
     @param[in] title Title of the plot
+    @param[in] info Extra information to write in text
     '''
-    if clear:
+    if savePath is not None:
         plt.clf()
 
     earliestTimestamp = estTraj.timestamps[0]
@@ -143,11 +144,24 @@ def plotGtAndEstTrajectory(gtTraj,
         plt.plot(gtPoses[:, 0], gtPoses[:, 1], 'b-', label='Ground Truth')
         plt.plot(estPoses[:, 0], estPoses[:, 1], 'r-', label='Estimated')
 
+    # Plot info text
+    if info is not None:
+        padPercent = 0.01
+        plt.text(padPercent,
+                 1-padPercent,
+                 info,
+                 horizontalalignment='left',
+                 verticalalignment='top',
+                 transform=plt.gca().transAxes,
+                 fontsize='small')
+
     plt.xlabel('x [m]')
     plt.ylabel('y [m]')
     plt.grid(True)
     plt.legend()
+
     plt.axis('square')
+
     plt.title(f'{title}: RMSE={computePosesRMSE(gtPoses, estPoses):.2f}')
 
     if savePath:
