@@ -15,6 +15,7 @@ from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEs
 from utils import *
 
 PLOT_BAD_FEATURES = False
+N_FEATURES_BEFORE_RETRACK = 80
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
