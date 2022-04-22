@@ -3,18 +3,6 @@ from trajectoryPlotting import Trajectory, plotGtAndEstTrajectory
 import numpy as np
 from getTransformKLT import calculateTransformSVD
 
-def quiver(poses):
-    poses = np.array(poses)
-    plt.quiver(
-        poses[:, 0],
-        poses[:, 1],
-        np.cos(poses[:, 2]),
-        np.sin(poses[:, 2]),
-        color="r",
-        width=0.02,
-        scale=10,
-    )
-
 # dx, dy, dth_deg in robot coords
 commands = np.array([
     [1, 0, 0],

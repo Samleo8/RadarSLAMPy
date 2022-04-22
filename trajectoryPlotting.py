@@ -76,7 +76,7 @@ def computePosesRMSE(gtPoses, estPoses):
     rmse = np.sqrt(np.mean(euclidean_err**2))
     return rmse
 
-def plotGtAndEstTrajectory(gtTraj, estTraj, title='GT and EST Trajectories', savePath=None):
+def plotGtAndEstTrajectory(gtTraj, estTraj, title='GT and EST Trajectories', savePath=None, arrow=True):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory
@@ -89,8 +89,12 @@ def plotGtAndEstTrajectory(gtTraj, estTraj, title='GT and EST Trajectories', sav
     timestamps = [t for t in gtTraj.timestamps if earliestTimestamp <= t <= latestTimestamp]
     gtPoses = gtTraj.getPoseAtTimes(timestamps)
     estPoses = estTraj.getPoseAtTimes(timestamps)
-    plt.plot(gtPoses[:,0], gtPoses[:,1], 'b-', label='Ground Truth')
-    plt.plot(estPoses[:,0], estPoses[:,1], 'r-', label='Estimated')
+    if arrow:
+        quiver(gtPoses, c='r')
+        quiver(estPoses, c='b')
+    else:
+        plt.plot(gtPoses[:,0], gtPoses[:,1], 'b-', label='Ground Truth')
+        plt.plot(estPoses[:,0], estPoses[:,1], 'r-', label='Estimated')
     plt.xlabel('x [m]')
     plt.ylabel('y [m]')
     plt.grid(True)

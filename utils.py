@@ -78,3 +78,15 @@ def convertTransformToPose(pose_transforms):
     if single:
         pose_transforms = pose_transforms[0, :]
     return pose_transforms
+
+def quiver(poses, c='r'):
+    poses = np.array(poses)
+    plt.quiver(
+        poses[:, 0],
+        poses[:, 1],
+        np.cos(poses[:, 2]),
+        np.sin(poses[:, 2]),
+        color=c,
+        width=0.02,
+        scale=10,
+    )
