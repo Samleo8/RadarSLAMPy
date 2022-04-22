@@ -1,4 +1,5 @@
 from genericpath import exists
+from select import select
 import numpy as np
 import cv2
 import os, sys
@@ -6,6 +7,7 @@ import os, sys
 from skimage.feature import blob_doh, blob_dog, blob_log
 from Coord import CartCoord, PolarCoord
 from parseData import getRadarStreamPolar, convertPolarImageToCartesian
+from ANMS import ssc
 
 # TODO: What are the values for num, min and max
 DEFAULT_FEATURE_PARAMS = dict(
@@ -14,6 +16,7 @@ DEFAULT_FEATURE_PARAMS = dict(
     num_sigma=3,
     threshold=.0005,  # lower threshold for more features
     method="doh")
+# Needs more blobs
 
 
 def getBlobsFromCart(cartImage: np.ndarray,
@@ -49,7 +52,6 @@ def getBlobsFromCart(cartImage: np.ndarray,
 
     return blobs
 
-
 # Thresholds for feature loss
 PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
 N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
@@ -61,9 +63,13 @@ def calculateFeatureLossThreshold(nInitialFeatures):
     return 80
     # return PERCENT_FEATURE_LOSS_THRESHOLD * nInitialFeatures
 
-def adaptiveNMS(img, blobs):
-    # TODO: This @ALEX
-    return blobs
+def adaptiveNMS(img, blobs, ret_points = 200, tolerance = 0.1):
+    # print(blobs.shape)
+    H, W = img.shape
+    sort_ind = np.argsort(blobs[:, 2])
+    keypoints = blobs[sort_ind, :]
+    selected_keypoints = ssc(keypoints, ret_points, tolerance, W, H)
+    return selected_keypoints
 
 def getFeatures(img, feature_params: dict = DEFAULT_FEATURE_PARAMS):
     '''
@@ -139,12 +145,28 @@ if __name__ == "__main__":
                                        threshold=.0005,
                                        method="doh")
 
+        s_blobIndices = adaptiveNMS(imgCart, blobIndices)
+
         # Display with radii?
         imgCartBGR = cv2.cvtColor(imgCart, cv2.COLOR_GRAY2BGR) * 255
         imgCartBGR = imgCartBGR.astype(np.uint8)
 
         nIndices = blobIndices.shape[0]
+        nIndicesANMS = s_blobIndices.shape[0]
+
         print(imgNo, "| Blobs detected:", nIndices)
+        print(imgNo, "| ANMS Blobs detected:", nIndicesANMS)
+
+        for i in range(nIndicesANMS):
+            blobY, blobX, blobSigma = \
+                int(s_blobIndices[i, 0]), int(s_blobIndices[i, 1]), int(s_blobIndices[i, 2])
+            coord = (blobX, blobY)
+            color = (0, 255, 0)
+            imgCartBGR = cv2.circle(imgCartBGR,
+                                    coord,
+                                    radius=blobSigma,
+                                    color=color,
+                                    thickness=3)
 
         for i in range(nIndices):
             blobY, blobX, blobSigma = \
