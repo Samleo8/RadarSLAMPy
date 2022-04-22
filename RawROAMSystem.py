@@ -53,7 +53,7 @@ class RawROAMSystem():
         }
 
         # Initialize visualization
-        self.fig = plt.figure()
+        self.fig = plt.figure(figsize=(10, 5))
 
         # Initialize Trajectories
         self.gtTraj = None  # set in run() function
@@ -211,11 +211,13 @@ class RawROAMSystem():
         toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg") \
              if save else None
 
+        info = f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
+        info += f'GT Deltas: {f_arr(gt_deltas)}\n'
+        info += f'Est Deltas: {f_arr(est_deltas)}'
         plotGtAndEstTrajectory(gtTraj,
-                               estTraj, f'[{seqInd}]\n'
-                               f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
-                               f'GT Deltas: {f_arr(gt_deltas)}\n'
-                               f'Est Deltas: {f_arr(est_deltas)}\n',
+                               estTraj,
+                               title=f'[{seqInd}]',
+                               info=info,
                                savePath=toSaveTrajPath)
 
         if show:
@@ -236,6 +238,7 @@ if __name__ == "__main__":
     try:
         system.run()
     except KeyboardInterrupt:
+        exit()
         pass
 
     imgSavePath = system.filePaths["imgSave"]
