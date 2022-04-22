@@ -1,4 +1,4 @@
-from getTransformKLT import calculateTransformSVD, calculateTransform
+from getTransformKLT import calculateTransformSVD, calculateTransform, calculateTransformDxDth
 from genFakeData import *
 
 if __name__ == "__main__":
@@ -22,16 +22,17 @@ if __name__ == "__main__":
                                     noiseToAdd=10)
     
     # Fit a rotation and translation
-    if useOld:
-        R_fit, h_fit = calculateTransform(srcCoord, targetCoord)
+    # if useOld:
+    #     R_fit, h_fit = calculateTransform(srcCoord, targetCoord)
 
-        A = np.block([[R_fit, h_fit],
-                    [np.zeros((1, 2)), 1]])
-        A_inv = np.linalg.inv(A)
-        R_fit = A_inv[:2, :2]
-        h_fit = A_inv[:2, 2:]
-    else:
-        R_fit, h_fit = calculateTransformSVD(srcCoord, targetCoord)
+    #     A = np.block([[R_fit, h_fit],
+    #                 [np.zeros((1, 2)), 1]])
+    #     A_inv = np.linalg.inv(A)
+    #     R_fit = A_inv[:2, :2]
+    #     h_fit = A_inv[:2, 2:]
+    # else:
+    #     R_fit, h_fit = calculateTransformSVD(srcCoord, targetCoord)
+    R_fit, h_fit = calculateTransformDxDth(srcCoord, targetCoord)
 
     theta_fit = np.arctan2(R_fit[1, 0], R_fit[0, 0]) * 180 / np.pi
     print(f"Actual Transform:\ntheta:\n{theta_deg}\nh:\n{h}")
