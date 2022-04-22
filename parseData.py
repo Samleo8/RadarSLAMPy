@@ -10,13 +10,17 @@ RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm per pixel)
 # TODO: Find and fix actual range resolution
 DOWNSAMPLE_FACTOR = 2
 RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
+MAX_RANGE_CLIP_DEFAULT = 87.5  # according to the paper
+
 
 def extractDataFromRadarImage(
-    polarImgData: np.ndarray
+    polarImgData: np.ndarray,
+    maxRangeClipM: float = MAX_RANGE_CLIP_DEFAULT
 ) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
     """
     @brief Decode a single Oxford Radar RobotCar Dataset radar example
     @param[in] polarImgData cv image
+    @param[in] maxRangeClipM Max range to clip data, in meters. Negative number for no clip
     @return
         range_azimuth_data (np.ndarray): Radar power readings along each azimuth
         range_resolution (float): Range resolution of the polar radar data (metres per pixel)
@@ -27,7 +31,7 @@ def extractDataFromRadarImage(
         timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
     """
     # Hard coded configuration to simplify parsing code
-    range_resolution = RANGE_RESOLUTION_M
+    range_resolution = RANGE_RESOLUTION_M # meters per pixel
     encoder_size = 5600
 
     # Extract actual data and metadata from the image
@@ -38,8 +42,12 @@ def extractDataFromRadarImage(
     range_azimuth_data = polarImgData[:, 11:].astype(np.float32) / 255.
 
     azimuth_resolution = azimuths[1] - azimuths[0]
-
-    # print(range_azimuth_data.shape, polarImgData.shape)
+    
+    # Clip range if specified
+    # Figure out range clip in m
+    if maxRangeClipM > 0:
+        maxRangeClipPx = int(maxRangeClipM / range_resolution)
+        range_azimuth_data = range_azimuth_data[:, :maxRangeClipPx]
 
     return range_azimuth_data, azimuths, range_resolution, azimuth_resolution, valid, timestamps
 
@@ -71,8 +79,6 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
-
-    RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
 
     return imgCart
 

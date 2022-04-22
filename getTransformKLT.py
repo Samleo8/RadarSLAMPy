@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import os, sys
 from getFeatures import appendNewFeatures
+from genFakeData import *
 
 import matplotlib.pyplot as plt
 from outlierRejection import rejectOutliers
@@ -113,8 +114,8 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
     t *= RANGE_RESOLUTION_CART_M
 
     # TODO: Invert transform
-    R = R.T
-    t = -R @ t
+    # R = R.T
+    # t = -R @ t
 
     print(
         f"Est distance: \n\t{dist:.2f} [px]\n\t{dist * RANGE_RESOLUTION_CART_M:.2f} [m]"
@@ -124,12 +125,47 @@ def estimateTransformUsingDelats(srcCoords: np.ndarray,
 
     return R, t
 
+def calculateTransformSVD(
+        srcCoords: np.ndarray,
+        targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    '''
+    @brief Calculate transform given 2 point correspondences using SVD.
+    Conventions:
+    Rx1 + h = x0
+
+    Reference: https://www.sciencedirect.com/science/article/pii/002192909400116L
+    @see getCorrespondences.py
+    Inputs:
+    srcCoords       - (N, 2) array of source points, x0
+    targetCoords    - (N, 2) array of target points, x1
+    Outputs:
+    (R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
+                      to old points srcCoords to get new points targetCoords, i.e.
+                      R * srcCoords + h = targetCoords
+    '''
+    x1_mean = np.mean(targetCoords, axis = 0, keepdims = True)
+    norm_x1 = targetCoords - x1_mean
+    x0_mean = np.mean(srcCoords, axis = 0, keepdims = True)
+    norm_x0 = srcCoords - x0_mean
+    C = norm_x0.T @ norm_x1 # 2 x 2
+
+    U, _ , V_T = np.linalg.svd(C) 
+    det = np.linalg.det(U @ V_T)
+    remove_reflection = np.eye(C.shape[0])
+    remove_reflection[-1, -1] = det
+    R = U @ remove_reflection @ V_T
+
+    h = x0_mean - (R @ x1_mean.T).T
+
+    return R, h.T
 
 def calculateTransform(
         srcCoords: np.ndarray,
         targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     '''
-    @brief Calculate transform given 2 point correspondences
+    @brief Calculate transform given 2 point correspondences.
+
+    TODO: Make this work with SVD 
     @see getCorrespondences.py
     Inputs:
     srcCoords       - (N, 2) array of source points
@@ -151,16 +187,15 @@ def calculateTransform(
 
     # TODO: Please make this numpy vectorized
     for i in range(N):
-        src = np.flip(srcCoords[i])
-        target = np.flip(targetCoords[i])
+        src = srcCoords[i]
+        target = targetCoords[i]
         # Convention: x = [lambda, hx, hy]
         A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1, 0], [src[0], 0, 1]])
-        # is it y_0 - y_1 or -y_0 - y_1?
         b[2 * i:2 * i + 2,
           0] = np.array([src[0] - target[0], src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
-    x = np.linalg.inv(A.T @ A) @ A.T @ -b
+    x = np.linalg.inv(A.T @ A) @ A.T @ b
 
     # Approximate least squares solution
     theta = float(x[0])
@@ -169,8 +204,9 @@ def calculateTransform(
     R = np.array([[cth, -sth], [sth, cth]])
     print(f"Pixel displacement: {x[1:]}")
 
-    h = x[1:] * RANGE_RESOLUTION_CART_M
+    h = x[1:]
     '''
+
     # Iterative version: for precise R estimate
     num_iters = 0
     max_iters = 10
@@ -324,8 +360,9 @@ if __name__ == "__main__":
     gtTrajPath = os.path.join("data", datasetName, "gt", "radar_odometry.csv")
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
-    estTraj = Trajectory([initTimestamp],
-                         [*gtTraj.getPoseAtTime(initTimestamp)])
+    
+    initPose = gtTraj.getPoseAtTimes(initTimestamp)[0,:]
+    estTraj = Trajectory([initTimestamp], [initPose])
 
     good_old = None
     for imgNo in range(startImgInd + 1, nImgs):
@@ -349,25 +386,33 @@ if __name__ == "__main__":
             )
 
             # Outlier rejection
-            if prev_good_old is not None:
-                # Check if appended new features
-                prev_old_size = prev_good_old.shape[0]
-                if nFeatures > prev_old_size:
-                    corrStatus = corrStatus[:prev_old_size, :]
-                    print(corrStatus.shape, prev_good_old.shape)
+            # if prev_good_old is not None:
+            #     # Check if appended new features
+            #     prev_old_size = prev_good_old.shape[0]
+            #     if nFeatures > prev_old_size:
+            #         corrStatus = corrStatus[:prev_old_size, :]
+            #         print(corrStatus.shape, prev_good_old.shape)
 
-                # Appended features should be handled here
-                prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
-                print(prev_good_old.shape)
+            #     # Appended features should be handled here
+            #     prev_good_old = prev_good_old[(corrStatus == 1).flatten(), :]
+            #     print(prev_good_old.shape)
 
-                good_old, good_new = rejectOutliers(prev_good_old, good_old, good_new)
+            good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
-            # R, h = calculateTransform(good_old, good_new)
+            R, h = calculateTransformSVD(good_old, good_new)
+            print(h)
+            h[0] += 0
+            # for i in range(good_old.shape[0]):
+            #     plotFakeFeatures(good_old[i:i+1,:], (R @ good_new[i:i+1,:].T + h).T, show= True)
+            transformed_pts = (R @ good_new.T + h).T
+            print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
+            plotFakeFeatures(good_old, transformed_pts, good_new, show= True)
+            h *= RANGE_RESOLUTION_CART_M
 
-            R, h = estimateTransformUsingDelats(good_old, good_new)
+            #R, h = estimateTransformUsingDelats(good_old, good_new)
 
-            # print(f"R={R}\nh={h}")
+            print(f"R={R}\nh={h}")
 
             # Visualizations
             plt.clf()
@@ -389,12 +434,13 @@ if __name__ == "__main__":
 
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
-            estTraj.appendRelativePose(timestamp, R, h)
+            estTraj.appendRelativeTransform(timestamp, R, h)
             toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,
                                    imgNo,
                                    savePath=toSaveTrajPath)
+            # plt.pause(0.01)
 
             # Setup for next iteration
             blobCoord = good_new.copy()
