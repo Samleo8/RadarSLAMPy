@@ -25,11 +25,12 @@ class Trajectory():
         '''
         return self.gt_deltas[time]
 
-    def appendRelativeDxDth(self, time, dx, dth):
+    def appendRelativeDeltas(self, time, d_xyth):
+        dx, dy, dth = d_xyth
         self.timestamps = np.append(self.timestamps, time)
         x, y, th = self.poses[-1]
-        x += dx * np.cos(th)
-        y += dx * np.sin(th)
+        x += dx * np.cos(th) - dy * np.sin(th)
+        y += dx * np.sin(th) + dy * np.cos(th)
         th += dth
         self.poses = np.vstack((self.poses, [x, y, th]))
 
