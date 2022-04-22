@@ -9,6 +9,7 @@ from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEs
 from utils import convertRandHtoDeltas, f_arr, radarImgPathToTimestamp
 from Tracker import Tracker
 
+
 class RawROAMSystem():
 
     def __init__(self, sequenceName: str, hasGroundTruth: bool = True) -> None:
@@ -23,8 +24,7 @@ class RawROAMSystem():
         self.hasGroundTruth = hasGroundTruth
 
         dataPath = os.path.join("data", sequenceName, "radar")
-        timestampPath = os.path.join("data", sequenceName,
-                                          "radar.timestamps")
+        timestampPath = os.path.join("data", sequenceName, "radar.timestamps")
 
         assert os.path.exists(dataPath), \
             "Failed to find radar data for sequence " + self.sequenceName
@@ -37,7 +37,8 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam", sequenceName).strip(os.path.sep)
+        imgSavePath = os.path.join(".", "img", "roam",
+                                   sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
         os.makedirs(imgSavePath, exist_ok=True)
@@ -52,11 +53,12 @@ class RawROAMSystem():
         }
 
         # Initialize Trajectories
-        self.gtTraj = None # set in run() function
-        self.estTraj = None # set in run() function
+        self.gtTraj = None  # set in run() function
+        self.estTraj = None  # set in run() function
 
         # Initialize Tracker
-        self.tracker = Tracker(self.sequenceName, self.imgPathArr, self.filePaths)
+        self.tracker = Tracker(self.sequenceName, self.imgPathArr,
+                               self.filePaths)
 
         # TODO: Initialize mapping
 
@@ -97,7 +99,7 @@ class RawROAMSystem():
 
         # Initialize Trajectories
         gtTrajPath = os.path.join("data", sequenceName, "gt",
-                            "radar_odometry.csv")
+                                  "radar_odometry.csv")
         gtTraj = getGroundTruthTrajectory(gtTrajPath)
         initTimestamp = radarImgPathToTimestamp(imgPathArr[startSeqInd])
 
@@ -120,7 +122,8 @@ class RawROAMSystem():
             currImg = getCartImageFromImgPaths(imgPathArr, seqInd)
 
             # Perform tracking
-            good_old, good_new = tracker.track(prevImg, currImg, blobCoord, seqInd)
+            good_old, good_new = tracker.track(prevImg, currImg, blobCoord,
+                                               seqInd)
             R, h = tracker.getTransform(good_old, good_new)
 
             # Update trajectory
@@ -167,12 +170,11 @@ class RawROAMSystem():
         # Plot Trajectories
         toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         plotGtAndEstTrajectory(gtTraj,
-                        estTraj,
-                        f'[{seqInd}]\n'
-                        f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
-                        f'GT Deltas: {f_arr(gt_deltas)}\n'
-                        f'Est Deltas: {f_arr(est_deltas)}\n',
-                        savePath=toSaveTrajPath)
+                               estTraj, f'[{seqInd}]\n'
+                               f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
+                               f'GT Deltas: {f_arr(gt_deltas)}\n'
+                               f'Est Deltas: {f_arr(est_deltas)}\n',
+                               savePath=toSaveTrajPath)
 
 
 if __name__ == "__main__":
