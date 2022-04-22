@@ -202,8 +202,8 @@ class RawROAMSystem():
         # Get timestamps for plotting etc
         currTimestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
 
-        # debugging information with current poses and relative changes
-        # these are in DEGREES for debugging purposes
+        # Debugging information with current poses and deltas
+        # Thetas are in DEGREES for readibiliy
         gt_deltas = gtTraj.getGroundTruthDeltasAtTime(currTimestamp)
         gt_deltas[2] = np.rad2deg(gt_deltas[2])
         est_deltas = convertRandHtoDeltas(R, h)
@@ -211,17 +211,16 @@ class RawROAMSystem():
         est_pose = estTraj.poses[-1]
         est_pose[2] = np.rad2deg(est_pose[2])
 
-        print(f"GT Deltas: {f_arr(gt_deltas, th_deg=True)}")
-        print(f"EST Deltas: {f_arr(est_deltas, th_deg=True)}")
-        print(f"EST Pose: {f_arr(est_pose, th_deg=True)}")
+        info = f'Timestamp: {currTimestamp}\n'
+        info += f'Est Pose: {f_arr(estTraj.poses[-1], th_deg=True)}\n'
+        info += f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
+        info += f'Est Deltas: {f_arr(est_deltas, th_deg=True)}'
+        print(info)
 
         # Plot Trajectories
         toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg") \
              if save else None
 
-        info = f'Est Pose: {f_arr(estTraj.poses[-1], th_deg=True)}\n'
-        info += f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
-        info += f'Est Deltas: {f_arr(est_deltas, th_deg=True)}'
         plotGtAndEstTrajectory(gtTraj,
                                estTraj,
                                title=f'[{seqInd}]',
