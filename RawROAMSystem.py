@@ -130,9 +130,7 @@ class RawROAMSystem():
             self.updateTrajectory(R, h, seqInd)
 
             # Plotting and prints and stuff
-            self.tracker.plot(prevImg, currImg, good_old, good_new, seqInd)
-            self.plotTraj(seqInd, R, h)
-            plt.pause(0.01)
+            self.plot(prevImg, currImg, good_old, good_new, R, h, seqInd)
 
             # Update incremental variables
             blobCoord = good_new.copy()
@@ -148,6 +146,17 @@ class RawROAMSystem():
         dth = est_deltas[2]
         self.estTraj.appendRelativeDxDth(timestamp, dx, dth)
         # self.estTraj.appendRelativeTransform(timestamp, R, h)
+
+    def plot(self, prevImg, currImg, good_old, good_new, R, h, seqInd):
+        plt.clf()
+        
+        self.tracker.plot(prevImg, currImg, good_old, good_new, seqInd)
+        plt.show(block=False)
+
+        self.plotTraj(seqInd, R, h)
+        
+        plt.pause(0.01)
+
 
     def plotTraj(self, seqInd, R, h):
         # Init locals
