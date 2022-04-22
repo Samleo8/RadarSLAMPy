@@ -11,6 +11,9 @@ def tic():
 def toc(tic):
     return time.time() - tic
 
+def f_arr(xs):
+    return '[' + ','.join([f'{x:03f}' for x in xs]) + ']'
+
 def radarImgPathToTimestamp(radarImgPath):
     """
     eg: radarImgPathToTimestamp('data\\tiny\\radar\\1547131046353776.png') -> 1547131046353776
@@ -79,6 +82,15 @@ def convertTransformToPose(pose_transforms):
         pose_transforms = pose_transforms[0, :]
     return pose_transforms
 
+def flatten(x):
+    return x.reshape(x.shape[0])
+
+def convertRandHtoDeltas(R, h):
+    dx = float(*h[0])
+    dy = float(*h[1])
+    dth = np.arctan2(R[1,0], R[0,0])
+    return np.array([dx, dy, dth])
+
 def quiver(poses, c='r'):
     poses = np.array(poses)
     plt.quiver(
@@ -89,4 +101,5 @@ def quiver(poses, c='r'):
         color=c,
         width=0.02,
         scale=10,
+        alpha=.5,
     )

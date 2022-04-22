@@ -12,7 +12,7 @@ from parseData import getCartImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTI
 from utils import tic, toc
 
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
-from utils import radarImgPathToTimestamp
+from utils import *
 
 PLOT_BAD_FEATURES = False
 
@@ -134,6 +134,7 @@ def calculateTransformSVD(
     Rx1 + h = x0
 
     Reference: https://www.sciencedirect.com/science/article/pii/002192909400116L
+               http://nghiaho.com/?page_id=671
     @see getCorrespondences.py
     Inputs:
     srcCoords       - (N, 2) array of source points, x0
@@ -158,6 +159,40 @@ def calculateTransformSVD(
     h = x0_mean - (R @ x1_mean.T).T
 
     return R, h.T
+
+def calculateTransformDxDth(
+        srcCoords: np.ndarray,
+        targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    assert len(srcCoords) == len(targetCoords)
+    R = np.zeros((2, 2))
+    h = np.zeros((2, 1))
+
+    N = len(srcCoords)
+
+    # Form A and b
+    A = np.empty((N * 2, 2))
+    b = np.empty((N * 2, 1))
+
+    # TODO: Please make this numpy vectorized
+    for i in range(N):
+        src = srcCoords[i]
+        target = targetCoords[i]
+        # Convention: x = [lambda, hx]
+        A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1], [src[0], 0]])
+        b[2 * i:2 * i + 2, 0] = np.array([src[0] - target[0], src[1] - target[1]])
+
+    # Negate b because we want to go from Ax + b to min|| Ax - b ||
+    x = np.linalg.inv(A.T @ A) @ A.T @ b
+
+    # Approximate least squares solution
+    theta = float(x[0])
+    cth = np.cos(theta)
+    sth = np.sin(theta)
+    R = np.array([[cth, -sth], [sth, cth]])
+    print(f"Pixel displacement: {flatten(x)}")
+
+    h = np.array([[*x[1]], [0]])
+    return R, h
 
 def calculateTransform(
         srcCoords: np.ndarray,
@@ -191,8 +226,7 @@ def calculateTransform(
         target = targetCoords[i]
         # Convention: x = [lambda, hx, hy]
         A[2 * i:2 * i + 2, :] = np.array([[-src[1], 1, 0], [src[0], 0, 1]])
-        b[2 * i:2 * i + 2,
-          0] = np.array([src[0] - target[0], src[1] - target[1]])
+        b[2 * i:2 * i + 2, 0] = np.array([src[0] - target[0], src[1] - target[1]])
 
     # Negate b because we want to go from Ax + b to min|| Ax - b ||
     x = np.linalg.inv(A.T @ A) @ A.T @ b
@@ -202,7 +236,7 @@ def calculateTransform(
     cth = np.cos(theta)
     sth = np.sin(theta)
     R = np.array([[cth, -sth], [sth, cth]])
-    print(f"Pixel displacement: {x[1:]}")
+    print(f"Pixel displacement: {flatten(x)}")
 
     h = x[1:]
     '''
@@ -361,7 +395,7 @@ if __name__ == "__main__":
     gtTraj = getGroundTruthTrajectory(gtTrajPath)
     initTimestamp = radarImgPathToTimestamp(imgPathArr[startImgInd])
     
-    initPose = gtTraj.getPoseAtTimes(initTimestamp)[0,:]
+    initPose = gtTraj.getPoseAtTimes(initTimestamp)
     estTraj = Trajectory([initTimestamp], [initPose])
 
     good_old = None
@@ -400,19 +434,26 @@ if __name__ == "__main__":
             good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
-            R, h = calculateTransformSVD(good_old, good_new)
-            print(h)
-            h[0] += 0
+            R, h = calculateTransformDxDth(good_old, good_new)
+            # R, h = calculateTransformSVD(good_old, good_new)
+            # print(h)
+            # h[0] += 0
             # for i in range(good_old.shape[0]):
             #     plotFakeFeatures(good_old[i:i+1,:], (R @ good_new[i:i+1,:].T + h).T, show= True)
-            transformed_pts = (R @ good_new.T + h).T
-            print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
-            plotFakeFeatures(good_old, transformed_pts, good_new, show= True)
+            # transformed_pts = (R @ good_new.T + h).T
+            # print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
+            # plotFakeFeatures(good_old, transformed_pts, good_new, show = True)
             h *= RANGE_RESOLUTION_CART_M
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)
 
-            print(f"R={R}\nh={h}")
+            currTimestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
+            gt_deltas = gtTraj.getGroundTruthDeltasAtTime(currTimestamp)
+            gt_deltas[2] = np.rad2deg(gt_deltas[2])
+            est_deltas = convertRandHtoDeltas(R, h)
+            est_deltas[2] = np.rad2deg(est_deltas[2])
+            print(f"GT Deltas: {f_arr(gt_deltas)}")
+            print(f"Est Deltas: {f_arr(est_deltas)} (*dth in degrees)")
 
             # Visualizations
             plt.clf()
@@ -434,11 +475,18 @@ if __name__ == "__main__":
 
             # Plot Trajectories
             timestamp = radarImgPathToTimestamp(imgPathArr[imgNo])
-            estTraj.appendRelativeTransform(timestamp, R, h)
+            est_deltas = convertRandHtoDeltas(R, h)
+            dx = est_deltas[0]
+            dth = est_deltas[2]
+            estTraj.appendRelativeDxDth(timestamp, dx, dth)
+            # estTraj.appendRelativeTransform(timestamp, R, h)
             toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,
-                                   imgNo,
+                                   f'[{imgNo}]\n'
+                                   f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
+                                   f'GT Deltas: {f_arr(gt_deltas)}\n'
+                                   f'Est Deltas: {f_arr(est_deltas)}\n',
                                    savePath=toSaveTrajPath)
             # plt.pause(0.01)
 
@@ -450,9 +498,6 @@ if __name__ == "__main__":
 
     # Destroy windows/clear
     cv2.destroyAllWindows()
-
-    if datasetName.startswith("tiny"):
-        exit()
 
     # Save feature npz for continuation
     saveFeaturePath = os.path.join(

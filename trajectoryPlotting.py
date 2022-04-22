@@ -16,6 +16,20 @@ class Trajectory():
         self.timestamps = np.array(timestamps)
         self.poses = np.array(poses)
         self.pose_transform = convertPoseToTransform(self.poses[-1])
+
+    def getGroundTruthDeltasAtTime(self, time):
+        '''
+        @brief Given a timestamp, return the ground truth deltas at that time in (dx, dy, dth) list for debugging
+        '''
+        return self.gt_deltas[time]
+
+    def appendRelativeDxDth(self, time, dx, dth):
+        self.timestamps = np.append(self.timestamps, time)
+        x, y, th = self.poses[-1]
+        x += dx * np.cos(th)
+        y += dx * np.sin(th)
+        th += dth
+        self.poses = np.vstack((self.poses, [x, y, th]))
     
     def appendRelativeTransform(self, time, R, h):
         '''
@@ -37,6 +51,11 @@ class Trajectory():
         # Update pose_transforms and poses
         self.pose_transform = A @ self.pose_transform
         new_pose = convertTransformToPose(self.pose_transform)
+
+        # T = convertPoseToTransform(self.poses[-1])
+        # xy = T @ [*h, 1]
+        # dth = np.arctan2(T[1,0], T[0,0])
+        # new_pose = [*xy[0], *xy[1], self.poses[-1,2] + dth]
         self.poses = np.vstack((self.poses, new_pose))
 
     def getPoseAtTimes(self, times):
@@ -55,6 +74,8 @@ class Trajectory():
             poses = np.zeros((len(times), 3))
             for i,t in enumerate(times):
                 poses[i,:] = self.poses[np.argmin(np.abs(self.timestamps - t))]
+        if poses.shape[0] == 1 and type(times) == int:
+            poses = poses[0,:]
         return poses
 
     def plotTrajectory(self, title='My Trajectory', savePath=False):
@@ -66,6 +87,7 @@ class Trajectory():
         plt.axis('square')
         plt.title(title)
         if savePath:
+            plt.tight_layout()
             plt.savefig(savePath)
 
 def computePosesRMSE(gtPoses, estPoses):
@@ -102,6 +124,7 @@ def plotGtAndEstTrajectory(gtTraj, estTraj, title='GT and EST Trajectories', sav
     plt.axis('square')
     plt.title(f'{title}: RMSE={computePosesRMSE(gtPoses, estPoses):.2f}')
     if savePath:
+        plt.tight_layout()
         plt.savefig(savePath)
 
 def getGroundTruthTrajectory(gtPath):
@@ -116,6 +139,7 @@ def getGroundTruthTrajectory(gtPath):
 
         gt_timestamps = []
         gt_poses = []
+        d_xyths = {}
         x, y, th = 0, 0, 0
         for row in gt_reader:
             timestamp = int(row[9]) # destination_radar_timestamp
@@ -128,9 +152,12 @@ def getGroundTruthTrajectory(gtPath):
             th += dth
             th = normalize_angles(th)
             gt_poses.append([x,y,th])
+            d_xyths[timestamp] = [dx,dy,dth]
     gt_timestamps = np.array(gt_timestamps)
     gt_poses = np.array(gt_poses)
-    return Trajectory(gt_timestamps, gt_poses)
+    gt_traj = Trajectory(gt_timestamps, gt_poses)
+    gt_traj.gt_deltas = d_xyths
+    return gt_traj
 
 def getGroundTruthTrajectoryGPS(gtPath):
     '''
