@@ -435,7 +435,6 @@ if __name__ == "__main__":
 
             # Obtain transforms
             R, h = calculateTransformDxDth(good_old, good_new)
-            h /= 2 # ????????????????????
             # R, h = calculateTransformSVD(good_old, good_new)
             # print(h)
             # h[0] += 0

@@ -6,10 +6,10 @@ import os, sys
 from Coord import CartCoord
 
 RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm per pixel)
-
-# TODO: Find and fix actual range resolution
 DOWNSAMPLE_FACTOR = 2
-RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * 2 * DOWNSAMPLE_FACTOR
+
+# NOTE: Should NOT * 2 because in the @see convertPolarImageToCartesian function, the Cartesian size is also doubled. 
+RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * DOWNSAMPLE_FACTOR
 MAX_RANGE_CLIP_DEFAULT = 87.5  # according to the paper
 
 
