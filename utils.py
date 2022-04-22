@@ -102,7 +102,7 @@ def convertRandHtoDeltas(R, h):
     return np.array([dx, dy, dth])
 
 
-def quiver(poses, c='r'):
+def quiver(poses, c='r', label=None):
     poses = np.array(poses)
     plt.quiver(
         poses[:, 0],
@@ -113,6 +113,7 @@ def quiver(poses, c='r'):
         width=0.02,
         scale=10,
         alpha=.5,
+        label=label
     )
 
 
