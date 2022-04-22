@@ -123,14 +123,28 @@ class RawROAMSystem():
             good_old, good_new = tracker.track(prevImg, currImg, blobCoord, seqInd)
             R, h = tracker.getTransform(good_old, good_new)
 
+            # Update trajectory
+            self.updateTrajectory(R, h, seqInd)
+
             # Plotting and prints and stuff
             self.tracker.plot(prevImg, currImg, good_old, good_new, seqInd)
             self.plotTraj(seqInd, R, h)
+            plt.pause(0.01)
 
             # Update incremental variables
             blobCoord = good_new.copy()
             prevImg = currImg
 
+    # TODO: Move into trajectory class?
+    def updateTrajectory(self, R, h, seqInd):
+        imgPathArr = self.imgPathArr
+
+        timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
+        est_deltas = convertRandHtoDeltas(R, h)
+        dx = est_deltas[0]
+        dth = est_deltas[2]
+        self.estTraj.appendRelativeDxDth(timestamp, dx, dth)
+        # self.estTraj.appendRelativeTransform(timestamp, R, h)
 
     def plotTraj(self, seqInd, R, h):
         # Init locals
@@ -151,14 +165,6 @@ class RawROAMSystem():
         print(f"Est Deltas: {f_arr(est_deltas)} (*dth in degrees)")
 
         # Plot Trajectories
-        # TODO: Update trajectory without having to plot it
-        timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
-        est_deltas = convertRandHtoDeltas(R, h)
-        dx = est_deltas[0]
-        dth = est_deltas[2]
-        estTraj.appendRelativeDxDth(timestamp, dx, dth)
-        # estTraj.appendRelativeTransform(timestamp, R, h)
-
         toSaveTrajPath = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         plotGtAndEstTrajectory(gtTraj,
                         estTraj,
