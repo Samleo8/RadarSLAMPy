@@ -90,8 +90,8 @@ def plotGtAndEstTrajectory(gtTraj, estTraj, title='GT and EST Trajectories', sav
     gtPoses = gtTraj.getPoseAtTimes(timestamps)
     estPoses = estTraj.getPoseAtTimes(timestamps)
     if arrow:
-        quiver(gtPoses, c='r')
-        quiver(estPoses, c='b')
+        quiver(gtPoses, c='b')
+        quiver(estPoses, c='r')
     else:
         plt.plot(gtPoses[:,0], gtPoses[:,1], 'b-', label='Ground Truth')
         plt.plot(estPoses[:,0], estPoses[:,1], 'r-', label='Estimated')
