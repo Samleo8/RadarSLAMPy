@@ -11,6 +11,9 @@ def tic():
 def toc(tic):
     return time.time() - tic
 
+def f_arr(xs):
+    return '[' + ','.join([f'{x:03f}' for x in xs]) + ']'
+
 def radarImgPathToTimestamp(radarImgPath):
     """
     eg: radarImgPathToTimestamp('data\\tiny\\radar\\1547131046353776.png') -> 1547131046353776

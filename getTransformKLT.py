@@ -453,8 +453,8 @@ if __name__ == "__main__":
             gt_deltas[2] = np.rad2deg(gt_deltas[2])
             est_deltas = convertRandHtoDeltas(R, h)
             est_deltas[2] = np.rad2deg(est_deltas[2])
-            print(f"GT Deltas: {gt_deltas}")
-            print(f"Est Deltas: {est_deltas} (*dth in degrees)")
+            print(f"GT Deltas: {f_arr(gt_deltas)}")
+            print(f"Est Deltas: {f_arr(est_deltas)} (*dth in degrees)")
 
             # Visualizations
             plt.clf()
@@ -484,7 +484,10 @@ if __name__ == "__main__":
             toSaveTrajPath = os.path.join(trajSavePath, f"{imgNo:04d}.jpg")
             plotGtAndEstTrajectory(gtTraj,
                                    estTraj,
-                                   f'[{imgNo}]\nGT Deltas: {gt_deltas}\nEst Deltas: {est_deltas}\n',
+                                   f'[{imgNo}]\n'
+                                   f'Est Pose: {f_arr(estTraj.poses[-1])}\n'
+                                   f'GT Deltas: {f_arr(gt_deltas)}\n'
+                                   f'Est Deltas: {f_arr(est_deltas)}\n',
                                    savePath=toSaveTrajPath)
             # plt.pause(0.01)
 

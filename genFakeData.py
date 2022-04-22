@@ -144,7 +144,7 @@ def generateTranslationVector(max_range_m=10):
     h = np.random.random((2, 1))
     h *= max_range_m / RANGE_RESOLUTION_CART_M
     # limit y translation
-    # h[1] /= 300
+    h[1] /= 300
     return h
 
 
