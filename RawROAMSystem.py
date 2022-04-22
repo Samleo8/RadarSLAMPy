@@ -53,7 +53,7 @@ class RawROAMSystem():
         }
 
         # Initialize visualization
-        self.fig = plt.figure(figsize=(10, 5))
+        self.fig = plt.figure(figsize=(11, 5))
 
         # Initialize Trajectories
         self.gtTraj = None  # set in run() function
@@ -174,18 +174,23 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         self.plotTraj(seqInd, R, h, save=False, show=False)
+        
+        trajSavePath = self.filePaths["trajSave"]
+        trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+        # plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
+        
+        plt.tight_layout()
+        self.fig.savefig(trajSavePathInd)
 
-        # plt.tight_layout(pad=2)
+        # # Save by subplot
+        # if save:
+        #     imgSavePath = self.filePaths["imgSave"]
+        #     imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+        #     plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
 
-        # Save by subplot
-        if save:
-            imgSavePath = self.filePaths["imgSave"]
-            imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
-            plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
-
-            trajSavePath = self.filePaths["trajSave"]
-            trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
-            plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
+        #     trajSavePath = self.filePaths["trajSave"]
+        #     trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+        #     plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
 
         plt.pause(0.01)
 
