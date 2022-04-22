@@ -114,15 +114,14 @@ def plotGtAndEstTrajectory(gtTraj,
                            estTraj,
                            title='GT and EST Trajectories',
                            savePath=None,
-                           arrow=True,
-                           clear=True):
+                           arrow=True):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory
     @param[in] estTrajectory Estimated trajectory
     @param[in] title Title of the plot
     '''
-    if clear:
+    if savePath is not None:
         plt.clf()
 
     earliestTimestamp = estTraj.timestamps[0]
