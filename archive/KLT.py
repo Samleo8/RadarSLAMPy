@@ -264,6 +264,14 @@ if __name__ == "__main__":
                                        method="doh")
         currFeatureInd = blobIndices[:, :2].astype(int)
 
+        # SORT BLOBS
+        # sorted_ind = np.argsort(blobIndices[:, 3])
+        # keypoints = blobIndices[sorted_ind, :]
+        # USE SCC
+        # selected_keypoints = ssc(
+        #     keypoints, return_points, tolerance, W, H
+        # )
+
         if imgNo:
             print(f"Computing affine transforms for {len(blobIndices)} blobs", end="... ", flush=True)
             start = tic()
