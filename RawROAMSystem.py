@@ -52,6 +52,9 @@ class RawROAMSystem():
             "imgSave": imgSavePath
         }
 
+        # Initialize visualization
+        self.fig = plt.figure()
+
         # Initialize Trajectories
         self.gtTraj = None  # set in run() function
         self.estTraj = None  # set in run() function
@@ -147,12 +150,20 @@ class RawROAMSystem():
         self.estTraj.appendRelativeDxDth(timestamp, dx, dth)
         # self.estTraj.appendRelativeTransform(timestamp, R, h)
 
-    def plot(self, prevImg, currImg, good_old, good_new, R, h, seqInd, save=True):
-        plt.clf()
+    def plot(self,
+             prevImg,
+             currImg,
+             good_old,
+             good_new,
+             R,
+             h,
+             seqInd,
+             save=True):
 
         # Draw as subplots
-        fig = plt.figure()
-        ax1 = fig.add_subplot(1, 2, 1)
+        self.fig.clear()
+
+        ax1 = self.fig.add_subplot(1, 2, 1)
         self.tracker.plot(prevImg,
                           currImg,
                           good_old,
@@ -161,18 +172,20 @@ class RawROAMSystem():
                           save=False,
                           show=False)
 
-        ax2 = fig.add_subplot(1, 2, 2)
-        self.plotTraj(seqInd, R, h)
+        ax2 = self.fig.add_subplot(1, 2, 2)
+        self.plotTraj(seqInd, R, h, save=False, show=False)
+
+        # plt.tight_layout(pad=2)
 
         # Save by subplot
         if save:
             imgSavePath = self.filePaths["imgSave"]
             imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
-            plt_savefig_by_axis(imgSavePathInd, fig, ax1)
+            plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
 
             trajSavePath = self.filePaths["trajSave"]
             trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
-            plt_savefig_by_axis(trajSavePathInd, fig, ax2)
+            plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
 
         plt.pause(0.01)
 

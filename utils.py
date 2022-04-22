@@ -140,4 +140,5 @@ def plt_savefig_by_axis(filePath, fig, ax, pad=0.0):
     @param[in] ax Axis to save
     '''
     extent = plt_full_extent(ax, pad).transformed(fig.dpi_scale_trans.inverted())
+    # extent = ax.get_tightbbox(fig.canvas.get_renderer())
     fig.savefig(filePath, bbox_inches=extent)
