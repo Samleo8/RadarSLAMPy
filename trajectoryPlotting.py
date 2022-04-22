@@ -152,7 +152,7 @@ def plotGtAndEstTrajectory(gtTraj,
                  horizontalalignment='left',
                  verticalalignment='top',
                  transform=plt.gca().transAxes,
-                 fontsize=12)
+                 fontsize='small')
 
     plt.xlabel('x [m]')
     plt.ylabel('y [m]')
