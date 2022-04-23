@@ -1,11 +1,12 @@
-import sys
+import sys, os
 import math
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import scipy.ndimage.interpolation as ndii
-import pprint
 import time
+
+from parseData import getCartImageFromImgPaths, getRadarImgPaths
 
 # global constants
 RE_IDX = 0
@@ -20,11 +21,11 @@ resultsComparation = False
 # this function will calculates parameters for log polar transformation
 # (center of transformation, angle step and log base)
 def computeLogPolarParameters(img):
-	# Step 1 - Get center of the transformation
+    # Step 1 - Get center of the transformation
     centerTrans = [math.floor((img.shape[ROWS_AXIS] + 1) / 2), math.floor((img.shape[COLS_AXIS] + 1 ) / 2)]
-	# Step 2 - Estimate dimensions of final image after discrete log-polar transformation
-	# num of columns = log(radius)
-	# num of rows = angle in radius (0, 2pi)
+    # Step 2 - Estimate dimensions of final image after discrete log-polar transformation
+    # num of columns = log(radius)
+    # num of rows = angle in radius (0, 2pi)
     maxDiff = np.maximum(centerTrans, np.asarray(img.shape) - centerTrans)
     maxDistance = ((maxDiff[0] ** 2 + maxDiff[1] ** 2 ) ** 0.5)
     dimsLogPolar = [0,0]
@@ -118,12 +119,13 @@ def addNoiseToImage(img, noise, noiseIntensity):
             return img
 
 # reads image, runs FFT and returns FFT image + its magnitude spectrum
-def readImage(img):
-    imgData = cv2.imread(img,0) # 0 means Grayscale
-    imgData = addNoiseToImage(imgData, noiseMode, noiseIntensity)
-    imgFft, imgFftShifted = calculateFft(imgData) # FFT of the image
+def readImage(imgCart):
+    # imgData = cv2.imread(img,0) # 0 means Grayscale
+    # imgData = addNoiseToImage(imgData, noiseMode, noiseIntensity)
+
+    imgFft, imgFftShifted = calculateFft(imgCart) # FFT of the image
     imgMags = cv2.magnitude(imgFftShifted[:,:,RE_IDX],imgFftShifted[:,:,IM_IDX])
-    return (imgData, imgFftShifted, imgMags)
+    return (imgCart, imgFftShifted, imgMags)
 
 
 # applies highpass filter and returns the image
@@ -151,12 +153,30 @@ def calculateFft(img):
 
 # main script
 def main(argv):
+    datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
+    dataPath = os.path.join("data", datasetName, "radar")
+    timestampPath = os.path.join("data", datasetName, "radar.timestamps")
+
+    startSeqInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
+
+    # Get initial Polar image
+    imgPathArr = getRadarImgPaths(dataPath, timestampPath)
+
+    prevImgCart = getCartImageFromImgPaths(imgPathArr, startSeqInd)
+    # prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
+
+    currImgCart = getCartImageFromImgPaths(imgPathArr, startSeqInd + 5)
+    # currImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd + 5)
+
     timeStart = time.time()
+
     # Step 1 - Apply FFT on both images and get their magnitude spectrums
     # image (we are looking for), lets call it original
-    imgOriginal, imgOriginalFft, imgOriginalMags = readImage(argv[1])
+    imgOriginal, imgOriginalFft, imgOriginalMags = readImage(prevImgCart)
     # image (we are searching in), lets call it transformed
-    imgTransformed, imgTransformedFft, imgTransformedMags = readImage(argv[2])
+    imgTransformed, imgTransformedFft, imgTransformedMags = readImage(
+        currImgCart)
 
     # Step 2 - Apply highpass filter on their magnitude spectrums
     highPassFilter = prepareHighPassFilter(imgOriginalMags)
@@ -234,4 +254,4 @@ def main(argv):
 
 # script.py {image, we are looking for} {image, we are searching in}
 if __name__ == '__main__':
-	sys.exit(main(sys.argv))
+    sys.exit(main(sys.argv))
