@@ -65,8 +65,33 @@ def drawCVPoint(img: np.ndarray,
                       thickness=-1)
 
 
+def convertCartesianImageToPolar(imgCart: np.ndarray,
+                                 logPolarMode: bool = True) -> np.ndarray:
+    '''
+    @brief Converts Cartesian image to (potentially log) polar
+    @param[in] imgPolar Polar image to convert
+    @param[in] logPolarMode Log polar mode
+    @return imgCart Converted Cartesian image
+    '''
+    w, h = imgCart.shape
+    assert w == h, "Should be a square Cartesian image"
+
+    center = tuple(w / 2, h / 2)
+    maxRadius = h
+    size = None # None for now
+
+    flags = cv2.WARP_POLAR_LINEAR
+    if (logPolarMode):
+        flags += cv2.WARP_POLAR_LOG
+    flags += cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
+    imgCart = cv2.warpPolar(imgCart, size, center, maxRadius, flags)
+
+    return imgCart
+
+
 def convertPolarImageToCartesian(
         imgPolar: np.ndarray,
+        logPolarMode: bool = False,
         downsampleFactor: int = DOWNSAMPLE_FACTOR,
         changeGlobalRangeResolution: bool = False) -> np.ndarray:
     '''
@@ -78,7 +103,7 @@ def convertPolarImageToCartesian(
 
     if downsampleFactor > 1:
         maxRadius = h // downsampleFactor
-    else: 
+    else:
         maxRadius = h
 
     cartSize = (maxRadius * 2, maxRadius * 2)
@@ -89,6 +114,9 @@ def convertPolarImageToCartesian(
         RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * downsampleFactor
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
+    if (logPolarMode):
+        flags += cv2.WARP_POLAR_LOG
+
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
 
     return imgCart
