@@ -77,7 +77,7 @@ def convertCartesianImageToPolar(imgCart: np.ndarray,
     w, h = imgCart.shape
     assert w == h, "Should be a square Cartesian image"
 
-    center = tuple(w / 2, h / 2)
+    center = (w / 2, h / 2)
     maxRadius = h
     size = None  # None for now
 
