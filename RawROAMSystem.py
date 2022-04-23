@@ -120,7 +120,7 @@ class RawROAMSystem():
         blobCoord = np.empty((0, 2))
         blobCoord, _ = appendNewFeatures(prevImg, blobCoord)
 
-        for seqInd in range(startSeqInd + 1, sequenceSize):
+        for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain image
             currImg = getCartImageFromImgPaths(imgPathArr, seqInd)
 
