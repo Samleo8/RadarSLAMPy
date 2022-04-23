@@ -66,11 +66,12 @@ def drawCVPoint(img: np.ndarray,
 
 
 def convertCartesianImageToPolar(imgCart: np.ndarray,
-                                 logPolarMode: bool = True) -> np.ndarray:
+                                 logPolarMode: bool = False) -> np.ndarray:
     '''
     @brief Converts Cartesian image to (potentially log) polar
     @param[in] imgPolar Polar image to convert
-    @param[in] logPolarMode Log polar mode
+    @param[in] logPolarMode Whether to convert in log-polar mode
+
     @return imgCart Converted Cartesian image
     '''
     w, h = imgCart.shape
@@ -78,7 +79,7 @@ def convertCartesianImageToPolar(imgCart: np.ndarray,
 
     center = tuple(w / 2, h / 2)
     maxRadius = h
-    size = None # None for now
+    size = None  # None for now
 
     flags = cv2.WARP_POLAR_LINEAR
     if (logPolarMode):
@@ -97,6 +98,12 @@ def convertPolarImageToCartesian(
     '''
     @brief Converts polar image to Cartesian formats
     @param[in] imgPolar Polar image to convert
+    @param[in] logPolarMode Whether to convert in log-polar mode
+    @param[in] downsampleFactor How much to downsample Cartesian image for performance improvements
+    @param[in] changeGlobalRangeResolution Whether or not to change the
+                                           global range resolution needed
+                                           for accurate px to m conversions
+
     @return imgCart Converted Cartesian image
     '''
     w, h = imgPolar.shape
@@ -120,6 +127,27 @@ def convertPolarImageToCartesian(
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
 
     return imgCart
+
+
+def convertPolarImgToLogPolar(imgPolar: np.ndarray):
+    '''
+    @brief Convert an image in polar form into log-polar form
+    @note Involves converting from polar to Cartesian to back again
+    @see convertPolarImageToCartesian(), convertCartesianImageToPolar()
+
+    '''
+    # Involves converting from polar to cartesian to back again
+    # TODO: Probably a more efficent way to do this
+    # Convert to Cartesian, do no downsample here
+    imgCart = convertPolarImageToCartesian(imgPolar,
+                                           logPolarMode=False,
+                                           downsampleFactor=1,
+                                           changeGlobalRangeResolution=False)
+
+    # Convert the Cart image to log-polar
+    logPolarImg = convertCartesianImageToPolar(imgCart, logPolarMode=True)
+
+    return logPolarImg
 
 
 def getDataFromImgPathsByIndex(
