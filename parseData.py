@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from typing import Tuple
 import numpy as np
 import cv2
@@ -65,8 +66,10 @@ def drawCVPoint(img: np.ndarray,
                       thickness=-1)
 
 
-def convertCartesianImageToPolar(imgCart: np.ndarray,
-                                 logPolarMode: bool = False) -> np.ndarray:
+def convertCartesianImageToPolar(
+        imgCart: np.ndarray,
+        logPolarMode: bool = False,
+        shapeHW: Tuple[int, int] = None) -> np.ndarray:
     '''
     @brief Converts Cartesian image to (potentially log) polar
     @param[in] imgPolar Polar image to convert
@@ -74,20 +77,24 @@ def convertCartesianImageToPolar(imgCart: np.ndarray,
 
     @return imgCart Converted Cartesian image
     '''
-    w, h = imgCart.shape
+    h, w = imgCart.shape
     assert w == h, "Should be a square Cartesian image"
 
-    center = (w / 2, h / 2)
-    maxRadius = h
-    size = None  # None for now
+    center = (h / 2, w / 2)
+    maxRadius = w / 2
 
-    flags = cv2.WARP_POLAR_LINEAR
-    if (logPolarMode):
-        flags += cv2.WARP_POLAR_LOG
+    if shapeHW is None:
+        size = None
+    else: 
+        size = (shapeHW[1], shapeHW[0])  # need to invert to make (W, H)
+
+    flags = cv2.WARP_POLAR_LOG if logPolarMode else cv2.WARP_POLAR_LINEAR
+
     flags += cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
-    imgCart = cv2.warpPolar(imgCart, size, center, maxRadius, flags)
 
-    return imgCart
+    imgPolar = cv2.warpPolar(imgCart, size, center, maxRadius, flags)
+
+    return imgPolar
 
 
 def convertPolarImageToCartesian(
@@ -145,7 +152,9 @@ def convertPolarImgToLogPolar(imgPolar: np.ndarray):
                                            changeGlobalRangeResolution=False)
 
     # Convert the Cart image to log-polar
-    logPolarImg = convertCartesianImageToPolar(imgCart, logPolarMode=True)
+    logPolarImg = convertCartesianImageToPolar(imgCart,
+                                               logPolarMode=True,
+                                               shapeHW=None)
 
     return logPolarImg
 
