@@ -8,7 +8,7 @@ from Coord import CartCoord
 RANGE_RESOLUTION_M = 0.0432  # radar range resolution in m (4.32 cm per pixel)
 DOWNSAMPLE_FACTOR = 2
 
-# NOTE: Should NOT * 2 because in the @see convertPolarImageToCartesian function, the Cartesian size is also doubled. 
+# NOTE: Should NOT * 2 because in the @see convertPolarImageToCartesian function, the Cartesian size is also doubled.
 RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * DOWNSAMPLE_FACTOR
 MAX_RANGE_CLIP_DEFAULT = 87.5  # according to the paper
 
@@ -31,7 +31,7 @@ def extractDataFromRadarImage(
         timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
     """
     # Hard coded configuration to simplify parsing code
-    range_resolution = RANGE_RESOLUTION_M # meters per pixel
+    range_resolution = RANGE_RESOLUTION_M  # meters per pixel
     encoder_size = 5600
 
     # Extract actual data and metadata from the image
@@ -42,7 +42,7 @@ def extractDataFromRadarImage(
     range_azimuth_data = polarImgData[:, 11:].astype(np.float32) / 255.
 
     azimuth_resolution = azimuths[1] - azimuths[0]
-    
+
     # Clip range if specified
     # Figure out range clip in m
     if maxRangeClipM > 0:
@@ -65,7 +65,10 @@ def drawCVPoint(img: np.ndarray,
                       thickness=-1)
 
 
-def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
+def convertPolarImageToCartesian(
+        imgPolar: np.ndarray,
+        downsampleFactor: int = DOWNSAMPLE_FACTOR,
+        changeGlobalRangeResolution: bool = False) -> np.ndarray:
     '''
     @brief Converts polar image to Cartesian formats
     @param[in] imgPolar Polar image to convert
@@ -73,9 +76,17 @@ def convertPolarImageToCartesian(imgPolar: np.ndarray) -> np.ndarray:
     '''
     w, h = imgPolar.shape
 
-    maxRadius = h // DOWNSAMPLE_FACTOR
+    if downsampleFactor > 1:
+        maxRadius = h // downsampleFactor
+    else: 
+        maxRadius = h
+
     cartSize = (maxRadius * 2, maxRadius * 2)
     center = tuple(np.array(cartSize) / 2)
+
+    if changeGlobalRangeResolution:
+        global RANGE_RESOLUTION_CART_M, RANGE_RESOLUTION_M
+        RANGE_RESOLUTION_CART_M = RANGE_RESOLUTION_M * downsampleFactor
 
     flags = cv2.WARP_POLAR_LINEAR + cv2.WARP_INVERSE_MAP + cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
