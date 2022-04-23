@@ -1,4 +1,4 @@
-from getTransformKLT import calculateTransformSVD, calculateTransform, calculateTransformDxDth
+from getTransformKLT import *
 from genFakeData import *
 
 if __name__ == "__main__":

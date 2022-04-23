@@ -208,13 +208,13 @@ class RawROAMSystem():
         gt_deltas[2] = np.rad2deg(gt_deltas[2])
         est_deltas = convertRandHtoDeltas(R, h)
         est_deltas[2] = np.rad2deg(est_deltas[2])
-        est_pose = estTraj.poses[-1]
+        est_pose = estTraj.poses[-1].copy()
         est_pose[2] = np.rad2deg(est_pose[2])
 
         info = f'Timestamp: {currTimestamp}\n'
-        info += f'Est Pose: {f_arr(estTraj.poses[-1], th_deg=True)}\n'
+        info += f'EST Pose: {f_arr(est_pose, th_deg=True)}\n'
         info += f'GT Deltas: {f_arr(gt_deltas, th_deg=True)}\n'
-        info += f'Est Deltas: {f_arr(est_deltas, th_deg=True)}'
+        info += f'EST Deltas: {f_arr(est_deltas, th_deg=True)}'
         print(info)
 
         # Plot Trajectories
@@ -243,7 +243,7 @@ if __name__ == "__main__":
     system = RawROAMSystem(datasetName, hasGroundTruth=True)
 
     try:
-        system.run()
+        system.run(startImgInd, endImgInd)
     except KeyboardInterrupt:
         exit()
         pass
