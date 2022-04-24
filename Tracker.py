@@ -14,9 +14,7 @@ from utils import tic, toc
 
 class Tracker():
 
-    def __init__(self,
-                 sequenceName: str,
-                 imgPathArr: list[str],
+    def __init__(self, sequenceName: str, imgPathArr: list[str],
                  filePaths: dict[str]) -> None:
         self.sequenceName = sequenceName
 
@@ -32,10 +30,15 @@ class Tracker():
         self.estTraj = estTraj
         self.gtTraj = gtTraj
 
-    def track(self, prevImgCart: np.ndarray, currImgCart: np.ndarray,
-              prevImgPolar: np.ndarray, currImgPolar: np.ndarray,
-              featureCoord: np.ndarray,
-              seqInd: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def track(
+            self,
+            prevImgCart: np.ndarray,
+            currImgCart: np.ndarray,
+            prevImgPolar: np.ndarray,
+            currImgPolar: np.ndarray,
+            featureCoord: np.ndarray,
+            seqInd: int,
+            useFMT: bool = True) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         '''
         @brief Track based on previous and current image
 
@@ -54,11 +57,14 @@ class Tracker():
         start = tic()
 
         # Using FMT, obtain the rotation estimate
-        angleRotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+        angleRotRad, scale, response = getRotationUsingFMT(
+            prevImgPolar, currImgPolar)
 
         # Correct for rotation using rotational estimate
-        # prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
-        prevImgCartRot = prevImgCart
+        if useFMT:
+            prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+        else:
+            prevImgCartRot = prevImgCart
 
         # Obtain Point Correspondences
         good_new, good_old, bad_new, bad_old, corrStatus = \
@@ -96,7 +102,14 @@ class Tracker():
 
         return R, h
 
-    def plot(self, prevImg, currImg, good_old, good_new, seqInd, save=True, show=False):
+    def plot(self,
+             prevImg,
+             currImg,
+             good_old,
+             good_new,
+             seqInd,
+             save=True,
+             show=False):
         imgSavePath = self.filePaths["imgSave"]
 
         # Visualizations

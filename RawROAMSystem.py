@@ -128,11 +128,13 @@ class RawROAMSystem():
             # Perform tracking
             good_old, good_new, rotAngleRad = tracker.track(prevImgCart, currImgCart,
                                                prevImgPolar, currImgPolar,
-                                               blobCoord, seqInd)
+                                               blobCoord, seqInd, useFMT=False)
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
-            estR = getRotationMatrix(rotAngleRad)
+            estR = getRotationMatrix(-rotAngleRad)
 
             R, h = tracker.getTransform(good_old, good_new)
+
+            # R = estR
 
             # Update trajectory
             self.updateTrajectory(R, h, seqInd)
