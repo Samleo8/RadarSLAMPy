@@ -204,8 +204,13 @@ if __name__ == "__main__":
             print(f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
             print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
-            plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
+            # Save image
             imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+            plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
+            
+            plt.suptitle(f"Sequence {seqInd:04d}")
+            plt.tight_layout()
+            
             plt.savefig(imgSavePathInd)
 
             prevImgPolar = currImgPolar
@@ -220,7 +225,7 @@ if __name__ == "__main__":
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
         # Save video sequence
-        os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1}")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:

@@ -172,11 +172,11 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         self.plotTraj(seqInd, R, h, save=False, show=False)
-        
+
         trajSavePath = self.filePaths["trajSave"]
         trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         # plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
-        
+
         plt.tight_layout()
         self.fig.savefig(trajSavePathInd)
 
@@ -256,7 +256,7 @@ if __name__ == "__main__":
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
         # Save video sequence
-        os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1}")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
@@ -264,7 +264,7 @@ if __name__ == "__main__":
             print("Old results folder removed.")
 
         # Save traj sequence
-        os.system(f"./img/mp4-from-folder.sh {trajSavePath}")
+        os.system(f"./img/mp4-from-folder.sh {trajSavePath} {startSeqInd + 1}")
         print(f"mp4 saved to {trajSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
