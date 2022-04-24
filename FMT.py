@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from parseData import convertCartesianImageToPolar, convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, convertPolarImgToLogPolar
 from utils import normalize_angles
 
-FMT_DOWNSAMPLE_FACTOR = 5 # default downsampling factor for FMT rotation
+FMT_DOWNSAMPLE_FACTOR = 10 # default downsampling factor for FMT rotation
 
 def getRotationUsingFMT(srcPolarImg: np.ndarray,
                         targetPolarImg: np.ndarray,
@@ -102,7 +102,7 @@ def plotCartPolar(prevImgPolar, currImgPolar, prevImgCart, currImgCart):
 
 def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
     ROWS = 1
-    COLS = 3 if rotRad is not None else 2
+    COLS = 4 if rotRad is not None else 2
     i = 0
 
     i += 1
@@ -124,8 +124,15 @@ def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
         plt.subplot(ROWS, COLS, i)
         plt.axis("off")
         rotDeg = np.rad2deg(rotRad)
-        plt.imshow(rotateImg(prevImgCart, rotDeg))
+        rotatedImg = rotateImg(prevImgCart, rotDeg)
+        plt.imshow(rotatedImg)
         plt.title(f"Prev (Rot by {rotDeg:.1f} deg)")
+
+        i += 1
+        plt.subplot(ROWS, COLS, i)
+        plt.axis("off")
+        plt.imshow(rotatedImg - prevImgCart, cmap='coolwarm')
+        plt.title(f"Overlay")
 
     plt.tight_layout()
 
@@ -199,6 +206,7 @@ if __name__ == "__main__":
             plt.tight_layout()
 
             plt.savefig(imgSavePathInd)
+            # plt.pause(0.01)
 
             prevImgPolar = currImgPolar
             prevImgCart = currImgCart
