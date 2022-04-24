@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from typing import Tuple
 import numpy as np
 import cv2
@@ -65,28 +66,35 @@ def drawCVPoint(img: np.ndarray,
                       thickness=-1)
 
 
-def convertCartesianImageToPolar(imgCart: np.ndarray,
-                                 logPolarMode: bool = True) -> np.ndarray:
+def convertCartesianImageToPolar(
+        imgCart: np.ndarray,
+        logPolarMode: bool = False,
+        shapeHW: Tuple[int, int] = None) -> np.ndarray:
     '''
     @brief Converts Cartesian image to (potentially log) polar
     @param[in] imgPolar Polar image to convert
-    @param[in] logPolarMode Log polar mode
+    @param[in] logPolarMode Whether to convert in log-polar mode
+
     @return imgCart Converted Cartesian image
     '''
-    w, h = imgCart.shape
+    h, w = imgCart.shape
     assert w == h, "Should be a square Cartesian image"
 
-    center = tuple(w / 2, h / 2)
-    maxRadius = h
-    size = None # None for now
+    center = (h / 2, w / 2)
+    maxRadius = w / 2
 
-    flags = cv2.WARP_POLAR_LINEAR
-    if (logPolarMode):
-        flags += cv2.WARP_POLAR_LOG
+    if shapeHW is None:
+        size = None
+    else: 
+        size = (shapeHW[1], shapeHW[0])  # need to invert to make (W, H)
+
+    flags = cv2.WARP_POLAR_LOG if logPolarMode else cv2.WARP_POLAR_LINEAR
+
     flags += cv2.INTER_LINEAR + cv2.WARP_FILL_OUTLIERS
-    imgCart = cv2.warpPolar(imgCart, size, center, maxRadius, flags)
 
-    return imgCart
+    imgPolar = cv2.warpPolar(imgCart, size, center, maxRadius, flags)
+
+    return imgPolar
 
 
 def convertPolarImageToCartesian(
@@ -97,6 +105,12 @@ def convertPolarImageToCartesian(
     '''
     @brief Converts polar image to Cartesian formats
     @param[in] imgPolar Polar image to convert
+    @param[in] logPolarMode Whether to convert in log-polar mode
+    @param[in] downsampleFactor How much to downsample Cartesian image for performance improvements
+    @param[in] changeGlobalRangeResolution Whether or not to change the
+                                           global range resolution needed
+                                           for accurate px to m conversions
+
     @return imgCart Converted Cartesian image
     '''
     w, h = imgPolar.shape
@@ -120,6 +134,28 @@ def convertPolarImageToCartesian(
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
 
     return imgCart
+
+
+def convertPolarImgToLogPolar(imgPolar: np.ndarray):
+    '''
+    @brief Convert an image in polar form into log-polar form
+    @note Involves converting from polar to Cartesian to back again
+    @see convertPolarImageToCartesian(), convertCartesianImageToPolar()
+
+    '''
+    # Involves converting from polar to cartesian to back again
+    # TODO: Probably a more efficent way to do this
+    # Convert to Cartesian, do no downsample here
+    imgCart = convertPolarImageToCartesian(imgPolar,
+                                           logPolarMode=False,
+                                           downsampleFactor=1,
+                                           changeGlobalRangeResolution=False)
+    # Convert the Cart image to log-polar
+    logPolarImg = convertCartesianImageToPolar(imgCart,
+                                               logPolarMode=True,
+                                               shapeHW=None)
+
+    return logPolarImg
 
 
 def getDataFromImgPathsByIndex(
