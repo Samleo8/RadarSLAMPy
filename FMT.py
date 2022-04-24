@@ -157,12 +157,12 @@ def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
         rotDeg = np.rad2deg(rotRad)
         rotatedImg = rotateImg(prevImgCart, rotDeg)
         plt.imshow(rotatedImg)
-        plt.title(f"Prev (Rot by {rotDeg:.1f} deg)")
+        plt.title(f"Prev, Rotation\nCorrected by {rotDeg:.1f} deg")
 
         i += 1
         plt.subplot(ROWS, COLS, i)
         plt.axis("off")
-        plt.imshow(rotatedImg - prevImgCart, cmap='coolwarm')
+        plt.imshow(rotatedImg - currImgCart, cmap='coolwarm')
         plt.title(f"Overlay")
 
     plt.tight_layout()
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     '''
     # Perfect Image test
     prevPolarImg = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
-    prevCartImg = convertPolarImageToCartesian(prevPolarImg, downsampleFactor=1)
+    prevCartImg = convertPolarImageToCartesian(prevPolarImg, downsampleFactor=20)
 
     # TODO: manually rotate then get rotation
     
@@ -217,7 +217,8 @@ if __name__ == "__main__":
                                sequenceName).strip(os.path.sep)
     os.makedirs(imgSavePath, exist_ok=True)
 
-    for seqInd in range(startSeqInd + 1, endSeqInd + 1):
+    stepSize = 1
+    for seqInd in range(startSeqInd + stepSize, endSeqInd + 1, stepSize):
         try:
             # Obtain image
             # currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
@@ -236,7 +237,7 @@ if __name__ == "__main__":
             # Save image
             plt.clf()
 
-            imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+            imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}_5.jpg")
             plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
 
             plt.suptitle(f"Sequence {seqInd:04d}")
