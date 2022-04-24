@@ -243,7 +243,7 @@ if __name__ == "__main__":
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
     startSeqInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
     endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
-    REMOVE_OLD_RESULTS = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
+    REMOVE_OLD_RESULTS = bool(int(sys.argv[4])) if len(sys.argv) > 4 else False
 
     # Initialize system
     system = RawROAMSystem(datasetName, hasGroundTruth=True)
