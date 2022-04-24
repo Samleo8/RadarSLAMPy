@@ -199,6 +199,8 @@ if __name__ == "__main__":
             print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
             # Save image
+            plt.clf()
+            
             imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
             plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
 
