@@ -96,8 +96,8 @@ class Tracker():
         @return h translation matrix (2 x 1), units in meters [m]
         '''
         # Obtain transforms
-        R, h = calculateTransformDxDth(srcCoord, targetCoord)
-        # R, h = calculateTransformSVD(srcCoord, targetCoord)
+        # R, h = calculateTransformDxDth(srcCoord, targetCoord)
+        R, h = calculateTransformSVD(srcCoord, targetCoord)
         h *= RANGE_RESOLUTION_CART_M
 
         return R, h
