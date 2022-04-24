@@ -216,16 +216,22 @@ R_gt = np.array([
     [np.cos(dth),-np.sin(dth)],
     [np.sin(dth),np.cos(dth)],
 ])
+
+srcCoord[:,0] -= 1012
+srcCoord[:,1] -= 1012
+targetCoord[:,0] -= 1012
+targetCoord[:,1] -= 1012
+
 h_gt = np.array([[dx],[dy]]) / RANGE_RESOLUTION_CART_M
 
 R_fit, h_fit = calculateTransformDxDth(srcCoord, targetCoord)
 
 theta_fit = np.arctan2(R_fit[1, 0], R_fit[0, 0]) * 180 / np.pi
-print(f"Fitted Transform:\ntheta:\n{theta_fit}\nh:\n{h_fit}")
+print(f"Fitted Transform:\ntheta:\n{theta_fit}\nh:\n{h_fit * RANGE_RESOLUTION_CART_M}")
 
 # yikers
 # Visualize
-srcCoord2 = (R_fit @ targetCoord.T + h_fit).T
-srcCoord3 = (R_gt @ targetCoord.T + h_gt).T
-plotFakeFeatures(srcCoord3, targetCoord, srcCoord2,
-                    title_append="", alpha=0.5, clear=False, show=True)
+# srcCoord2 = (R_fit @ targetCoord.T + h_fit).T
+# srcCoord3 = (R_gt @ targetCoord.T + h_gt).T
+# plotFakeFeatures(srcCoord3, targetCoord, srcCoord2,
+#                     title_append="", alpha=0.5, clear=False, show=True)
