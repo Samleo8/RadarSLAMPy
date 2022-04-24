@@ -192,24 +192,26 @@ if __name__ == "__main__":
     os.makedirs(imgSavePath, exist_ok=True)
 
     for seqInd in range(startSeqInd + 1, endSeqInd + 1):
-        # Obtain image
-        # currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
-        currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
-        currImgCart = convertPolarImageToCartesian(currImgPolar, downsampleFactor=10)
+        try:
+            # Obtain image
+            # currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
+            currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
+            currImgCart = convertPolarImageToCartesian(currImgPolar, downsampleFactor=10)
 
-        rotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+            rotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
 
-        # print(f"===========Seq {seqInd}=========")
-        print(f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
-        print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
+            # print(f"===========Seq {seqInd}=========")
+            print(f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
+            print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
-        plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
-        imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
-        plt.savefig(imgSavePathInd)
+            plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
+            imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+            plt.savefig(imgSavePathInd)
 
-        prevImgPolar = currImgPolar
-        prevImgCart = currImgCart
-
+            prevImgPolar = currImgPolar
+            prevImgCart = currImgCart
+        except KeyboardInterrupt:
+            break
 
     # Generate mp4 and save that
     REMOVE_OLD_RESULTS = True
