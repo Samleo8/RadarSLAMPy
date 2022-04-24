@@ -137,6 +137,7 @@ def generateFakeCorrespondencesPolar(srcCoord=None,
     return srcCoord, targetCoord, theta_deg, h
 
 def distort(coords, velocity, frequency, h):
+    coords -= np.expand_dims(h, axis = 1) # 2 x N
     angles = np.arctan2(-coords[1], coords[0]) # - y to follow clockwise convention
     period = 1 / frequency
     times = angles / (2 * np.pi) * period - period
@@ -155,8 +156,9 @@ def distort(coords, velocity, frequency, h):
     zeros = np.zeros(times.shape)
     distortion = np.array([[c, -s, dx],
                            [s,  c, dy],
-                           [zeros, zeros, ones]]) # 3 x 3 x N
+                           [zeros, zeros, ones]]) # 3 x 3 x N, need to invert?
     distorted = distortion.transpose(axis = (2, 0, 1)) @ np.expand_dims(coords, axis = 2)
+    distorted = distorted[:2, :] + np.expand_dims(h, axis = 1) # need to offset before finding distortion
     return distorted
 
 def addNoise(data, variance=2.5):
