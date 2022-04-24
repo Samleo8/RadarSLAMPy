@@ -1,3 +1,5 @@
+from genericpath import exists
+import shutil
 from urllib import response
 from matplotlib import scale
 import numpy as np
@@ -129,9 +131,9 @@ if __name__ == "__main__":
     import os
     import sys
 
-    datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
-    dataPath = os.path.join("data", datasetName, "radar")
-    timestampPath = os.path.join("data", datasetName, "radar.timestamps")
+    sequenceName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
+    dataPath = os.path.join("data", sequenceName, "radar")
+    timestampPath = os.path.join("data", sequenceName, "radar.timestamps")
 
     startSeqInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
     endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
@@ -166,36 +168,63 @@ if __name__ == "__main__":
     exit()
     # '''
 
+    # prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
+    # prevImgCart = convertPolarImageToCartesian(prevImgPolar, downsampleFactor=4)
+
+    # currImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd + 5)
+    # currImgCart = convertPolarImageToCartesian(currImgPolar,
+    #                                            downsampleFactor=4)
+
+    # rot, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+    # print(f"Pred: {np.rad2deg(rot):.2f} [deg] {rot:.2f} [radians]")
+
+    # plotCartPolarWithRotation(prevImgCart, currImgCart, rot)
+    # plt.show()
+
+    # exit()
+
+    # prevImgCart = getCartImageFromImgPaths(imgPathArr, startSeqInd)
     prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
-    prevImgCart = convertPolarImageToCartesian(prevImgPolar, downsampleFactor=4)
+    prevImgCart = convertPolarImageToCartesian(prevImgPolar,
+                                               downsampleFactor=10)
 
-    currImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd + 5)
-    currImgCart = convertPolarImageToCartesian(currImgPolar,
-                                               downsampleFactor=4)
+    imgSavePath = os.path.join(".", "img", "fmt", sequenceName).strip(os.path.sep)
+    os.makedirs(imgSavePath, exist_ok=True)
 
-    rot, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
-    print(f"Pred: {np.rad2deg(rot):.2f} [deg] {rot:.2f} [radians]")
-
-    plotCartPolarWithRotation(prevImgCart, currImgCart, rot)
-    plt.show()
-
-    exit()
-
-    prevImgCart = getCartImageFromImgPaths(imgPathArr, startSeqInd)
-    prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
-
-    for seqInd in range(startSeqInd + 1, endSeqInd + 1, 5):
+    for seqInd in range(startSeqInd + 1, endSeqInd + 1):
         # Obtain image
-        currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
+        # currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
         currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
+        currImgCart = convertPolarImageToCartesian(currImgPolar, downsampleFactor=10)
 
-        rot, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+        rotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
 
         # print(f"===========Seq {seqInd}=========")
-        print(f"Pred: {np.rad2deg(rot):.2f} [deg] {rot:.2f} [radians]")
+        print(f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
         print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
-        plotCartPolar(prevImgCart, currImgCart, prevImgPolar, currImgPolar)
+        plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
+        imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+        plt.savefig(imgSavePathInd)
 
-        prevImgPolar = currImgPolar.copy()
-        prevImgCart = currImgCart.copy()
+        prevImgPolar = currImgPolar
+        prevImgCart = currImgCart
+
+
+    # Generate mp4 and save that
+    REMOVE_OLD_RESULTS = True
+    
+    # Also remove folder of images to save space
+    print("Generating mp4 with script (requires bash and FFMPEG command)...")
+    try:
+        # Save video sequence
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
+        print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
+
+        if REMOVE_OLD_RESULTS:
+            shutil.rmtree(imgSavePath)
+            print("Old results folder removed.")
+    except:
+        print(
+            "Failed to generate mp4 with script. Likely failed system requirements."
+        )
