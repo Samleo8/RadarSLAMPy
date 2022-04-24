@@ -97,10 +97,10 @@ def generateFakeCorrespondences(srcCoord=None,
     return srcCoord, targetCoord, theta_deg, h
 
 def convertPolarPointsToCartesian(points):
-    w, h = points.shape
-    angles = -np.arange(w) * 2 * np.pi / w # - to match data convention: clockwise scan
-    x = points * np.expand_dims(np.cos(angles), axis = 1)
-    y = points * np.expand_dims(np.sin(angles), axis = 1)
+    angles = points[:, 0] # - to match data convention: clockwise scan
+    ranges = points[:, 1]
+    x = np.expand_dims(ranges * np.cos(angles), axis = 1)
+    y = np.expand_dims(ranges * np.sin(angles), axis = 1)
     return np.hstack((x, y))
 
 def generateFakeCorrespondencesPolar(srcCoord=None,
@@ -124,6 +124,7 @@ def generateFakeCorrespondencesPolar(srcCoord=None,
         print("Generating fake features..")
         max_range_m = max_translation_m * 3
         srcCoord = generateFakeFeaturesPolar(n_points, max_range_m)
+        #print(srcCoord.shape)
         srcCoord = convertPolarPointsToCartesian(srcCoord)
     else:
         n_points = srcCoord.shape[0]
@@ -131,22 +132,23 @@ def generateFakeCorrespondencesPolar(srcCoord=None,
     theta_deg = np.random.random() * theta_max_deg
     R = getRotationMatrix(theta_deg, degrees=True)
     h = generateTranslationVector(max_translation_m)
-
+    #print(srcCoord.shape)
     targetCoord = transformCoords(srcCoord, R, h)
 
     return srcCoord, targetCoord, theta_deg, h
 
 def distort(coords, velocity, frequency, h):
-    coords -= np.expand_dims(h, axis = 1) # 2 x N
-    angles = np.arctan2(-coords[1], coords[0]) # - y to follow clockwise convention
+    coords -= h.flatten() # 2 x N
+    angles = np.arctan2(-coords[:, 1], coords[:, 0]) # - y to follow clockwise convention
     period = 1 / frequency
-    times = angles / (2 * np.pi) * period - period
+    times = angles / (2 * np.pi) * period - period / 2
     
     if coords.shape[1] == 2:
-        coords = np.hstack(coords, np.ones((coords.shape[0], 1))) # N x 3
+        coords = np.hstack((coords, np.ones((coords.shape[0], 1)))) # N x 3
 
     # Distort
     displacement = np.expand_dims(velocity, axis = 1) * times
+    #print(displacement)
     dx = displacement[0, :]
     dy = displacement[1, :]
     dtheta = displacement[2, :]
@@ -157,8 +159,8 @@ def distort(coords, velocity, frequency, h):
     distortion = np.array([[c, -s, dx],
                            [s,  c, dy],
                            [zeros, zeros, ones]]) # 3 x 3 x N, need to invert?
-    distorted = distortion.transpose(axis = (2, 0, 1)) @ np.expand_dims(coords, axis = 2)
-    distorted = distorted[:2, :] + np.expand_dims(h, axis = 1) # need to offset before finding distortion
+    distorted = np.transpose(distortion, axes = (2, 0, 1)) @ np.expand_dims(coords, axis = 2) # N x 3 x 1
+    distorted = distorted[:, :2, 0] + h.flatten() # need to offset before finding distortion
     return distorted
 
 def addNoise(data, variance=2.5):
