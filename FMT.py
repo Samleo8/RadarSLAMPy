@@ -4,11 +4,11 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-from parseData import convertCartesianImageToPolar, convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, convertPolarImgToLogPolar
+from parseData import RANGE_RESOLUTION_CART_M, convertCartesianImageToPolar, convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, convertPolarImgToLogPolar
 from utils import normalize_angles
 
-FMT_DOWNSAMPLE_FACTOR = 5  # default downsampling factor for FMT rotation
-
+FMT_DOWNSAMPLE_FACTOR = 10  # default downsampling factor for FMT rotation
+FMT_RANGE_CLIP_M = 87.5 # range clipping in m
 
 def getTranslationUsingPhaseCorrelation(
         srcImg: np.ndarray,
@@ -33,11 +33,10 @@ def getTranslationUsingPhaseCorrelation(
     return deltas, response
 
 
-def getRotationUsingFMT(
-    srcPolarImg: np.ndarray,
-    targetPolarImg: np.ndarray,
-    downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR
-) -> tuple[float, float, float]:
+def getRotationUsingFMT(srcPolarImg: np.ndarray,
+                        targetPolarImg: np.ndarray,
+                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR,
+                        maxRangeClipM=FMT_RANGE_CLIP_M) -> tuple[float, float, float]:
     '''
     @brief Get rotation using the Fourier-Mellin Transform
     @note We attempt to downsample in the range direction. 
@@ -53,6 +52,12 @@ def getRotationUsingFMT(
     @return response Response value (indicates confidence)
     '''
     assert srcPolarImg.shape == targetPolarImg.shape, "Images need to have the same shape!"
+
+    # Clip range if needed
+    if maxRangeClipM > 0:
+        maxRangeClipPx = int(maxRangeClipM / RANGE_RESOLUTION_CART_M)
+        srcPolarImg = srcPolarImg[:, :maxRangeClipPx]
+        targetPolarImg = targetPolarImg[:, :maxRangeClipPx]
 
     H, W = srcPolarImg.shape
 
