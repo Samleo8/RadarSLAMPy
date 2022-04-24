@@ -4,7 +4,7 @@ from typing import Tuple
 from matplotlib import pyplot as plt
 
 import numpy as np
-from FMT import getRotationUsingFMT, rotateImg
+from FMT import getRotationUsingFMT, getTranslationUsingPhaseCorrelation, rotateImg
 from getTransformKLT import calculateTransformDxDth, calculateTransformSVD, getTrackedPointsKLT, visualize_transform
 from outlierRejection import rejectOutliers
 from parseData import RANGE_RESOLUTION_CART_M
@@ -91,7 +91,7 @@ class Tracker():
         '''
         # Obtain transforms
         R, h = calculateTransformDxDth(srcCoord, targetCoord)
-        # R, h = calculateTransformSVD(good_old, good_new)
+        # R, h = calculateTransformSVD(srcCoord, targetCoord)
         h *= RANGE_RESOLUTION_CART_M
 
         return R, h
