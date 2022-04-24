@@ -26,7 +26,8 @@ def plotFakeFeatures(srcCoord,
                      title_append="",
                      alpha=1,
                      clear=False,
-                     show=False):
+                     show=False,
+                     plotDisplace = False):
     if clear:
         plt.clear()
 
@@ -56,6 +57,18 @@ def plotFakeFeatures(srcCoord,
                     marker='x',
                     alpha=alpha,
                     label=f'Features 2{title_append}')
+
+    if plotDisplace:
+        for i in range(targetCoord.shape[0]):
+            src_x = srcCoord[i,0]
+            src_y = srcCoord[i,1]
+            tar_x = targetCoord[i,0]
+            tar_y = targetCoord[i,1]
+            dx = tar_x - src_x
+            dy = tar_y - src_y
+            #plt.arrow(src_x, src_y, dx, dy)
+            plt.plot([src_x, tar_x], [src_y, tar_y], color = 'g')
+
     plt.legend()
 
     plt.tight_layout()
@@ -138,10 +151,12 @@ def generateFakeCorrespondencesPolar(srcCoord=None,
     return srcCoord, targetCoord, theta_deg, h
 
 def distort(coords, velocity, frequency, h):
-    coords -= h.flatten() # 2 x N
-    angles = np.arctan2(-coords[:, 1], coords[:, 0]) # - y to follow clockwise convention
+    
+    coords_norm = coords - h.flatten() # N x 2
+    angles = np.arctan2(coords_norm[:, 1], -coords_norm[:, 0]) # - y to follow clockwise convention
     period = 1 / frequency
-    times = angles / (2 * np.pi) * period - period / 2
+    times = angles / (2 * np.pi) * period
+    #print(angles) # lesson: need to use arctan2 wisely, it wraps [-pi, pi]
     
     if coords.shape[1] == 2:
         coords = np.hstack((coords, np.ones((coords.shape[0], 1)))) # N x 3
@@ -149,18 +164,20 @@ def distort(coords, velocity, frequency, h):
     # Distort
     displacement = np.expand_dims(velocity, axis = 1) * times
     #print(displacement)
+    #print(displacement)
     dx = displacement[0, :]
+    print(dx)
     dy = displacement[1, :]
-    dtheta = displacement[2, :]
+    dtheta = displacement[2, :] / 180 * np.pi
     c = np.cos(dtheta)
     s = np.sin(dtheta)
     ones = np.ones(times.shape)
     zeros = np.zeros(times.shape)
-    distortion = np.array([[c, -s, dx],
-                           [s,  c, dy],
+    distortion = np.array([[c, s, -s* dy - c*dx],
+                           [-s,  c, -c*dy + s*dx],
                            [zeros, zeros, ones]]) # 3 x 3 x N, need to invert?
     distorted = np.transpose(distortion, axes = (2, 0, 1)) @ np.expand_dims(coords, axis = 2) # N x 3 x 1
-    distorted = distorted[:, :2, 0] + h.flatten() # need to offset before finding distortion
+    distorted = distorted[:, :2, 0]
     return distorted
 
 def addNoise(data, variance=2.5):
@@ -228,5 +245,6 @@ def generateFakeFeaturesPolar(n_points=100, max_range_m=10):
     a_range = np.random.random(data_size)
     thetas = np.arange(400) * 2 * np.pi / 400
     a_angle = np.random.choice(thetas, data_size)
+    #print(a_angle)
     a_range *= max_range_m / RANGE_RESOLUTION_CART_M
     return np.hstack((a_angle, a_range))
