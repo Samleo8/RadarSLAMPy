@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from parseData import convertCartesianImageToPolar, convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, convertPolarImgToLogPolar
 from utils import normalize_angles
 
-FMT_DOWNSAMPLE_FACTOR = 10  # default downsampling factor for FMT rotation
+FMT_DOWNSAMPLE_FACTOR = 5  # default downsampling factor for FMT rotation
 
 
 def getTranslationUsingPhaseCorrelation(
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     # exit()
 
     # Generate mp4 and save that
-    REMOVE_OLD_RESULTS = True
+    REMOVE_OLD_RESULTS = False
 
     # Also remove folder of images to save space
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
