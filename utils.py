@@ -13,10 +13,11 @@ def tic():
 def toc(tic):
     return time.time() - tic
 
-
-def f_arr(xs):
-    return '[' + ','.join([f'{x:03f}' for x in xs]) + ']'
-
+def f_arr(xs, th_deg=False):
+    xs_str = [f'{x:.3f}' for x in xs]
+    if th_deg:
+        xs_str[-1] += '°'
+    return '[' + ','.join(xs_str) + ']'
 
 def radarImgPathToTimestamp(radarImgPath):
     """
@@ -102,7 +103,7 @@ def convertRandHtoDeltas(R, h):
     return np.array([dx, dy, dth])
 
 
-def quiver(poses, c='r'):
+def quiver(poses, c='r', label=None):
     poses = np.array(poses)
     plt.quiver(
         poses[:, 0],
@@ -113,6 +114,7 @@ def quiver(poses, c='r'):
         width=0.02,
         scale=10,
         alpha=.5,
+        label=label
     )
 
 
@@ -139,4 +141,5 @@ def plt_savefig_by_axis(filePath, fig, ax, pad=0.0):
     @param[in] ax Axis to save
     '''
     extent = plt_full_extent(ax, pad).transformed(fig.dpi_scale_trans.inverted())
+    # extent = ax.get_tightbbox(fig.canvas.get_renderer())
     fig.savefig(filePath, bbox_inches=extent)

@@ -25,11 +25,12 @@ class Trajectory():
         '''
         return self.gt_deltas[time]
 
-    def appendRelativeDxDth(self, time, dx, dth):
+    def appendRelativeDeltas(self, time, d_xyth):
+        dx, dy, dth = d_xyth
         self.timestamps = np.append(self.timestamps, time)
         x, y, th = self.poses[-1]
-        x += dx * np.cos(th)
-        y += dx * np.sin(th)
+        x += dx * np.cos(th) - dy * np.sin(th)
+        y += dx * np.sin(th) + dy * np.cos(th)
         th += dth
         self.poses = np.vstack((self.poses, [x, y, th]))
 
@@ -113,16 +114,17 @@ def computePosesRMSE(gtPoses, estPoses):
 def plotGtAndEstTrajectory(gtTraj,
                            estTraj,
                            title='GT and EST Trajectories',
+                           info=None,
                            savePath=None,
-                           arrow=True,
-                           clear=True):
+                           arrow=True):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory
     @param[in] estTrajectory Estimated trajectory
     @param[in] title Title of the plot
+    @param[in] info Extra information to write in text
     '''
-    if clear:
+    if savePath is not None:
         plt.clf()
 
     earliestTimestamp = estTraj.timestamps[0]
@@ -142,11 +144,24 @@ def plotGtAndEstTrajectory(gtTraj,
         plt.plot(gtPoses[:, 0], gtPoses[:, 1], 'b-', label='Ground Truth')
         plt.plot(estPoses[:, 0], estPoses[:, 1], 'r-', label='Estimated')
 
+    # Plot info text
+    if info is not None:
+        padPercent = 0.01
+        plt.text(padPercent,
+                 1-padPercent,
+                 info,
+                 horizontalalignment='left',
+                 verticalalignment='top',
+                 transform=plt.gca().transAxes,
+                 fontsize='small')
+
     plt.xlabel('x [m]')
     plt.ylabel('y [m]')
     plt.grid(True)
     plt.legend()
+
     plt.axis('square')
+
     plt.title(f'{title}: RMSE={computePosesRMSE(gtPoses, estPoses):.2f}')
 
     if savePath:

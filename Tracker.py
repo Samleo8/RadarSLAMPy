@@ -4,6 +4,7 @@ from typing import Tuple
 from matplotlib import pyplot as plt
 
 import numpy as np
+from FMT import getRotationUsingFMT, getTranslationUsingPhaseCorrelation, rotateImg
 from getTransformKLT import calculateTransformDxDth, calculateTransformSVD, getTrackedPointsKLT, visualize_transform
 from outlierRejection import rejectOutliers
 from parseData import RANGE_RESOLUTION_CART_M
@@ -13,9 +14,7 @@ from utils import tic, toc
 
 class Tracker():
 
-    def __init__(self,
-                 sequenceName: str,
-                 imgPathArr: list[str],
+    def __init__(self, sequenceName: str, imgPathArr: list[str],
                  filePaths: dict[str]) -> None:
         self.sequenceName = sequenceName
 
@@ -31,25 +30,45 @@ class Tracker():
         self.estTraj = estTraj
         self.gtTraj = gtTraj
 
-    def track(self, prevImg: np.ndarray, currImg: np.ndarray,
-              featureCoord: np.ndarray,
-              seqInd: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    def track(
+            self,
+            prevImgCart: np.ndarray,
+            currImgCart: np.ndarray,
+            prevImgPolar: np.ndarray,
+            currImgPolar: np.ndarray,
+            featureCoord: np.ndarray,
+            seqInd: int,
+            useFMT: bool = True) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         '''
         @brief Track based on previous and current image
 
         @param[in] prevImg Previous Cartesian radar image (N x N)
         @param[in] prevImg Current Cartesian radar image (N x N)
+        @param[in] prevImg Previous polar radar image (? x ?)
+        @param[in] prevImg Current polar radar image (? x ?)
+
         @param[in] blobCoord Coordinates of feature points (K x 2) in [x, y] format
 
         @return good_old Coordinates of old good feature points (K' x 2) in [x, y] format
         @return good_new Coordinates of new good feature points (K' x 2) in [x, y] format
+        @return angleRotRad Angle used to rotate image
         '''
         # Timing
         start = tic()
 
+        # Using FMT, obtain the rotation estimate
+        angleRotRad, scale, response = getRotationUsingFMT(
+            prevImgPolar, currImgPolar)
+
+        # Correct for rotation using rotational estimate
+        if useFMT:
+            prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+        else:
+            prevImgCartRot = prevImgCart
+
         # Obtain Point Correspondences
         good_new, good_old, bad_new, bad_old, corrStatus = \
-            getTrackedPointsKLT(prevImg, currImg, featureCoord)
+            getTrackedPointsKLT(prevImgCartRot, currImgCart, featureCoord)
 
         nGoodFeatures = good_new.shape[0]
         nBadFeatures = bad_new.shape[0]
@@ -62,7 +81,7 @@ class Tracker():
         # Outlier rejection
         good_old, good_new = rejectOutliers(good_old, good_new)
 
-        return good_old, good_new
+        return good_old, good_new, angleRotRad
 
     def getTransform(self, srcCoord: np.ndarray,
                      targetCoord: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
@@ -77,13 +96,20 @@ class Tracker():
         @return h translation matrix (2 x 1), units in meters [m]
         '''
         # Obtain transforms
-        R, h = calculateTransformDxDth(srcCoord, targetCoord)
-        # R, h = calculateTransformSVD(good_old, good_new)
+        # R, h = calculateTransformDxDth(srcCoord, targetCoord)
+        R, h = calculateTransformSVD(srcCoord, targetCoord)
         h *= RANGE_RESOLUTION_CART_M
 
         return R, h
 
-    def plot(self, prevImg, currImg, good_old, good_new, seqInd, save=True, show=False):
+    def plot(self,
+             prevImg,
+             currImg,
+             good_old,
+             good_new,
+             seqInd,
+             save=True,
+             show=False):
         imgSavePath = self.filePaths["imgSave"]
 
         # Visualizations

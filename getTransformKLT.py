@@ -161,6 +161,39 @@ def calculateTransformSVD(
 
     return R, h.T
 
+def calculateTransformDth(
+        srcCoords: np.ndarray,
+        targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    assert len(srcCoords) == len(targetCoords)
+    R = np.zeros((2, 2))
+    h = np.zeros((2, 1))
+
+    N = len(srcCoords)
+
+    # Form A and b
+    A = np.empty((N * 2, 1))
+    b = np.empty((N * 2, 1))
+
+    # TODO: Please make this numpy vectorized
+    for i in range(N):
+        src = srcCoords[i]
+        target = targetCoords[i]
+        # Convention: x = [lambda, hx]
+        A[2 * i:2 * i + 2, :] = np.array([[-src[1]], [src[0]]])
+        b[2 * i:2 * i + 2, 0] = np.array([src[0] - target[0], src[1] - target[1]])
+
+    # Negate b because we want to go from Ax + b to min|| Ax - b ||
+    x = np.linalg.inv(A.T @ A) @ A.T @ b
+
+    # Approximate least squares solution
+    theta = float(x[0])
+    cth = np.cos(theta)
+    sth = np.sin(theta)
+    R = np.array([[cth, -sth], [sth, cth]])
+    h = np.array([[0], [0]])
+
+    return R, h
+
 def calculateTransformDxDth(
         srcCoords: np.ndarray,
         targetCoords: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -190,9 +223,9 @@ def calculateTransformDxDth(
     cth = np.cos(theta)
     sth = np.sin(theta)
     R = np.array([[cth, -sth], [sth, cth]])
+    h = np.array([[*x[1]], [0]])
     print(f"Pixel displacement: {flatten(x)}")
 
-    h = np.array([[*x[1]], [0]])
     return R, h
 
 def calculateTransform(
