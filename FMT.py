@@ -10,7 +10,7 @@ FMT_DOWNSAMPLE_FACTOR = 10 # default downsampling factor for FMT rotation
 
 def getRotationUsingFMT(srcPolarImg: np.ndarray,
                         targetPolarImg: np.ndarray,
-                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR) -> float:
+                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR) -> Tuple[float, float, float]:
     '''
     @brief Get rotation using the Fourier-Mellin Transform
     @note We attempt to downsample in the range direction. 
@@ -23,6 +23,7 @@ def getRotationUsingFMT(srcPolarImg: np.ndarray,
 
     @return angleRad Angle in radians, where `R(angleRad) @ src = target`
     @return scaling Scaling factor
+    @return response Response value (indicates confidence)
     '''
     assert srcPolarImg.shape == targetPolarImg.shape, "Images need to have the same shape!"
 
@@ -200,7 +201,7 @@ if __name__ == "__main__":
 
             # Save image
             plt.clf()
-            
+
             imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
             plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad)
 

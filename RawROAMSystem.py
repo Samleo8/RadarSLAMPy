@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 import numpy as np
 from getFeatures import appendNewFeatures
-from parseData import getCartImageFromImgPaths, getRadarImgPaths
+from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import convertRandHtoDeltas, f_arr, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
@@ -113,31 +113,36 @@ class RawROAMSystem():
         self.estTraj = estTraj
 
         # Actually run the algorithm
-        # Get initial Cartesian image
-        prevImg = getCartImageFromImgPaths(imgPathArr, startSeqInd)
+        # Get initial polar and Cartesian image
+        prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
+        prevImgCart = convertPolarImageToCartesian(prevImgPolar)
 
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
-        blobCoord, _ = appendNewFeatures(prevImg, blobCoord)
+        blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
-            # Obtain image
-            currImg = getCartImageFromImgPaths(imgPathArr, seqInd)
+            # Obtain polar and Cart image
+            currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
+            currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
-            good_old, good_new = tracker.track(prevImg, currImg, blobCoord,
-                                               seqInd)
+            good_old, good_new, rotAngle = tracker.track(prevImgCart, currImgCart,
+                                               prevImgPolar, currImgPolar,
+                                               blobCoord, seqInd)
+            
             R, h = tracker.getTransform(good_old, good_new)
 
             # Update trajectory
             self.updateTrajectory(R, h, seqInd)
 
             # Plotting and prints and stuff
-            self.plot(prevImg, currImg, good_old, good_new, R, h, seqInd)
+            self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                      seqInd)
 
             # Update incremental variables
             blobCoord = good_new.copy()
-            prevImg = currImg
+            prevImgCart = currImgCart
 
     # TODO: Move into trajectory class?
     def updateTrajectory(self, R, h, seqInd):
