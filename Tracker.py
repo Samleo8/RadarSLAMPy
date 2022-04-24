@@ -57,7 +57,8 @@ class Tracker():
         angleRotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
 
         # Correct for rotation using rotational estimate
-        prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+        # prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+        prevImgCartRot = prevImgCart
 
         # Obtain Point Correspondences
         good_new, good_old, bad_new, bad_old, corrStatus = \
