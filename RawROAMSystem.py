@@ -6,7 +6,7 @@ import numpy as np
 from getFeatures import appendNewFeatures
 from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
-from utils import convertRandHtoDeltas, f_arr, plt_savefig_by_axis, radarImgPathToTimestamp
+from utils import convertRandHtoDeltas, f_arr, getRotationMatrix, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
 
 
@@ -37,8 +37,7 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam",
-                                   sequenceName).strip(os.path.sep)
+        imgSavePath = os.path.join(".", "img", "roam", sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
         os.makedirs(imgSavePath, exist_ok=True)
@@ -127,10 +126,12 @@ class RawROAMSystem():
             currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
-            good_old, good_new, rotAngle = tracker.track(prevImgCart, currImgCart,
+            good_old, good_new, rotAngleRad = tracker.track(prevImgCart, currImgCart,
                                                prevImgPolar, currImgPolar,
                                                blobCoord, seqInd)
-            
+            print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
+            estR = getRotationMatrix(rotAngleRad)
+
             R, h = tracker.getTransform(good_old, good_new)
 
             # Update trajectory
@@ -240,15 +241,15 @@ if __name__ == "__main__":
     import sys
 
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
-    startImgInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-    endImgInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
+    startSeqInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
     REMOVE_OLD_RESULTS = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
 
     # Initialize system
     system = RawROAMSystem(datasetName, hasGroundTruth=True)
 
     try:
-        system.run()
+        system.run(startSeqInd, endSeqInd)
     except KeyboardInterrupt:
         exit()
         pass

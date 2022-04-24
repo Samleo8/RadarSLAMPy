@@ -10,7 +10,7 @@ FMT_DOWNSAMPLE_FACTOR = 10 # default downsampling factor for FMT rotation
 
 def getRotationUsingFMT(srcPolarImg: np.ndarray,
                         targetPolarImg: np.ndarray,
-                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR) -> Tuple[float, float, float]:
+                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR) -> tuple[float, float, float]:
     '''
     @brief Get rotation using the Fourier-Mellin Transform
     @note We attempt to downsample in the range direction. 
