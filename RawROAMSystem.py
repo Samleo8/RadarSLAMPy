@@ -4,9 +4,9 @@ from matplotlib import pyplot as plt
 
 import numpy as np
 from getFeatures import appendNewFeatures
-from parseData import getCartImageFromImgPaths, getRadarImgPaths
+from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
-from utils import convertRandHtoDeltas, f_arr, plt_savefig_by_axis, radarImgPathToTimestamp
+from utils import convertRandHtoDeltas, f_arr, getRotationMatrix, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
 
 
@@ -37,8 +37,7 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam",
-                                   sequenceName).strip(os.path.sep)
+        imgSavePath = os.path.join(".", "img", "roam", sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
         os.makedirs(imgSavePath, exist_ok=True)
@@ -113,31 +112,40 @@ class RawROAMSystem():
         self.estTraj = estTraj
 
         # Actually run the algorithm
-        # Get initial Cartesian image
-        prevImg = getCartImageFromImgPaths(imgPathArr, startSeqInd)
+        # Get initial polar and Cartesian image
+        prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
+        prevImgCart = convertPolarImageToCartesian(prevImgPolar)
 
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
-        blobCoord, _ = appendNewFeatures(prevImg, blobCoord)
+        blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
 
-        for seqInd in range(startSeqInd + 1, sequenceSize):
-            # Obtain image
-            currImg = getCartImageFromImgPaths(imgPathArr, seqInd)
+        for seqInd in range(startSeqInd + 1, endSeqInd + 1):
+            # Obtain polar and Cart image
+            currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
+            currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
-            good_old, good_new = tracker.track(prevImg, currImg, blobCoord,
-                                               seqInd)
+            good_old, good_new, rotAngleRad = tracker.track(prevImgCart, currImgCart,
+                                               prevImgPolar, currImgPolar,
+                                               blobCoord, seqInd, useFMT=False)
+            print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
+            estR = getRotationMatrix(-rotAngleRad)
+
             R, h = tracker.getTransform(good_old, good_new)
+
+            # R = estR
 
             # Update trajectory
             self.updateTrajectory(R, h, seqInd)
 
             # Plotting and prints and stuff
-            self.plot(prevImg, currImg, good_old, good_new, R, h, seqInd)
+            self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                      seqInd)
 
             # Update incremental variables
             blobCoord = good_new.copy()
-            prevImg = currImg
+            prevImgCart = currImgCart
 
     # TODO: Move into trajectory class?
     def updateTrajectory(self, R, h, seqInd):
@@ -172,11 +180,11 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         self.plotTraj(seqInd, R, h, save=False, show=False)
-        
+
         trajSavePath = self.filePaths["trajSave"]
         trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         # plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
-        
+
         plt.tight_layout()
         self.fig.savefig(trajSavePathInd)
 
@@ -235,9 +243,9 @@ if __name__ == "__main__":
     import sys
 
     datasetName = sys.argv[1] if len(sys.argv) > 1 else "tiny"
-    startImgInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-    endImgInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
-    REMOVE_OLD_RESULTS = bool(int(sys.argv[3])) if len(sys.argv) > 3 else False
+    startSeqInd = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
+    REMOVE_OLD_RESULTS = bool(int(sys.argv[4])) if len(sys.argv) > 4 else False
 
     # Initialize system
     system = RawROAMSystem(datasetName, hasGroundTruth=True)
@@ -256,7 +264,7 @@ if __name__ == "__main__":
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
         # Save video sequence
-        os.system(f"./img/mp4-from-folder.sh {imgSavePath}")
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1}")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
@@ -264,7 +272,7 @@ if __name__ == "__main__":
             print("Old results folder removed.")
 
         # Save traj sequence
-        os.system(f"./img/mp4-from-folder.sh {trajSavePath}")
+        os.system(f"./img/mp4-from-folder.sh {trajSavePath} {startSeqInd + 1}")
         print(f"mp4 saved to {trajSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
