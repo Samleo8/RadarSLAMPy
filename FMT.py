@@ -10,7 +10,7 @@ from utils import normalize_angles
 
 def getRotationUsingFMT(srcPolarImg: np.ndarray,
                         targetPolarImg: np.ndarray,
-                        downsampleFactor: int = 2) -> float:
+                        downsampleFactor: int = 10) -> float:
     '''
     @brief Get rotation using the Fourier-Mellin Transform
     @note We attempt to downsample in the range direction. 
@@ -33,19 +33,25 @@ def getRotationUsingFMT(srcPolarImg: np.ndarray,
     targetPolarImgDownsampled = cv2.resize(targetPolarImg, resizeSize)
 
     # Convert to log polar form
+    # TODO: Check if this is a problem
     srcLogPolar = convertPolarImgToLogPolar(srcPolarImgDownsampled)
     targetLogPolar = convertPolarImgToLogPolar(targetPolarImgDownsampled)
 
-    deltas, response = cv2.phaseCorrelate(srcLogPolar, targetLogPolar)
+    hanningSize = (srcLogPolar.shape[1], srcLogPolar.shape[0])
+    hanningWindow = cv2.createHanningWindow(hanningSize, cv2.CV_32F)
+    deltas, response = cv2.phaseCorrelate(srcLogPolar, targetLogPolar, hanningWindow)
 
     # Angle
     scale, angle = deltas
-    print(scale, angle, srcLogPolar.shape)
+    print(deltas, response)
 
     angle = -(float(angle) * 2 * np.pi) / srcLogPolar.shape[0]
     angle = normalize_angles(angle)
 
-    scale = np.exp(scale)
+    # TODO: Unsure where the log_base is
+    log_base = np.e
+    scale = log_base ** scale
+    # scale = np.exp(scale)
 
     return angle, scale, response
 
@@ -58,6 +64,37 @@ def rotateImg(image, angle_degrees):
                             image.shape[1::-1],
                             flags=cv2.INTER_LINEAR)
     return result
+
+
+def plotCartPolar(prevImgPolar, currImgPolar, prevImgCart, currImgCart):
+    ROWS = 2
+    COLS = 2
+    i = 0
+
+    i += 1
+    plt.subplot(ROWS, COLS, i)
+    if prevImgPolar is not None:
+        plt.imshow(prevImgPolar)
+        plt.title("Prev Image Polar")
+
+    i += 1
+    plt.subplot(ROWS, COLS, i)
+
+    if currImgPolar is not None:
+        plt.imshow(currImgPolar)
+        plt.title("Curr Image Polar")
+
+    i += 1
+    plt.subplot(ROWS, COLS, i)
+    if prevImgCart is not None:
+        plt.imshow(prevImgCart)
+        plt.title("Prev Image Cartesian")
+
+    i += 1
+    plt.subplot(ROWS, COLS, i)
+    if currImgCart is not None:
+        plt.imshow(currImgCart)
+        plt.title("Curr Image Cartesian")
 
 
 if __name__ == "__main__":
@@ -81,55 +118,53 @@ if __name__ == "__main__":
     '''
     # Perfect Image test
     prevPolarImg = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
-    prevCartImg = getCartImageFromImgPaths(imgPathArr, startSeqInd)
+    prevCartImg = convertPolarImageToCartesian(prevPolarImg, downsampleFactor=1)
 
     # TODO: manually rotate then get rotation
-    deg = 10
-    rotCartImg = rotateImg(prevCartImg, deg)
-    # rotCartImg = getCartImageFromImgPaths(imgPathArr, startSeqInd + 1)
-    rotPolarImg = convertCartesianImageToPolar(rotCartImg, shapeHW=prevPolarImg.shape)
     
-    plt.subplot(2, 2, 1)
-    plt.imshow(prevPolarImg)
-    plt.subplot(2, 2, 2)
-    plt.imshow(rotPolarImg)
+    for deg in np.arange(-30, 30, 0.2):
+        rotCartImg = rotateImg(prevCartImg, deg)
+        # rotCartImg = getCartImageFromImgPaths(imgPathArr, startSeqInd + 5)
+        rotPolarImg = convertCartesianImageToPolar(rotCartImg,
+                                                shapeHW=prevPolarImg.shape)
 
-    plt.subplot(2, 2, 3)
-    plt.imshow(prevCartImg)
-    plt.subplot(2, 2, 4)
-    plt.imshow(rotCartImg)
-    plt.show()
+        plotCartPolar(prevCartImg, rotCartImg, prevPolarImg, rotPolarImg)
+        # plt.show()
 
-    rot, scale, response = getRotationUsingFMT(prevPolarImg, rotPolarImg)
+        rot, scale, response = getRotationUsingFMT(prevPolarImg, rotPolarImg)
 
-    print(f"Pred: {np.rad2deg(rot):.2f} deg | Actual: {deg} deg")
-    print(f"Scale Factor: {scale:.2f}")
+        print(f"Pred: {np.rad2deg(rot):.2f} deg | Actual: {deg} deg")
+        print(f"Scale Factor: {scale:.2f}")
     exit()
-    '''
+    # '''
+
+    prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
+    prevImgCart = convertPolarImageToCartesian(prevImgPolar, downsampleFactor=1)
+
+    currImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd + 5)
+    # currImgCart = convertPolarImageToCartesian(currImgPolar,
+    #                                            downsampleFactor=1)
+
+    rot, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+    print(f"Pred: {np.rad2deg(rot):.2f} [deg] {rot:.2f} [radians]")
+
+    exit()
 
     prevImgCart = getCartImageFromImgPaths(imgPathArr, startSeqInd)
     prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
 
     for seqInd in range(startSeqInd + 1, endSeqInd + 1, 5):
         # Obtain image
-        currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd).copy()
-        currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd).copy()
+        currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
+        currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
+
         rot, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
 
-        print(f"===========Seq {seqInd}=========")
+        # print(f"===========Seq {seqInd}=========")
         print(f"Pred: {np.rad2deg(rot):.2f} [deg] {rot:.2f} [radians]")
         print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
-        plt.subplot(2, 2, 1)
-        plt.imshow(prevImgPolar)
-        plt.subplot(2, 2, 2)
-        plt.imshow(currImgPolar)
-
-        plt.subplot(2, 2, 3)
-        plt.imshow(prevImgCart)
-        plt.subplot(2, 2, 4)
-        plt.imshow(currImgCart)
-        plt.show()
+        plotCartPolar(prevImgCart, currImgCart, prevImgPolar, currImgPolar)
 
         prevImgPolar = currImgPolar.copy()
         prevImgCart = currImgCart.copy()

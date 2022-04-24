@@ -150,7 +150,6 @@ def convertPolarImgToLogPolar(imgPolar: np.ndarray):
                                            logPolarMode=False,
                                            downsampleFactor=1,
                                            changeGlobalRangeResolution=False)
-
     # Convert the Cart image to log-polar
     logPolarImg = convertCartesianImageToPolar(imgCart,
                                                logPolarMode=True,
