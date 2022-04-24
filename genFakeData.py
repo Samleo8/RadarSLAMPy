@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import getRotationMatrix
+from parseData import *
 
 from parseData import RANGE_RESOLUTION_CART_M
 
@@ -95,6 +96,68 @@ def generateFakeCorrespondences(srcCoord=None,
 
     return srcCoord, targetCoord, theta_deg, h
 
+def convertPolarPointsToCartesian(points):
+    w, h = points.shape
+    angles = -np.arange(w) * 2 * np.pi / w # - to match data convention: clockwise scan
+    x = points * np.expand_dims(np.cos(angles), axis = 1)
+    y = points * np.expand_dims(np.sin(angles), axis = 1)
+    return np.hstack((x, y))
+
+def generateFakeCorrespondencesPolar(srcCoord=None,
+                                    n_points=100,
+                                    theta_max_deg=20,
+                                    max_translation_m=3):
+    '''
+    @brief Generate fake correspondences with transform, randomly generated from max range and degree
+    @param[in] srcCoord Source coordinate to transform from. If none, will randomly generate features
+    @param[in] n_points Number of points to generate, only applies if srcCoord = None
+    @param[in] theta_max_deg Maximum degree of rotation
+    @param[in] max_range_m Maximum range (for translation) in meters
+
+    @return srcCoord Generated or passed in srcCoord
+    @return targetCoord Corresponding targetCoord generated using (theta_deg, h)
+    @return theta_deg Theta component of transform
+    @return h Translation component of transform
+    '''
+
+    if srcCoord is None:
+        print("Generating fake features..")
+        max_range_m = max_translation_m * 3
+        srcCoord = generateFakeFeaturesPolar(n_points, max_range_m)
+        srcCoord = convertPolarPointsToCartesian(srcCoord)
+    else:
+        n_points = srcCoord.shape[0]
+
+    theta_deg = np.random.random() * theta_max_deg
+    R = getRotationMatrix(theta_deg, degrees=True)
+    h = generateTranslationVector(max_translation_m)
+
+    targetCoord = transformCoords(srcCoord, R, h)
+
+    return srcCoord, targetCoord, theta_deg, h
+
+def distort(coords, velocity, frequency, h):
+    angles = np.arctan2(-coords[1], coords[0]) # - y to follow clockwise convention
+    period = 1 / frequency
+    times = angles / (2 * np.pi) * period - period
+    
+    if coords.shape[1] == 2:
+        coords = np.hstack(coords, np.ones((coords.shape[0], 1))) # N x 3
+
+    # Distort
+    displacement = np.expand_dims(velocity, axis = 1) * times
+    dx = displacement[0, :]
+    dy = displacement[1, :]
+    dtheta = displacement[2, :]
+    c = np.cos(dtheta)
+    s = np.sin(dtheta)
+    ones = np.ones(times.shape)
+    zeros = np.zeros(times.shape)
+    distortion = np.array([[c, -s, dx],
+                           [s,  c, dy],
+                           [zeros, zeros, ones]]) # 3 x 3 x N
+    distorted = distortion.transpose(axis = (2, 0, 1)) @ np.expand_dims(coords, axis = 2)
+    return distorted
 
 def addNoise(data, variance=2.5):
     '''
@@ -154,3 +217,12 @@ def generateFakeFeatures(n_points=100, max_range_m=10):
 
     a *= max_range_m / RANGE_RESOLUTION_CART_M
     return a
+
+def generateFakeFeaturesPolar(n_points=100, max_range_m=10):
+    # Generate artificial correspondences in m to pixel
+    data_size = (n_points, 1)
+    a_range = np.random.random(data_size)
+    thetas = np.arange(400) * 2 * np.pi / 400
+    a_angle = np.random.choice(thetas, data_size)
+    a_range *= max_range_m / RANGE_RESOLUTION_CART_M
+    return np.hstack((a_angle, a_range))

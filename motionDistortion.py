@@ -70,7 +70,7 @@ class MotionDistortionSolver():
         points = self.undistort()#self.p_jt # provide in N x 3
         x = points[:, 0]
         y = points[:, 1]
-        angles = np.arctan2(y, x) # big assumption here: scanline starts at positive x axis and moves counterclockwise
+        angles = np.arctan2(-y, x) # scanline starts at positive x axis and moves clockwise
         dT = self.total_scan_time * angles / (2 * np.pi)
         dT -= self.total_scan_time / 2 # offset range, as defined in [-scan_time /2 , scan_time/2]
         self.dT = dT
@@ -223,7 +223,7 @@ class MotionDistortionSolver():
         T_params = np.array([T0[0, 2], T0[1, 2], np.arctan2(T0[1, 0], T0[0, 0])])
         initial_guess = np.hstack((self.v_j_initial, T_params))
 
-        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian, method = 'lm')
+        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian_vector, method = 'lm')
 
         # return v, T
         best_params = result.x
