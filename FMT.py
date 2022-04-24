@@ -1,4 +1,5 @@
 import shutil
+from typing import Tuple
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -6,11 +7,37 @@ import matplotlib.pyplot as plt
 from parseData import convertCartesianImageToPolar, convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, convertPolarImgToLogPolar
 from utils import normalize_angles
 
-FMT_DOWNSAMPLE_FACTOR = 10 # default downsampling factor for FMT rotation
+FMT_DOWNSAMPLE_FACTOR = 10  # default downsampling factor for FMT rotation
 
-def getRotationUsingFMT(srcPolarImg: np.ndarray,
-                        targetPolarImg: np.ndarray,
-                        downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR) -> tuple[float, float, float]:
+
+def getTranslationUsingPhaseCorrelation(
+        srcImg: np.ndarray,
+        targetImg: np.ndarray) -> tuple[tuple[float, float], float]:
+    '''
+    @brief Using phase correlation, find the translation delta between 2 images
+    @param[in] srcImg Source image
+    @param[in] targetImg Target image
+
+    @return deltas Delta sub-pixel translation
+    @return response Response of phase correlation window (indicating confidence)
+    '''
+
+    H, W = srcImg.shape
+    hanningSize = (W, H)
+
+    # TODO: Cache the hanning window
+    hanningWindow = cv2.createHanningWindow(hanningSize, cv2.CV_32F)
+    deltas, response = cv2.phaseCorrelate(srcImg, targetImg,
+                                          hanningWindow)
+
+    return deltas, response
+
+
+def getRotationUsingFMT(
+    srcPolarImg: np.ndarray,
+    targetPolarImg: np.ndarray,
+    downsampleFactor: int = FMT_DOWNSAMPLE_FACTOR
+) -> tuple[float, float, float]:
     '''
     @brief Get rotation using the Fourier-Mellin Transform
     @note We attempt to downsample in the range direction. 
@@ -37,18 +64,15 @@ def getRotationUsingFMT(srcPolarImg: np.ndarray,
     srcLogPolar = convertPolarImgToLogPolar(srcPolarImgDownsampled)
     targetLogPolar = convertPolarImgToLogPolar(targetPolarImgDownsampled)
 
-    H_lp, W_lp = srcLogPolar.shape
-    hanningSize = (W_lp, H_lp)
-
-    # TODO: Cache the hanning window
-    hanningWindow = cv2.createHanningWindow(hanningSize, cv2.CV_32F)
-    deltas, response = cv2.phaseCorrelate(srcLogPolar, targetLogPolar, hanningWindow)
+    deltas, response = getTranslationUsingPhaseCorrelation(
+        srcLogPolar, targetLogPolar)
 
     # Obtain the transforms/deltas
     scale, angle = deltas
 
     # Formulas for calculation of correct FMT
     # @see https://sthoduka.github.io/imreg_fmt/docs/fourier-mellin-transform/
+    H_lp, W_lp = srcLogPolar.shape
     sz = max(H_lp, W_lp)
 
     angle = -float(angle) * 2 * np.pi / sz
@@ -56,7 +80,7 @@ def getRotationUsingFMT(srcPolarImg: np.ndarray,
 
     # Calculate log_base
     log_base = np.exp(np.log(H_lp / 2) / sz)
-    scale = log_base ** scale
+    scale = log_base**scale
 
     return angle, scale, response
 
@@ -101,6 +125,7 @@ def plotCartPolar(prevImgPolar, currImgPolar, prevImgCart, currImgCart):
         plt.imshow(currImgCart)
         plt.title("Curr Image Cartesian")
 
+
 def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
     ROWS = 1
     COLS = 4 if rotRad is not None else 2
@@ -137,6 +162,7 @@ def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
 
     plt.tight_layout()
 
+
 if __name__ == "__main__":
     import os
     import sys
@@ -154,7 +180,6 @@ if __name__ == "__main__":
 
     if endSeqInd < 0:
         endSeqInd = sequenceSize - 1
-
     '''
     # Perfect Image test
     prevPolarImg = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
@@ -183,7 +208,8 @@ if __name__ == "__main__":
     prevImgCart = convertPolarImageToCartesian(prevImgPolar,
                                                downsampleFactor=20)
 
-    imgSavePath = os.path.join(".", "img", "fmt", sequenceName).strip(os.path.sep)
+    imgSavePath = os.path.join(".", "img", "fmt",
+                               sequenceName).strip(os.path.sep)
     os.makedirs(imgSavePath, exist_ok=True)
 
     for seqInd in range(startSeqInd + 1, endSeqInd + 1):
@@ -191,12 +217,15 @@ if __name__ == "__main__":
             # Obtain image
             # currImgCart = getCartImageFromImgPaths(imgPathArr, seqInd)
             currImgPolar = getPolarImageFromImgPaths(imgPathArr, seqInd)
-            currImgCart = convertPolarImageToCartesian(currImgPolar, downsampleFactor=20)
+            currImgCart = convertPolarImageToCartesian(currImgPolar,
+                                                       downsampleFactor=20)
 
-            rotRad, scale, response = getRotationUsingFMT(prevImgPolar, currImgPolar)
+            rotRad, scale, response = getRotationUsingFMT(
+                prevImgPolar, currImgPolar)
 
             # print(f"===========Seq {seqInd}=========")
-            print(f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
+            print(
+                f"Pred: {np.rad2deg(rotRad):.2f} [deg] {rotRad:.2f} [radians]")
             print(f"Scale Factor: {scale:.2f}, Response {response:.2f}")
 
             # Save image
