@@ -157,12 +157,12 @@ def plotCartPolarWithRotation(prevImgCart, currImgCart, rotRad):
         rotDeg = np.rad2deg(rotRad)
         rotatedImg = rotateImg(prevImgCart, rotDeg)
         plt.imshow(rotatedImg)
-        plt.title(f"Prev (Rot by {rotDeg:.1f} deg)")
+        plt.title(f"Prev\nrot by {rotDeg:.1f} deg")
 
         i += 1
         plt.subplot(ROWS, COLS, i)
         plt.axis("off")
-        plt.imshow(rotatedImg - prevImgCart, cmap='coolwarm')
+        plt.imshow(rotatedImg - currImgCart, cmap='coolwarm')
         plt.title(f"Overlay")
 
     plt.tight_layout()
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     '''
     # Perfect Image test
     prevPolarImg = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
-    prevCartImg = convertPolarImageToCartesian(prevPolarImg, downsampleFactor=1)
+    prevCartImg = convertPolarImageToCartesian(prevPolarImg, downsampleFactor=20)
 
     # TODO: manually rotate then get rotation
     
