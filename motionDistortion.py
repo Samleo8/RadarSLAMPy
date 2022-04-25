@@ -70,9 +70,9 @@ class MotionDistortionSolver():
         points = self.undistort()#self.p_jt # provide in N x 3
         x = points[:, 0]
         y = points[:, 1]
-        angles = np.arctan2(-y, x) # scanline starts at positive x axis and moves clockwise
+        angles = np.arctan2(y, -x) # scanline starts at positive x axis and moves clockwise, we take midpoint pi/2 as 0
         dT = self.total_scan_time * angles / (2 * np.pi)
-        dT -= self.total_scan_time / 2 # offset range, as defined in [-scan_time /2 , scan_time/2]
+        #dT -= self.total_scan_time / 2 # offset range, as defined in [-scan_time /2 , scan_time/2]
         self.dT = dT
 
     def undistort(self, v_j):
