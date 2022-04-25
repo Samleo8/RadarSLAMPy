@@ -468,15 +468,16 @@ if __name__ == "__main__":
             good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
-            R, h = calculateTransformDxDth(good_old, good_new)
-            # R, h = calculateTransformSVD(good_old, good_new)
+            #R, h = calculateTransformDxDth(good_old, good_new)
+            R, h = calculateTransformSVD(good_old, good_new)
             # print(h)
             # h[0] += 0
             # for i in range(good_old.shape[0]):
             #     plotFakeFeatures(good_old[i:i+1,:], (R @ good_new[i:i+1,:].T + h).T, show= True)
-            # transformed_pts = (R @ good_new.T + h).T
+            transformed_pts = (R @ good_new.T + h).T
             # print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
-            # plotFakeFeatures(good_old, transformed_pts, good_new, show = True)
+            #plotFakeFeatures(good_old, good_new, show = True)
+            plotFakeFeatures(good_old, transformed_pts, good_new, show = True)
             h *= RANGE_RESOLUTION_CART_M
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)

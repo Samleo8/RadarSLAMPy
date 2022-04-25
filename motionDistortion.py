@@ -57,7 +57,7 @@ class MotionDistortionSolver():
         self.total_scan_time = 1 / 4 # assuming 4 Hz
         pass
 
-    def compute_time_deltas(self):
+    def compute_time_deltas(self, points):
         '''
         Get the time deltas for each point. This depends solely on where the
         points are in scan angle. The further away from center, the greater the
@@ -67,7 +67,7 @@ class MotionDistortionSolver():
         idea to re-run this function once an undistorted frame is obtained for
         better estimates.
         '''
-        points = self.undistort()#self.p_jt # provide in N x 3
+        #points = self.undistort()#self.p_jt # provide in N x 3
         x = points[:, 0]
         y = points[:, 1]
         angles = np.arctan2(y, -x) # scanline starts at positive x axis and moves clockwise, we take midpoint pi/2 as 0
@@ -81,7 +81,7 @@ class MotionDistortionSolver():
         best estimate of v_T, T_wj, dT
         '''
         displacement = np.expand_dims(v_j, axis = 1) * self.dT # 3 x N
-        assert(displacement.shape = (3,points.shape[0]))
+        #assert(displacement.shape == (3,points.shape[0]))
         theta = displacement[2, :]
         dx = displacement[0, :]
         dy = displacement[1, :]
