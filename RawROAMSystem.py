@@ -175,7 +175,8 @@ class RawROAMSystem():
              R,
              h,
              seqInd,
-             save=True):
+             save=True,
+             show=False):
 
         # Draw as subplots
         self.fig.clear()
@@ -209,7 +210,8 @@ class RawROAMSystem():
         #     trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
         #     plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
 
-        plt.pause(0.01)
+        if show:
+            plt.pause(0.01)
 
     def plotTraj(self, seqInd, R, h, save=False, show=False):
         # Init locals
