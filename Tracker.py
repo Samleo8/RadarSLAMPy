@@ -61,7 +61,7 @@ class Tracker():
             prevImgPolar, currImgPolar)
 
         # Correct for rotation using rotational estimate
-        useFMT = self.paramFlags.get(useFMT, False)
+        useFMT = self.paramFlags.get("useFMT", False)
         if useFMT:
             # TODO: Do something about combining the rotation transforms
             # prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
@@ -82,8 +82,8 @@ class Tracker():
         )
 
         # Outlier rejection
-        rejectOutliers = self.paramFlags.get("rejectOutliers", True)
-        if rejectOutliers:
+        doOutlierRejection = self.paramFlags.get("rejectOutliers", True)
+        if doOutlierRejection:
             good_old, good_new = rejectOutliers(good_old, good_new)
 
         return good_old, good_new, angleRotRad
