@@ -15,13 +15,14 @@ from utils import tic, toc
 class Tracker():
 
     def __init__(self, sequenceName: str, imgPathArr: list[str],
-                 filePaths: dict[str]) -> None:
+                 filePaths: dict[str], paramFlags: dict[bool]) -> None:
         self.sequenceName = sequenceName
 
         self.imgPathArr = imgPathArr
         self.sequenceSize = len(self.imgPathArr)
 
         self.filePaths = filePaths
+        self.paramFlags = paramFlags
 
         self.estTraj = None
         self.gtTraj = None
@@ -37,8 +38,7 @@ class Tracker():
             prevImgPolar: np.ndarray,
             currImgPolar: np.ndarray,
             featureCoord: np.ndarray,
-            seqInd: int,
-            useFMT: bool = True) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+            seqInd: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         '''
         @brief Track based on previous and current image
 
@@ -61,8 +61,11 @@ class Tracker():
             prevImgPolar, currImgPolar)
 
         # Correct for rotation using rotational estimate
+        useFMT = self.paramFlags.get(useFMT, False)
         if useFMT:
-            prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+            # TODO: Do something about combining the rotation transforms
+            # prevImgCartRot = rotateImg(prevImgCart, angleRotRad)
+            prevImgCartRot = prevImgCart
         else:
             prevImgCartRot = prevImgCart
 
@@ -79,7 +82,9 @@ class Tracker():
         )
 
         # Outlier rejection
-        good_old, good_new = rejectOutliers(good_old, good_new)
+        rejectOutliers = self.paramFlags.get("rejectOutliers", True)
+        if rejectOutliers:
+            good_old, good_new = rejectOutliers(good_old, good_new)
 
         return good_old, good_new, angleRotRad
 

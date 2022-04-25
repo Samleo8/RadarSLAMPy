@@ -12,15 +12,24 @@ from Tracker import Tracker
 
 class RawROAMSystem():
 
-    def __init__(self, sequenceName: str, hasGroundTruth: bool = True) -> None:
+    def __init__(self,
+                 sequenceName: str,
+                 paramFlags: bool = dict(),
+                 hasGroundTruth: bool = True) -> None:
         '''
         @brief Initializer for ROAM system
         @param[in] sequenceName Name of sequence. Should be in ./data folder
-        @param[in] hasGroundTruth Whether sequence has ground truth to be used for plotting 
+        @param[in] pararmFlags Set of flags indicating turning on and off of certain algorithm features
+                                - rejectOutliers: Whether to use graph-based outlier rejection
+                                - useANMS: Whether to use ANMS
+                                - useFMT: Whether to use FMT to correct things
+                                - correctMotionDistortion: Whether to correct for motion distortion
+        @param[in] hasGroundTruth Whether sequence has ground truth to be used for plotting @deprecated
         '''
 
         # Data and timestamp paths
         self.sequenceName = sequenceName
+        self.paramFlags = paramFlags
         self.hasGroundTruth = hasGroundTruth
 
         dataPath = os.path.join("data", sequenceName, "radar")
@@ -37,7 +46,8 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam", sequenceName).strip(os.path.sep)
+        imgSavePath = os.path.join(".", "img", "roam_rejectOutliers",
+                                   sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
         os.makedirs(imgSavePath, exist_ok=True)
@@ -60,7 +70,7 @@ class RawROAMSystem():
 
         # Initialize Tracker
         self.tracker = Tracker(self.sequenceName, self.imgPathArr,
-                               self.filePaths)
+                               self.filePaths, self.paramFlags)
 
         # TODO: Initialize mapping
 
@@ -127,9 +137,9 @@ class RawROAMSystem():
             currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
-            good_old, good_new, rotAngleRad = tracker.track(prevImgCart, currImgCart,
-                                               prevImgPolar, currImgPolar,
-                                               blobCoord, seqInd, useFMT=False)
+            good_old, good_new, rotAngleRad = tracker.track(
+                prevImgCart, currImgCart, prevImgPolar, currImgPolar,
+                blobCoord, seqInd)
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
             estR = getRotationMatrix(-rotAngleRad)
 
@@ -248,8 +258,18 @@ if __name__ == "__main__":
     endSeqInd = int(sys.argv[3]) if len(sys.argv) > 3 else -1
     REMOVE_OLD_RESULTS = bool(int(sys.argv[4])) if len(sys.argv) > 4 else False
 
-    # Initialize system
-    system = RawROAMSystem(datasetName, hasGroundTruth=True)
+    # Initialize system with parameter flags
+    paramFlags = {
+        "rejectOutliers": True,
+        "useFMT": False,
+        # Below all currently unused actually
+        "useANMS": False,
+        "correctMotionDistortion": False
+    }
+
+    system = RawROAMSystem(datasetName,
+                           paramFlags=paramFlags,
+                           hasGroundTruth=True)
 
     try:
         system.run(startSeqInd, endSeqInd)
