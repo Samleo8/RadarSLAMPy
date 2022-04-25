@@ -125,7 +125,6 @@ class RawROAMSystem():
         # Get initial polar and Cartesian image
         prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
         prevImgCart = convertPolarImageToCartesian(prevImgPolar)
-        print(prevImgCart.shape)
 
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
