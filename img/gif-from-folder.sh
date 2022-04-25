@@ -8,6 +8,6 @@ if [ -z $OUTPUT_NAME ]; then
 fi
 
 START_NUM=${2:-1}
-FRAME_RATE=${3:-10}
+FRAME_RATE=${3:-60}
 
 ffmpeg -y -start_number $START_NUM -framerate $FRAME_RATE -i $OUTPUT_NAME/%0004d.jpg -loop -1 $OUTPUT_NAME.gif
