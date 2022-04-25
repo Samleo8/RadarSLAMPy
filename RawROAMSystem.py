@@ -46,7 +46,7 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam_rejectOutliers",
+        imgSavePath = os.path.join(".", "img", "roam_rejectOutliers_1m",
                                    sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
@@ -275,7 +275,6 @@ if __name__ == "__main__":
     try:
         system.run(startSeqInd, endSeqInd)
     except KeyboardInterrupt:
-        exit()
         pass
 
     imgSavePath = system.filePaths["imgSave"]
