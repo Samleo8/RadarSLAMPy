@@ -1,6 +1,7 @@
 import numpy as np
 import scipy as sp
 
+from parseData import MAX_RANGE_CLIP_DEFAULT
 from trajectoryPlotting import Trajectory
 import m2dp
 from getPointCloud import getPointCloudPolarInd
@@ -22,6 +23,12 @@ class Keyframe():
         # TODO: Not sure if needed/useful
         self.pointCloud = getPointCloudPolarInd(radarPolarImg)
 
+    # def isVisible(self, keyframe):
+    #     '''
+    #     @brief Return points that are visible from keyframe
+    #     @deprecated
+    #     '''
+    #     MAX_RANGE_CLIP_DEFAULT
 
 # Map class
 class Map():
