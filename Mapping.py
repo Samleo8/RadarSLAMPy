@@ -7,15 +7,22 @@ import m2dp
 from getPointCloud import getPointCloudPolarInd
 
 # Thresholds
-ROT_THRESHOLD = 0.2 # radians
-TRANS_THRESHOLD = 2.0 # meters
-TRANS_THRESHOLD_SQ = TRANS_THRESHOLD * TRANS_THRESHOLD # meters^2
+ROT_THRESHOLD = 0.2  # radians
+TRANS_THRESHOLD = 2.0  # meters
+TRANS_THRESHOLD_SQ = TRANS_THRESHOLD * TRANS_THRESHOLD  # meters^2
+
 
 # Keyframe class
 class Keyframe():
 
     def __init__(self, pose: np.ndarray, featurePoints: np.ndarray,
                  radarPolarImg: np.ndarray) -> None:
+        '''
+        @brief Keyframe class. Contains pose, feature points and point cloud information
+        @param[in] pose (3 x 1) Pose information [x, y, th] in (m, m, rad) # TODO: Confirm these units
+        @param[in] featurePoints (K x 2) Tracked feature points from previous keyframe
+        @param[in] radarPolarImg (M x N) Radar polar (range-azimuth) image 
+        '''
         self.pose = pose
         self.featurePoints = featurePoints  # set of (tracked) feature points
         self.radarPolarImg = radarPolarImg  # radar polar image
@@ -29,6 +36,7 @@ class Keyframe():
     #     @deprecated
     #     '''
     #     MAX_RANGE_CLIP_DEFAULT
+
 
 # Map class
 class Map():
@@ -46,7 +54,11 @@ class Map():
         self.keyframes = []
 
     # TODO: might not want to make keyframe before adding it
-    def isGoodKeyframe(self, keyframe: Keyframe):
+    def isGoodKeyframe(self, keyframe: Keyframe) -> bool:
+        '''
+        @brief Check if a keyframe is good for adding using information about relative rotation and translation
+        @return If keyframe passes checks
+        '''
         # Get information of prev KF's pose
         prevKF = self.keyframes[-1]
         srcPose = prevKF.pose
@@ -62,7 +74,7 @@ class Map():
             return True
 
         # Check translation condition
-        deltaTrans = (srcPose[0:2] - targetPose[0:2]) ** 2
+        deltaTrans = (srcPose[0:2] - targetPose[0:2])**2
         deltaTrans = deltaTrans.sum()
 
         if (deltaTrans >= TRANS_THRESHOLD_SQ):
@@ -70,6 +82,16 @@ class Map():
 
         return False
 
-    def addKeyframe(self, keyframe: Keyframe):
+    def addKeyframe(self, keyframe: Keyframe) -> None:
+        '''
+        @brief Add a keyframe to the running pose graph
+        @param[in] keyframe Keyframe to add
+        '''
         self.keyframes.append(keyframe)
+
+    def bundleAdjustment(self) -> None:
+        '''
+        @brief Perform bundle adjustment on the last 2 keyframes
+        @return None
+        '''
         pass
