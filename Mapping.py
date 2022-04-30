@@ -162,4 +162,24 @@ class Map():
         @brief Perform bundle adjustment on the last 2 keyframes
         @return None
         '''
+        # Cannot do BA on only 1 KF
+        if len(self.keyframes) <= 1:
+            return
+
+        # TODO: Perform bundle adjustment on last 2 keyframes
+        old_kf = self.keyframes[-2]
+        new_kf = self.keyframes[-1]
+
+        # Obtain relevant information
+        pose_old = old_kf.pose
+        pose_new = new_kf.pose
+        points_old_local = old_kf.featurePointsLocal
+        points_new_local = new_kf.featurePointsLocal
+
+        # NOTE: remember ot convert to global coordinates before doing anything with the keyframes
+        points_old = old_kf.convert(points_old_local)
+        points_new = new_kf.convert(points_new_local)
+
+        # TODO: iterative optimisation and related solvers here
+        
         pass

@@ -137,7 +137,7 @@ class RawROAMSystem():
         possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
         self.map.addKeyframe(possible_kf)
 
-        old_kf.copyFromOtherKeyframe(possible_kf)
+        old_kf = Keyframe(initPose, blobCoord, prevImgPolar)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -170,6 +170,9 @@ class RawROAMSystem():
             if self.map.isGoodKeyframe(possible_kf):
                 self.map.addKeyframe(possible_kf)
                 old_kf.copyFromOtherKeyframe(possible_kf)
+
+                # TODO: do bundle adjustment here
+                self.map.bundleAdjustment()
 
             # Plotting and prints and stuff
             self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
