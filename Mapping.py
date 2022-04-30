@@ -31,8 +31,6 @@ class Keyframe():
         self.pose = globalPose
         self.radarPolarImg = radarPolarImg  # radar polar image
 
-        print(self.pose)
-
         # Figure out and cache the center of the Cartesian image, needed for converting coordinates
         global RADAR_CART_CENTER
         if RADAR_CART_CENTER is None:
