@@ -52,6 +52,7 @@ class Tracker():
         @return good_old Coordinates of old good feature points (K' x 2) in [x, y] format
         @return good_new Coordinates of new good feature points (K' x 2) in [x, y] format
         @return angleRotRad Angle used to rotate image
+        @return corrStatus (K x 2) correspondence status @note Needed for mapping to track keyframe points
         '''
         # Timing
         start = tic()
@@ -84,9 +85,11 @@ class Tracker():
         # Outlier rejection
         doOutlierRejection = self.paramFlags.get("rejectOutliers", True)
         if doOutlierRejection:
-            good_old, good_new = rejectOutliers(good_old, good_new)
+            good_old, good_new, pruning_mask = rejectOutliers(good_old, good_new)
 
-        return good_old, good_new, angleRotRad
+        corrStatus &= pruning_mask
+
+        return good_old, good_new, angleRotRad, corrStatus
 
     def getTransform(self, srcCoord: np.ndarray,
                      targetCoord: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:

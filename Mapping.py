@@ -15,15 +15,15 @@ TRANS_THRESHOLD_SQ = TRANS_THRESHOLD * TRANS_THRESHOLD  # meters^2
 # Keyframe class
 class Keyframe():
 
-    def __init__(self, pose: np.ndarray, featurePoints: np.ndarray,
+    def __init__(self, globalPose: np.ndarray, featurePoints: np.ndarray,
                  radarPolarImg: np.ndarray) -> None:
         '''
         @brief Keyframe class. Contains pose, feature points and point cloud information
-        @param[in] pose (3 x 1) Pose information [x, y, th] in (m, m, rad) # TODO: Confirm these units
-        @param[in] featurePoints (K x 2) Tracked feature points from previous keyframe
-        @param[in] radarPolarImg (M x N) Radar polar (range-azimuth) image 
+        @param[in] globalPose       (3 x 1) Global pose information [x, y, th] in (m, m, rad) # TODO: Confirm these units
+        @param[in] featurePoints    (K x 2) Tracked feature points from previous keyframe
+        @param[in] radarPolarImg    (M x N) Radar polar (range-azimuth) image 
         '''
-        self.pose = pose
+        self.pose = globalPose
         self.featurePoints = featurePoints  # set of (tracked) feature points
         self.radarPolarImg = radarPolarImg  # radar polar image
 
@@ -52,6 +52,9 @@ class Map():
 
         self.estTraj = estTraj
         self.keyframes = []
+
+    def updateInternalTraj(self, traj: Trajectory):
+        self.estTraj = traj
 
     # TODO: might not want to make keyframe before adding it
     def isGoodKeyframe(self, keyframe: Keyframe) -> bool:

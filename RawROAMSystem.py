@@ -3,6 +3,7 @@ import shutil
 from matplotlib import pyplot as plt
 
 import numpy as np
+from Mapping import Map
 from getFeatures import appendNewFeatures
 from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
@@ -73,6 +74,8 @@ class RawROAMSystem():
                                self.filePaths, self.paramFlags)
 
         # TODO: Initialize mapping
+        self.map = Map(self.sequenceName, self.estTraj, self.imgPathArr,
+                       self.filePaths)
 
         pass
 
@@ -136,7 +139,7 @@ class RawROAMSystem():
             currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
-            good_old, good_new, rotAngleRad = tracker.track(
+            good_old, good_new, rotAngleRad, corrStatus = tracker.track(
                 prevImgCart, currImgCart, prevImgPolar, currImgPolar,
                 blobCoord, seqInd)
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
