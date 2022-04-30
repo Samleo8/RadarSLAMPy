@@ -3,7 +3,7 @@ import shutil
 from matplotlib import pyplot as plt
 
 import numpy as np
-from Mapping import Map
+from Mapping import Keyframe, Map
 from getFeatures import appendNewFeatures
 from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
@@ -132,6 +132,9 @@ class RawROAMSystem():
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
+
+        # Initialize first keyframe
+        kf = Keyframe(initPose, blobCoord, prevImgPolar)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
