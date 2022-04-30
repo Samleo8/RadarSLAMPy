@@ -1,8 +1,8 @@
 import os
 import shutil
 from matplotlib import pyplot as plt
-
 import numpy as np
+
 from Mapping import Keyframe, Map
 from getFeatures import appendNewFeatures
 from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
@@ -134,7 +134,10 @@ class RawROAMSystem():
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
 
         # Initialize first keyframe
-        kf = Keyframe(initPose, blobCoord, prevImgPolar)
+        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
+        self.map.addKeyframe(possible_kf)
+
+        old_kf.copyFromOtherKeyframe(possible_kf)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -142,9 +145,11 @@ class RawROAMSystem():
             currImgCart = convertPolarImageToCartesian(currImgPolar)
 
             # Perform tracking
+            # TODO: Figure out how to integrate the keyframe addition when creation of new features
             good_old, good_new, rotAngleRad, corrStatus = tracker.track(
                 prevImgCart, currImgCart, prevImgPolar, currImgPolar,
                 blobCoord, seqInd)
+
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
             estR = getRotationMatrix(-rotAngleRad)
 
@@ -154,6 +159,17 @@ class RawROAMSystem():
 
             # Update trajectory
             self.updateTrajectory(R, h, seqInd)
+
+            # Keyframe updating
+            old_kf.pruneFeaturePoints(corrStatus)
+
+            latestPose = self.estTraj.poses[-1]
+            possible_kf.updateInfo(latestPose, good_new, currImgPolar)
+
+            # TODO: Check if keyframe needs to be added to the map
+            if self.map.isGoodKeyframe(possible_kf):
+                self.map.addKeyframe(possible_kf)
+                old_kf.copyFromOtherKeyframe(possible_kf)
 
             # Plotting and prints and stuff
             self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,

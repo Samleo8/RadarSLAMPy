@@ -26,6 +26,21 @@ class Keyframe():
                                                         units of [m, m, rad] # TODO: Confirm these units
         @param[in] featurePointsLocal   (K x 2) Tracked feature points from previous keyframe,
                                                 in local coordinates (pixels)
+        @param[in] radarPolarImg        (M x N) Radar polar (range-azimuth) image
+
+        @see updateInfo() 
+        '''
+        self.updateInfo(globalPose, featurePointsLocal, radarPolarImg)
+
+    def updateInfo(self, globalPose: np.ndarray,
+                   featurePointsLocal: np.ndarray,
+                   radarPolarImg: np.ndarray) -> None:
+        '''
+        @brief Update internal information: pose, feature points and point cloud information
+        @param[in] globalPose           (3 x 1) Pose information [x, y, th] in global coordinates, 
+                                                        units of [m, m, rad] # TODO: Confirm these units
+        @param[in] featurePointsLocal   (K x 2) Tracked feature points from previous keyframe,
+                                                in local coordinates (pixels)
         @param[in] radarPolarImg        (M x N) Radar polar (range-azimuth) image 
         '''
         self.pose = globalPose
@@ -37,16 +52,15 @@ class Keyframe():
             radarCartImg = convertPolarImageToCartesian(radarPolarImg)
             RADAR_CART_CENTER = np.array(radarCartImg.shape) / 2
 
-        # NOTE: self.pose should be set before this
-        # Creates sets of feature points in global coordinate, meters
-        featurePointsGlobal = self.convertFeaturesLocalToGlobal(
-            featurePointsLocal)
-
-        self.featurePoints = featurePointsGlobal  # set of original feature points
-        self.prunedFeaturePoints = self.featurePoints  # set of pruned feature points (tracked until the next keyframe)
+        self.featurePointsLocal = featurePointsLocal  # set of original feature points, in local (px coordinates)
+        self.prunedFeaturePoints = self.featurePointsLocal  # set of pruned feature points (tracked until the next keyframe)
 
         # TODO: Not sure if needed/useful
         self.pointCloud = getPointCloudPolarInd(radarPolarImg)
+
+    def copyFromOtherKeyframe(self, keyframe) -> None:
+        self.updateInfo(keyframe.globalPose, keyframe.featurePointsLocal,
+                        keyframe.radarPolarImg)
 
     def convertFeaturesLocalToGlobal(
             self, featurePointsLocal: np.ndarray) -> np.ndarray:
@@ -62,7 +76,7 @@ class Keyframe():
         featurePointsGlobal = featurePointsLocal - RADAR_CART_CENTER
 
         # Then we need to convert to meters
-        featurePointsGlobal *= RANGE_RESOLUTION_CART_M # px * (m/px) = m
+        featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m
 
         # Rotate and translate to make into global coordinate system
         R = getRotationMatrix(th)
