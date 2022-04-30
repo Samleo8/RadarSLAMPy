@@ -173,7 +173,7 @@ class Map():
         # Obtain relevant information
         pose_old = old_kf.pose
         pose_new = new_kf.pose
-        points_old_local = old_kf.featurePointsLocal
+        points_old_local = old_kf.prunedFeaturePoints
         points_new_local = new_kf.featurePointsLocal
 
         # NOTE: remember ot convert to global coordinates before doing anything with the keyframes
@@ -181,5 +181,5 @@ class Map():
         points_new = new_kf.convert(points_new_local)
 
         # TODO: iterative optimisation and related solvers here
-        
+
         pass
