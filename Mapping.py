@@ -60,7 +60,7 @@ class Keyframe():
         self.pointCloud = getPointCloudPolarInd(radarPolarImg)
 
     def copyFromOtherKeyframe(self, keyframe) -> None:
-        self.updateInfo(keyframe.globalPose, keyframe.featurePointsLocal,
+        self.updateInfo(keyframe.pose, keyframe.featurePointsLocal,
                         keyframe.radarPolarImg)
 
     def convertFeaturesLocalToGlobal(

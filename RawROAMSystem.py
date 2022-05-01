@@ -134,10 +134,10 @@ class RawROAMSystem():
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
 
         # Initialize first keyframe
-        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
-        self.map.addKeyframe(possible_kf)
-
         old_kf = Keyframe(initPose, blobCoord, prevImgPolar)
+        self.map.addKeyframe(old_kf)
+
+        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -177,8 +177,10 @@ class RawROAMSystem():
             if (nFeatures <= N_FEATURES_BEFORE_RETRACK) or \
                 self.map.isGoodKeyframe(possible_kf):
 
-                self.map.addKeyframe(possible_kf)
+                print("\nAdding keyframe...\n")
+
                 old_kf.copyFromOtherKeyframe(possible_kf)
+                self.map.addKeyframe(old_kf)
 
                 # TODO: do bundle adjustment here
                 self.map.bundleAdjustment()
@@ -225,7 +227,7 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         self.plotTraj(seqInd, R, h, save=False, show=False)
-        
+
         # TODO: Plotting for map points
         self.map.plot(self.fig, show=False)
 
