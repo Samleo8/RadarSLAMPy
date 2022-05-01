@@ -61,7 +61,7 @@ def visualize_transform(prevImg: np.ndarray,
                     marker='.',
                     color='yellow',
                     alpha=alpha,
-                    label=f'Image 0 Features{extraLabel}')
+                    label=f'Previous Features{extraLabel}')
 
     plt.legend()
     plt.axis("off")

@@ -4,8 +4,8 @@ from typing import Tuple
 from matplotlib import pyplot as plt
 
 import numpy as np
-from FMT import getRotationUsingFMT, getTranslationUsingPhaseCorrelation, rotateImg
-from getTransformKLT import calculateTransformDxDth, calculateTransformSVD, getTrackedPointsKLT, visualize_transform
+from FMT import getRotationUsingFMT
+from getTransformKLT import calculateTransformSVD, getTrackedPointsKLT, visualize_transform
 from outlierRejection import rejectOutliers
 from parseData import RANGE_RESOLUTION_CART_M
 from trajectoryPlotting import Trajectory
@@ -87,6 +87,7 @@ class Tracker():
         if doOutlierRejection:
             good_old, good_new, pruning_mask = rejectOutliers(good_old, good_new)
 
+        # ???: (213,1) &= (94,)
         corrStatus &= pruning_mask
 
         return good_old, good_new, angleRotRad, corrStatus

@@ -183,6 +183,8 @@ class Map():
         points_new = new_kf.convert(points_new_local)
 
         # TODO: iterative optimisation and related solvers here
+        # 2d bundle adjustment
+        
 
         pass
 
