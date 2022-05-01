@@ -47,7 +47,7 @@ class RawROAMSystem():
         self.sequenceSize = len(self.imgPathArr)
 
         # Create Save paths for imaging
-        imgSavePath = os.path.join(".", "img", "roam_rejectOutliers_1m",
+        imgSavePath = os.path.join(".", "img", "roam_mapping",
                                    sequenceName).strip(os.path.sep)
         trajSavePath = imgSavePath + '_traj'
 
@@ -227,7 +227,7 @@ class RawROAMSystem():
         self.plotTraj(seqInd, R, h, save=False, show=False)
         
         # TODO: Plotting for map points
-        self.map.plot(self.fig)
+        self.map.plot(self.fig, show=False)
 
         trajSavePath = self.filePaths["trajSave"]
         trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")

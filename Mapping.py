@@ -1,3 +1,4 @@
+from matplotlib import pyplot as plt
 import numpy as np
 import scipy as sp
 
@@ -116,7 +117,8 @@ class Map():
         self.estTraj = estTraj
 
         # TODO: Instead of storing set of all keyframes, only store the last keyframe, and then a big array of map points in global coordinates
-        self.mapPoints = [] # should be a large np.array of global feature points
+        self.mapPoints = [
+        ]  # should be a large np.array of global feature points
         self.keyframes = []
 
     def updateInternalTraj(self, traj: Trajectory):
@@ -179,18 +181,26 @@ class Map():
         points_new_local = new_kf.featurePointsLocal
 
         # NOTE: remember ot convert to global coordinates before doing anything with the keyframes
-        points_old = old_kf.convert(points_old_local)
-        points_new = new_kf.convert(points_new_local)
+        points_old = old_kf.convertFeaturesLocalToGlobal(points_old_local)
+        points_new = new_kf.convertFeaturesLocalToGlobal(points_new_local)
 
         # TODO: iterative optimisation and related solvers here
         # 2d bundle adjustment
-        
 
         pass
 
-    def plot(self, fig):
+    def plot(self, fig: plt.figure, show: bool = False):
         '''
         @brief Plot map points on plt figure
         @param[in] fig plt figure to plot on @todo do this
         '''
+        # TODO: For now, plot all the keyframe feature points
+        for kf in self.keyframes:
+            points_local = kf.featurePointsLocal
+            points_global = kf.convertFeaturesLocalToGlobal(points_local)
+            plt.plot(points_global)
+
+        if (show):
+            plt.show()
+
         return
