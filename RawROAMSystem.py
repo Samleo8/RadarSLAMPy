@@ -214,6 +214,7 @@ class RawROAMSystem():
              show=False):
 
         # Draw as subplots
+        plt.clf()
         self.fig.clear()
 
         ax1 = self.fig.add_subplot(1, 2, 1)
@@ -226,10 +227,10 @@ class RawROAMSystem():
                           show=False)
 
         ax2 = self.fig.add_subplot(1, 2, 2)
-        self.plotTraj(seqInd, R, h, save=False, show=False)
-
         # TODO: Plotting for map points
         self.map.plot(self.fig, show=False)
+
+        self.plotTraj(seqInd, R, h, save=False, show=False)
 
         trajSavePath = self.filePaths["trajSave"]
         trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")

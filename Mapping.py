@@ -198,9 +198,10 @@ class Map():
         for kf in self.keyframes:
             points_local = kf.featurePointsLocal
             points_global = kf.convertFeaturesLocalToGlobal(points_local)
-            plt.plot(points_global)
 
-        if (show):
+            plt.plot(points_global, marker='+', color='red',label='Map Points')
+
+        if show:
             plt.show()
 
         return
