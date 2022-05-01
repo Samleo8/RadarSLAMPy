@@ -169,7 +169,7 @@ class RawROAMSystem():
             # Add a keyframe if it fulfills criteria
             # 1) large enough translation from previous keyframe
             # 2) large enough rotation from previous KF
-            # TODO: Not sure if this criteria is actually correct
+            # TODO: Not sure if this criteria is actually correct, perhaps we should be adding the previous keyframe instead
             # 3) not enough features in current keyframe (ie about to have new features coming up)
             # NOTE: Feature check and appending will only be checked in the next iteration,
             #       so we can prematuraly do it here and add a keyframe first
