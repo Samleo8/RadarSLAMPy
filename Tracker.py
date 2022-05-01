@@ -2,6 +2,7 @@
 import os
 from typing import Tuple
 from matplotlib import pyplot as plt
+from matplotlib.ft2font import BOLD
 
 import numpy as np
 from FMT import getRotationUsingFMT
@@ -87,8 +88,9 @@ class Tracker():
         if doOutlierRejection:
             good_old, good_new, pruning_mask = rejectOutliers(good_old, good_new)
 
-        # ???: (213,1) &= (94,)
-        corrStatus &= pruning_mask
+        # Ensure correct correspondence status
+        rng = np.arange(nFeatures)
+        corrStatus[rng[corrStatus.flatten().astype(bool)]] &= pruning_mask[:, np.newaxis]
 
         return good_old, good_new, angleRotRad, corrStatus
 
