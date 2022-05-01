@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 from Mapping import Keyframe, Map
-from getFeatures import appendNewFeatures
+from getFeatures import N_FEATURES_BEFORE_RETRACK, appendNewFeatures
 from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import convertRandHtoDeltas, f_arr, getRotationMatrix, plt_savefig_by_axis, radarImgPathToTimestamp
@@ -166,8 +166,17 @@ class RawROAMSystem():
             latestPose = self.estTraj.poses[-1]
             possible_kf.updateInfo(latestPose, good_new, currImgPolar)
 
-            # TODO: Check if keyframe needs to be added to the map
-            if self.map.isGoodKeyframe(possible_kf):
+            # Add a keyframe if it fulfills criteria
+            # 1) large enough translation from previous keyframe
+            # 2) large enough rotation from previous KF
+            # TODO: Not sure if this criteria is actually correct
+            # 3) not enough features in current keyframe (ie about to have new features coming up)
+            # NOTE: Feature check and appending will only be checked in the next iteration,
+            #       so we can prematuraly do it here and add a keyframe first
+            nFeatures = good_new.shape[0]
+            if (nFeatures <= N_FEATURES_BEFORE_RETRACK) or \
+                self.map.isGoodKeyframe(possible_kf):
+
                 self.map.addKeyframe(possible_kf)
                 old_kf.copyFromOtherKeyframe(possible_kf)
 
