@@ -116,6 +116,7 @@ class Map():
         self.estTraj = estTraj
 
         # TODO: Instead of storing set of all keyframes, only store the last keyframe, and then a big array of map points in global coordinates
+        self.mapPoints = [] # should be a large np.array of global feature points
         self.keyframes = []
 
     def updateInternalTraj(self, traj: Trajectory):
@@ -160,6 +161,7 @@ class Map():
     def bundleAdjustment(self) -> None:
         '''
         @brief Perform bundle adjustment on the last 2 keyframes
+        # TODO: Should actually bundle adjust on all keyframes within range
         @return None
         '''
         # Cannot do BA on only 1 KF
@@ -183,3 +185,10 @@ class Map():
         # TODO: iterative optimisation and related solvers here
 
         pass
+
+    def plot(self, fig):
+        '''
+        @brief Plot map points on plt figure
+        @param[in] fig plt figure to plot on @todo do this
+        '''
+        return
