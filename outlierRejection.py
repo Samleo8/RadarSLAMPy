@@ -7,7 +7,7 @@ from scipy.spatial.distance import cdist
 from genFakeData import addNoise, createOutliers, generateFakeCorrespondences, plotFakeFeatures
 
 # TODO: Tune this
-DIST_THRESHOLD_M = 1  # changed from 2.5m
+DIST_THRESHOLD_M = 0.5  # changed from 2.5m
 DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean distance threshold
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
