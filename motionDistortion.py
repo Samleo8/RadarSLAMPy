@@ -104,7 +104,7 @@ class MotionDistortionSolver():
         Returns the estimated positions of points based on their world location
         estimates and the current best fit transform
         '''
-        return np.linalg.inv(T_wj) @ self.p_w.T
+        return T_wj @ self.p_w.T#np.linalg.inv(T_wj) @ self.p_w.T
 
     def error_vector(self, params):
         '''
