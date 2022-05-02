@@ -144,14 +144,8 @@ def generateFakeCorrespondencesPolar(currentFrame=None,
 
     theta_deg = np.random.random() * theta_max_deg
     R = getRotationMatrix(theta_deg, degrees=True)
-    #h = generateTranslationVector(max_translation_m)
-    h = np.array([[0], [0]])
-    # transform = np.block([[R, h],
-    #                       [np.zeros((2,)), 1]])
-    # T_inv = invert_transform(transform)
-    # R_inv = T_inv[:2, :2]
-    # h_inv = T_inv[:2, 2:]
-    #print(currentFrame.shape)
+    h = generateTranslationVector(max_translation_m)
+    #h = np.array([[0], [0]])
     groundTruth = transformCoords(currentFrame, R, h)
 
     return groundTruth, currentFrame, theta_deg, h

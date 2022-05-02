@@ -1,6 +1,7 @@
 from getTransformKLT import *
 from genFakeData import *
 from motionDistortion import *
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     N = 100
@@ -42,6 +43,13 @@ if __name__ == "__main__":
     print(f"Actual Transform:\ntheta:\n{theta_deg}\nh:\n{h}")
     print(f"Fitted Transform:\ntheta:\n{theta_fit}\nh:\n{h_fit}")
 
+    # Visualize
+    plt.subplot(1,2,1)
+    srcCoord2 = (R_fit @ distorted.T + h_fit).T    
+    plotFakeFeatures(groundTruth, srcCoord2, 
+                     title_append="", alpha=0.5, clear=False, show=False, 
+                     plotDisplace = True)
+
     '''
     Applying Motion Distortion Solving
     '''
@@ -62,12 +70,20 @@ if __name__ == "__main__":
     cov_v = np.diag([4, 4, (2 * np.pi / 180) ** 2]) # 4 ^2 since 4 Hz
     # Information matrix, 
     MDS = MotionDistortionSolver(T_wj0, p_w, p_jt, v_j0, T_wj, cov_p, cov_v)
+    MDS.compute_time_deltas(p_jt)
+    undistorted = MDS.undistort(v_j0)
+    print(undistorted.shape)
+    undistorted = undistorted[:, :2, 0]
+    R_fit, h_fit = calculateTransformSVD(groundTruth, undistorted)
+    srcCoord3 = (R_fit @ undistorted.T + h_fit).T 
+    plt.subplot(1,2,2)
+    plotFakeFeatures(groundTruth, srcCoord3, 
+                     title_append="", alpha=0.5, clear=False, show=True, 
+                     plotDisplace = True)
+
+
     params = MDS.optimize_library()
     print(f"Parameters:\nvx, vy, dx, dy, dtheta\n{params.flatten()}")
 
-    # Visualize
-    srcCoord2 = (R_fit @ distorted.T + h_fit).T
-    plotFakeFeatures(groundTruth, srcCoord2, 
-                     title_append="", alpha=0.5, clear=False, show=True, 
-                     plotDisplace = True)
+    
     

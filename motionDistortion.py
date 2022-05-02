@@ -83,11 +83,12 @@ class MotionDistortionSolver():
         Computes a new set of undistorted observed points, based on the current
         best estimate of v_T, T_wj, dT
         '''
-        displacement = np.expand_dims(v_j, axis = 1) * self.dT # 3 x N
-        #assert(displacement.shape == (3,points.shape[0]))
-        theta = displacement[2, :]
-        dx = displacement[0, :]
-        dy = displacement[1, :]
+        v_j_column = np.expand_dims(v_j, axis = 1)
+        displacement = v_j_column * self.dT # 3 x N
+
+        theta = displacement[2, :] # (N,)
+        dx = displacement[0, :] # (N,)
+        dy = displacement[1, :] # (N,)
         shape = theta.shape
         # Correction matrix for time drift, 3 x 3 x N
         T_j_jt = np.array([[np.cos(theta), -np.sin(theta), dx],
@@ -146,13 +147,14 @@ class MotionDistortionSolver():
         return e
 
     def jacobian_vector(self, params):
-        theta = params[2]
-        x = params[0]
-        y = params[1]
+        theta = params[5]
+        x = params[3]
+        y = params[4]
         T = np.array([[np.cos(theta), -np.sin(theta), x],
                       [np.sin(theta),  np.cos(theta), y],
                       [0            ,  0            , 1]])
-        return self.info_sqrt @ self.jacobian(params[:3], T)
+        velocity = params[:3]
+        return self.info_sqrt @ self.jacobian(velocity, T)
 
     def jacobian(self, v_j, T_wj):
         '''
