@@ -144,21 +144,22 @@ def generateFakeCorrespondencesPolar(currentFrame=None,
 
     theta_deg = np.random.random() * theta_max_deg
     R = getRotationMatrix(theta_deg, degrees=True)
-    h = generateTranslationVector(max_translation_m)
-    transform = np.block([[R, h],
-                          [np.zeros((2,)), 1]])
-    T_inv = invert_transform(transform)
-    R_inv = T_inv[:2, :2]
-    h_inv = T_inv[:2, 2:]
+    #h = generateTranslationVector(max_translation_m)
+    h = np.array([[0], [0]])
+    # transform = np.block([[R, h],
+    #                       [np.zeros((2,)), 1]])
+    # T_inv = invert_transform(transform)
+    # R_inv = T_inv[:2, :2]
+    # h_inv = T_inv[:2, 2:]
     #print(currentFrame.shape)
-    groundTruth = transformCoords(currentFrame, R_inv, h_inv)
+    groundTruth = transformCoords(currentFrame, R, h)
 
     return groundTruth, currentFrame, theta_deg, h
 
 def distort(coords, velocity, frequency, h):
     
     coords_norm = coords - h.flatten() # N x 2
-    angles = np.arctan2(coords_norm[:, 1], -coords_norm[:, 0]) # - y to follow clockwise convention
+    angles = np.arctan2(coords_norm[:, 1], -coords_norm[:, 0]) # - x to follow clockwise convention
     period = 1 / frequency
     times = angles / (2 * np.pi) * period
     #print(angles) # lesson: need to use arctan2 wisely, it wraps [-pi, pi]
@@ -178,8 +179,8 @@ def distort(coords, velocity, frequency, h):
     s = np.sin(dtheta)
     ones = np.ones(times.shape)
     zeros = np.zeros(times.shape)
-    distortion = np.array([[c, s, -s* dy - c*dx],
-                           [-s,  c, -c*dy + s*dx],
+    distortion = np.array([[ c, s, -s*dy - c*dx],
+                           [-s, c, -c*dy + s*dx],
                            [zeros, zeros, ones]]) # 3 x 3 x N, need to invert?
     distorted = np.transpose(distortion, axes = (2, 0, 1)) @ np.expand_dims(coords, axis = 2) # N x 3 x 1
     distorted = distorted[:, :2, 0]

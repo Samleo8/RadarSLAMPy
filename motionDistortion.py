@@ -30,7 +30,7 @@ Debug
 
 '''
 class MotionDistortionSolver():
-    def __init__(self, T_wj0, p_w, p_jt, v_j0, T_wj, lambda_p, lambda_v):
+    def __init__(self, T_wj0, p_w, p_jt, v_j0, T_wj, sigma_p, sigma_v):
         # e_p Parameters
         self.T_wj0 = T_wj0 # Prior transform, T_w,j0
         self.T_wj0_inv = np.linalg.inv(T_wj0)
@@ -42,13 +42,13 @@ class MotionDistortionSolver():
         self.T_wj_initial = T_wj # Initial Transform guess (T from SVD solution)
 
         # Optimization parameters
-        self.lambda_p = lambda_p # Info matrix, point error, lamdba_p
-        self.lambda_v = lambda_v # Info matrix, velocity, lambda_v
-        nv = self.lambda_p.shape[0]
-        np = self.lambda_v.shape[0]
-        self.lambda_total = np.block([[lambda_v, np.zeros((nv, np))],
-                                      [np.zeros((np, nv)), lambda_p]])
-        self.info_sqrt = sp.linalg.sqrtm(np.linalg.inv(self.lambda_total)) # 5 x 5
+        self.sigma_p = sigma_p # Info matrix, point error, lamdba_p
+        self.sigma_v = sigma_v # Info matrix, velocity, sigma_v
+        nv = self.sigma_p.shape[0]
+        np = self.sigma_v.shape[0]
+        self.sigma_total = np.block([[sigma_v, np.zeros((nv, np))],
+                                      [np.zeros((np, nv)), sigma_p]])
+        self.info_sqrt = sp.linalg.sqrtm(np.linalg.inv(self.sigma_total)) # 5 x 5
         self.dT = None
         self.T_wj_best = T_wj
         self.v_j_best = v_j0 # might not be good enough a guess, too far from optimal
@@ -103,6 +103,11 @@ class MotionDistortionSolver():
         return np.linalg.inv(T_wj) @ self.p_w.T
 
     def error_vector(self, params):
+        '''
+        Because we are optimizing over rotations, we choose to keep the rotation
+        in a theta form, we have to do matrix exponential in here to convert
+        into the SO(1) form, then augment to the rotation-translation transform
+        '''
         theta = params[2]
         x = params[0]
         y = params[1]
@@ -118,6 +123,7 @@ class MotionDistortionSolver():
         '''
         # Compute point error
         undistorted = self.undistort(v_j)
+        #self.compute_time_deltas(undistorted)
         expected = self.expected_observed_pts(self, T_wj)
         naive_e_p = expected - np.squeeze(undistorted).T # 3 x N
         # Actual loss is the Cauchy robust loss, defined here:
@@ -125,6 +131,7 @@ class MotionDistortionSolver():
         e_p = np.sum(e_p_i, axis = 1) # 2 x 1
         
         # Compute velocity error
+        # Matrix log operation
         T_j_j1 = self.T_wj0_inv @ T_wj
         dx = T_j_j1[0, 2]
         dy = T_j_j1[1, 2]
@@ -158,7 +165,7 @@ class MotionDistortionSolver():
         input = expected - np.squeeze(undistorted).T # 3 x N
         cauchy_derivative = input / (np.square(input[:2, ]) / 2 + 1) # 2 x N
 
-        # Compute J_p: derivative of e_p wrt
+        # Compute J_p: derivative of errors wrt the point position
         c0 = self.T_wj0[0, 0]
         s0 = self.T_wj0[1, 0]
         c1 = T_wj[0, 0]
@@ -218,6 +225,10 @@ class MotionDistortionSolver():
         pass
 
     def optimize_library(self):
+        '''
+        Optimize using the LM implementation in the scipy library.
+        '''
+        self.compute_time_deltas(self.p_jt)
         # Initialize v, T
         T0 = self.T_wj_initial
         T_params = np.array([T0[0, 2], T0[1, 2], np.arctan2(T0[1, 0], T0[0, 0])])
