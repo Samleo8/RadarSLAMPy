@@ -93,9 +93,7 @@ class MotionDistortionSolver():
         T_j_jt = np.array([[np.cos(theta), -np.sin(theta), dx],
                            [np.sin(theta), np.cos(theta),  dy],
                            [np.zeros(shape), np.zeros(shape), np.ones(shape)]])
-        print(T_j_jt.shape)
         p_jt_col = np.expand_dims(self.p_jt, axis = 2) # N x 3 x 1
-        print(p_jt_col.shape)
         undistorted = T_j_jt.transpose((2, 0, 1)) @ p_jt_col # N x 3 x 1
         return undistorted
 
@@ -133,7 +131,7 @@ class MotionDistortionSolver():
         naive_e_p = expected - np.squeeze(undistorted).T # 3 x N
         # Actual loss is the Cauchy robust loss, defined here:
         e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1)
-        e_p = np.sum(e_p_i, axis = 1, keepdims = True) # 2 x 1
+        e_p = np.sum(e_p_i, axis = 1) # (2,)
         
         # Compute velocity error
         # Matrix log operation
@@ -142,8 +140,9 @@ class MotionDistortionSolver():
         dy = T_j_j1[1, 2]
         dtheta = np.arctan2(T_j_j1[1, 0], T_j_j1[0, 0])
         v_j_prior = np.array([dx, dy, dtheta]) / self.total_scan_time
-        e_v = np.expand_dims((v_j - v_j_prior) * e_p_i.shape[1], axis = 1) # 3 x 1
-        e = np.vstack((e_v, e_p))
+        e_v = (v_j - v_j_prior) * e_p_i.shape[1] # (3,)
+        e = np.hstack((e_p, np.zeros((1,)), e_v))
+        #print(e)
         return e
 
     def jacobian_vector(self, params):
@@ -165,9 +164,10 @@ class MotionDistortionSolver():
                 vx, vy, vtheta
         '''
         undistorted = self.undistort(v_j)
-        expected = self.expected_observed_pts(self, T_wj)
+        expected = self.expected_observed_pts(T_wj)
         input = expected - np.squeeze(undistorted).T # 3 x N
-        cauchy_derivative = input / (np.square(input[:2, ]) / 2 + 1) # 2 x N
+        denom = np.vstack((input[:2], np.ones((1, input.shape[1]))))
+        cauchy_derivative = input / (np.square(denom) / 2 + 1) # 3 x N
 
         # Compute J_p: derivative of errors wrt the point position
         c0 = self.T_wj0[0, 0]
@@ -179,11 +179,14 @@ class MotionDistortionSolver():
         pwx = self.p_w[:, 0] # 1 x N
         pwy = self.p_w[:, 1]
         ones = np.ones(pwx.shape)
+        zeros = np.zeros(pwx.shape)
 
         # 2 x 3 x N
         J_p1 = np.array([[-c1 * ones, -s1 * ones, -pwx * s1 + pwy * c1 - c1 * Ty + s1 * Tx],
-                        [s1 * ones,  -c1 * ones, -pwx * c1 - pwy * s1 + s1 * Ty + c1 * Tx]])
+                        [s1 * ones,  -c1 * ones, -pwx * c1 - pwy * s1 + s1 * Ty + c1 * Tx],
+                         [zeros, zeros, zeros]])
         J_p1 *= np.expand_dims(cauchy_derivative, axis = 1)
+        J_p1 = np.sum(J_p1, axis = 2)
         J_p2 = np.array([[ c0, s0, 0],
                          [-s0, c0, 0],
                          [0,   0,  1]]) / self.total_scan_time
@@ -195,10 +198,12 @@ class MotionDistortionSolver():
         y = points[:, 1]
         displacement = np.expand_dims(v_j, axis = 1) * self.dT # 3 x N
         theta = displacement[2, :]
-        J_v = np.array([[-self.dT, 0, np.sin(theta) * self.dT * x + np.cos(theta) * self.dT * y ],
-                        [0, -self.dT, -np.cos(theta) * self.dT * x + np.sin(theta) * self.dT * y]])
+        zeros = np.zeros(theta.shape)
+        J_v = np.array([[-self.dT, zeros, np.sin(theta) * self.dT * x + np.cos(theta) * self.dT * y ],
+                        [zeros, -self.dT, -np.cos(theta) * self.dT * x + np.sin(theta) * self.dT * y],
+                        [zeros, zeros, zeros]])
         J_v *= np.expand_dims(cauchy_derivative, axis = 1)
-        J_v = np.sum(J_v, axis = -1) # 3 x 2
+        J_v = np.sum(J_v, axis = -1) # 2 x 3
         J_v = np.vstack((J_v, np.eye(3) * x.shape[0]))
         
         # J = [J_v, J_p]
@@ -237,8 +242,10 @@ class MotionDistortionSolver():
         T0 = self.T_wj_initial
         T_params = np.array([T0[0, 2], T0[1, 2], np.arctan2(T0[1, 0], T0[0, 0])])
         initial_guess = np.hstack((self.v_j_initial, T_params))
+        print(f"Initial v guess: {self.v_j_initial}")
+        print(f"Initial T guess: {T_params}")
 
-        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian_vector, method = 'lm')
+        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = '2-point', method = 'lm')
 
         # return v, T
         best_params = result.x
@@ -250,7 +257,8 @@ class MotionDistortionSolver():
                         2 : "ftol termination condition is satisfied",
                         3 : "xtol termination condition is satisfied",
                         4 : "Both ftol and xtol termination conditions are satisfied"}
-        print(f"Final v: {best_params[:3]}, t: {best_params[3:]}")
+        print(f"Final v: {best_params[:3]}")
+        print(f"Final t: {best_params[3:]}")
         print(f"Used {num_evals} evaluations")
         print(status_dict[status])
         return best_params

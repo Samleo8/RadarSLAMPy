@@ -52,18 +52,18 @@ if __name__ == "__main__":
     # Observed points at time 1
     p_jt = distorted
     # Initial velocity guess
-    v_j0 = np.array([h_fit[0,0], h_fit[1,0], theta_fit]) / period
+    v_j0 = np.array([h_fit[0,0], h_fit[1,0], theta_fit * np.pi / 180]) / period
     # Initial Transform guess
     T_wj = np.block([[R_fit,            h_fit],
                      [np.zeros((2,)),    1]])
     # Covariance matrix, point errors
-    cov_p = np.diag([1, 1])
+    cov_p = np.diag([8, 8, 8])
     # Covariance matrix, velocity errors
-    cov_v = np.diag([16, 16, 8 * np.pi / 180]) # 4 ^2 since 4 Hz
+    cov_v = np.diag([4, 4, (2 * np.pi / 180) ** 2]) # 4 ^2 since 4 Hz
     # Information matrix, 
     MDS = MotionDistortionSolver(T_wj0, p_w, p_jt, v_j0, T_wj, cov_p, cov_v)
     params = MDS.optimize_library()
-    print(f"Parameters:\nvx, vy, dx, dy, dtheta\n{np.flatten(params)}")
+    print(f"Parameters:\nvx, vy, dx, dy, dtheta\n{params.flatten()}")
 
     # Visualize
     srcCoord2 = (R_fit @ distorted.T + h_fit).T
