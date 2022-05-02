@@ -62,7 +62,7 @@ if __name__ == "__main__":
     cov_v = np.diag([16, 16, 8 * np.pi / 180]) # 4 ^2 since 4 Hz
     # Information matrix, 
     MDS = MotionDistortionSolver(T_wj0, p_w, p_jt, v_j0, T_wj, cov_p, cov_v)
-    params = MDS.optimize_library
+    params = MDS.optimize_library()
     print(f"Parameters:\nvx, vy, dx, dy, dtheta\n{np.flatten(params)}")
 
     # Visualize

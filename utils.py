@@ -154,3 +154,12 @@ def invert_transform(T):
                       [-s, c, -c * y + s * x],
                       [ 0, 0, 1]])
     return T_inv
+
+def homogenize(points):
+    result = None
+    if points.shape[1] == 2:
+        ones = np.ones((points.shape[0], 1))
+        result = np.concatenate((points, ones) , axis = 1)
+    else:
+        result = points.copy()
+    return result

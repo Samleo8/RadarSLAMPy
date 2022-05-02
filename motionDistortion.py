@@ -1,5 +1,6 @@
 import numpy as np
 import scipy as sp
+from utils import *
 #sp.linalg.sqrtm
 #sp.lin
 
@@ -29,14 +30,16 @@ Test on simulation data and compare with naive results
 Debug
 
 '''
+
+
 class MotionDistortionSolver():
     def __init__(self, T_wj0, p_w, p_jt, v_j0, T_wj, sigma_p, sigma_v):
         # e_p Parameters
         self.T_wj0 = T_wj0 # Prior transform, T_w,j0
         self.T_wj0_inv = np.linalg.inv(T_wj0)
-        self.p_w = p_w # Estimated point world positions, N x 3
-        self.p_jt = p_jt # Observed points at time t, N x 3
-
+        self.p_w = homogenize(p_w) # Estimated point world positions, N x 3
+        self.p_jt = homogenize(p_jt) # Observed points at time t, N x 3
+        
         # e_v Parameters
         self.v_j_initial = v_j0 # Initial velocity guess (prior velocity/ velocity from SVD solution)
         self.T_wj_initial = T_wj # Initial Transform guess (T from SVD solution)
@@ -44,10 +47,10 @@ class MotionDistortionSolver():
         # Optimization parameters
         self.sigma_p = sigma_p # Info matrix, point error, lamdba_p
         self.sigma_v = sigma_v # Info matrix, velocity, sigma_v
-        nv = self.sigma_p.shape[0]
-        np = self.sigma_v.shape[0]
-        self.sigma_total = np.block([[sigma_v, np.zeros((nv, np))],
-                                      [np.zeros((np, nv)), sigma_p]])
+        n_v = self.sigma_v.shape[0]
+        n_p = self.sigma_p.shape[0]
+        self.sigma_total = np.block([[sigma_v, np.zeros((n_v, n_p))],
+                                      [np.zeros((n_p, n_v)), sigma_p]])
         self.info_sqrt = sp.linalg.sqrtm(np.linalg.inv(self.sigma_total)) # 5 x 5
         self.dT = None
         self.T_wj_best = T_wj
@@ -85,13 +88,15 @@ class MotionDistortionSolver():
         theta = displacement[2, :]
         dx = displacement[0, :]
         dy = displacement[1, :]
+        shape = theta.shape
         # Correction matrix for time drift, 3 x 3 x N
         T_j_jt = np.array([[np.cos(theta), -np.sin(theta), dx],
                            [np.sin(theta), np.cos(theta),  dy],
-                           [0,             0,              1]])
-        
-        p_jt_col = np.expand_dims(self.p_jt, axis = 1).transpose(axis = (2, 0, 1)) # N x 3 x 1
-        undistorted = T_j_jt.transpose(axis = (2, 0, 1)) @ p_jt_col # N x 3 x 1
+                           [np.zeros(shape), np.zeros(shape), np.ones(shape)]])
+        print(T_j_jt.shape)
+        p_jt_col = np.expand_dims(self.p_jt, axis = 2) # N x 3 x 1
+        print(p_jt_col.shape)
+        undistorted = T_j_jt.transpose((2, 0, 1)) @ p_jt_col # N x 3 x 1
         return undistorted
 
 
@@ -124,11 +129,11 @@ class MotionDistortionSolver():
         # Compute point error
         undistorted = self.undistort(v_j)
         #self.compute_time_deltas(undistorted)
-        expected = self.expected_observed_pts(self, T_wj)
+        expected = self.expected_observed_pts(T_wj)
         naive_e_p = expected - np.squeeze(undistorted).T # 3 x N
         # Actual loss is the Cauchy robust loss, defined here:
         e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1)
-        e_p = np.sum(e_p_i, axis = 1) # 2 x 1
+        e_p = np.sum(e_p_i, axis = 1, keepdims = True) # 2 x 1
         
         # Compute velocity error
         # Matrix log operation
@@ -137,8 +142,7 @@ class MotionDistortionSolver():
         dy = T_j_j1[1, 2]
         dtheta = np.arctan2(T_j_j1[1, 0], T_j_j1[0, 0])
         v_j_prior = np.array([dx, dy, dtheta]) / self.total_scan_time
-        e_v = (v_j - v_j_prior) * e_p.shape[1] # 3 x 1
-
+        e_v = np.expand_dims((v_j - v_j_prior) * e_p_i.shape[1], axis = 1) # 3 x 1
         e = np.vstack((e_v, e_p))
         return e
 
