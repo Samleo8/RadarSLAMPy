@@ -79,10 +79,12 @@ class Keyframe():
         # Then we need to convert to meters
         featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m
 
+        # Center origin at pose center
+
         # Rotate and translate to make into global coordinate system
         R = getRotationMatrix(th)
         t = np.array([x, y]).reshape(2, 1)
-        featurePointsGlobal = (R @ featurePointsGlobal.T + t).T
+        featurePointsGlobal = (R @ (featurePointsGlobal.T + t)).T
 
         return featurePointsGlobal
 
@@ -198,8 +200,8 @@ class Map():
         for kf in self.keyframes:
             points_local = kf.featurePointsLocal
             points_global = kf.convertFeaturesLocalToGlobal(points_local)
-
-            plt.plot(points_global, marker='+', color='red',label='Map Points')
+            
+            plt.scatter(points_global[:, 0], points_global[:, 1], marker='+', color='red',label='Map Points')
 
         if show:
             plt.show()
