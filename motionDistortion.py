@@ -116,9 +116,9 @@ class MotionDistortionSolver():
         in a theta form, we have to do matrix exponential in here to convert
         into the SO(1) form, then augment to the rotation-translation transform
         '''
-        theta = params[2]
-        x = params[0]
-        y = params[1]
+        theta = params[5]
+        x = params[4]
+        y = params[3]
         T = np.array([[np.cos(theta), -np.sin(theta), x],
                       [np.sin(theta),  np.cos(theta), y],
                       [0            ,  0            , 1]])
@@ -147,7 +147,7 @@ class MotionDistortionSolver():
         dy = T_j_j1[1, 2]
         dtheta = np.arctan2(T_j_j1[1, 0], T_j_j1[0, 0])
         v_j_prior = np.array([dx, dy, dtheta]) / self.total_scan_time
-        print(f"Prior velocity: {v_j_prior}")
+        #print(f"Prior velocity: {v_j_prior}")
         e_v = (v_j - v_j_prior) * e_p_i.shape[1] # (3,)
         e = np.hstack((e_p, e_v))
         #print(e)
