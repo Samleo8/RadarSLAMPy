@@ -84,6 +84,13 @@ if __name__ == "__main__":
 
     params = MDS.optimize_library()
     print(f"Parameters:\nvx, vy, dx, dy, dtheta\n{params.flatten()}")
+    final_undistorted = MDS.undistort(params[:3])
+    transform = convertPoseToTransform(params[3:])
+    solution = (transform @ final_undistorted)[:, :2, 0]
+    plt.figure()
+    plotFakeFeatures(groundTruth, solution, 
+                     title_append="", alpha=0.5, clear=False, show=True, 
+                     plotDisplace = True)
 
     
     

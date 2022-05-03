@@ -117,8 +117,8 @@ class MotionDistortionSolver():
         into the SO(1) form, then augment to the rotation-translation transform
         '''
         theta = params[5]
-        x = params[4]
-        y = params[3]
+        x = params[3]
+        y = params[4]
         T = np.array([[np.cos(theta), -np.sin(theta), x],
                       [np.sin(theta),  np.cos(theta), y],
                       [0            ,  0            , 1]])
@@ -256,8 +256,8 @@ class MotionDistortionSolver():
         print(f"Initial v guess: {self.v_j_initial}")
         print(f"Initial T guess: {T_params}")
 
-        #result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = '2-point', method = 'lm')
-        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian_vector, method = 'lm')
+        result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = '2-point', method = 'lm')
+        # result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian_vector, method = 'lm')
         # return v, T
         best_params = result.x
         num_evals = result.nfev # number of function evaluations: measure of how quickly we converged
