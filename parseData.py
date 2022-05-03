@@ -1,5 +1,5 @@
 from tkinter.messagebox import NO
-from typing import Tuple
+from typing import Tuple, List
 import numpy as np
 import cv2
 import os, sys
@@ -55,7 +55,7 @@ def extractDataFromRadarImage(
 
 def drawCVPoint(img: np.ndarray,
                 point: CartCoord,
-                point_color: tuple[int, int, int] = (0, 0, 255)):
+                point_color: Tuple[int, int, int] = (0, 0, 255)):
     if isinstance(point, CartCoord):
         point = point.asTuple()
 
@@ -159,7 +159,7 @@ def convertPolarImgToLogPolar(imgPolar: np.ndarray):
 
 
 def getDataFromImgPathsByIndex(
-    imgPathArr: list[str], index: int
+    imgPathArr: List[str], index: int
 ) -> Tuple[np.ndarray, float, float, np.ndarray, np.ndarray, np.ndarray]:
     '''
     @brief Get information from image path array, indexing accordingly
@@ -180,7 +180,7 @@ def getDataFromImgPathsByIndex(
     return extractDataFromRadarImage(imgPolarData)
 
 
-def getPolarImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+def getPolarImageFromImgPaths(imgPathArr: List[str], index: int) -> np.ndarray:
     '''
     @brief Get polar image from image path array, indexing accordingly
     @param[in] imgPathArr List of image path as strings
@@ -193,7 +193,7 @@ def getPolarImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
     return imgPolar
 
 
-def getCartImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
+def getCartImageFromImgPaths(imgPathArr: List[str], index: int) -> np.ndarray:
     '''
     @brief Get polar image from image path array, indexing accordingly
     @param[in] imgPathArr List of image path as strings
@@ -206,7 +206,7 @@ def getCartImageFromImgPaths(imgPathArr: list[str], index: int) -> np.ndarray:
     return convertPolarImageToCartesian(imgPolar)
 
 
-def getRadarImgPaths(dataPath: str, timestampPath: str) -> list[str]:
+def getRadarImgPaths(dataPath: str, timestampPath: str) -> List[str]:
     '''
     @brief Obtain list of radar image paths
     
