@@ -166,7 +166,6 @@ def distort(coords, velocity, frequency, h):
     #print(displacement)
     #print(displacement)
     dx = displacement[0, :]
-    print(dx)
     dy = displacement[1, :]
     dtheta = displacement[2, :] / 180 * np.pi
     c = np.cos(dtheta)

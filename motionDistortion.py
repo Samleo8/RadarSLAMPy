@@ -98,13 +98,13 @@ class MotionDistortionSolver():
         undistorted = T_j_jt.transpose((2, 0, 1)) @ p_jt_col # N x 3 x 1
         return undistorted
 
-
+    # TODO: Check if this really should be inverted
     def expected_observed_pts(self, T_wj):
         '''
         Returns the estimated positions of points based on their world location
         estimates and the current best fit transform
         '''
-        return T_wj @ self.p_w.T#np.linalg.inv(T_wj) @ self.p_w.T
+        return np.linalg.inv(T_wj) @ self.p_w.T
 
     def error_vector(self, params):
         '''
@@ -191,7 +191,7 @@ class MotionDistortionSolver():
         J_p1 = np.sum(J_p1, axis = 2)
         J_p2 = np.array([[ c0, s0, 0],
                          [-s0, c0, 0],
-                         [0,   0,  1]]) / self.total_scan_time
+                         [0,   0,  1]]) / self.total_scan_time * pwx.shape[0]
         J_p = np.vstack((J_p1, J_p2))
 
         # Compute J_v: derivative of the errors wrt velocity
@@ -205,7 +205,7 @@ class MotionDistortionSolver():
                         [zeros, -self.dT, -np.cos(theta) * self.dT * x + np.sin(theta) * self.dT * y],
                         [zeros, zeros, zeros]])
         J_v *= np.expand_dims(cauchy_derivative, axis = 1)
-        J_v = np.sum(J_v, axis = -1) # 2 x 3
+        J_v = np.sum(J_v, axis = -1) # 3 x 3
         J_v = np.vstack((J_v, np.eye(3) * x.shape[0]))
         
         # J = [J_v, J_p]
@@ -262,5 +262,6 @@ class MotionDistortionSolver():
         print(f"Final v: {best_params[:3]}")
         print(f"Final t: {best_params[3:]}")
         print(f"Used {num_evals} evaluations")
+        print(f"Residuals were {result.fun}")
         print(status_dict[status])
         return best_params
