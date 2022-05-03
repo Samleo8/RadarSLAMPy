@@ -52,6 +52,10 @@ class MotionDistortionSolver():
         self.sigma_total = np.block([[sigma_v, np.zeros((n_v, n_p))],
                                       [np.zeros((n_p, n_v)), sigma_p]])
         self.info_sqrt = sp.linalg.sqrtm(np.linalg.inv(self.sigma_total)) # 5 x 5
+        sigma_p_vector = np.tile(np.diag(sigma_p), p_jt.shape[0])
+        sigma_v_vector = np.diag(sigma_v)
+        sigma_vector = np.concatenate((sigma_p_vector, sigma_v_vector))
+        self.info_vector = 1 / sigma_vector
         self.dT = None
         self.T_wj_best = T_wj
         self.v_j_best = v_j0 # might not be good enough a guess, too far from optimal
@@ -118,7 +122,8 @@ class MotionDistortionSolver():
         T = np.array([[np.cos(theta), -np.sin(theta), x],
                       [np.sin(theta),  np.cos(theta), y],
                       [0            ,  0            , 1]])
-        return self.info_sqrt @ self.error(params[:3], T)
+        #return self.info_sqrt @ self.error(params[:3], T)
+        return self.info_vector * self.error(params[:3], T)
 
     def error(self, v_j, T_wj):
         '''
@@ -131,8 +136,9 @@ class MotionDistortionSolver():
         expected = self.expected_observed_pts(T_wj)
         naive_e_p = expected - np.squeeze(undistorted).T # 3 x N
         # Actual loss is the Cauchy robust loss, defined here:
-        e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1)
-        e_p = np.sum(e_p_i, axis = 1) # (2,)
+        e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1) # 2 x N
+        e_p = e_p_i.flatten(order='F')
+        #e_p = np.sum(e_p_i, axis = 1) # (2,)
         
         # Compute velocity error
         # Matrix log operation
@@ -141,8 +147,9 @@ class MotionDistortionSolver():
         dy = T_j_j1[1, 2]
         dtheta = np.arctan2(T_j_j1[1, 0], T_j_j1[0, 0])
         v_j_prior = np.array([dx, dy, dtheta]) / self.total_scan_time
+        print(f"Prior velocity: {v_j_prior}")
         e_v = (v_j - v_j_prior) * e_p_i.shape[1] # (3,)
-        e = np.hstack((e_p, np.zeros((1,)), e_v))
+        e = np.hstack((e_p, e_v))
         #print(e)
         return e
 
@@ -155,7 +162,7 @@ class MotionDistortionSolver():
                       [0            ,  0            , 1]])
         velocity = params[:3]
         return self.info_sqrt @ self.jacobian(velocity, T)
-
+        
     def jacobian(self, v_j, T_wj):
         '''
         Compute the Jacobian. This has two parts, as defined by the RadarSLAM

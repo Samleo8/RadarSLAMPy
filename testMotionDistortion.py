@@ -65,9 +65,9 @@ if __name__ == "__main__":
     T_wj = np.block([[R_fit,            h_fit],
                      [np.zeros((2,)),    1]])
     # Covariance matrix, point errors
-    cov_p = np.diag([8, 8, 8])
+    cov_p = np.diag([4, 4])
     # Covariance matrix, velocity errors
-    cov_v = np.diag([4, 4, (2 * np.pi / 180) ** 2]) # 4 ^2 since 4 Hz
+    cov_v = np.diag([1, 1, (5 * np.pi / 180) ** 2]) # 4 ^2 since 4 Hz
     # Information matrix, 
     MDS = MotionDistortionSolver(T_wj0, p_w, p_jt, v_j0, T_wj, cov_p, cov_v)
     MDS.compute_time_deltas(p_jt)
