@@ -53,7 +53,7 @@ if __name__ == "__main__":
     '''
     Applying Motion Distortion Solving
     '''
-    # Prior Transform
+    # Prior frame's pose
     T_wj0 = np.eye(3)
     # Point world positions
     p_w = groundTruth
@@ -92,5 +92,9 @@ if __name__ == "__main__":
                      title_append="", alpha=0.5, clear=False, show=True, 
                      plotDisplace = True)
 
-    
+    #TODO: In main loop: for each iteration, track the previous frame's points.
+    # If we need to generate new points, create a new keyframe and add its points
+    # to the global map, using the undistort's velocity and transform to determine
+    # true position. We need to be able to associate local points to global points
+    # in each keyframe, and associate global points to those
     
