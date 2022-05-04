@@ -127,7 +127,7 @@ def plotGtAndEstTrajectory(gtTraj,
                            title='GT and EST Trajectories',
                            info=None,
                            savePath=None,
-                           arrow=True):
+                           arrow=False):
     '''
     @brief Plot ground truth trajectory and estimated trajectory
     @param[in] gtTrajectory Ground truth trajectory

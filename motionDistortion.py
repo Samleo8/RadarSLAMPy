@@ -1,6 +1,7 @@
 import numpy as np
 import scipy as sp
 from utils import *
+import matplotlib.pyplot as plt
 #sp.linalg.sqrtm
 #sp.lin
 
@@ -46,7 +47,7 @@ class MotionDistortionSolver():
         self.total_scan_time = 1 / frequency
 
         # e_v Parameters
-        self.v_j_initial = self.infer_velocity(T_wj)
+        self.v_j_initial = self.infer_velocity(self.T_wj0_inv @ T_wj)
         # Initial velocity guess (prior velocity/ velocity from SVD solution)
 
         # Optimization parameters
@@ -84,7 +85,7 @@ class MotionDistortionSolver():
         self.T_wj_initial = T_wj
 
         # e_v Parameters
-        self.v_j_initial = self.infer_velocity(T_wj)
+        self.v_j_initial = self.infer_velocity(self.T_wj0_inv @ T_wj)
         # Initial velocity guess (prior velocity/ velocity from SVD solution)
         self.dT = MotionDistortionSolver.compute_time_deltas(self.total_scan_time, p_jt)
 
@@ -179,6 +180,7 @@ class MotionDistortionSolver():
         undistorted = MotionDistortionSolver.undistort(v_j, self.p_jt, times=self.dT)
         expected = self.expected_observed_pts(T_wj)
         naive_e_p = expected - undistorted.T # 3 x N
+
         # Actual loss is the Cauchy robust loss, defined here:
         e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1) # 2 x N
         e_p = e_p_i.flatten(order='F')

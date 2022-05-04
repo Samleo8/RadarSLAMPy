@@ -63,7 +63,7 @@ class Keyframe():
 
         self.velocity = velocity
         print(featurePointsLocal.shape)
-        self.featurePointsLocalUndistorted = MotionDistortionSolver.undistort(velocity, featurePointsLocal)[:, :2]
+        self.featurePointsLocalUndistorted = MotionDistortionSolver.undistort(velocity, featurePointsLocal-RADAR_CART_CENTER)[:, :2]
         self.prunedUndistortedLocals = self.featurePointsLocalUndistorted
 
     def copyFromOtherKeyframe(self, keyframe) -> None:
@@ -99,7 +99,7 @@ class Keyframe():
         x, y, th = self.pose
 
         # First translate local points to origin at center
-        featurePointsGlobal = self.prunedUndistortedLocals - RADAR_CART_CENTER
+        featurePointsGlobal = self.prunedUndistortedLocals
 
         # Then we need to convert to meters
         #featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m

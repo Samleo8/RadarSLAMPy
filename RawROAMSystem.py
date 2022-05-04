@@ -12,6 +12,9 @@ from Tracker import Tracker
 from motionDistortion import MotionDistortionSolver
 from utils import *
 
+# Bad solution. better solution is to save in config between mapping and this file
+RADAR_CART_CENTER = np.array([1012, 1012])
+
 class RawROAMSystem():
 
     def __init__(self,
@@ -173,15 +176,21 @@ class RawROAMSystem():
             # R = estR
             
             # Solve for Motion Compensated Transform
-            p_w = old_kf.getPrunedFeaturesGlobalPosition()
-
+            p_w = old_kf.getPrunedFeaturesGlobalPosition() # centered
+            centered_new = good_new - RADAR_CART_CENTER
             # Initial Transform guess
-            T_wj = np.block([[R,                h],
-                             [np.zeros((2,)),   1]])
+            T_wj = prev_pose @ np.block([[R,                h],
+                                         [np.zeros((2,)),   1]])
 
-            MDS.update_problem(prev_pose, p_w, good_new, T_wj)
+            # Give Motion Distort info on two new frames
+            MDS.update_problem(prev_pose, p_w, centered_new, T_wj)
             undistort_solution = MDS.optimize_library()
+
+            # Extract new info
             pose_vector = undistort_solution[3:]
+            transform = convertPoseToTransform(pose_vector)
+            R = transform[:2, :2]
+            h = transform[:2, 2:]
             velocity = undistort_solution[:3]
 
             # Update trajectory
@@ -224,8 +233,8 @@ class RawROAMSystem():
                 self.map.bundleAdjustment()
 
             # Plotting and prints and stuff
-            # self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-            #           seqInd)
+            self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                      seqInd, show = True)
 
             # Update incremental variables
             blobCoord = good_new.copy()
@@ -274,7 +283,7 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         # TODO: Plotting for map points
-        self.map.plot(self.fig, show=False)
+        #self.map.plot(self.fig, show=False)
 
         self.plotTraj(seqInd, R, h, save=False, show=False)
 
@@ -286,14 +295,14 @@ class RawROAMSystem():
         self.fig.savefig(trajSavePathInd)
 
         # # Save by subplot
-        # if save:
-        #     imgSavePath = self.filePaths["imgSave"]
-        #     imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
-        #     plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
+        if save:
+            imgSavePath = self.filePaths["imgSave"]
+            imgSavePathInd = os.path.join(imgSavePath, f"{seqInd:04d}.jpg")
+            plt_savefig_by_axis(imgSavePathInd, self.fig, ax1)
 
-        #     trajSavePath = self.filePaths["trajSave"]
-        #     trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
-        #     plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
+            trajSavePath = self.filePaths["trajSave"]
+            trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
+            plt_savefig_by_axis(trajSavePathInd, self.fig, ax2)
 
         if show:
             plt.pause(0.01)
@@ -371,7 +380,7 @@ if __name__ == "__main__":
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
         # Save video sequence
-        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1}")
+        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1} 20")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:
