@@ -95,7 +95,8 @@ class Tracker():
         return good_old, good_new, angleRotRad, corrStatus
 
     def getTransform(self, srcCoord: np.ndarray,
-                     targetCoord: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+                     targetCoord: np.ndarray,
+                     pixel: bool) -> Tuple[np.ndarray, np.ndarray]:
         '''
         @brief Obtain transform from coordinate correspondnces
         
@@ -109,7 +110,8 @@ class Tracker():
         # Obtain transforms
         # R, h = calculateTransformDxDth(srcCoord, targetCoord)
         R, h = calculateTransformSVD(srcCoord, targetCoord)
-        h *= RANGE_RESOLUTION_CART_M
+        if not pixel:
+            h *= RANGE_RESOLUTION_CART_M
 
         return R, h
 

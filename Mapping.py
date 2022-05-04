@@ -7,6 +7,7 @@ from trajectoryPlotting import Trajectory
 # import m2dp
 from getPointCloud import getPointCloudPolarInd
 from utils import getRotationMatrix
+from motionDistortion import MotionDistortionSolver
 
 # Thresholds
 ROT_THRESHOLD = 0.2  # radians
@@ -20,7 +21,7 @@ RADAR_CART_CENTER = None
 class Keyframe():
 
     def __init__(self, globalPose: np.ndarray, featurePointsLocal: np.ndarray,
-                 radarPolarImg: np.ndarray) -> None:
+                 radarPolarImg: np.ndarray, velocity: np.ndarray) -> None:
         '''
         @brief Keyframe class. Contains pose, feature points and point cloud information
         @param[in] globalPose           (3 x 1) Pose information [x, y, th] in global coordinates, 
@@ -31,11 +32,12 @@ class Keyframe():
 
         @see updateInfo() 
         '''
-        self.updateInfo(globalPose, featurePointsLocal, radarPolarImg)
+        self.updateInfo(globalPose, featurePointsLocal, radarPolarImg, velocity)
 
     def updateInfo(self, globalPose: np.ndarray,
                    featurePointsLocal: np.ndarray,
-                   radarPolarImg: np.ndarray) -> None:
+                   radarPolarImg: np.ndarray,
+                   velocity: np.ndarray) -> None:
         '''
         @brief Update internal information: pose, feature points and point cloud information
         @param[in] globalPose           (3 x 1) Pose information [x, y, th] in global coordinates, 
@@ -58,6 +60,10 @@ class Keyframe():
 
         # TODO: Not sure if needed/useful
         self.pointCloud = getPointCloudPolarInd(radarPolarImg)
+
+        self.velocity = velocity
+        self.featurePointsLocalUndistorted = MotionDistortionSolver.undistort(velocity, featurePointsLocal)
+        self.prunedUndistortedLocals = self.featurePointsLocalUndistorted
 
     def copyFromOtherKeyframe(self, keyframe) -> None:
         self.updateInfo(keyframe.pose, keyframe.featurePointsLocal,
@@ -87,6 +93,9 @@ class Keyframe():
         featurePointsGlobal = (R @ (featurePointsGlobal.T + t)).T
 
         return featurePointsGlobal
+    
+    def getPrunedFeaturesGlobalPosition(self):
+        return self.convertFeaturesLocalToGlobal(self.prunedUndistortedLocals)
 
     def pruneFeaturePoints(self, corrStatus: np.ndarray) -> None:
         '''
@@ -95,6 +104,7 @@ class Keyframe():
         @note In place changing of `self.prunedFeaturePoints` function, which aims to track and prune away the feature points that are part of this keyframe
         '''
         self.prunedFeaturePoints = self.prunedFeaturePoints[corrStatus]
+        self.prunedUndistortedLocals = self.prunedUndistortedLocals[corrStatus]
 
     # def isVisible(self, keyframe):
     #     '''

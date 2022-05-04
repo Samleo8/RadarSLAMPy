@@ -58,6 +58,17 @@ class Trajectory():
         # new_pose = [*xy[0], *xy[1], self.poses[-1,2] + dth]
         self.poses = np.vstack((self.poses, new_pose))
 
+    def appendAbsoluteTransform(self, time, pose):
+        '''
+        @brief Append a relative transform to the trajectory
+               h should already be scaled by radar resolution
+        @param[in] time timestamp of the transform
+        @param[in] pose pose vector (3, )
+        '''
+        # Add to timestamps
+        self.timestamps = np.append(self.timestamps, time)
+        self.poses = np.vstack((self.poses, pose))
+
     def getPoseAtTimes(self, times):
         '''
         @brief Given timestamps, return the pose at that time using cubic interpolation

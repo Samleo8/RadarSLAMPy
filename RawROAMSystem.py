@@ -9,7 +9,8 @@ from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, ge
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import convertRandHtoDeltas, f_arr, getRotationMatrix, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
-
+from motionDistortion import MotionDistortionSolver
+from utils import *
 
 class RawROAMSystem():
 
@@ -124,6 +125,15 @@ class RawROAMSystem():
         self.gtTraj = gtTraj
         self.estTraj = estTraj
 
+        # Initialialize Motion Distortion Solver
+        # Covariance matrix, point errors
+        cov_p = np.diag([4, 4]) # sigma = 2 pixels
+        # Covariance matrix, velocity errors
+        cov_v = np.diag([1, 1, (5 * np.pi / 180) ** 2]) # 1 pixel/s, 1 pixel/s, 5 degrees/s
+        MDS = MotionDistortionSolver(cov_p, cov_v)
+        # Prior frame's pose
+        prev_pose = convertPoseToTransform(initPose)
+
         # Actually run the algorithm
         # Get initial polar and Cartesian image
         prevImgPolar = getPolarImageFromImgPaths(imgPathArr, startSeqInd)
@@ -134,7 +144,8 @@ class RawROAMSystem():
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
 
         # Initialize first keyframe
-        old_kf = Keyframe(initPose, blobCoord, prevImgPolar)
+        zero_velocity = np.zeros((3,))
+        old_kf = Keyframe(initPose, blobCoord, prevImgPolar, ) # pointer to previous kf
         self.map.addKeyframe(old_kf)
 
         possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
@@ -149,21 +160,31 @@ class RawROAMSystem():
             good_old, good_new, rotAngleRad, corrStatus = tracker.track(
                 prevImgCart, currImgCart, prevImgPolar, currImgPolar,
                 blobCoord, seqInd)
-
-            print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
-            estR = getRotationMatrix(-rotAngleRad)
-
-            R, h = tracker.getTransform(good_old, good_new)
-
-            # R = estR
-
-            # Update trajectory
-            self.updateTrajectory(R, h, seqInd)
-
+            
             # Keyframe updating
             old_kf.pruneFeaturePoints(corrStatus)
+            
+            print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
+            estR = getRotationMatrix(-rotAngleRad)
+            
+            R, h = tracker.getTransform(good_old, good_new, pixel = False)
+            # R = estR
+            
+            # Solve for Motion Compensated Transform
+            p_w = old_kf.getPrunedFeaturesGlobalPosition() 
+            # Initial Transform guess
+            T_wj = np.block([[R,                h],
+                             [np.zeros((2,)),   1]])
 
-            latestPose = self.estTraj.poses[-1]
+            MDS.update_problem(prev_pose, p_w, good_new, T_wj)
+            undistort_solution = MDS.optimize_library()
+            pose_vector = undistort_solution[3:]
+
+            # Update trajectory
+            #self.updateTrajectory(R, h, seqInd)
+            self.updateTrajectoryAbsolute(pose_vector, seqInd)
+
+            latestPose = pose_vector #self.estTraj.poses[-1]
             possible_kf.updateInfo(latestPose, good_new, currImgPolar)
 
             # Add a keyframe if it fulfills criteria
@@ -179,9 +200,15 @@ class RawROAMSystem():
 
                 print("\nAdding keyframe...\n")
 
-                old_kf.copyFromOtherKeyframe(possible_kf)
-                self.map.addKeyframe(old_kf)
+                #old_kf.copyFromOtherKeyframe(possible_kf)
+                self.map.addKeyframe(possible_kf)
 
+                # TODO: Aliasing above? old_kf is never assigned the object possible_kf,
+                # map ends up with a list of N pointers to the same keyframe
+                # Proposed fix: old_kf = possible_kf # switch ptr to new object
+                # Initialize new poss_kf for new ptr
+                old_kf = possible_kf
+                possible_kf = Keyframe(latestPose, good_new, currImgPolar)
                 # TODO: do bundle adjustment here
                 self.map.bundleAdjustment()
 
@@ -192,6 +219,7 @@ class RawROAMSystem():
             # Update incremental variables
             blobCoord = good_new.copy()
             prevImgCart = currImgCart
+            prev_pose = convertPoseToTransform(latestPose)
 
     # TODO: Move into trajectory class?
     def updateTrajectory(self, R, h, seqInd):
@@ -201,6 +229,12 @@ class RawROAMSystem():
         est_deltas = convertRandHtoDeltas(R, h)
         self.estTraj.appendRelativeDeltas(timestamp, est_deltas)
         # self.estTraj.appendRelativeTransform(timestamp, R, h)
+
+    def updateTrajectoryAbsolute(self, pose_vector, seqInd):
+        imgPathArr = self.imgPathArr
+
+        timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
+        self.estTraj.appendAbsoluteTransform(timestamp, pose_vector)
 
     def plot(self,
              prevImg,
