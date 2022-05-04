@@ -15,7 +15,7 @@ from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEs
 from utils import *
 
 PLOT_BAD_FEATURES = False
-N_FEATURES_BEFORE_RETRACK = 80
+N_FEATURES_BEFORE_RETRACK = 60
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
@@ -349,6 +349,7 @@ def getTrackedPointsKLT(
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
         featurePtSrc, N_FEATURES_BEFORE_RETRACK = \
             appendNewFeatures(srcImg, featurePtSrc)
+        print("WARNING: getTransformKLT added new features!")
 
     # Perform KLT to get corresponding points
     # Stupid conversions to appropriate types

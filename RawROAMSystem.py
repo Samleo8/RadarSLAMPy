@@ -142,13 +142,14 @@ class RawROAMSystem():
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
+        print(f"blobCoord shape:{blobCoord.shape}")
 
         # Initialize first keyframe
         zero_velocity = np.zeros((3,))
-        old_kf = Keyframe(initPose, blobCoord, prevImgPolar, ) # pointer to previous kf
+        old_kf = Keyframe(initPose, blobCoord, prevImgPolar, zero_velocity) # pointer to previous kf
         self.map.addKeyframe(old_kf)
 
-        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar)
+        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar, zero_velocity)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -162,16 +163,18 @@ class RawROAMSystem():
                 blobCoord, seqInd)
             
             # Keyframe updating
+            print(f"Pruning index shape {corrStatus.shape}")
             old_kf.pruneFeaturePoints(corrStatus)
             
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
             estR = getRotationMatrix(-rotAngleRad)
             
-            R, h = tracker.getTransform(good_old, good_new, pixel = False)
+            R, h = tracker.getTransform(good_old, good_new, pixel = True)
             # R = estR
             
             # Solve for Motion Compensated Transform
-            p_w = old_kf.getPrunedFeaturesGlobalPosition() 
+            p_w = old_kf.getPrunedFeaturesGlobalPosition()
+
             # Initial Transform guess
             T_wj = np.block([[R,                h],
                              [np.zeros((2,)),   1]])
@@ -179,13 +182,14 @@ class RawROAMSystem():
             MDS.update_problem(prev_pose, p_w, good_new, T_wj)
             undistort_solution = MDS.optimize_library()
             pose_vector = undistort_solution[3:]
+            velocity = undistort_solution[:3]
 
             # Update trajectory
             #self.updateTrajectory(R, h, seqInd)
             self.updateTrajectoryAbsolute(pose_vector, seqInd)
 
             latestPose = pose_vector #self.estTraj.poses[-1]
-            possible_kf.updateInfo(latestPose, good_new, currImgPolar)
+            possible_kf.updateInfo(latestPose, good_new, currImgPolar, velocity)
 
             # Add a keyframe if it fulfills criteria
             # 1) large enough translation from previous keyframe
@@ -195,7 +199,8 @@ class RawROAMSystem():
             # NOTE: Feature check and appending will only be checked in the next iteration,
             #       so we can prematuraly do it here and add a keyframe first
             nFeatures = good_new.shape[0]
-            if (nFeatures <= N_FEATURES_BEFORE_RETRACK) or \
+            retrack = (nFeatures <= N_FEATURES_BEFORE_RETRACK)
+            if retrack or \
                 self.map.isGoodKeyframe(possible_kf):
 
                 print("\nAdding keyframe...\n")
@@ -208,16 +213,23 @@ class RawROAMSystem():
                 # Proposed fix: old_kf = possible_kf # switch ptr to new object
                 # Initialize new poss_kf for new ptr
                 old_kf = possible_kf
-                possible_kf = Keyframe(latestPose, good_new, currImgPolar)
+                # TODO: Never replenished blobCoord. Proposed fix: Done here.
+                if retrack:
+                    print(f"Restocking features for new keyframe")
+                    good_new, _ = appendNewFeatures(currImgCart, good_new)
+                    old_kf.updateInfo(latestPose, good_new, currImgPolar, velocity)
+                    print(f"{old_kf.featurePointsLocal.shape[0]} features now")
+                possible_kf = Keyframe(latestPose, blobCoord, currImgPolar, velocity)
                 # TODO: do bundle adjustment here
                 self.map.bundleAdjustment()
 
             # Plotting and prints and stuff
-            self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-                      seqInd)
+            # self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+            #           seqInd)
 
             # Update incremental variables
             blobCoord = good_new.copy()
+            print(f"Blob coord is now size: {blobCoord.shape}")
             prevImgCart = currImgCart
             prev_pose = convertPoseToTransform(latestPose)
 

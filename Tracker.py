@@ -82,12 +82,23 @@ class Tracker():
         print(
             f"{seqInd} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%) | Time: {toc(start):.2f}s"
         )
+        
+        # plt.subplot(1, 2, 1)
+        # plt.scatter(good_old[:,0], good_old[:,1])
+        # plt.subplot(1, 2, 2)
+        # plt.scatter(good_new[:,0], good_new[:,1])
+        # plt.show()
 
         # Outlier rejection
         doOutlierRejection = self.paramFlags.get("rejectOutliers", True)
         if doOutlierRejection:
             good_old, good_new, pruning_mask = rejectOutliers(good_old, good_new)
-
+        
+        # plt.subplot(1, 2, 1)
+        # plt.scatter(good_old[:,0], good_old[:,1])
+        # plt.subplot(1, 2, 2)
+        # plt.scatter(good_new[:,0], good_new[:,1])
+        # plt.show()
         # Ensure correct correspondence status
         rng = np.arange(nFeatures)
         corrStatus[rng[corrStatus.flatten().astype(bool)]] &= pruning_mask[:, np.newaxis]

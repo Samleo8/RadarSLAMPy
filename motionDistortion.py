@@ -31,7 +31,7 @@ Debug
 
 '''
 RADAR_SCAN_FREQUENCY = 4 # 4 hz data
-
+VERBOSE = False
 class MotionDistortionSolver():
     def __init__(self, T_wj0, p_w, p_jt, T_wj, sigma_p, sigma_v, 
                  frequency = RADAR_SCAN_FREQUENCY):
@@ -80,6 +80,8 @@ class MotionDistortionSolver():
         self.T_wj0_inv = np.linalg.inv(T_wj0)
         self.p_w = homogenize(p_w) # Estimated point world positions, N x 3
         self.p_jt = homogenize(p_jt) # Observed points at time t, N x 3
+        assert(p_w.shape == p_jt.shape)
+        self.T_wj_initial = T_wj
 
         # e_v Parameters
         self.v_j_initial = self.infer_velocity(T_wj)
@@ -123,6 +125,10 @@ class MotionDistortionSolver():
         Computes a new set of undistorted observed points, based on the current
         best estimate of v_T, T_wj, dT
         '''
+        # Turn points in homogeneous form if not already
+        points = homogenize(points)
+
+        # Get the time deltas for motion distortion 
         if times is None:
             assert(period > 0)
             times = MotionDistortionSolver.compute_time_deltas(period, points)
@@ -140,7 +146,7 @@ class MotionDistortionSolver():
                            [np.zeros(shape), np.zeros(shape), np.ones(shape)]])
         p_jt_col = np.expand_dims(points, axis = 2) # N x 3 x 1
         undistorted = T_j_jt.transpose((2, 0, 1)) @ p_jt_col # N x 3 x 1
-        return undistorted
+        return np.squeeze(undistorted) # N x 3
 
     def expected_observed_pts(self, T_wj):
         '''
@@ -172,7 +178,7 @@ class MotionDistortionSolver():
         # Compute point error
         undistorted = MotionDistortionSolver.undistort(v_j, self.p_jt, times=self.dT)
         expected = self.expected_observed_pts(T_wj)
-        naive_e_p = expected - np.squeeze(undistorted).T # 3 x N
+        naive_e_p = expected - undistorted.T # 3 x N
         # Actual loss is the Cauchy robust loss, defined here:
         e_p_i = np.log(np.square(naive_e_p[:2, :]) / 2 + 1) # 2 x N
         e_p = e_p_i.flatten(order='F')
@@ -185,13 +191,12 @@ class MotionDistortionSolver():
         dy = T_j_j1[1, 2]
         dtheta = np.arctan2(T_j_j1[1, 0], T_j_j1[0, 0])
         v_j_prior = np.array([dx, dy, dtheta]) / self.total_scan_time
-        #print(f"Prior velocity: {v_j_prior}")
         v_diff = (v_j - v_j_prior)
         v_diff[2] = normalize_angles(v_diff[2])
         e_v = v_diff * e_p_i.shape[1] # (3,)
         # ideally should warp2pi here on theta error
         e = np.hstack((e_p, e_v))
-        #print(e)
+
         return e
 
     def jacobian_vector(self, params):
@@ -216,7 +221,7 @@ class MotionDistortionSolver():
         '''
         undistorted = MotionDistortionSolver.undistort(v_j, self.p_jt, times=self.dT)
         expected = self.expected_observed_pts(T_wj)
-        input = expected - np.squeeze(undistorted).T # 3 x N
+        input = expected - undistorted.T # 3 x N
         naive_e_p = input[:2]
         cauchy_derivative = naive_e_p / (np.square(naive_e_p) / 2 + 1) # 3 x N
 
@@ -290,8 +295,9 @@ class MotionDistortionSolver():
         T0 = self.T_wj_initial
         T_params = np.array([T0[0, 2], T0[1, 2], np.arctan2(T0[1, 0], T0[0, 0])])
         initial_guess = np.hstack((self.v_j_initial, T_params))
-        print(f"Initial v guess: {self.v_j_initial}")
-        print(f"Initial T guess: {T_params}")
+        if VERBOSE:
+            print(f"Initial v guess: {self.v_j_initial}")
+            print(f"Initial T guess: {T_params}")
 
         result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = '2-point', method = 'lm')
         # result = sp.optimize.least_squares(self.error_vector, initial_guess, jac = self.jacobian_vector, method = 'lm')
@@ -305,9 +311,10 @@ class MotionDistortionSolver():
                         2 : "ftol termination condition is satisfied",
                         3 : "xtol termination condition is satisfied",
                         4 : "Both ftol and xtol termination conditions are satisfied"}
-        print(f"Final v: {best_params[:3]}")
-        print(f"Final t: {best_params[3:]}")
-        print(f"Used {num_evals} evaluations")
-        print(f"Residuals were {result.fun}")
-        print(status_dict[status])
+        if VERBOSE:
+            print(f"Final v: {best_params[:3]}")
+            print(f"Final t: {best_params[3:]}")
+            print(f"Used {num_evals} evaluations")
+            print(f"Residuals were {result.fun}")
+            print(status_dict[status])
         return best_params
