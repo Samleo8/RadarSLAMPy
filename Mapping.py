@@ -102,7 +102,7 @@ class Keyframe():
         featurePointsGlobal = self.prunedUndistortedLocals
 
         # Then we need to convert to meters
-        #featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m
+        featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m
 
         # Center origin at pose center
 

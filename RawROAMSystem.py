@@ -5,7 +5,7 @@ import numpy as np
 
 from Mapping import Keyframe, Map
 from getFeatures import N_FEATURES_BEFORE_RETRACK, appendNewFeatures
-from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths
+from parseData import convertPolarImageToCartesian, getCartImageFromImgPaths, getPolarImageFromImgPaths, getRadarImgPaths, RANGE_RESOLUTION_CART_M
 from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEstTrajectory
 from utils import convertRandHtoDeltas, f_arr, getRotationMatrix, plt_savefig_by_axis, radarImgPathToTimestamp
 from Tracker import Tracker
@@ -172,12 +172,14 @@ class RawROAMSystem():
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
             estR = getRotationMatrix(-rotAngleRad)
             
-            R, h = tracker.getTransform(good_old, good_new, pixel = True)
+            R, h = tracker.getTransform(good_old, good_new, pixel = False)
             # R = estR
             
             # Solve for Motion Compensated Transform
             p_w = old_kf.getPrunedFeaturesGlobalPosition() # centered
-            centered_new = good_new - RADAR_CART_CENTER
+            #TODO: Scatter p_w, then try the transform on the centered new points
+            # Scatter that on the same plot
+            centered_new = (good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
             # Initial Transform guess
             T_wj = prev_pose @ np.block([[R,                h],
                                          [np.zeros((2,)),   1]])
@@ -188,7 +190,7 @@ class RawROAMSystem():
 
             # Extract new info
             pose_vector = undistort_solution[3:]
-            transform = convertPoseToTransform(pose_vector)
+            transform = MDS.T_wj0_inv @ convertPoseToTransform(pose_vector)
             R = transform[:2, :2]
             h = transform[:2, 2:]
             velocity = undistort_solution[:3]

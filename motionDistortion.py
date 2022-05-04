@@ -23,6 +23,8 @@ solve for best fit v and T.
 TODO: Run parse data to look at how the scanline moves. Adjust code to match
 TODO: Verify code against math
 TODO: Integration with the code. Adding mapping capability
+TODO: Check arctan2 conventions for dT stuff. the image might be flipped because
+images have the origin in the top left.
 
 Plan:
 Check out parse data
@@ -114,7 +116,7 @@ class MotionDistortionSolver():
         '''
         x = points[:, 0]
         y = points[:, 1]
-        # scanline starts at positive x axis and moves clockwise
+        # scanline starts at positive x axis and moves clockwise (counter-clockwise?)
         # We take midpoint pi/2 as 0
         angles = np.arctan2(y, -x) 
         dT = period * angles / (2 * np.pi)
