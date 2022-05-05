@@ -11,7 +11,7 @@ Distance: 9.02 km
 Frames: 8867
 FPS: 4.00 Hz
 Resolution: 4.32 cm
-Range: 165 m
+Range: 165 m 
 
 ## Dataset Structure
 
@@ -23,7 +23,6 @@ Range: 165 m
          |-- (bunch of radar images labelled as <timestamp>.png)
       |-- info.txt (this file)
       |-- radar.timestamps (in form: <timestamp> <valid-bit>
-      |-- gt
-         |-- radar_odometry.csv (processed ground truth odometry data from GPS)
-
+      |-- radar_odometry.csv (processed ground truth odometry data from GPS)
+      
  ```

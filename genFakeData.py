@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import getRotationMatrix
+from utils import getRotationMatrix, invert_transform
 from parseData import *
 
 from parseData import RANGE_RESOLUTION_CART_M
@@ -40,7 +40,7 @@ def plotFakeFeatures(srcCoord,
                     color='blue',
                     marker='.',
                     alpha=alpha,
-                    label=f'Features 0{title_append}')
+                    label=f'Instantaneous Radar Scan{title_append}')
 
     if targetCoord is not None:
         plt.scatter(targetCoord[:, 0],
@@ -48,7 +48,7 @@ def plotFakeFeatures(srcCoord,
                     color='red',
                     marker='+',
                     alpha=alpha,
-                    label=f'Features 1{title_append}')
+                    label=f'Scan with Distortion{title_append}')
 
     if targetCoord2 is not None:
         plt.scatter(targetCoord2[:, 0],
@@ -56,7 +56,7 @@ def plotFakeFeatures(srcCoord,
                     color='green',
                     marker='x',
                     alpha=alpha,
-                    label=f'Features 2{title_append}')
+                    label=f'Original Points{title_append}')
 
     if plotDisplace:
         for i in range(targetCoord.shape[0]):
@@ -116,44 +116,44 @@ def convertPolarPointsToCartesian(points):
     y = np.expand_dims(ranges * np.sin(angles), axis = 1)
     return np.hstack((x, y))
 
-def generateFakeCorrespondencesPolar(srcCoord=None,
+def generateFakeCorrespondencesPolar(currentFrame=None,
                                     n_points=100,
                                     theta_max_deg=20,
                                     max_translation_m=3):
     '''
     @brief Generate fake correspondences with transform, randomly generated from max range and degree
-    @param[in] srcCoord Source coordinate to transform from. If none, will randomly generate features
-    @param[in] n_points Number of points to generate, only applies if srcCoord = None
+    @param[in] currentFrame Source coordinate to transform from. If none, will randomly generate features
+    @param[in] n_points Number of points to generate, only applies if currentFrame = None
     @param[in] theta_max_deg Maximum degree of rotation
     @param[in] max_range_m Maximum range (for translation) in meters
 
-    @return srcCoord Generated or passed in srcCoord
+    @return currentFrame Generated or passed in currentFrame
     @return targetCoord Corresponding targetCoord generated using (theta_deg, h)
     @return theta_deg Theta component of transform
     @return h Translation component of transform
     '''
 
-    if srcCoord is None:
+    if currentFrame is None:
         print("Generating fake features..")
         max_range_m = max_translation_m * 3
-        srcCoord = generateFakeFeaturesPolar(n_points, max_range_m)
-        #print(srcCoord.shape)
-        srcCoord = convertPolarPointsToCartesian(srcCoord)
+        currentFrame = generateFakeFeaturesPolar(n_points, max_range_m)
+        #print(currentFrame.shape)
+        currentFrame = convertPolarPointsToCartesian(currentFrame)
     else:
-        n_points = srcCoord.shape[0]
+        n_points = currentFrame.shape[0]
 
     theta_deg = np.random.random() * theta_max_deg
     R = getRotationMatrix(theta_deg, degrees=True)
     h = generateTranslationVector(max_translation_m)
-    #print(srcCoord.shape)
-    targetCoord = transformCoords(srcCoord, R, h)
+    #h = np.array([[0], [0]])
+    groundTruth = transformCoords(currentFrame, R, h)
 
-    return srcCoord, targetCoord, theta_deg, h
+    return groundTruth, currentFrame, theta_deg, h
 
 def distort(coords, velocity, frequency, h):
     
     coords_norm = coords - h.flatten() # N x 2
-    angles = np.arctan2(coords_norm[:, 1], -coords_norm[:, 0]) # - y to follow clockwise convention
+    angles = np.arctan2(coords_norm[:, 1], -coords_norm[:, 0]) # - x to follow clockwise convention
     period = 1 / frequency
     times = angles / (2 * np.pi) * period
     #print(angles) # lesson: need to use arctan2 wisely, it wraps [-pi, pi]
@@ -166,15 +166,14 @@ def distort(coords, velocity, frequency, h):
     #print(displacement)
     #print(displacement)
     dx = displacement[0, :]
-    print(dx)
     dy = displacement[1, :]
     dtheta = displacement[2, :] / 180 * np.pi
     c = np.cos(dtheta)
     s = np.sin(dtheta)
     ones = np.ones(times.shape)
     zeros = np.zeros(times.shape)
-    distortion = np.array([[c, s, -s* dy - c*dx],
-                           [-s,  c, -c*dy + s*dx],
+    distortion = np.array([[ c, s, -s*dy - c*dx],
+                           [-s, c, -c*dy + s*dx],
                            [zeros, zeros, ones]]) # 3 x 3 x N, need to invert?
     distorted = np.transpose(distortion, axes = (2, 0, 1)) @ np.expand_dims(coords, axis = 2) # N x 3 x 1
     distorted = distorted[:, :2, 0]

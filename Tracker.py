@@ -2,10 +2,11 @@
 import os
 from typing import Tuple
 from matplotlib import pyplot as plt
+from matplotlib.ft2font import BOLD
 
 import numpy as np
-from FMT import getRotationUsingFMT, getTranslationUsingPhaseCorrelation, rotateImg
-from getTransformKLT import calculateTransformDxDth, calculateTransformSVD, getTrackedPointsKLT, visualize_transform
+from FMT import getRotationUsingFMT
+from getTransformKLT import calculateTransformSVD, getTrackedPointsKLT, visualize_transform
 from outlierRejection import rejectOutliers
 from parseData import RANGE_RESOLUTION_CART_M
 from trajectoryPlotting import Trajectory
@@ -52,6 +53,7 @@ class Tracker():
         @return good_old Coordinates of old good feature points (K' x 2) in [x, y] format
         @return good_new Coordinates of new good feature points (K' x 2) in [x, y] format
         @return angleRotRad Angle used to rotate image
+        @return corrStatus (K x 2) correspondence status @note Needed for mapping to track keyframe points
         '''
         # Timing
         start = tic()
@@ -80,16 +82,32 @@ class Tracker():
         print(
             f"{seqInd} | Num good features: {nGoodFeatures} of {nFeatures} ({(nGoodFeatures / nFeatures) * 100:.2f}%) | Time: {toc(start):.2f}s"
         )
+        
+        # plt.subplot(1, 2, 1)
+        # plt.scatter(good_old[:,0], good_old[:,1])
+        # plt.subplot(1, 2, 2)
+        # plt.scatter(good_new[:,0], good_new[:,1])
+        # plt.show()
 
         # Outlier rejection
         doOutlierRejection = self.paramFlags.get("rejectOutliers", True)
         if doOutlierRejection:
-            good_old, good_new = rejectOutliers(good_old, good_new)
+            good_old, good_new, pruning_mask = rejectOutliers(good_old, good_new)
+        
+        # plt.subplot(1, 2, 1)
+        # plt.scatter(good_old[:,0], good_old[:,1])
+        # plt.subplot(1, 2, 2)
+        # plt.scatter(good_new[:,0], good_new[:,1])
+        # plt.show()
+        # Ensure correct correspondence status
+        rng = np.arange(nFeatures)
+        corrStatus[rng[corrStatus.flatten().astype(bool)]] &= pruning_mask[:, np.newaxis]
 
-        return good_old, good_new, angleRotRad
+        return good_old, good_new, angleRotRad, corrStatus
 
     def getTransform(self, srcCoord: np.ndarray,
-                     targetCoord: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+                     targetCoord: np.ndarray,
+                     pixel: bool) -> Tuple[np.ndarray, np.ndarray]:
         '''
         @brief Obtain transform from coordinate correspondnces
         
@@ -103,7 +121,8 @@ class Tracker():
         # Obtain transforms
         # R, h = calculateTransformDxDth(srcCoord, targetCoord)
         R, h = calculateTransformSVD(srcCoord, targetCoord)
-        h *= RANGE_RESOLUTION_CART_M
+        if not pixel:
+            h *= RANGE_RESOLUTION_CART_M
 
         return R, h
 

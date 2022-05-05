@@ -15,7 +15,7 @@ from trajectoryPlotting import Trajectory, getGroundTruthTrajectory, plotGtAndEs
 from utils import *
 
 PLOT_BAD_FEATURES = False
-N_FEATURES_BEFORE_RETRACK = 80
+N_FEATURES_BEFORE_RETRACK = 60
 
 def visualize_transform(prevImg: np.ndarray,
                         currImg: np.ndarray,
@@ -61,7 +61,7 @@ def visualize_transform(prevImg: np.ndarray,
                     marker='.',
                     color='yellow',
                     alpha=alpha,
-                    label=f'Image 0 Features{extraLabel}')
+                    label=f'Previous Features{extraLabel}')
 
     plt.legend()
     plt.axis("off")
@@ -349,6 +349,7 @@ def getTrackedPointsKLT(
     if nFeatures < N_FEATURES_BEFORE_RETRACK:
         featurePtSrc, N_FEATURES_BEFORE_RETRACK = \
             appendNewFeatures(srcImg, featurePtSrc)
+        print("WARNING: getTransformKLT added new features!")
 
     # Perform KLT to get corresponding points
     # Stupid conversions to appropriate types
@@ -468,15 +469,16 @@ if __name__ == "__main__":
             good_old, good_new = rejectOutliers(good_old, good_new)
 
             # Obtain transforms
-            R, h = calculateTransformDxDth(good_old, good_new)
-            # R, h = calculateTransformSVD(good_old, good_new)
+            #R, h = calculateTransformDxDth(good_old, good_new)
+            R, h = calculateTransformSVD(good_old, good_new)
             # print(h)
             # h[0] += 0
             # for i in range(good_old.shape[0]):
             #     plotFakeFeatures(good_old[i:i+1,:], (R @ good_new[i:i+1,:].T + h).T, show= True)
-            # transformed_pts = (R @ good_new.T + h).T
+            transformed_pts = (R @ good_new.T + h).T
             # print(f"RMSE = {np.sum(np.square(good_old - transformed_pts))}")
-            # plotFakeFeatures(good_old, transformed_pts, good_new, show = True)
+            #plotFakeFeatures(good_old, good_new, show = True)
+            plotFakeFeatures(good_old, transformed_pts, good_new, show = True)
             h *= RANGE_RESOLUTION_CART_M
 
             #R, h = estimateTransformUsingDelats(good_old, good_new)

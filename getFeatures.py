@@ -54,7 +54,7 @@ def getBlobsFromCart(cartImage: np.ndarray,
 
 # Thresholds for feature loss
 PERCENT_FEATURE_LOSS_THRESHOLD = 0.75
-N_FEATURES_BEFORE_RETRACK = -1  # TODO: Make it dynamic (find the overall loss)
+N_FEATURES_BEFORE_RETRACK = 60  # TODO: Make it dynamic (find the overall loss)
 
 
 # TODO: Make dynamic?
@@ -103,7 +103,6 @@ def appendNewFeatures(srcImg, oldFeaturesCoord):
     @param[in] srcImg Source image to obtain features on
     @param[in] oldFeaturesCoord (K x 2) array of [x, y] coordinate of features
     '''
-
     newFeatureCoord, newFeatureRadii = getFeatures(srcImg)
     print("Added", newFeatureCoord.shape[0], "new features!")
 

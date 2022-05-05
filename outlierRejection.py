@@ -7,7 +7,7 @@ from scipy.spatial.distance import cdist
 from genFakeData import addNoise, createOutliers, generateFakeCorrespondences, plotFakeFeatures
 
 # TODO: Tune this
-DIST_THRESHOLD_M = 1  # changed from 2.5m
+DIST_THRESHOLD_M = 0.5  # changed from 2.5m
 DIST_THRESHOLD_PX = DIST_THRESHOLD_M / RANGE_RESOLUTION_CART_M  # Euclidean distance threshold
 # NOTE: this is Euclid distance squared (i.e. 25 = ~5 px of error allowed)
 DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
@@ -15,9 +15,8 @@ DISTSQ_THRESHOLD_PX = DIST_THRESHOLD_PX * DIST_THRESHOLD_PX
 
 def rejectOutliers(
     prev_coord: np.ndarray,
-    new_coord: np.ndarray,
-    #    outlierInd=None
-) -> tuple[np.ndarray, np.ndarray]:
+    new_coord: np.ndarray
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     '''
     @brief Reject outliers by using radar geometry to find dynamic/moving features
     
@@ -37,6 +36,7 @@ def rejectOutliers(
 
     @return pruned_prev_coord   (k x 2) Pruned previous coordinates
     @return pruned_new_coord    (k x 2) Pruned current/new coordinates
+    @return pruning_mask        (K x 2) Pruning mask
     '''
     assert prev_coord.shape == new_coord.shape, "Coordinates should be the same shape"
 
@@ -56,7 +56,7 @@ def rejectOutliers(
 
     distDiff = np.abs(dist_prev - dist_new)
     distThreshMask = (distDiff <= DIST_THRESHOLD_PX).astype(np.int8)
-    
+
     print("Mean Distance Error:", distDiff.mean(), "[px] | Threshold:", DIST_THRESHOLD_PX, "[px]")
 
     # Form graph using the distThreshMask matrix
@@ -92,7 +92,7 @@ def rejectOutliers(
     pruned_prev_coord = prev_coord[pruning_mask]
     pruned_new_coord = new_coord[pruning_mask]
 
-    return pruned_prev_coord, pruned_new_coord
+    return pruned_prev_coord, pruned_new_coord, pruning_mask
 
 
 if __name__ == "__main__":

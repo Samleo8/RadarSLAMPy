@@ -143,3 +143,23 @@ def plt_savefig_by_axis(filePath, fig, ax, pad=0.0):
     extent = plt_full_extent(ax, pad).transformed(fig.dpi_scale_trans.inverted())
     # extent = ax.get_tightbbox(fig.canvas.get_renderer())
     fig.savefig(filePath, bbox_inches=extent)
+
+def invert_transform(T):
+    theta = np.arctan2(T[1, 0], T[0, 0])
+    x = T[0, 2]
+    y = T[1, 2]
+    c = np.cos(theta)
+    s = np.sin(theta)
+    T_inv = np.array([[ c, s, -s * y - c * x],
+                      [-s, c, -c * y + s * x],
+                      [ 0, 0, 1]])
+    return T_inv
+
+def homogenize(points):
+    result = None
+    if points.shape[1] == 2:
+        ones = np.ones((points.shape[0], 1))
+        result = np.concatenate((points, ones) , axis = 1)
+    else:
+        result = points.copy()
+    return result
