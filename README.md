@@ -1,6 +1,7 @@
 # RAW-ROAM: Really Adverse Weather-Radar Odometry and Mapping (Python reimplementation of RadarSLAM)
 
 A Python reimplementation of odometry and mapping component of RadarSLAM by Hong et al. [1,2].
+
 [**RAW-ROAM: An Open-Source Implementation of Adverse Weather RadarSLAM**](https://github.com/Samleo8/RadarSLAMPy/blob/master/raw-roam.pdf)
 
 ## Results (Odometry)
