@@ -1,6 +1,6 @@
-# RadarSLAMPy
+# [RAW-ROAM: An Open-Source Implementation of Adverse Weather RadarSLAM](https://github.com/Samleo8/RadarSLAMPy/blob/master/raw-roam.pdf)
 
-A Python reimplementation of odometry component of RadarSLAM using 
+A Python reimplementation of odometry component of RadarSLAM.
 
 Relevant Papers: 
  1. [RadarSLAM (2021)](https://arxiv.org/abs/2104.05347)
