@@ -224,7 +224,9 @@ class Map():
         points_global = np.empty((0, 2))
         for kf in self.keyframes:
             points_global = np.vstack((points_global,kf.getPrunedFeaturesGlobalPosition()))
-        plt.scatter(points_global[:, 0], points_global[:, 1], marker='+', color='g',alpha=.8,label='Map Points')
+        
+        subsampleFactor = 4
+        plt.scatter(points_global[::subsampleFactor, 0], points_global[::subsampleFactor, 1], marker='+', color='g',alpha=.8,label='Map Points')
 
         if show:
             plt.show()
