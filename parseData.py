@@ -132,7 +132,6 @@ def convertPolarImageToCartesian(
         flags += cv2.WARP_POLAR_LOG
 
     imgCart = cv2.warpPolar(imgPolar, cartSize, center, maxRadius, flags)
-
     return imgCart
 
 

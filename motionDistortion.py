@@ -77,7 +77,7 @@ class MotionDistortionSolver():
         self.sigma_v = np.diag(sigma_v) # Info matrix, velocity, sigma_v
         pass
     
-    def update_problem(self, T_wj0, p_w, p_jt, T_wj):
+    def update_problem(self, T_wj0, p_w, p_jt, T_wj, debug= False):
         # e_p Parameters
         self.T_wj0 = T_wj0 # Prior transform, T_w,j0
         self.T_wj0_inv = np.linalg.inv(T_wj0)
@@ -85,6 +85,7 @@ class MotionDistortionSolver():
         self.p_jt = homogenize(p_jt) # Observed points at time t, N x 3
         assert(p_w.shape == p_jt.shape)
         self.T_wj_initial = T_wj
+        self.debug = debug
 
         # e_v Parameters
         self.v_j_initial = self.infer_velocity(self.T_wj0_inv @ T_wj)
@@ -118,7 +119,7 @@ class MotionDistortionSolver():
         y = points[:, 1]
         # scanline starts at positive x axis and moves clockwise (counter-clockwise?)
         # We take midpoint pi/2 as 0
-        angles = np.arctan2(y, -x) 
+        angles = np.arctan2(-y, -x) 
         dT = period * angles / (2 * np.pi)
         return dT
     

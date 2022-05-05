@@ -14,7 +14,7 @@ from utils import *
 
 # Bad solution. better solution is to save in config between mapping and this file
 RADAR_CART_CENTER = np.array([1012, 1012])
-
+wantToPlot = -1
 class RawROAMSystem():
 
     def __init__(self,
@@ -145,14 +145,14 @@ class RawROAMSystem():
         # Get initial features from Cartesian image
         blobCoord = np.empty((0, 2))
         blobCoord, _ = appendNewFeatures(prevImgCart, blobCoord)
-        print(f"blobCoord shape:{blobCoord.shape}")
 
         # Initialize first keyframe
+        metricCoord = (blobCoord - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
         zero_velocity = np.zeros((3,))
-        old_kf = Keyframe(initPose, blobCoord, prevImgPolar, zero_velocity) # pointer to previous kf
+        old_kf = Keyframe(initPose, metricCoord, prevImgPolar, zero_velocity) # pointer to previous kf
         self.map.addKeyframe(old_kf)
 
-        possible_kf = Keyframe(initPose, blobCoord, prevImgPolar, zero_velocity)
+        possible_kf = Keyframe(initPose, metricCoord, prevImgPolar, zero_velocity)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -164,9 +164,19 @@ class RawROAMSystem():
             good_old, good_new, rotAngleRad, corrStatus = tracker.track(
                 prevImgCart, currImgCart, prevImgPolar, currImgPolar,
                 blobCoord, seqInd)
-            
+            '''
+            if seqInd == wantToPlot:
+                plt.figure()
+                plt.subplot(1, 2, 1)
+                plt.scatter(good_old[:,0], good_old[:,1])
+                plt.subplot(1, 2, 2)
+                plt.title("Good old")
+                #applied = homogenize(centered_new) @ new_transform.T
+                plt.scatter(good_new[:,0], good_new[:,1])
+                plt.title(f"Good new")
+                plt.show()
+            '''
             # Keyframe updating
-            print(f"Pruning index shape {corrStatus.shape}")
             old_kf.pruneFeaturePoints(corrStatus)
             
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
@@ -177,6 +187,7 @@ class RawROAMSystem():
             
             # Solve for Motion Compensated Transform
             p_w = old_kf.getPrunedFeaturesGlobalPosition() # centered
+
             #TODO: Scatter p_w, then try the transform on the centered new points
             # Scatter that on the same plot
             centered_new = (good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
@@ -185,22 +196,44 @@ class RawROAMSystem():
                                          [np.zeros((2,)),   1]])
 
             # Give Motion Distort info on two new frames
-            MDS.update_problem(prev_pose, p_w, centered_new, T_wj)
+            debug = False
+            if seqInd == wantToPlot:
+                debug = False
+            # Centered_new is in meters, p_w is in meters, T_wj is in meters, prev_pose is meters
+            MDS.update_problem(prev_pose, p_w, centered_new, T_wj, debug)
             undistort_solution = MDS.optimize_library()
 
             # Extract new info
             pose_vector = undistort_solution[3:]
-            transform = MDS.T_wj0_inv @ convertPoseToTransform(pose_vector)
-            R = transform[:2, :2]
-            h = transform[:2, 2:]
+            new_transform = convertPoseToTransform(pose_vector)
+            relative_transform = MDS.T_wj0_inv @ new_transform
+            '''
+            if seqInd == wantToPlot:
+                plt.figure()
+                plt.subplot(1, 3, 1)
+                plt.scatter(p_w[:,0], p_w[:,1])
+                plt.subplot(1, 3, 2)
+                plt.title("World coordinates")
+                applied = homogenize(centered_new) @ new_transform.T
+                plt.scatter(centered_new[:,0], centered_new[:,1])
+                plt.title(f"Post-Transform: {(np.max(centered_new[:,0]) - np.min(centered_new[:,0]))/(np.max(p_w[:,0]) - np.min(p_w[:,0]))}")
+                plt.subplot(1, 3, 3)
+                diff = p_w - applied[:, :2]
+                plt.scatter(diff[:,0], diff[:,1])
+                plt.show()
+            '''
+            R = relative_transform[:2, :2]
+            h = relative_transform[:2, 2:]
             velocity = undistort_solution[:3]
+            #velocity[:2] /= RANGE_RESOLUTION_CART_M
 
             # Update trajectory
             #self.updateTrajectory(R, h, seqInd)
             self.updateTrajectoryAbsolute(pose_vector, seqInd)
 
             latestPose = pose_vector #self.estTraj.poses[-1]
-            possible_kf.updateInfo(latestPose, good_new, currImgPolar, velocity)
+            # Good new is given in pixels, given velocity in meters, uh oh, pose in meters
+            possible_kf.updateInfo(latestPose, centered_new, currImgPolar, velocity)
 
             # Add a keyframe if it fulfills criteria
             # 1) large enough translation from previous keyframe
@@ -217,7 +250,7 @@ class RawROAMSystem():
                 print("\nAdding keyframe...\n")
 
                 #old_kf.copyFromOtherKeyframe(possible_kf)
-                self.map.addKeyframe(possible_kf)
+                #self.map.addKeyframe(possible_kf)
 
                 # TODO: Aliasing above? old_kf is never assigned the object possible_kf,
                 # map ends up with a list of N pointers to the same keyframe
@@ -226,21 +259,22 @@ class RawROAMSystem():
                 old_kf = possible_kf
                 # TODO: Never replenished blobCoord. Proposed fix: Done here.
                 if retrack:
-                    print(f"Restocking features for new keyframe")
                     good_new, _ = appendNewFeatures(currImgCart, good_new)
-                    old_kf.updateInfo(latestPose, good_new, currImgPolar, velocity)
-                    print(f"{old_kf.featurePointsLocal.shape[0]} features now")
-                possible_kf = Keyframe(latestPose, blobCoord, currImgPolar, velocity)
+                    centered_new = (good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
+                    old_kf.updateInfo(latestPose, centered_new, currImgPolar, velocity)
+                possible_kf = Keyframe(latestPose, centered_new, currImgPolar, velocity)
                 # TODO: do bundle adjustment here
-                self.map.bundleAdjustment()
+                #self.map.bundleAdjustment()
 
             # Plotting and prints and stuff
-            self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-                      seqInd, show = True)
-
+            if seqInd == endSeqInd:
+                self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                        seqInd, save = True, show = False)
+            else:
+                self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                        seqInd, save = False, show = False)
             # Update incremental variables
             blobCoord = good_new.copy()
-            print(f"Blob coord is now size: {blobCoord.shape}")
             prevImgCart = currImgCart
             prev_pose = convertPoseToTransform(latestPose)
 

@@ -62,8 +62,7 @@ class Keyframe():
         self.pointCloud = getPointCloudPolarInd(radarPolarImg)
 
         self.velocity = velocity
-        print(featurePointsLocal.shape)
-        self.featurePointsLocalUndistorted = MotionDistortionSolver.undistort(velocity, featurePointsLocal-RADAR_CART_CENTER)[:, :2]
+        self.featurePointsLocalUndistorted = MotionDistortionSolver.undistort(velocity, featurePointsLocal)[:, :2]
         self.prunedUndistortedLocals = self.featurePointsLocalUndistorted
 
     def copyFromOtherKeyframe(self, keyframe) -> None:
@@ -91,7 +90,7 @@ class Keyframe():
         # Rotate and translate to make into global coordinate system
         R = getRotationMatrix(th)
         t = np.array([x, y]).reshape(2, 1)
-        featurePointsGlobal = (R @ (featurePointsGlobal.T + t)).T
+        featurePointsGlobal = (R @ (featurePointsGlobal.T) + t).T
 
         return featurePointsGlobal
     
@@ -102,17 +101,15 @@ class Keyframe():
         featurePointsGlobal = self.prunedUndistortedLocals
 
         # Then we need to convert to meters
-        featurePointsGlobal *= RANGE_RESOLUTION_CART_M  # px * (m/px) = m
 
         # Center origin at pose center
 
         # Rotate and translate to make into global coordinate system
         R = getRotationMatrix(th)
         t = np.array([x, y]).reshape(2, 1)
-        featurePointsGlobal = (R @ (featurePointsGlobal.T + t)).T
+        featurePointsGlobal = (R @ (featurePointsGlobal.T) + t).T
 
         return featurePointsGlobal
-        return self.convertFeaturesLocalToGlobal()
 
     def pruneFeaturePoints(self, corrStatus: np.ndarray) -> None:
         '''
