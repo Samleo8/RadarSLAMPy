@@ -1,3 +1,0 @@
-[submodule "g2o"]
-	path = g2o
-	url = git@github.com:RainerKuemmerle/g2o.git
