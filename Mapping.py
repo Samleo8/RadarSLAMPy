@@ -225,7 +225,7 @@ class Map():
         for kf in self.keyframes:
             points_global = np.vstack((points_global,kf.getPrunedFeaturesGlobalPosition()))
 
-        subsampleFactor = 4
+        subsampleFactor = 5
         plt.scatter(points_global[::subsampleFactor, 0],
                     points_global[::subsampleFactor, 1],
                     marker='+',
