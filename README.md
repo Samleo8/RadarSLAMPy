@@ -29,7 +29,10 @@ Radar sequences can be obtained from [Oxford Radar RobotCar Dataset](https://oxf
 
 ## Documentation
 
-See the [docs](./doc/html/index.html)
+See the docs:
+
+- [HTML](./doc/html/index.html)
+- [PDF](./doc/latex/refman.pdf)
 
 ## Relevant Papers
 
