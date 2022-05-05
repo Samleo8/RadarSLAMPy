@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['t_5fwj_0',['T_wj',['../namespacetest_motion_distortion.html#a2ad6563ac916a24a87640bf0355b44f9',1,'testMotionDistortion']]],
+  ['t_5fwj0_1',['T_wj0',['../classmotion_distortion_1_1_motion_distortion_solver.html#a0a395e89714f60150df6675faaa1f6cb',1,'motionDistortion.MotionDistortionSolver.T_wj0()'],['../namespacetest_motion_distortion.html#a0a395e89714f60150df6675faaa1f6cb',1,'testMotionDistortion.T_wj0()']]],
+  ['t_5fwj0_5finv_2',['T_wj0_inv',['../classmotion_distortion_1_1_motion_distortion_solver.html#a071a910fd6194ba61a5d9cf24569b393',1,'motionDistortion::MotionDistortionSolver']]],
+  ['t_5fwj_5finitial_3',['T_wj_initial',['../classmotion_distortion_1_1_motion_distortion_solver.html#a0937342a2f4d12c7784f942bfe386536',1,'motionDistortion::MotionDistortionSolver']]],
+  ['targetcoord_4',['targetCoord',['../namespacetest_transform.html#ae4834211499fa0991173526c2592ef12',1,'testTransform']]],
+  ['theta_5',['theta',['../class_coord_1_1_polar_coord.html#aebf487f5d315cb61f0bd86455edff1fd',1,'Coord::PolarCoord']]],
+  ['theta_5fdeg_6',['theta_deg',['../namespaceoutlier_rejection.html#ad5ed049a2c1601e6f4f9e5d69619c804',1,'outlierRejection.theta_deg()'],['../namespacetest_motion_distortion.html#ad5ed049a2c1601e6f4f9e5d69619c804',1,'testMotionDistortion.theta_deg()'],['../namespacetest_transform.html#ad5ed049a2c1601e6f4f9e5d69619c804',1,'testTransform.theta_deg()']]],
+  ['theta_5ffit_7',['theta_fit',['../namespacetest_motion_distortion.html#ab69a1473bbefcd69e648eed41f4cf499',1,'testMotionDistortion.theta_fit()'],['../namespacetest_transform.html#ab69a1473bbefcd69e648eed41f4cf499',1,'testTransform.theta_fit()']]],
+  ['theta_5fmax_5fdeg_8',['theta_max_deg',['../namespaceoutlier_rejection.html#ad1aa2538c2e1a7556cc668bd67b4bff6',1,'outlierRejection']]],
+  ['timestamp_9',['timestamp',['../namespaceget_transform_k_l_t.html#a71e24db6312e99e75bdc49e89d65948e',1,'getTransformKLT']]],
+  ['timestamppath_10',['timestampPath',['../namespacetrajectory_plotting.html#ac559b123c3618ef31794f03fb8742e8e',1,'trajectoryPlotting.timestampPath()'],['../namespaceparse_data.html#ac559b123c3618ef31794f03fb8742e8e',1,'parseData.timestampPath()'],['../namespaceget_transform_k_l_t.html#ac559b123c3618ef31794f03fb8742e8e',1,'getTransformKLT.timestampPath()'],['../namespaceget_point_cloud.html#ac559b123c3618ef31794f03fb8742e8e',1,'getPointCloud.timestampPath()'],['../namespaceget_features.html#ac559b123c3618ef31794f03fb8742e8e',1,'getFeatures.timestampPath()'],['../namespace_f_m_t.html#ac559b123c3618ef31794f03fb8742e8e',1,'FMT.timestampPath()']]],
+  ['timestamps_11',['timestamps',['../classtrajectory_plotting_1_1_trajectory.html#ada03328a9187736162c7277d89ef159e',1,'trajectoryPlotting::Trajectory']]],
+  ['title_5fappend_12',['title_append',['../namespaceoutlier_rejection.html#adca18f0c2258ab57e96c3f009761ea85',1,'outlierRejection.title_append()'],['../namespacetest_motion_distortion.html#adca18f0c2258ab57e96c3f009761ea85',1,'testMotionDistortion.title_append()'],['../namespacetest_transform.html#adca18f0c2258ab57e96c3f009761ea85',1,'testTransform.title_append()']]],
+  ['tosaveimgpath_13',['toSaveImgPath',['../namespaceget_features.html#a2797efdfd7b06e306947463a2a9b9017',1,'getFeatures.toSaveImgPath()'],['../namespaceget_transform_k_l_t.html#a2797efdfd7b06e306947463a2a9b9017',1,'getTransformKLT.toSaveImgPath()']]],
+  ['tosavepath_14',['toSavePath',['../namespaceget_features.html#a596ed4974cf087011c3566c6d7a0b46e',1,'getFeatures']]],
+  ['tosavetrajpath_15',['toSaveTrajPath',['../namespaceget_transform_k_l_t.html#aa51f3d18d70a9ff98f22758e37152ac6',1,'getTransformKLT']]],
+  ['total_5fscan_5ftime_16',['total_scan_time',['../classmotion_distortion_1_1_motion_distortion_solver.html#ad7beefc4bde186fd252b285986218942',1,'motionDistortion::MotionDistortionSolver']]],
+  ['tracker_17',['tracker',['../class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system.html#abec0b9ee4648af3b77db73e8070f1736',1,'RawROAMSystem::RawROAMSystem']]],
+  ['trajsavepath_18',['trajSavePath',['../namespaceget_transform_k_l_t.html#a4575c573acd9741770c3a97dac5062ba',1,'getTransformKLT.trajSavePath()'],['../namespace_raw_r_o_a_m_system.html#a4575c573acd9741770c3a97dac5062ba',1,'RawROAMSystem.trajSavePath()']]],
+  ['trans_5fthreshold_19',['TRANS_THRESHOLD',['../namespace_mapping.html#ab8c306442c12aedb83f7c0d06210e9f2',1,'Mapping']]],
+  ['trans_5fthreshold_5fsq_20',['TRANS_THRESHOLD_SQ',['../namespace_mapping.html#abe3c8fb0a99c9c14b8d8f9c95d1531b4',1,'Mapping']]],
+  ['trans_5fvec_21',['trans_vec',['../namespaceoutlier_rejection.html#a57b2042477f45ffac90299611ca75467',1,'outlierRejection']]],
+  ['transform_22',['transform',['../namespacetest_motion_distortion.html#ab3d350d501d99e7bbe8f68ace7af32c7',1,'testMotionDistortion']]],
+  ['transformed_5fpts_23',['transformed_pts',['../namespaceget_transform_k_l_t.html#a5709b84de1dc903d78a2f503b956e541',1,'getTransformKLT']]]
+];
