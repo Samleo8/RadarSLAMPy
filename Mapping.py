@@ -93,7 +93,7 @@ class Keyframe():
         featurePointsGlobal = (R @ (featurePointsGlobal.T) + t).T
 
         return featurePointsGlobal
-    
+
     def getPrunedFeaturesGlobalPosition(self):
         x, y, th = self.pose
 
@@ -224,9 +224,14 @@ class Map():
         points_global = np.empty((0, 2))
         for kf in self.keyframes:
             points_global = np.vstack((points_global,kf.getPrunedFeaturesGlobalPosition()))
-        
+
         subsampleFactor = 4
-        plt.scatter(points_global[::subsampleFactor, 0], points_global[::subsampleFactor, 1], marker='+', color='g',alpha=.8,label='Map Points')
+        plt.scatter(points_global[::subsampleFactor, 0],
+                    points_global[::subsampleFactor, 1],
+                    marker='+',
+                    color='g',
+                    alpha=.8,
+                    label='Map Points')
 
         if show:
             plt.show()
