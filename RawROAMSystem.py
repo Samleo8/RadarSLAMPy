@@ -15,6 +15,8 @@ from utils import *
 # Bad solution. better solution is to save in config between mapping and this file
 RADAR_CART_CENTER = np.array([1012, 1012])
 wantToPlot = -1
+
+
 class RawROAMSystem():
 
     def __init__(self,
@@ -130,9 +132,10 @@ class RawROAMSystem():
 
         # Initialialize Motion Distortion Solver
         # Covariance matrix, point errors
-        cov_p = np.diag([4, 4]) # sigma = 2 pixels
+        cov_p = np.diag([4, 4])  # sigma = 2 pixels
         # Covariance matrix, velocity errors
-        cov_v = np.diag([1, 1, (5 * np.pi / 180) ** 2]) # 1 pixel/s, 1 pixel/s, 5 degrees/s
+        cov_v = np.diag([1, 1, (5 * np.pi / 180)**2
+                         ])  # 1 pixel/s, 1 pixel/s, 5 degrees/s
         MDS = MotionDistortionSolver(cov_p, cov_v)
         # Prior frame's pose
         prev_pose = convertPoseToTransform(initPose)
@@ -148,11 +151,13 @@ class RawROAMSystem():
 
         # Initialize first keyframe
         metricCoord = (blobCoord - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
-        zero_velocity = np.zeros((3,))
-        old_kf = Keyframe(initPose, metricCoord, prevImgPolar, zero_velocity) # pointer to previous kf
+        zero_velocity = np.zeros((3, ))
+        old_kf = Keyframe(initPose, metricCoord, prevImgPolar,
+                          zero_velocity)  # pointer to previous kf
         self.map.addKeyframe(old_kf)
 
-        possible_kf = Keyframe(initPose, metricCoord, prevImgPolar, zero_velocity)
+        possible_kf = Keyframe(initPose, metricCoord, prevImgPolar,
+                               zero_velocity)
 
         for seqInd in range(startSeqInd + 1, endSeqInd + 1):
             # Obtain polar and Cart image
@@ -178,22 +183,22 @@ class RawROAMSystem():
             '''
             # Keyframe updating
             old_kf.pruneFeaturePoints(corrStatus)
-            
+
             print("Detected", np.rad2deg(rotAngleRad), "[deg] rotation")
             estR = getRotationMatrix(-rotAngleRad)
-            
-            R, h = tracker.getTransform(good_old, good_new, pixel = False)
+
+            R, h = tracker.getTransform(good_old, good_new, pixel=False)
             # R = estR
-            
+
             # Solve for Motion Compensated Transform
-            p_w = old_kf.getPrunedFeaturesGlobalPosition() # centered
+            p_w = old_kf.getPrunedFeaturesGlobalPosition()  # centered
 
             #TODO: Scatter p_w, then try the transform on the centered new points
             # Scatter that on the same plot
-            centered_new = (good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
+            centered_new = (good_new -
+                            RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
             # Initial Transform guess
-            T_wj = prev_pose @ np.block([[R,                h],
-                                         [np.zeros((2,)),   1]])
+            T_wj = prev_pose @ np.block([[R, h], [np.zeros((2, )), 1]])
 
             # Give Motion Distort info on two new frames
             debug = False
@@ -231,14 +236,14 @@ class RawROAMSystem():
             #self.updateTrajectory(R, h, seqInd)
             self.updateTrajectoryAbsolute(pose_vector, seqInd)
 
-            latestPose = pose_vector #self.estTraj.poses[-1]
+            latestPose = pose_vector  #self.estTraj.poses[-1]
             # Good new is given in pixels, given velocity in meters, uh oh, pose in meters
-            possible_kf.updateInfo(latestPose, centered_new, currImgPolar, velocity)
+            possible_kf.updateInfo(latestPose, centered_new, currImgPolar,
+                                   velocity)
 
             # Add a keyframe if it fulfills criteria
             # 1) large enough translation from previous keyframe
             # 2) large enough rotation from previous KF
-            # TODO: Not sure if this criteria is actually correct, perhaps we should be adding the previous keyframe instead
             # 3) not enough features in current keyframe (ie about to have new features coming up)
             # NOTE: Feature check and appending will only be checked in the next iteration,
             #       so we can prematuraly do it here and add a keyframe first
@@ -252,58 +257,111 @@ class RawROAMSystem():
                 #old_kf.copyFromOtherKeyframe(possible_kf)
                 self.map.addKeyframe(possible_kf)
 
-                # TODO: Aliasing above? old_kf is never assigned the object possible_kf,
-                # map ends up with a list of N pointers to the same keyframe
-                # Proposed fix: old_kf = possible_kf # switch ptr to new object
                 # Initialize new poss_kf for new ptr
                 old_kf = possible_kf
-                # TODO: Never replenished blobCoord. Proposed fix: Done here.
+
                 if retrack:
                     good_new, _ = appendNewFeatures(currImgCart, good_new)
-                    centered_new = (good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
-                    old_kf.updateInfo(latestPose, centered_new, currImgPolar, velocity)
-                possible_kf = Keyframe(latestPose, centered_new, currImgPolar, velocity)
-                # TODO: do bundle adjustment here
-                #self.map.bundleAdjustment()
+                    centered_new = (
+                        good_new - RADAR_CART_CENTER) * RANGE_RESOLUTION_CART_M
+                    old_kf.updateInfo(latestPose, centered_new, currImgPolar,
+                                      velocity)
+
+                possible_kf = Keyframe(latestPose, centered_new, currImgPolar,
+                                       velocity)
 
             # Plotting and prints and stuff
             if seqInd == endSeqInd:
-                self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-                        seqInd, save = True, show = False)
+                self.plot(prevImgCart,
+                          currImgCart,
+                          good_old,
+                          good_new,
+                          R,
+                          h,
+                          seqInd,
+                          save=True,
+                          show=False)
             else:
                 if seqInd % 3 == 0:
-                    self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-                            seqInd, save = False, show = False)
+                    self.plot(prevImgCart,
+                              currImgCart,
+                              good_old,
+                              good_new,
+                              R,
+                              h,
+                              seqInd,
+                              save=False,
+                              show=False)
             # Update incremental variables
             blobCoord = good_new.copy()
             prevImgCart = currImgCart
             prev_pose = convertPoseToTransform(latestPose)
 
     # TODO: Move into trajectory class?
-    def updateTrajectory(self, R, h, seqInd):
+    def updateTrajectory(self, R: np.ndarray, h: np.ndarray,
+                         seqInd: np.ndarray) -> None:
+        '''
+        @brief Update trajectory using R,h matrices
+        
+        @param[in] R (2 x 2) rotation matrix
+        @param[in] h (2 x 1) translation vector
+        @param[in] seqInd Sequence index, used for visualization/plotting
+
+        @note Updates internal trajectory
+        '''
+
         imgPathArr = self.imgPathArr
 
         timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
         est_deltas = convertRandHtoDeltas(R, h)
         self.estTraj.appendRelativeDeltas(timestamp, est_deltas)
-        # self.estTraj.appendRelativeTransform(timestamp, R, h)
 
-    def updateTrajectoryAbsolute(self, pose_vector, seqInd):
+    def updateTrajectoryAbsolute(self, pose_vector: np.ndarray,
+                                 seqInd: int) -> None:
+        '''
+        @brief Update trajectory using pose vector
+        
+        @param[in] pose_vector (3, ) pose vector
+        @param[in] seqInd Sequence index, used for visualization/plotting
+        
+        @note Updates internal trajectory
+        '''
+
         imgPathArr = self.imgPathArr
 
         timestamp = radarImgPathToTimestamp(imgPathArr[seqInd])
         self.estTraj.appendAbsoluteTransform(timestamp, pose_vector)
 
     def plot(self,
-             prevImg,
-             currImg,
-             good_old,
-             good_new,
-             R,
-             h,
-             seqInd,
-             save=True,
-             show=False):
+             prevImg: np.ndarray,
+             currImg: np.ndarray,
+             good_old: np.ndarray,
+             good_new: np.ndarray,
+             R: np.ndarray,
+             h: np.ndarray,
+             seqInd: np.ndarray,
+             plotMapPoints: bool = True,
+             useArrow: bool = False,
+             save: bool = True,
+             show: bool = False) -> None:
+        '''
+        @brief Perform global plotting of everything, including trajectory and map points
+
+        @param[in] prevImg (M x N) Previous Cartesian radar image to plot
+        @param[in] currImg (M x N) Current Cartesian radar image to plot
+        
+        @param[in] good_old (K x 2) Good correspondence points from previous image in scan frame
+        @param[in] good_new (K x 2) Good correspondence points from current image in scan frame
+
+        @param[in] R (2 x 2) rotation matrix
+        @param[in] h (2 x 1) translation vector
+        @param[in] seqInd Sequence index
+        
+        @param[in] useArrow Whether to plot with arrows/triangles to indicate pose direction. 
+                            Otherwise uses plain lines.
+        @param[in] save Whether to save image as png/jpg
+        @param[in] show Whether to plt.show image
+        '''
 
         # Draw as subplots
         plt.clf()
@@ -319,10 +377,12 @@ class RawROAMSystem():
                           show=False)
 
         ax2 = self.fig.add_subplot(1, 2, 2)
-        # TODO: Plotting for map points
-        self.map.plot(self.fig, show=False)
 
-        self.plotTraj(seqInd, R, h, save=False, show=False)
+        # Plotting for map points
+        if plotMapPoints:
+            self.map.plot(self.fig, show=False)
+
+        self.plotTraj(seqInd, R, h, useArrow=useArrow, save=False, show=False)
 
         trajSavePath = self.filePaths["trajSave"]
         trajSavePathInd = os.path.join(trajSavePath, f"{seqInd:04d}.jpg")
@@ -344,7 +404,24 @@ class RawROAMSystem():
         if show:
             plt.pause(0.01)
 
-    def plotTraj(self, seqInd, R, h, save=False, show=False):
+    def plotTraj(self,
+                 seqInd: int,
+                 R: np.ndarray,
+                 h: np.ndarray,
+                 useArrow: bool = False,
+                 save: bool = False,
+                 show: bool = False) -> None:
+        '''
+        @brief Plot trajectory
+        @param[in] seqInd Sequence index
+        @param[in] R (2 x 2) rotation matrix
+        @param[in] h (2 x 1) translation vector
+        @param[in] useArrow Whether to plot with arrows/triangles to indicate pose direction. 
+                            Otherwise uses plain lines.
+        @param[in] save Whether to save image as png/jpg
+        @param[in] show Whether to plt.show image
+        '''
+
         # Init locals
         gtTraj = self.gtTraj
         estTraj = self.estTraj
@@ -377,6 +454,7 @@ class RawROAMSystem():
                                estTraj,
                                title=f'[{seqInd}]',
                                info=info,
+                               arrow=useArrow,
                                savePath=toSaveTrajPath)
 
         if show:
@@ -417,7 +495,8 @@ if __name__ == "__main__":
     print("Generating mp4 with script (requires bash and FFMPEG command)...")
     try:
         # Save video sequence
-        os.system(f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1} 20")
+        os.system(
+            f"./img/mp4-from-folder.sh {imgSavePath} {startSeqInd + 1} 20")
         print(f"mp4 saved to {imgSavePath.strip(os.path.sep)}.mp4")
 
         if REMOVE_OLD_RESULTS:

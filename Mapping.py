@@ -94,7 +94,11 @@ class Keyframe():
 
         return featurePointsGlobal
 
-    def getPrunedFeaturesGlobalPosition(self):
+    def getPrunedFeaturesGlobalPosition(self) -> np.ndarray:
+        '''
+        @brief Get global position of pruned features (stored internally)
+        @return Global position of pruned features (K x 2)
+        '''
         x, y, th = self.pose
 
         # First translate local points to origin at center
@@ -120,14 +124,6 @@ class Keyframe():
         self.prunedFeaturePoints = self.prunedFeaturePoints[corrStatus.flatten().astype(bool)]
         self.prunedUndistortedLocals = self.prunedUndistortedLocals[corrStatus.flatten().astype(bool)]
 
-    # def isVisible(self, keyframe):
-    #     '''
-    #     @brief Return points that are visible from keyframe
-    #     @deprecated
-    #     '''
-    #     MAX_RANGE_CLIP_DEFAULT
-
-
 # Map class
 class Map():
 
@@ -143,14 +139,13 @@ class Map():
         self.estTraj = estTraj
 
         # TODO: Instead of storing set of all keyframes, only store the last keyframe, and then a big array of map points in global coordinates
-        self.mapPoints = [
-        ]  # should be a large np.array of global feature points
+        # should be a large np.array of global feature points
+        self.mapPoints = []
         self.keyframes = []
 
     def updateInternalTraj(self, traj: Trajectory):
         self.estTraj = traj
 
-    # TODO: might not want to make keyframe before adding it
     def isGoodKeyframe(self, keyframe: Keyframe) -> bool:
         '''
         @brief Check if a keyframe is good for adding using information about relative rotation and translation
@@ -164,7 +159,6 @@ class Map():
         targetPose = keyframe.pose
 
         # Check rotation condition relative to last keyframe
-        # TODO: Check if radians or degrees?
         deltaTh = np.abs(srcPose[2] - targetPose[2])
 
         if (deltaTh >= ROT_THRESHOLD):
@@ -186,46 +180,21 @@ class Map():
         '''
         self.keyframes.append(keyframe)
 
-    def bundleAdjustment(self) -> None:
-        '''
-        @brief Perform bundle adjustment on the last 2 keyframes
-        # TODO: Should actually bundle adjust on all keyframes within range
-        @return None
-        '''
-        # Cannot do BA on only 1 KF
-        if len(self.keyframes) <= 1:
-            return
 
-        # TODO: Perform bundle adjustment on last 2 keyframes
-        old_kf = self.keyframes[-2]
-        new_kf = self.keyframes[-1]
-
-        # Obtain relevant information
-        pose_old = old_kf.pose
-        pose_new = new_kf.pose
-        points_old_local = old_kf.prunedFeaturePoints
-        points_new_local = new_kf.featurePointsLocal
-
-        # NOTE: remember ot convert to global coordinates before doing anything with the keyframes
-        points_old = old_kf.convertFeaturesLocalToGlobal(points_old_local)
-        points_new = new_kf.convertFeaturesLocalToGlobal(points_new_local)
-
-        # TODO: iterative optimisation and related solvers here
-        # 2d bundle adjustment
-
-        pass
-
-    def plot(self, fig: plt.figure, show: bool = False):
+    def plot(self, fig: plt.figure, subsampleFactor: int = 5, show: bool = False) -> None:
         '''
         @brief Plot map points on plt figure
-        @param[in] fig plt figure to plot on @todo do this
+        @param[in] fig plt figure to plot on @todo Currently unused
+        @param[in] subsampleFactor Subsampling amount to do for feature points plotting
+                                   Controls density of plotted points. Higher = less dense
+        @param[in] show Whether to plt.show()
         '''
+
         # TODO: For now, plot all the keyframe feature points
         points_global = np.empty((0, 2))
         for kf in self.keyframes:
             points_global = np.vstack((points_global,kf.getPrunedFeaturesGlobalPosition()))
 
-        subsampleFactor = 5
         plt.scatter(points_global[::subsampleFactor, 0],
                     points_global[::subsampleFactor, 1],
                     marker='+',
