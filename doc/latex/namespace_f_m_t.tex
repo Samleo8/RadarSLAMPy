@@ -1,0 +1,260 @@
+\hypertarget{namespace_f_m_t}{}\doxysection{FMT Namespace Reference}
+\label{namespace_f_m_t}\index{FMT@{FMT}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+tuple\mbox{[}tuple\mbox{[}float, float\mbox{]}, float\mbox{]} \mbox{\hyperlink{namespace_f_m_t_ae81fb59f14932ae340751f9684bd6d8b}{get\+Translation\+Using\+Phase\+Correlation}} (np.\+ndarray src\+Img, np.\+ndarray target\+Img)
+\item 
+tuple\mbox{[}float, float, float\mbox{]} \mbox{\hyperlink{namespace_f_m_t_a1dc91b97654961781d4c92b4e027b85d}{get\+Rotation\+Using\+FMT}} (np.\+ndarray src\+Polar\+Img, np.\+ndarray target\+Polar\+Img, int downsample\+Factor=\mbox{\hyperlink{namespace_f_m_t_ac5da2cfe183e7b0e3a179c878393cbc8}{FMT\+\_\+\+DOWNSAMPLE\+\_\+\+FACTOR}}, max\+Range\+ClipM=\mbox{\hyperlink{namespace_f_m_t_a4122483525ff4c7724276defa28c835d}{FMT\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+M}})
+\item 
+def \mbox{\hyperlink{namespace_f_m_t_ab27cd6416890c30979ca7e7a5c3ccdbc}{rotate\+Img}} (image, angle\+\_\+degrees)
+\item 
+def \mbox{\hyperlink{namespace_f_m_t_a082f20cace72b4f16273efde8c24a34a}{plot\+Cart\+Polar}} (\mbox{\hyperlink{namespace_f_m_t_a822a7e1a3f096654545785622beed02c}{prev\+Img\+Polar}}, \mbox{\hyperlink{namespace_f_m_t_a626acce33f1a6fe3200798b2ad4d1187}{curr\+Img\+Polar}}, \mbox{\hyperlink{namespace_f_m_t_a18deea10409123f5ce6e4f03579a5cf8}{prev\+Img\+Cart}}, \mbox{\hyperlink{namespace_f_m_t_a74c00f943164f2ca306c340a6cb1f263}{curr\+Img\+Cart}})
+\item 
+def \mbox{\hyperlink{namespace_f_m_t_a9d81f4081733eda3b7e60455434818c0}{plot\+Cart\+Polar\+With\+Rotation}} (\mbox{\hyperlink{namespace_f_m_t_a18deea10409123f5ce6e4f03579a5cf8}{prev\+Img\+Cart}}, \mbox{\hyperlink{namespace_f_m_t_a74c00f943164f2ca306c340a6cb1f263}{curr\+Img\+Cart}}, \mbox{\hyperlink{namespace_f_m_t_a596c19fb1995cd525505549d59373972}{rot\+Rad}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespace_f_m_t_ac5da2cfe183e7b0e3a179c878393cbc8}{FMT\+\_\+\+DOWNSAMPLE\+\_\+\+FACTOR}} = 10
+\item 
+float \mbox{\hyperlink{namespace_f_m_t_a4122483525ff4c7724276defa28c835d}{FMT\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+M}} = 87.\+5
+\item 
+int \mbox{\hyperlink{namespace_f_m_t_ab4c8b6b49cd9b038d45a79c64377946a}{sequence\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, sequence\+Name, \char`\"{}radar\char`\"{})
+\item 
+\mbox{\hyperlink{namespace_f_m_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, sequence\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+int \mbox{\hyperlink{namespace_f_m_t_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}{start\+Seq\+Ind}} = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0
+\item 
+int \mbox{\hyperlink{namespace_f_m_t_a58496a66cbc7a6dfb37042c7e7731cdf}{end\+Seq\+Ind}} = int(sys.\+argv\mbox{[}3\mbox{]}) if len(sys.\+argv) $>$ 3 else -\/1
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}} = get\+Radar\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespace_f_m_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a8ef2335bbb2c7c07c8e2b35959b03c52}{sequence\+Size}} = len(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}})
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a822a7e1a3f096654545785622beed02c}{prev\+Img\+Polar}} = get\+Polar\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, \mbox{\hyperlink{namespace_f_m_t_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}{start\+Seq\+Ind}})
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a18deea10409123f5ce6e4f03579a5cf8}{prev\+Img\+Cart}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a0dd30d2c854453a5a754e2a81c971651}{exist\+\_\+ok}}
+\item 
+int \mbox{\hyperlink{namespace_f_m_t_adfe857b14dacc3123d5c36a0fa44f0b0}{step\+Size}} = 1
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a626acce33f1a6fe3200798b2ad4d1187}{curr\+Img\+Polar}} = get\+Polar\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, seq\+Ind)
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a74c00f943164f2ca306c340a6cb1f263}{curr\+Img\+Cart}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a596c19fb1995cd525505549d59373972}{rot\+Rad}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_acec6d8ad52a28972fa74e071c1a63b6a}{scale}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a8ab7bcb35ce5bba05608c72da6b4a0d3}{response}}
+\item 
+\mbox{\hyperlink{namespace_f_m_t_a36e10122b3a979f9d319b0f86727b1be}{img\+Save\+Path\+Ind}} = os.\+path.\+join(\mbox{\hyperlink{namespace_f_m_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}, f\char`\"{}\{seq\+Ind\+:04d\}\+\_\+5.\+jpg\char`\"{})
+\item 
+bool \mbox{\hyperlink{namespace_f_m_t_ac54d9701c1a01225f5636eeb571f4e1a}{REMOVE\+\_\+\+OLD\+\_\+\+RESULTS}} = False
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespace_f_m_t_a1dc91b97654961781d4c92b4e027b85d}\label{namespace_f_m_t_a1dc91b97654961781d4c92b4e027b85d}} 
+\index{FMT@{FMT}!getRotationUsingFMT@{getRotationUsingFMT}}
+\index{getRotationUsingFMT@{getRotationUsingFMT}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{getRotationUsingFMT()}{getRotationUsingFMT()}}
+{\footnotesize\ttfamily  tuple\mbox{[}float, float, float\mbox{]} FMT.\+get\+Rotation\+Using\+FMT (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Polar\+Img,  }\item[{np.\+ndarray}]{target\+Polar\+Img,  }\item[{int }]{downsample\+Factor = {\ttfamily \mbox{\hyperlink{namespace_f_m_t_ac5da2cfe183e7b0e3a179c878393cbc8}{FMT\+\_\+\+DOWNSAMPLE\+\_\+\+FACTOR}}},  }\item[{}]{max\+Range\+ClipM = {\ttfamily \mbox{\hyperlink{namespace_f_m_t_a4122483525ff4c7724276defa28c835d}{FMT\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+M}}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get rotation using the Fourier-Mellin Transform
+@note We attempt to downsample in the range direction. 
+      Since we are already in the polar domain, we just need to convert to a logpolar image
+apply phase correlation to get the rotation (which is a "\Delta Y" translation)
+
+@param[in] srcPolarImg Source image in polar (not log-polar) form
+@param[in] targetPolarImg Target image in polar (not log-polar) form
+@param[in] How much to further downsample in 
+
+@return angleRad Angle in radians, where `R(angleRad) @ src = target`
+@return scaling Scaling factor
+@return response Response value (indicates confidence)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespace_f_m_t_ae81fb59f14932ae340751f9684bd6d8b}\label{namespace_f_m_t_ae81fb59f14932ae340751f9684bd6d8b}} 
+\index{FMT@{FMT}!getTranslationUsingPhaseCorrelation@{getTranslationUsingPhaseCorrelation}}
+\index{getTranslationUsingPhaseCorrelation@{getTranslationUsingPhaseCorrelation}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{getTranslationUsingPhaseCorrelation()}{getTranslationUsingPhaseCorrelation()}}
+{\footnotesize\ttfamily  tuple\mbox{[}tuple\mbox{[}float, float\mbox{]}, float\mbox{]} FMT.\+get\+Translation\+Using\+Phase\+Correlation (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Img,  }\item[{np.\+ndarray}]{target\+Img }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Using phase correlation, find the translation delta between 2 images
+@param[in] srcImg Source image
+@param[in] targetImg Target image
+
+@return deltas Delta sub-pixel translation
+@return response Response of phase correlation window (indicating confidence)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespace_f_m_t_a082f20cace72b4f16273efde8c24a34a}\label{namespace_f_m_t_a082f20cace72b4f16273efde8c24a34a}} 
+\index{FMT@{FMT}!plotCartPolar@{plotCartPolar}}
+\index{plotCartPolar@{plotCartPolar}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{plotCartPolar()}{plotCartPolar()}}
+{\footnotesize\ttfamily def FMT.\+plot\+Cart\+Polar (\begin{DoxyParamCaption}\item[{}]{prev\+Img\+Polar,  }\item[{}]{curr\+Img\+Polar,  }\item[{}]{prev\+Img\+Cart,  }\item[{}]{curr\+Img\+Cart }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespace_f_m_t_a9d81f4081733eda3b7e60455434818c0}\label{namespace_f_m_t_a9d81f4081733eda3b7e60455434818c0}} 
+\index{FMT@{FMT}!plotCartPolarWithRotation@{plotCartPolarWithRotation}}
+\index{plotCartPolarWithRotation@{plotCartPolarWithRotation}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{plotCartPolarWithRotation()}{plotCartPolarWithRotation()}}
+{\footnotesize\ttfamily def FMT.\+plot\+Cart\+Polar\+With\+Rotation (\begin{DoxyParamCaption}\item[{}]{prev\+Img\+Cart,  }\item[{}]{curr\+Img\+Cart,  }\item[{}]{rot\+Rad }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespace_f_m_t_ab27cd6416890c30979ca7e7a5c3ccdbc}\label{namespace_f_m_t_ab27cd6416890c30979ca7e7a5c3ccdbc}} 
+\index{FMT@{FMT}!rotateImg@{rotateImg}}
+\index{rotateImg@{rotateImg}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{rotateImg()}{rotateImg()}}
+{\footnotesize\ttfamily def FMT.\+rotate\+Img (\begin{DoxyParamCaption}\item[{}]{image,  }\item[{}]{angle\+\_\+degrees }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespace_f_m_t_a74c00f943164f2ca306c340a6cb1f263}\label{namespace_f_m_t_a74c00f943164f2ca306c340a6cb1f263}} 
+\index{FMT@{FMT}!currImgCart@{currImgCart}}
+\index{currImgCart@{currImgCart}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{currImgCart}{currImgCart}}
+{\footnotesize\ttfamily curr\+Img\+Cart}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  convertPolarImageToCartesian(currImgPolar,}
+\DoxyCodeLine{2                                                        downsampleFactor=20)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespace_f_m_t_a626acce33f1a6fe3200798b2ad4d1187}\label{namespace_f_m_t_a626acce33f1a6fe3200798b2ad4d1187}} 
+\index{FMT@{FMT}!currImgPolar@{currImgPolar}}
+\index{currImgPolar@{currImgPolar}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{currImgPolar}{currImgPolar}}
+{\footnotesize\ttfamily curr\+Img\+Polar = get\+Polar\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, seq\+Ind)}
+
+\mbox{\Hypertarget{namespace_f_m_t_abef58ec544fb87b0bc3d6657c3824bfc}\label{namespace_f_m_t_abef58ec544fb87b0bc3d6657c3824bfc}} 
+\index{FMT@{FMT}!dataPath@{dataPath}}
+\index{dataPath@{dataPath}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{dataPath}{dataPath}}
+{\footnotesize\ttfamily data\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, sequence\+Name, \char`\"{}radar\char`\"{})}
+
+\mbox{\Hypertarget{namespace_f_m_t_a58496a66cbc7a6dfb37042c7e7731cdf}\label{namespace_f_m_t_a58496a66cbc7a6dfb37042c7e7731cdf}} 
+\index{FMT@{FMT}!endSeqInd@{endSeqInd}}
+\index{endSeqInd@{endSeqInd}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{endSeqInd}{endSeqInd}}
+{\footnotesize\ttfamily int end\+Seq\+Ind = int(sys.\+argv\mbox{[}3\mbox{]}) if len(sys.\+argv) $>$ 3 else -\/1}
+
+\mbox{\Hypertarget{namespace_f_m_t_a0dd30d2c854453a5a754e2a81c971651}\label{namespace_f_m_t_a0dd30d2c854453a5a754e2a81c971651}} 
+\index{FMT@{FMT}!exist\_ok@{exist\_ok}}
+\index{exist\_ok@{exist\_ok}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{exist\_ok}{exist\_ok}}
+{\footnotesize\ttfamily exist\+\_\+ok}
+
+\mbox{\Hypertarget{namespace_f_m_t_ac5da2cfe183e7b0e3a179c878393cbc8}\label{namespace_f_m_t_ac5da2cfe183e7b0e3a179c878393cbc8}} 
+\index{FMT@{FMT}!FMT\_DOWNSAMPLE\_FACTOR@{FMT\_DOWNSAMPLE\_FACTOR}}
+\index{FMT\_DOWNSAMPLE\_FACTOR@{FMT\_DOWNSAMPLE\_FACTOR}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{FMT\_DOWNSAMPLE\_FACTOR}{FMT\_DOWNSAMPLE\_FACTOR}}
+{\footnotesize\ttfamily int FMT\+\_\+\+DOWNSAMPLE\+\_\+\+FACTOR = 10}
+
+\mbox{\Hypertarget{namespace_f_m_t_a4122483525ff4c7724276defa28c835d}\label{namespace_f_m_t_a4122483525ff4c7724276defa28c835d}} 
+\index{FMT@{FMT}!FMT\_RANGE\_CLIP\_M@{FMT\_RANGE\_CLIP\_M}}
+\index{FMT\_RANGE\_CLIP\_M@{FMT\_RANGE\_CLIP\_M}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{FMT\_RANGE\_CLIP\_M}{FMT\_RANGE\_CLIP\_M}}
+{\footnotesize\ttfamily float FMT\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+M = 87.\+5}
+
+\mbox{\Hypertarget{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}\label{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}} 
+\index{FMT@{FMT}!imgPathArr@{imgPathArr}}
+\index{imgPathArr@{imgPathArr}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{imgPathArr}{imgPathArr}}
+{\footnotesize\ttfamily img\+Path\+Arr = get\+Radar\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespace_f_m_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})}
+
+\mbox{\Hypertarget{namespace_f_m_t_a3ab4a737af4a26ba845d42353015fa10}\label{namespace_f_m_t_a3ab4a737af4a26ba845d42353015fa10}} 
+\index{FMT@{FMT}!imgSavePath@{imgSavePath}}
+\index{imgSavePath@{imgSavePath}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{imgSavePath}{imgSavePath}}
+{\footnotesize\ttfamily img\+Save\+Path}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  os.path.join(\textcolor{stringliteral}{"{}."{}}, \textcolor{stringliteral}{"{}img"{}}, \textcolor{stringliteral}{"{}fmt"{}},}
+\DoxyCodeLine{2                                sequenceName).strip(os.path.sep)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespace_f_m_t_a36e10122b3a979f9d319b0f86727b1be}\label{namespace_f_m_t_a36e10122b3a979f9d319b0f86727b1be}} 
+\index{FMT@{FMT}!imgSavePathInd@{imgSavePathInd}}
+\index{imgSavePathInd@{imgSavePathInd}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{imgSavePathInd}{imgSavePathInd}}
+{\footnotesize\ttfamily img\+Save\+Path\+Ind = os.\+path.\+join(\mbox{\hyperlink{namespace_f_m_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}, f\char`\"{}\{seq\+Ind\+:04d\}\+\_\+5.\+jpg\char`\"{})}
+
+\mbox{\Hypertarget{namespace_f_m_t_a18deea10409123f5ce6e4f03579a5cf8}\label{namespace_f_m_t_a18deea10409123f5ce6e4f03579a5cf8}} 
+\index{FMT@{FMT}!prevImgCart@{prevImgCart}}
+\index{prevImgCart@{prevImgCart}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{prevImgCart}{prevImgCart}}
+{\footnotesize\ttfamily prev\+Img\+Cart}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  convertPolarImageToCartesian(prevImgPolar,}
+\DoxyCodeLine{2                                                downsampleFactor=20)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespace_f_m_t_a822a7e1a3f096654545785622beed02c}\label{namespace_f_m_t_a822a7e1a3f096654545785622beed02c}} 
+\index{FMT@{FMT}!prevImgPolar@{prevImgPolar}}
+\index{prevImgPolar@{prevImgPolar}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{prevImgPolar}{prevImgPolar}}
+{\footnotesize\ttfamily prev\+Img\+Polar = get\+Polar\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, \mbox{\hyperlink{namespace_f_m_t_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}{start\+Seq\+Ind}})}
+
+\mbox{\Hypertarget{namespace_f_m_t_ac54d9701c1a01225f5636eeb571f4e1a}\label{namespace_f_m_t_ac54d9701c1a01225f5636eeb571f4e1a}} 
+\index{FMT@{FMT}!REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}}
+\index{REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{REMOVE\_OLD\_RESULTS}{REMOVE\_OLD\_RESULTS}}
+{\footnotesize\ttfamily bool REMOVE\+\_\+\+OLD\+\_\+\+RESULTS = False}
+
+\mbox{\Hypertarget{namespace_f_m_t_a8ab7bcb35ce5bba05608c72da6b4a0d3}\label{namespace_f_m_t_a8ab7bcb35ce5bba05608c72da6b4a0d3}} 
+\index{FMT@{FMT}!response@{response}}
+\index{response@{response}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{response}{response}}
+{\footnotesize\ttfamily response}
+
+\mbox{\Hypertarget{namespace_f_m_t_a596c19fb1995cd525505549d59373972}\label{namespace_f_m_t_a596c19fb1995cd525505549d59373972}} 
+\index{FMT@{FMT}!rotRad@{rotRad}}
+\index{rotRad@{rotRad}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{rotRad}{rotRad}}
+{\footnotesize\ttfamily rot\+Rad}
+
+\mbox{\Hypertarget{namespace_f_m_t_acec6d8ad52a28972fa74e071c1a63b6a}\label{namespace_f_m_t_acec6d8ad52a28972fa74e071c1a63b6a}} 
+\index{FMT@{FMT}!scale@{scale}}
+\index{scale@{scale}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{scale}{scale}}
+{\footnotesize\ttfamily scale}
+
+\mbox{\Hypertarget{namespace_f_m_t_ab4c8b6b49cd9b038d45a79c64377946a}\label{namespace_f_m_t_ab4c8b6b49cd9b038d45a79c64377946a}} 
+\index{FMT@{FMT}!sequenceName@{sequenceName}}
+\index{sequenceName@{sequenceName}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{sequenceName}{sequenceName}}
+{\footnotesize\ttfamily int sequence\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespace_f_m_t_a8ef2335bbb2c7c07c8e2b35959b03c52}\label{namespace_f_m_t_a8ef2335bbb2c7c07c8e2b35959b03c52}} 
+\index{FMT@{FMT}!sequenceSize@{sequenceSize}}
+\index{sequenceSize@{sequenceSize}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{sequenceSize}{sequenceSize}}
+{\footnotesize\ttfamily sequence\+Size = len(\mbox{\hyperlink{namespace_f_m_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}})}
+
+\mbox{\Hypertarget{namespace_f_m_t_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}\label{namespace_f_m_t_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}} 
+\index{FMT@{FMT}!startSeqInd@{startSeqInd}}
+\index{startSeqInd@{startSeqInd}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{startSeqInd}{startSeqInd}}
+{\footnotesize\ttfamily int start\+Seq\+Ind = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0}
+
+\mbox{\Hypertarget{namespace_f_m_t_adfe857b14dacc3123d5c36a0fa44f0b0}\label{namespace_f_m_t_adfe857b14dacc3123d5c36a0fa44f0b0}} 
+\index{FMT@{FMT}!stepSize@{stepSize}}
+\index{stepSize@{stepSize}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{stepSize}{stepSize}}
+{\footnotesize\ttfamily int step\+Size = 1}
+
+\mbox{\Hypertarget{namespace_f_m_t_ac559b123c3618ef31794f03fb8742e8e}\label{namespace_f_m_t_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{FMT@{FMT}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!FMT@{FMT}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, sequence\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+

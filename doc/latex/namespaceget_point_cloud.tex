@@ -1,0 +1,142 @@
+\hypertarget{namespaceget_point_cloud}{}\doxysection{get\+Point\+Cloud Namespace Reference}
+\label{namespaceget_point_cloud}\index{getPointCloud@{getPointCloud}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceget_point_cloud_a0dccab4a9c9f55f5a8a98a2a41708927}{get\+Point\+Cloud\+Polar\+Ind}} (np.\+ndarray polar\+Image, float peak\+Distance=None, float peak\+Prominence=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespaceget_point_cloud_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}} = get\+Radar\+Stream\+Polar(\mbox{\hyperlink{namespaceget_point_cloud_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_point_cloud_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_a012224f6fb0d9dcb13f93fb89f037799}{n\+Imgs}} = stream\+Arr.\+shape\mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}} = \mbox{\hyperlink{namespaceget_point_cloud_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}}\mbox{[}\+:, \+:, i\mbox{]}
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceget_point_cloud_aaf79fe01476e41d1fa357a0d05894da5}{feature\+Polar\+Indices}} = \mbox{\hyperlink{namespaceget_point_cloud_a0dccab4a9c9f55f5a8a98a2a41708927}{get\+Point\+Cloud\+Polar\+Ind}}(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_ab23f5124628a67cb3da370ff515d7f8a}{feature\+Polar\+Image}} = np.\+zeros\+\_\+like(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_afc536b8d1febbe73625037539b22dae7}{feature\+Azim}}
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_a0b5c7e3ed1c2acd58088bfc6bd2064cf}{feature\+Range}}
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}} = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_af68a5edb2e0c03691df3560577eeeb8c}{img\+Cart\+RGB}} = cv2.\+cvt\+Color(\mbox{\hyperlink{namespaceget_point_cloud_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, cv2.\+COLOR\+\_\+\+GRAY2\+BGR)
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_a39a522115419b34c999e9aafdacfdaf1}{feature\+Img\+Cart}} = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_point_cloud_ab23f5124628a67cb3da370ff515d7f8a}{feature\+Polar\+Image}})
+\item 
+\mbox{\hyperlink{namespaceget_point_cloud_ae0323a9039add2978bf5b49550572c7c}{c}} = cv2.\+wait\+Key(100)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceget_point_cloud_a0dccab4a9c9f55f5a8a98a2a41708927}\label{namespaceget_point_cloud_a0dccab4a9c9f55f5a8a98a2a41708927}} 
+\index{getPointCloud@{getPointCloud}!getPointCloudPolarInd@{getPointCloudPolarInd}}
+\index{getPointCloudPolarInd@{getPointCloudPolarInd}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{getPointCloudPolarInd()}{getPointCloudPolarInd()}}
+{\footnotesize\ttfamily  np.\+ndarray get\+Point\+Cloud.\+get\+Point\+Cloud\+Polar\+Ind (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{polar\+Image,  }\item[{float }]{peak\+Distance = {\ttfamily None},  }\item[{float }]{peak\+Prominence = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Given a radar image, generate a list of polar indices 
+       based on peak detection with pruning
+
+@param[in] peakDistance Minimum distance to be counted as a peak
+@param[in] peakProminence Minimum prominence to be counted as a peak
+
+@return (K x 2) Np array of polar coordinates with each row [thetaInd, rInd] being indices in the polar image
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceget_point_cloud_ae0323a9039add2978bf5b49550572c7c}\label{namespaceget_point_cloud_ae0323a9039add2978bf5b49550572c7c}} 
+\index{getPointCloud@{getPointCloud}!c@{c}}
+\index{c@{c}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily c = cv2.\+wait\+Key(100)}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_abef58ec544fb87b0bc3d6657c3824bfc}\label{namespaceget_point_cloud_abef58ec544fb87b0bc3d6657c3824bfc}} 
+\index{getPointCloud@{getPointCloud}!dataPath@{dataPath}}
+\index{dataPath@{dataPath}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{dataPath}{dataPath}}
+{\footnotesize\ttfamily data\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_a0d700e6dfa2a9f624cd51f991a793585}\label{namespaceget_point_cloud_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{getPointCloud@{getPointCloud}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_afc536b8d1febbe73625037539b22dae7}\label{namespaceget_point_cloud_afc536b8d1febbe73625037539b22dae7}} 
+\index{getPointCloud@{getPointCloud}!featureAzim@{featureAzim}}
+\index{featureAzim@{featureAzim}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{featureAzim}{featureAzim}}
+{\footnotesize\ttfamily feature\+Azim}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_a39a522115419b34c999e9aafdacfdaf1}\label{namespaceget_point_cloud_a39a522115419b34c999e9aafdacfdaf1}} 
+\index{getPointCloud@{getPointCloud}!featureImgCart@{featureImgCart}}
+\index{featureImgCart@{featureImgCart}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{featureImgCart}{featureImgCart}}
+{\footnotesize\ttfamily feature\+Img\+Cart = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_point_cloud_ab23f5124628a67cb3da370ff515d7f8a}{feature\+Polar\+Image}})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_ab23f5124628a67cb3da370ff515d7f8a}\label{namespaceget_point_cloud_ab23f5124628a67cb3da370ff515d7f8a}} 
+\index{getPointCloud@{getPointCloud}!featurePolarImage@{featurePolarImage}}
+\index{featurePolarImage@{featurePolarImage}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{featurePolarImage}{featurePolarImage}}
+{\footnotesize\ttfamily feature\+Polar\+Image = np.\+zeros\+\_\+like(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_aaf79fe01476e41d1fa357a0d05894da5}\label{namespaceget_point_cloud_aaf79fe01476e41d1fa357a0d05894da5}} 
+\index{getPointCloud@{getPointCloud}!featurePolarIndices@{featurePolarIndices}}
+\index{featurePolarIndices@{featurePolarIndices}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{featurePolarIndices}{featurePolarIndices}}
+{\footnotesize\ttfamily np.\+ndarray feature\+Polar\+Indices = \mbox{\hyperlink{namespaceget_point_cloud_a0dccab4a9c9f55f5a8a98a2a41708927}{get\+Point\+Cloud\+Polar\+Ind}}(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_a0b5c7e3ed1c2acd58088bfc6bd2064cf}\label{namespaceget_point_cloud_a0b5c7e3ed1c2acd58088bfc6bd2064cf}} 
+\index{getPointCloud@{getPointCloud}!featureRange@{featureRange}}
+\index{featureRange@{featureRange}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{featureRange}{featureRange}}
+{\footnotesize\ttfamily feature\+Range}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_ab9927de0f2ac5e7a36f51077c9c4dafe}\label{namespaceget_point_cloud_ab9927de0f2ac5e7a36f51077c9c4dafe}} 
+\index{getPointCloud@{getPointCloud}!imgCart@{imgCart}}
+\index{imgCart@{imgCart}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{imgCart}{imgCart}}
+{\footnotesize\ttfamily img\+Cart = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_af68a5edb2e0c03691df3560577eeeb8c}\label{namespaceget_point_cloud_af68a5edb2e0c03691df3560577eeeb8c}} 
+\index{getPointCloud@{getPointCloud}!imgCartRGB@{imgCartRGB}}
+\index{imgCartRGB@{imgCartRGB}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{imgCartRGB}{imgCartRGB}}
+{\footnotesize\ttfamily img\+Cart\+RGB = cv2.\+cvt\+Color(\mbox{\hyperlink{namespaceget_point_cloud_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, cv2.\+COLOR\+\_\+\+GRAY2\+BGR)}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}\label{namespaceget_point_cloud_ab7f52fe3c12ded088797a6fbcabd31fc}} 
+\index{getPointCloud@{getPointCloud}!imgPolar@{imgPolar}}
+\index{imgPolar@{imgPolar}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{imgPolar}{imgPolar}}
+{\footnotesize\ttfamily img\+Polar = \mbox{\hyperlink{namespaceget_point_cloud_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}}\mbox{[}\+:, \+:, i\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_a012224f6fb0d9dcb13f93fb89f037799}\label{namespaceget_point_cloud_a012224f6fb0d9dcb13f93fb89f037799}} 
+\index{getPointCloud@{getPointCloud}!nImgs@{nImgs}}
+\index{nImgs@{nImgs}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{nImgs}{nImgs}}
+{\footnotesize\ttfamily n\+Imgs = stream\+Arr.\+shape\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_a662fb0cf784aecaa685e2a1bd9b430ab}\label{namespaceget_point_cloud_a662fb0cf784aecaa685e2a1bd9b430ab}} 
+\index{getPointCloud@{getPointCloud}!streamArr@{streamArr}}
+\index{streamArr@{streamArr}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{streamArr}{streamArr}}
+{\footnotesize\ttfamily stream\+Arr = get\+Radar\+Stream\+Polar(\mbox{\hyperlink{namespaceget_point_cloud_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_point_cloud_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})}
+
+\mbox{\Hypertarget{namespaceget_point_cloud_ac559b123c3618ef31794f03fb8742e8e}\label{namespaceget_point_cloud_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{getPointCloud@{getPointCloud}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!getPointCloud@{getPointCloud}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+

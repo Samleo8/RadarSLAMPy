@@ -1,0 +1,157 @@
+\hypertarget{class_mapping_1_1_keyframe}{}\doxysection{Keyframe Class Reference}
+\label{class_mapping_1_1_keyframe}\index{Keyframe@{Keyframe}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_keyframe_ab50c2d12f6ba6f7013e2e09dc7104cea}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, np.\+ndarray global\+Pose, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}{feature\+Points\+Local}}, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_a4b406a56724e048b3fa039dd55390f9b}{radar\+Polar\+Img}}, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_aecfeca1289d00fbe5fc76a8dd5295913}{velocity}})
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_keyframe_ae98897aae59622e52c1e12f602c6893f}{update\+Info}} (self, np.\+ndarray global\+Pose, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}{feature\+Points\+Local}}, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_a4b406a56724e048b3fa039dd55390f9b}{radar\+Polar\+Img}}, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_aecfeca1289d00fbe5fc76a8dd5295913}{velocity}})
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_keyframe_a90e0f7f754575a4561f5485033860a1d}{copy\+From\+Other\+Keyframe}} (self, keyframe)
+\item 
+np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_a415d52be7be81fd08afe59b1f5d5f9d0}{convert\+Features\+Local\+To\+Global}} (self, np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}{feature\+Points\+Local}})
+\item 
+np.\+ndarray \mbox{\hyperlink{class_mapping_1_1_keyframe_a303cd2587f0d363c0cb55441f9e300bd}{get\+Pruned\+Features\+Global\+Position}} (self)
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_keyframe_a796d47daedb509f711f32670dcc56204}{prune\+Feature\+Points}} (self, np.\+ndarray corr\+Status)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_a78b2a3e80010e80c618c3033d6d11547}{pose}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_a4b406a56724e048b3fa039dd55390f9b}{radar\+Polar\+Img}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}{feature\+Points\+Local}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_a7555a7153bea157ba766d90f8a357ac7}{pruned\+Feature\+Points}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_aa8c7a28ed457095b58a6fc21c3beb218}{point\+Cloud}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_aecfeca1289d00fbe5fc76a8dd5295913}{velocity}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_a05e8255630d01c3245aee8388687031e}{feature\+Points\+Local\+Undistorted}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_keyframe_a2b11eb8819c3458601190586c033134c}{pruned\+Undistorted\+Locals}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_ab50c2d12f6ba6f7013e2e09dc7104cea}\label{class_mapping_1_1_keyframe_ab50c2d12f6ba6f7013e2e09dc7104cea}} 
+\index{Keyframe@{Keyframe}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{global\+Pose,  }\item[{np.\+ndarray}]{feature\+Points\+Local,  }\item[{np.\+ndarray}]{radar\+Polar\+Img,  }\item[{np.\+ndarray}]{velocity }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Keyframe class. Contains pose, feature points and point cloud information
+@param[in] globalPose           (3 x 1) Pose information [x, y, th] in global coordinates, 
+                                                units of [m, m, rad] # TODO: Confirm these units
+@param[in] featurePointsLocal   (K x 2) Tracked feature points from previous keyframe,
+                                        in local coordinates (pixels)
+@param[in] radarPolarImg        (M x N) Radar polar (range-azimuth) image
+
+@see updateInfo() 
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a415d52be7be81fd08afe59b1f5d5f9d0}\label{class_mapping_1_1_keyframe_a415d52be7be81fd08afe59b1f5d5f9d0}} 
+\index{Keyframe@{Keyframe}!convertFeaturesLocalToGlobal@{convertFeaturesLocalToGlobal}}
+\index{convertFeaturesLocalToGlobal@{convertFeaturesLocalToGlobal}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{convertFeaturesLocalToGlobal()}{convertFeaturesLocalToGlobal()}}
+{\footnotesize\ttfamily  np.\+ndarray convert\+Features\+Local\+To\+Global (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{feature\+Points\+Local }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Local feature points to convert into global coordinates, given internal pose
+@param[in] featurePointsLocal   (K x 2) Tracked feature points from previous keyframe,
+                                in local coordinates (pixels)
+@return featurePointsGlobal     (K x 2) Feature points in global coordinates, meters
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_keyframe_a90e0f7f754575a4561f5485033860a1d}\label{class_mapping_1_1_keyframe_a90e0f7f754575a4561f5485033860a1d}} 
+\index{Keyframe@{Keyframe}!copyFromOtherKeyframe@{copyFromOtherKeyframe}}
+\index{copyFromOtherKeyframe@{copyFromOtherKeyframe}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{copyFromOtherKeyframe()}{copyFromOtherKeyframe()}}
+{\footnotesize\ttfamily  None copy\+From\+Other\+Keyframe (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{keyframe }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a303cd2587f0d363c0cb55441f9e300bd}\label{class_mapping_1_1_keyframe_a303cd2587f0d363c0cb55441f9e300bd}} 
+\index{Keyframe@{Keyframe}!getPrunedFeaturesGlobalPosition@{getPrunedFeaturesGlobalPosition}}
+\index{getPrunedFeaturesGlobalPosition@{getPrunedFeaturesGlobalPosition}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{getPrunedFeaturesGlobalPosition()}{getPrunedFeaturesGlobalPosition()}}
+{\footnotesize\ttfamily  np.\+ndarray get\+Pruned\+Features\+Global\+Position (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get global position of pruned features (stored internally)
+@return Global position of pruned features (K x 2)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_keyframe_a796d47daedb509f711f32670dcc56204}\label{class_mapping_1_1_keyframe_a796d47daedb509f711f32670dcc56204}} 
+\index{Keyframe@{Keyframe}!pruneFeaturePoints@{pruneFeaturePoints}}
+\index{pruneFeaturePoints@{pruneFeaturePoints}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{pruneFeaturePoints()}{pruneFeaturePoints()}}
+{\footnotesize\ttfamily  None prune\+Feature\+Points (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{corr\+Status }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Prune feature points based on correspondence status
+@param[in] corrStatus 
+@note In place changing of `self.prunedFeaturePoints` function, which aims to track and prune away the feature points that are part of this keyframe
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_keyframe_ae98897aae59622e52c1e12f602c6893f}\label{class_mapping_1_1_keyframe_ae98897aae59622e52c1e12f602c6893f}} 
+\index{Keyframe@{Keyframe}!updateInfo@{updateInfo}}
+\index{updateInfo@{updateInfo}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{updateInfo()}{updateInfo()}}
+{\footnotesize\ttfamily  None update\+Info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{global\+Pose,  }\item[{np.\+ndarray}]{feature\+Points\+Local,  }\item[{np.\+ndarray}]{radar\+Polar\+Img,  }\item[{np.\+ndarray}]{velocity }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Update internal information: pose, feature points and point cloud information
+@param[in] globalPose           (3 x 1) Pose information [x, y, th] in global coordinates, 
+                                                units of [m, m, rad] # TODO: Confirm these units
+@param[in] featurePointsLocal   (K x 2) Tracked feature points from previous keyframe,
+                                        in local coordinates (pixels)
+@param[in] radarPolarImg        (M x N) Radar polar (range-azimuth) image 
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}\label{class_mapping_1_1_keyframe_ae336e904e1abb473dc7527fd2e48d8bb}} 
+\index{Keyframe@{Keyframe}!featurePointsLocal@{featurePointsLocal}}
+\index{featurePointsLocal@{featurePointsLocal}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{featurePointsLocal}{featurePointsLocal}}
+{\footnotesize\ttfamily feature\+Points\+Local}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a05e8255630d01c3245aee8388687031e}\label{class_mapping_1_1_keyframe_a05e8255630d01c3245aee8388687031e}} 
+\index{Keyframe@{Keyframe}!featurePointsLocalUndistorted@{featurePointsLocalUndistorted}}
+\index{featurePointsLocalUndistorted@{featurePointsLocalUndistorted}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{featurePointsLocalUndistorted}{featurePointsLocalUndistorted}}
+{\footnotesize\ttfamily feature\+Points\+Local\+Undistorted}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_aa8c7a28ed457095b58a6fc21c3beb218}\label{class_mapping_1_1_keyframe_aa8c7a28ed457095b58a6fc21c3beb218}} 
+\index{Keyframe@{Keyframe}!pointCloud@{pointCloud}}
+\index{pointCloud@{pointCloud}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{pointCloud}{pointCloud}}
+{\footnotesize\ttfamily point\+Cloud}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a78b2a3e80010e80c618c3033d6d11547}\label{class_mapping_1_1_keyframe_a78b2a3e80010e80c618c3033d6d11547}} 
+\index{Keyframe@{Keyframe}!pose@{pose}}
+\index{pose@{pose}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{pose}{pose}}
+{\footnotesize\ttfamily pose}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a7555a7153bea157ba766d90f8a357ac7}\label{class_mapping_1_1_keyframe_a7555a7153bea157ba766d90f8a357ac7}} 
+\index{Keyframe@{Keyframe}!prunedFeaturePoints@{prunedFeaturePoints}}
+\index{prunedFeaturePoints@{prunedFeaturePoints}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{prunedFeaturePoints}{prunedFeaturePoints}}
+{\footnotesize\ttfamily pruned\+Feature\+Points}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a2b11eb8819c3458601190586c033134c}\label{class_mapping_1_1_keyframe_a2b11eb8819c3458601190586c033134c}} 
+\index{Keyframe@{Keyframe}!prunedUndistortedLocals@{prunedUndistortedLocals}}
+\index{prunedUndistortedLocals@{prunedUndistortedLocals}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{prunedUndistortedLocals}{prunedUndistortedLocals}}
+{\footnotesize\ttfamily pruned\+Undistorted\+Locals}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_a4b406a56724e048b3fa039dd55390f9b}\label{class_mapping_1_1_keyframe_a4b406a56724e048b3fa039dd55390f9b}} 
+\index{Keyframe@{Keyframe}!radarPolarImg@{radarPolarImg}}
+\index{radarPolarImg@{radarPolarImg}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{radarPolarImg}{radarPolarImg}}
+{\footnotesize\ttfamily radar\+Polar\+Img}
+
+\mbox{\Hypertarget{class_mapping_1_1_keyframe_aecfeca1289d00fbe5fc76a8dd5295913}\label{class_mapping_1_1_keyframe_aecfeca1289d00fbe5fc76a8dd5295913}} 
+\index{Keyframe@{Keyframe}!velocity@{velocity}}
+\index{velocity@{velocity}!Keyframe@{Keyframe}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily velocity}
+

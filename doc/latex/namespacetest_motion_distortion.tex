@@ -1,0 +1,348 @@
+\hypertarget{namespacetest_motion_distortion}{}\doxysection{test\+Motion\+Distortion Namespace Reference}
+\label{namespacetest_motion_distortion}\index{testMotionDistortion@{testMotionDistortion}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_a7722c8ecbb62d99aee7ce68b1752f337}{N}} = 100
+\item 
+float \mbox{\hyperlink{namespacetest_motion_distortion_aeb5e3b3a31f302552b5bd35f3accd3c2}{outlier\+\_\+rate}} = 0.\+4
+\item 
+bool \mbox{\hyperlink{namespacetest_motion_distortion_ac167268f99229eb4f16b0291abb2031b}{noisy}} = \mbox{\hyperlink{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+bool \mbox{\hyperlink{namespacetest_motion_distortion_af5a541b70835126d40b66611fae2b02a}{use\+Old}} = \mbox{\hyperlink{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}{frequency}} = 4
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}{period}} = 1 / \mbox{\hyperlink{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}{frequency}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a6ea61aa1009f507ec5cc56ec088c994e}{ground\+Truth}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_ab4d948a1902fb16de6b605fd976adf71}{current\+Frame}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_ad5ed049a2c1601e6f4f9e5d69619c804}{theta\+\_\+deg}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a2202ecdde3f1299448698af0ba3eb256}{n\+\_\+points}}
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_a8493384c61de1f81ddb7c407d63df2b8}{velocity}} = np.\+array(\mbox{[}\mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}}\mbox{[}0, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_ad5ed049a2c1601e6f4f9e5d69619c804}{theta\+\_\+deg}}\mbox{]}) / \mbox{\hyperlink{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}{period}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a4fc87d3e0555721c49e62c74ca5e0cce}{distorted}} = distort(\mbox{\hyperlink{namespacetest_motion_distortion_ab4d948a1902fb16de6b605fd976adf71}{current\+Frame}}, \mbox{\hyperlink{namespacetest_motion_distortion_a8493384c61de1f81ddb7c407d63df2b8}{velocity}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}{frequency}}, \mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}})
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a16f3add66da7caa94dad99c6e62e5160}{outlier\+\_\+ind}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a85217f3efc8710cdcda27b2298c29f80}{noise\+To\+Add}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} = \mbox{\hyperlink{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, \+:2\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}} = \mbox{\hyperlink{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, 2\+:\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}} = np.\+linalg.\+inv(\mbox{\hyperlink{namespacetest_motion_distortion_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}})
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_ab69a1473bbefcd69e648eed41f4cf499}{theta\+\_\+fit}} = np.\+arctan2(\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}0, 0\mbox{]}) $\ast$ 180 / np.\+pi
+\item 
+tuple \mbox{\hyperlink{namespacetest_motion_distortion_a1b714106eb7bad251438c439fc59e407}{src\+Coord2}} = (\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ distorted.\+T + \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_adca18f0c2258ab57e96c3f009761ea85}{title\+\_\+append}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a62197192f0fbf4e0675eb37be1c4c175}{alpha}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_aebfdce4f6cc7241ba38924f77a12e7cf}{clear}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a584efbd5d11809943039e71845b0cd7f}{show}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a05c99e7a4b8e210f2a90435ada048345}{plot\+Displace}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}} = np.\+eye(3)
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}} = \mbox{\hyperlink{namespacetest_motion_distortion_a6ea61aa1009f507ec5cc56ec088c994e}{ground\+Truth}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}} = \mbox{\hyperlink{namespacetest_motion_distortion_a4fc87d3e0555721c49e62c74ca5e0cce}{distorted}}
+\item 
+int \mbox{\hyperlink{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}{v\+\_\+j0}} = np.\+array(\mbox{[}\mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}\mbox{[}0,0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}\mbox{[}1,0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_ab69a1473bbefcd69e648eed41f4cf499}{theta\+\_\+fit}} $\ast$ np.\+pi / 180\mbox{]}) / \mbox{\hyperlink{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}{period}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a2ad6563ac916a24a87640bf0355b44f9}{T\+\_\+wj}}
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a08d7ab388db4b26c426bef86ef14b56d}{cov\+\_\+p}} = np.\+diag(\mbox{[}4, 4\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a0a3c99d367d844f8d11bbe4e735df941}{cov\+\_\+v}} = np.\+diag(\mbox{[}1, 1, (5 $\ast$ np.\+pi / 180) $\ast$$\ast$ 2\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_ae4611af3884f5d62ef0628317c03fff1}{MDS}} = \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver}{Motion\+Distortion\+Solver}}(\mbox{\hyperlink{namespacetest_motion_distortion_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}}, \mbox{\hyperlink{namespacetest_motion_distortion_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}}, \mbox{\hyperlink{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}{v\+\_\+j0}}, \mbox{\hyperlink{namespacetest_motion_distortion_a2ad6563ac916a24a87640bf0355b44f9}{T\+\_\+wj}}, \mbox{\hyperlink{namespacetest_motion_distortion_a08d7ab388db4b26c426bef86ef14b56d}{cov\+\_\+p}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0a3c99d367d844f8d11bbe4e735df941}{cov\+\_\+v}})
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_afae9a38dc58a08daa2011e18a26770f7}{undistorted}} = MDS.\+undistort(\mbox{\hyperlink{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}{v\+\_\+j0}})
+\item 
+tuple \mbox{\hyperlink{namespacetest_motion_distortion_a1648556515a367ae4a45a7e2330cd9eb}{src\+Coord3}} = (\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ undistorted.\+T + \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}{params}} = MDS.\+optimize\+\_\+library()
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_a8d47c866b21811d9fceea3b06fc84638}{final\+\_\+undistorted}} = MDS.\+undistort(\mbox{\hyperlink{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}{params}}\mbox{[}\+:3\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest_motion_distortion_ab3d350d501d99e7bbe8f68ace7af32c7}{transform}} = convert\+Pose\+To\+Transform(\mbox{\hyperlink{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}{params}}\mbox{[}3\+:\mbox{]})
+\item 
+tuple \mbox{\hyperlink{namespacetest_motion_distortion_aa469d7addbb311effcc0cc5fa6c86dfd}{solution}} = (\mbox{\hyperlink{namespacetest_motion_distortion_ab3d350d501d99e7bbe8f68ace7af32c7}{transform}} @ \mbox{\hyperlink{namespacetest_motion_distortion_a8d47c866b21811d9fceea3b06fc84638}{final\+\_\+undistorted}})\mbox{[}\+:, \+:2, 0\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetest_motion_distortion_a3b98e2dffc6cb06a89dcb0d5c60a0206}\label{namespacetest_motion_distortion_a3b98e2dffc6cb06a89dcb0d5c60a0206}} 
+\index{testMotionDistortion@{testMotionDistortion}!A@{A}}
+\index{A@{A}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily A}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.block([[R\_fit, h\_fit],}
+\DoxyCodeLine{2                     [np.zeros((1, 2)), 1]])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}\label{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}} 
+\index{testMotionDistortion@{testMotionDistortion}!A\_inv@{A\_inv}}
+\index{A\_inv@{A\_inv}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{A\_inv}{A\_inv}}
+{\footnotesize\ttfamily A\+\_\+inv = np.\+linalg.\+inv(\mbox{\hyperlink{namespacetest_motion_distortion_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a62197192f0fbf4e0675eb37be1c4c175}\label{namespacetest_motion_distortion_a62197192f0fbf4e0675eb37be1c4c175}} 
+\index{testMotionDistortion@{testMotionDistortion}!alpha@{alpha}}
+\index{alpha@{alpha}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily alpha}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_aebfdce4f6cc7241ba38924f77a12e7cf}\label{namespacetest_motion_distortion_aebfdce4f6cc7241ba38924f77a12e7cf}} 
+\index{testMotionDistortion@{testMotionDistortion}!clear@{clear}}
+\index{clear@{clear}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{clear}{clear}}
+{\footnotesize\ttfamily clear}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a08d7ab388db4b26c426bef86ef14b56d}\label{namespacetest_motion_distortion_a08d7ab388db4b26c426bef86ef14b56d}} 
+\index{testMotionDistortion@{testMotionDistortion}!cov\_p@{cov\_p}}
+\index{cov\_p@{cov\_p}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{cov\_p}{cov\_p}}
+{\footnotesize\ttfamily cov\+\_\+p = np.\+diag(\mbox{[}4, 4\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a0a3c99d367d844f8d11bbe4e735df941}\label{namespacetest_motion_distortion_a0a3c99d367d844f8d11bbe4e735df941}} 
+\index{testMotionDistortion@{testMotionDistortion}!cov\_v@{cov\_v}}
+\index{cov\_v@{cov\_v}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{cov\_v}{cov\_v}}
+{\footnotesize\ttfamily cov\+\_\+v = np.\+diag(\mbox{[}1, 1, (5 $\ast$ np.\+pi / 180) $\ast$$\ast$ 2\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ab4d948a1902fb16de6b605fd976adf71}\label{namespacetest_motion_distortion_ab4d948a1902fb16de6b605fd976adf71}} 
+\index{testMotionDistortion@{testMotionDistortion}!currentFrame@{currentFrame}}
+\index{currentFrame@{currentFrame}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{currentFrame}{currentFrame}}
+{\footnotesize\ttfamily current\+Frame}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a4fc87d3e0555721c49e62c74ca5e0cce}\label{namespacetest_motion_distortion_a4fc87d3e0555721c49e62c74ca5e0cce}} 
+\index{testMotionDistortion@{testMotionDistortion}!distorted@{distorted}}
+\index{distorted@{distorted}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{distorted}{distorted}}
+{\footnotesize\ttfamily distorted = distort(\mbox{\hyperlink{namespacetest_motion_distortion_ab4d948a1902fb16de6b605fd976adf71}{current\+Frame}}, \mbox{\hyperlink{namespacetest_motion_distortion_a8493384c61de1f81ddb7c407d63df2b8}{velocity}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}{frequency}}, \mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}\label{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}} 
+\index{testMotionDistortion@{testMotionDistortion}!False@{False}}
+\index{False@{False}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{False}{False}}
+{\footnotesize\ttfamily False}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a8d47c866b21811d9fceea3b06fc84638}\label{namespacetest_motion_distortion_a8d47c866b21811d9fceea3b06fc84638}} 
+\index{testMotionDistortion@{testMotionDistortion}!final\_undistorted@{final\_undistorted}}
+\index{final\_undistorted@{final\_undistorted}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{final\_undistorted}{final\_undistorted}}
+{\footnotesize\ttfamily final\+\_\+undistorted = MDS.\+undistort(\mbox{\hyperlink{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}{params}}\mbox{[}\+:3\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}\label{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}} 
+\index{testMotionDistortion@{testMotionDistortion}!frequency@{frequency}}
+\index{frequency@{frequency}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{frequency}{frequency}}
+{\footnotesize\ttfamily int frequency = 4}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a6ea61aa1009f507ec5cc56ec088c994e}\label{namespacetest_motion_distortion_a6ea61aa1009f507ec5cc56ec088c994e}} 
+\index{testMotionDistortion@{testMotionDistortion}!groundTruth@{groundTruth}}
+\index{groundTruth@{groundTruth}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{groundTruth}{groundTruth}}
+{\footnotesize\ttfamily ground\+Truth}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}\label{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}} 
+\index{testMotionDistortion@{testMotionDistortion}!h@{h}}
+\index{h@{h}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily h}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}\label{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}} 
+\index{testMotionDistortion@{testMotionDistortion}!h\_fit@{h\_fit}}
+\index{h\_fit@{h\_fit}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{h\_fit}{h\_fit}}
+{\footnotesize\ttfamily h\+\_\+fit = \mbox{\hyperlink{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, 2\+:\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ae4611af3884f5d62ef0628317c03fff1}\label{namespacetest_motion_distortion_ae4611af3884f5d62ef0628317c03fff1}} 
+\index{testMotionDistortion@{testMotionDistortion}!MDS@{MDS}}
+\index{MDS@{MDS}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{MDS}{MDS}}
+{\footnotesize\ttfamily MDS = \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver}{Motion\+Distortion\+Solver}}(\mbox{\hyperlink{namespacetest_motion_distortion_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}}, \mbox{\hyperlink{namespacetest_motion_distortion_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}}, \mbox{\hyperlink{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}{v\+\_\+j0}}, \mbox{\hyperlink{namespacetest_motion_distortion_a2ad6563ac916a24a87640bf0355b44f9}{T\+\_\+wj}}, \mbox{\hyperlink{namespacetest_motion_distortion_a08d7ab388db4b26c426bef86ef14b56d}{cov\+\_\+p}}, \mbox{\hyperlink{namespacetest_motion_distortion_a0a3c99d367d844f8d11bbe4e735df941}{cov\+\_\+v}})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a7722c8ecbb62d99aee7ce68b1752f337}\label{namespacetest_motion_distortion_a7722c8ecbb62d99aee7ce68b1752f337}} 
+\index{testMotionDistortion@{testMotionDistortion}!N@{N}}
+\index{N@{N}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily int N = 100}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a2202ecdde3f1299448698af0ba3eb256}\label{namespacetest_motion_distortion_a2202ecdde3f1299448698af0ba3eb256}} 
+\index{testMotionDistortion@{testMotionDistortion}!n\_points@{n\_points}}
+\index{n\_points@{n\_points}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{n\_points}{n\_points}}
+{\footnotesize\ttfamily n\+\_\+points}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a85217f3efc8710cdcda27b2298c29f80}\label{namespacetest_motion_distortion_a85217f3efc8710cdcda27b2298c29f80}} 
+\index{testMotionDistortion@{testMotionDistortion}!noiseToAdd@{noiseToAdd}}
+\index{noiseToAdd@{noiseToAdd}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{noiseToAdd}{noiseToAdd}}
+{\footnotesize\ttfamily noise\+To\+Add}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ac167268f99229eb4f16b0291abb2031b}\label{namespacetest_motion_distortion_ac167268f99229eb4f16b0291abb2031b}} 
+\index{testMotionDistortion@{testMotionDistortion}!noisy@{noisy}}
+\index{noisy@{noisy}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{noisy}{noisy}}
+{\footnotesize\ttfamily bool noisy = \mbox{\hyperlink{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}{False}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a16f3add66da7caa94dad99c6e62e5160}\label{namespacetest_motion_distortion_a16f3add66da7caa94dad99c6e62e5160}} 
+\index{testMotionDistortion@{testMotionDistortion}!outlier\_ind@{outlier\_ind}}
+\index{outlier\_ind@{outlier\_ind}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{outlier\_ind}{outlier\_ind}}
+{\footnotesize\ttfamily outlier\+\_\+ind}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_aeb5e3b3a31f302552b5bd35f3accd3c2}\label{namespacetest_motion_distortion_aeb5e3b3a31f302552b5bd35f3accd3c2}} 
+\index{testMotionDistortion@{testMotionDistortion}!outlier\_rate@{outlier\_rate}}
+\index{outlier\_rate@{outlier\_rate}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{outlier\_rate}{outlier\_rate}}
+{\footnotesize\ttfamily float outlier\+\_\+rate = 0.\+4}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_aa9fffd513bf2e2cbfe44da13aa4a69bf}\label{namespacetest_motion_distortion_aa9fffd513bf2e2cbfe44da13aa4a69bf}} 
+\index{testMotionDistortion@{testMotionDistortion}!p\_jt@{p\_jt}}
+\index{p\_jt@{p\_jt}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{p\_jt}{p\_jt}}
+{\footnotesize\ttfamily p\+\_\+jt = \mbox{\hyperlink{namespacetest_motion_distortion_a4fc87d3e0555721c49e62c74ca5e0cce}{distorted}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a0e515884ff3ebc059c605589aec689b7}\label{namespacetest_motion_distortion_a0e515884ff3ebc059c605589aec689b7}} 
+\index{testMotionDistortion@{testMotionDistortion}!p\_w@{p\_w}}
+\index{p\_w@{p\_w}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{p\_w}{p\_w}}
+{\footnotesize\ttfamily p\+\_\+w = \mbox{\hyperlink{namespacetest_motion_distortion_a6ea61aa1009f507ec5cc56ec088c994e}{ground\+Truth}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}\label{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}} 
+\index{testMotionDistortion@{testMotionDistortion}!params@{params}}
+\index{params@{params}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{params}{params}}
+{\footnotesize\ttfamily params = MDS.\+optimize\+\_\+library()}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}\label{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}} 
+\index{testMotionDistortion@{testMotionDistortion}!period@{period}}
+\index{period@{period}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{period}{period}}
+{\footnotesize\ttfamily int period = 1 / \mbox{\hyperlink{namespacetest_motion_distortion_a0877761f00ee2460fe16820f9d52daf1}{frequency}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a05c99e7a4b8e210f2a90435ada048345}\label{namespacetest_motion_distortion_a05c99e7a4b8e210f2a90435ada048345}} 
+\index{testMotionDistortion@{testMotionDistortion}!plotDisplace@{plotDisplace}}
+\index{plotDisplace@{plotDisplace}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{plotDisplace}{plotDisplace}}
+{\footnotesize\ttfamily plot\+Displace}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}\label{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}} 
+\index{testMotionDistortion@{testMotionDistortion}!R\_fit@{R\_fit}}
+\index{R\_fit@{R\_fit}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{R\_fit}{R\_fit}}
+{\footnotesize\ttfamily R\+\_\+fit = \mbox{\hyperlink{namespacetest_motion_distortion_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, \+:2\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a584efbd5d11809943039e71845b0cd7f}\label{namespacetest_motion_distortion_a584efbd5d11809943039e71845b0cd7f}} 
+\index{testMotionDistortion@{testMotionDistortion}!show@{show}}
+\index{show@{show}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{show}{show}}
+{\footnotesize\ttfamily show}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_aa469d7addbb311effcc0cc5fa6c86dfd}\label{namespacetest_motion_distortion_aa469d7addbb311effcc0cc5fa6c86dfd}} 
+\index{testMotionDistortion@{testMotionDistortion}!solution@{solution}}
+\index{solution@{solution}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{solution}{solution}}
+{\footnotesize\ttfamily tuple solution = (\mbox{\hyperlink{namespacetest_motion_distortion_ab3d350d501d99e7bbe8f68ace7af32c7}{transform}} @ \mbox{\hyperlink{namespacetest_motion_distortion_a8d47c866b21811d9fceea3b06fc84638}{final\+\_\+undistorted}})\mbox{[}\+:, \+:2, 0\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a1b714106eb7bad251438c439fc59e407}\label{namespacetest_motion_distortion_a1b714106eb7bad251438c439fc59e407}} 
+\index{testMotionDistortion@{testMotionDistortion}!srcCoord2@{srcCoord2}}
+\index{srcCoord2@{srcCoord2}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{srcCoord2}{srcCoord2}}
+{\footnotesize\ttfamily tuple src\+Coord2 = (\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ distorted.\+T + \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a1648556515a367ae4a45a7e2330cd9eb}\label{namespacetest_motion_distortion_a1648556515a367ae4a45a7e2330cd9eb}} 
+\index{testMotionDistortion@{testMotionDistortion}!srcCoord3@{srcCoord3}}
+\index{srcCoord3@{srcCoord3}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{srcCoord3}{srcCoord3}}
+{\footnotesize\ttfamily tuple src\+Coord3 = (\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ undistorted.\+T + \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a2ad6563ac916a24a87640bf0355b44f9}\label{namespacetest_motion_distortion_a2ad6563ac916a24a87640bf0355b44f9}} 
+\index{testMotionDistortion@{testMotionDistortion}!T\_wj@{T\_wj}}
+\index{T\_wj@{T\_wj}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{T\_wj}{T\_wj}}
+{\footnotesize\ttfamily T\+\_\+wj}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.block([[R\_fit,            h\_fit],}
+\DoxyCodeLine{2                      [np.zeros((2,)),    1]])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetest_motion_distortion_a0a395e89714f60150df6675faaa1f6cb}\label{namespacetest_motion_distortion_a0a395e89714f60150df6675faaa1f6cb}} 
+\index{testMotionDistortion@{testMotionDistortion}!T\_wj0@{T\_wj0}}
+\index{T\_wj0@{T\_wj0}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{T\_wj0}{T\_wj0}}
+{\footnotesize\ttfamily T\+\_\+wj0 = np.\+eye(3)}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ad5ed049a2c1601e6f4f9e5d69619c804}\label{namespacetest_motion_distortion_ad5ed049a2c1601e6f4f9e5d69619c804}} 
+\index{testMotionDistortion@{testMotionDistortion}!theta\_deg@{theta\_deg}}
+\index{theta\_deg@{theta\_deg}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{theta\_deg}{theta\_deg}}
+{\footnotesize\ttfamily theta\+\_\+deg}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ab69a1473bbefcd69e648eed41f4cf499}\label{namespacetest_motion_distortion_ab69a1473bbefcd69e648eed41f4cf499}} 
+\index{testMotionDistortion@{testMotionDistortion}!theta\_fit@{theta\_fit}}
+\index{theta\_fit@{theta\_fit}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{theta\_fit}{theta\_fit}}
+{\footnotesize\ttfamily int theta\+\_\+fit = np.\+arctan2(\mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}0, 0\mbox{]}) $\ast$ 180 / np.\+pi}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_adca18f0c2258ab57e96c3f009761ea85}\label{namespacetest_motion_distortion_adca18f0c2258ab57e96c3f009761ea85}} 
+\index{testMotionDistortion@{testMotionDistortion}!title\_append@{title\_append}}
+\index{title\_append@{title\_append}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{title\_append}{title\_append}}
+{\footnotesize\ttfamily title\+\_\+append}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ab3d350d501d99e7bbe8f68ace7af32c7}\label{namespacetest_motion_distortion_ab3d350d501d99e7bbe8f68ace7af32c7}} 
+\index{testMotionDistortion@{testMotionDistortion}!transform@{transform}}
+\index{transform@{transform}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{transform}{transform}}
+{\footnotesize\ttfamily transform = convert\+Pose\+To\+Transform(\mbox{\hyperlink{namespacetest_motion_distortion_a41000f175dc0115080e2a682cc06dbe9}{params}}\mbox{[}3\+:\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_afae9a38dc58a08daa2011e18a26770f7}\label{namespacetest_motion_distortion_afae9a38dc58a08daa2011e18a26770f7}} 
+\index{testMotionDistortion@{testMotionDistortion}!undistorted@{undistorted}}
+\index{undistorted@{undistorted}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{undistorted}{undistorted}}
+{\footnotesize\ttfamily undistorted = MDS.\+undistort(\mbox{\hyperlink{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}{v\+\_\+j0}})}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_af5a541b70835126d40b66611fae2b02a}\label{namespacetest_motion_distortion_af5a541b70835126d40b66611fae2b02a}} 
+\index{testMotionDistortion@{testMotionDistortion}!useOld@{useOld}}
+\index{useOld@{useOld}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{useOld}{useOld}}
+{\footnotesize\ttfamily bool use\+Old = \mbox{\hyperlink{namespacetest_motion_distortion_a36cde68b055f3f2ee671020af4ccf4e2}{False}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}\label{namespacetest_motion_distortion_ad68b1bf260bf575b3e2c6ede7e8cb890}} 
+\index{testMotionDistortion@{testMotionDistortion}!v\_j0@{v\_j0}}
+\index{v\_j0@{v\_j0}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{v\_j0}{v\_j0}}
+{\footnotesize\ttfamily int v\+\_\+j0 = np.\+array(\mbox{[}\mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}\mbox{[}0,0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}\mbox{[}1,0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_ab69a1473bbefcd69e648eed41f4cf499}{theta\+\_\+fit}} $\ast$ np.\+pi / 180\mbox{]}) / \mbox{\hyperlink{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}{period}}}
+
+\mbox{\Hypertarget{namespacetest_motion_distortion_a8493384c61de1f81ddb7c407d63df2b8}\label{namespacetest_motion_distortion_a8493384c61de1f81ddb7c407d63df2b8}} 
+\index{testMotionDistortion@{testMotionDistortion}!velocity@{velocity}}
+\index{velocity@{velocity}!testMotionDistortion@{testMotionDistortion}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily int velocity = np.\+array(\mbox{[}\mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}}\mbox{[}0, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_a5e36941b3d856737e81516acd45edc50}{h}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_motion_distortion_ad5ed049a2c1601e6f4f9e5d69619c804}{theta\+\_\+deg}}\mbox{]}) / \mbox{\hyperlink{namespacetest_motion_distortion_a486233493fc0e05fe1bdbe7b7e5d0f1e}{period}}}
+

@@ -1,0 +1,145 @@
+\hypertarget{namespaceutils}{}\doxysection{utils Namespace Reference}
+\label{namespaceutils}\index{utils@{utils}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutils_afdc21e7b35e4ca2a96f6314f06d735c6}{tic}} ()
+\item 
+def \mbox{\hyperlink{namespaceutils_a9919d38aa96697a9823f5326d879d1b1}{toc}} (\mbox{\hyperlink{namespaceutils_afdc21e7b35e4ca2a96f6314f06d735c6}{tic}})
+\item 
+def \mbox{\hyperlink{namespaceutils_ac60a7571babb0959cd2674b4ba8714d3}{f\+\_\+arr}} (xs, th\+\_\+deg=False)
+\item 
+def \mbox{\hyperlink{namespaceutils_ac544ae154ff41d402e6ef846d244cf42}{radar\+Img\+Path\+To\+Timestamp}} (radar\+Img\+Path)
+\item 
+def \mbox{\hyperlink{namespaceutils_abad9c76e9f3a3e8fe8fd996dad0f22f3}{normalize\+\_\+angles}} (th)
+\item 
+def \mbox{\hyperlink{namespaceutils_a85e6a7b3ea035409ce59f983ac66a4c0}{get\+Rotation\+Matrix}} (th, degrees=False)
+\item 
+def \mbox{\hyperlink{namespaceutils_a10a2d7ad99b45d90d58ed75eb48fa6ff}{convert\+Pose\+To\+Transform}} (poses)
+\item 
+def \mbox{\hyperlink{namespaceutils_a53b42cbb565a19553cdb198201b1c481}{convert\+Transform\+To\+Pose}} (pose\+\_\+transforms)
+\item 
+def \mbox{\hyperlink{namespaceutils_ad9cc7ea78c5525f4bea20c77c9ae8e55}{flatten}} (x)
+\item 
+def \mbox{\hyperlink{namespaceutils_aa667ba47db3bb680dd31ee4538d0975c}{convert\+Rand\+Hto\+Deltas}} (R, h)
+\item 
+def \mbox{\hyperlink{namespaceutils_ab543a183d6e0e958ad69d6720c124f9d}{quiver}} (poses, c=\textquotesingle{}r\textquotesingle{}, label=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_a37b2b347d8269378f55538a32a8a12c7}{plt\+\_\+full\+\_\+extent}} (ax, pad=0.\+0)
+\item 
+def \mbox{\hyperlink{namespaceutils_aea9c613b426700faba0bb9d28e5cfe71}{plt\+\_\+savefig\+\_\+by\+\_\+axis}} (file\+Path, fig, ax, pad=0.\+0)
+\item 
+def \mbox{\hyperlink{namespaceutils_a2c0af5648f0d4a2e9a215c84a0f0e047}{invert\+\_\+transform}} (T)
+\item 
+def \mbox{\hyperlink{namespaceutils_a0723d0c99279ac18d3dc10070ac0ad12}{homogenize}} (points)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutils_a10a2d7ad99b45d90d58ed75eb48fa6ff}\label{namespaceutils_a10a2d7ad99b45d90d58ed75eb48fa6ff}} 
+\index{utils@{utils}!convertPoseToTransform@{convertPoseToTransform}}
+\index{convertPoseToTransform@{convertPoseToTransform}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{convertPoseToTransform()}{convertPoseToTransform()}}
+{\footnotesize\ttfamily def utils.\+convert\+Pose\+To\+Transform (\begin{DoxyParamCaption}\item[{}]{poses }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@param[in] poses np.ndarray of (3,) or (N x 3)
+@return pose_transforms np.ndarray of (3 x 3) or (N x 3 x 3)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_aa667ba47db3bb680dd31ee4538d0975c}\label{namespaceutils_aa667ba47db3bb680dd31ee4538d0975c}} 
+\index{utils@{utils}!convertRandHtoDeltas@{convertRandHtoDeltas}}
+\index{convertRandHtoDeltas@{convertRandHtoDeltas}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{convertRandHtoDeltas()}{convertRandHtoDeltas()}}
+{\footnotesize\ttfamily def utils.\+convert\+Rand\+Hto\+Deltas (\begin{DoxyParamCaption}\item[{}]{R,  }\item[{}]{h }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_a53b42cbb565a19553cdb198201b1c481}\label{namespaceutils_a53b42cbb565a19553cdb198201b1c481}} 
+\index{utils@{utils}!convertTransformToPose@{convertTransformToPose}}
+\index{convertTransformToPose@{convertTransformToPose}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{convertTransformToPose()}{convertTransformToPose()}}
+{\footnotesize\ttfamily def utils.\+convert\+Transform\+To\+Pose (\begin{DoxyParamCaption}\item[{}]{pose\+\_\+transforms }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@param[in] pose_transforms np.ndarray of (3 x 3) or (N x 3 x 3)
+@return poses np.ndarray of (3,) or (N x 3)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_ac60a7571babb0959cd2674b4ba8714d3}\label{namespaceutils_ac60a7571babb0959cd2674b4ba8714d3}} 
+\index{utils@{utils}!f\_arr@{f\_arr}}
+\index{f\_arr@{f\_arr}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{f\_arr()}{f\_arr()}}
+{\footnotesize\ttfamily def utils.\+f\+\_\+arr (\begin{DoxyParamCaption}\item[{}]{xs,  }\item[{}]{th\+\_\+deg = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_ad9cc7ea78c5525f4bea20c77c9ae8e55}\label{namespaceutils_ad9cc7ea78c5525f4bea20c77c9ae8e55}} 
+\index{utils@{utils}!flatten@{flatten}}
+\index{flatten@{flatten}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{flatten()}{flatten()}}
+{\footnotesize\ttfamily def utils.\+flatten (\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_a85e6a7b3ea035409ce59f983ac66a4c0}\label{namespaceutils_a85e6a7b3ea035409ce59f983ac66a4c0}} 
+\index{utils@{utils}!getRotationMatrix@{getRotationMatrix}}
+\index{getRotationMatrix@{getRotationMatrix}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{getRotationMatrix()}{getRotationMatrix()}}
+{\footnotesize\ttfamily def utils.\+get\+Rotation\+Matrix (\begin{DoxyParamCaption}\item[{}]{th,  }\item[{}]{degrees = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_a0723d0c99279ac18d3dc10070ac0ad12}\label{namespaceutils_a0723d0c99279ac18d3dc10070ac0ad12}} 
+\index{utils@{utils}!homogenize@{homogenize}}
+\index{homogenize@{homogenize}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{homogenize()}{homogenize()}}
+{\footnotesize\ttfamily def utils.\+homogenize (\begin{DoxyParamCaption}\item[{}]{points }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_a2c0af5648f0d4a2e9a215c84a0f0e047}\label{namespaceutils_a2c0af5648f0d4a2e9a215c84a0f0e047}} 
+\index{utils@{utils}!invert\_transform@{invert\_transform}}
+\index{invert\_transform@{invert\_transform}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{invert\_transform()}{invert\_transform()}}
+{\footnotesize\ttfamily def utils.\+invert\+\_\+transform (\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_abad9c76e9f3a3e8fe8fd996dad0f22f3}\label{namespaceutils_abad9c76e9f3a3e8fe8fd996dad0f22f3}} 
+\index{utils@{utils}!normalize\_angles@{normalize\_angles}}
+\index{normalize\_angles@{normalize\_angles}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{normalize\_angles()}{normalize\_angles()}}
+{\footnotesize\ttfamily def utils.\+normalize\+\_\+angles (\begin{DoxyParamCaption}\item[{}]{th }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Normalize an angle to be between -pi and pi
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_a37b2b347d8269378f55538a32a8a12c7}\label{namespaceutils_a37b2b347d8269378f55538a32a8a12c7}} 
+\index{utils@{utils}!plt\_full\_extent@{plt\_full\_extent}}
+\index{plt\_full\_extent@{plt\_full\_extent}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{plt\_full\_extent()}{plt\_full\_extent()}}
+{\footnotesize\ttfamily def utils.\+plt\+\_\+full\+\_\+extent (\begin{DoxyParamCaption}\item[{}]{ax,  }\item[{}]{pad = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get the full extent of a plt axes, including axes labels, tick labels, and titles.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_aea9c613b426700faba0bb9d28e5cfe71}\label{namespaceutils_aea9c613b426700faba0bb9d28e5cfe71}} 
+\index{utils@{utils}!plt\_savefig\_by\_axis@{plt\_savefig\_by\_axis}}
+\index{plt\_savefig\_by\_axis@{plt\_savefig\_by\_axis}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{plt\_savefig\_by\_axis()}{plt\_savefig\_by\_axis()}}
+{\footnotesize\ttfamily def utils.\+plt\+\_\+savefig\+\_\+by\+\_\+axis (\begin{DoxyParamCaption}\item[{}]{file\+Path,  }\item[{}]{fig,  }\item[{}]{ax,  }\item[{}]{pad = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Save a plt figure by extent of its axis (allows us to save subplots)
+@param[in] filePath Path to save figure to
+@param[in] fig Overall figure containing axis
+@param[in] ax Axis to save
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_ab543a183d6e0e958ad69d6720c124f9d}\label{namespaceutils_ab543a183d6e0e958ad69d6720c124f9d}} 
+\index{utils@{utils}!quiver@{quiver}}
+\index{quiver@{quiver}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{quiver()}{quiver()}}
+{\footnotesize\ttfamily def utils.\+quiver (\begin{DoxyParamCaption}\item[{}]{poses,  }\item[{}]{c = {\ttfamily \textquotesingle{}r\textquotesingle{}},  }\item[{}]{label = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_ac544ae154ff41d402e6ef846d244cf42}\label{namespaceutils_ac544ae154ff41d402e6ef846d244cf42}} 
+\index{utils@{utils}!radarImgPathToTimestamp@{radarImgPathToTimestamp}}
+\index{radarImgPathToTimestamp@{radarImgPathToTimestamp}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{radarImgPathToTimestamp()}{radarImgPathToTimestamp()}}
+{\footnotesize\ttfamily def utils.\+radar\+Img\+Path\+To\+Timestamp (\begin{DoxyParamCaption}\item[{}]{radar\+Img\+Path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}eg: radarImgPathToTimestamp('data\\tiny\\radar\\1547131046353776.png') -> 1547131046353776
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_afdc21e7b35e4ca2a96f6314f06d735c6}\label{namespaceutils_afdc21e7b35e4ca2a96f6314f06d735c6}} 
+\index{utils@{utils}!tic@{tic}}
+\index{tic@{tic}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{tic()}{tic()}}
+{\footnotesize\ttfamily def utils.\+tic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_a9919d38aa96697a9823f5326d879d1b1}\label{namespaceutils_a9919d38aa96697a9823f5326d879d1b1}} 
+\index{utils@{utils}!toc@{toc}}
+\index{toc@{toc}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{toc()}{toc()}}
+{\footnotesize\ttfamily def utils.\+toc (\begin{DoxyParamCaption}\item[{}]{tic }\end{DoxyParamCaption})}
+

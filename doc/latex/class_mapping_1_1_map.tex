@@ -1,0 +1,125 @@
+\hypertarget{class_mapping_1_1_map}{}\doxysection{Map Class Reference}
+\label{class_mapping_1_1_map}\index{Map@{Map}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_map_a4badc56bb5b8b58a6014c37755298e21}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{class_mapping_1_1_map_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{class_mapping_1_1_map_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}, list\mbox{[}str\mbox{]} \mbox{\hyperlink{class_mapping_1_1_map_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, dict\mbox{[}str\mbox{]} \mbox{\hyperlink{class_mapping_1_1_map_ac133126788d5db734ec6f70884178ea8}{file\+Paths}})
+\item 
+def \mbox{\hyperlink{class_mapping_1_1_map_a71b2362e9de31ea699a730abaa8f3cd6}{update\+Internal\+Traj}} (self, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}} traj)
+\item 
+bool \mbox{\hyperlink{class_mapping_1_1_map_a10ef9dd0d4ce2784093b0738c27081e4}{is\+Good\+Keyframe}} (self, \mbox{\hyperlink{class_mapping_1_1_keyframe}{Keyframe}} keyframe)
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_map_aab2cc502236200b5db10f3f1279c5f1f}{add\+Keyframe}} (self, \mbox{\hyperlink{class_mapping_1_1_keyframe}{Keyframe}} keyframe)
+\item 
+None \mbox{\hyperlink{class_mapping_1_1_map_a2f4804050397d59933e98f778bbbfef6}{plot}} (self, plt.\+figure fig, int subsample\+Factor=5, bool show=False)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_a8ef2335bbb2c7c07c8e2b35959b03c52}{sequence\+Size}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_ac133126788d5db734ec6f70884178ea8}{file\+Paths}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_a2b1c4b0bf8907122b4696c04f05a72ce}{map\+Points}}
+\item 
+\mbox{\hyperlink{class_mapping_1_1_map_a8ce2f0b893bb0be63c6e98aa3f2a0233}{keyframes}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_map_a4badc56bb5b8b58a6014c37755298e21}\label{class_mapping_1_1_map_a4badc56bb5b8b58a6014c37755298e21}} 
+\index{Map@{Map}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{sequence\+Name,  }\item[{\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}}]{est\+Traj,  }\item[{list\mbox{[}str\mbox{]}}]{img\+Path\+Arr,  }\item[{dict\mbox{[}str\mbox{]}}]{file\+Paths }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_map_aab2cc502236200b5db10f3f1279c5f1f}\label{class_mapping_1_1_map_aab2cc502236200b5db10f3f1279c5f1f}} 
+\index{Map@{Map}!addKeyframe@{addKeyframe}}
+\index{addKeyframe@{addKeyframe}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{addKeyframe()}{addKeyframe()}}
+{\footnotesize\ttfamily  None add\+Keyframe (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{class_mapping_1_1_keyframe}{Keyframe}}}]{keyframe }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Add a keyframe to the running pose graph
+@param[in] keyframe Keyframe to add
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_map_a10ef9dd0d4ce2784093b0738c27081e4}\label{class_mapping_1_1_map_a10ef9dd0d4ce2784093b0738c27081e4}} 
+\index{Map@{Map}!isGoodKeyframe@{isGoodKeyframe}}
+\index{isGoodKeyframe@{isGoodKeyframe}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{isGoodKeyframe()}{isGoodKeyframe()}}
+{\footnotesize\ttfamily  bool is\+Good\+Keyframe (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{class_mapping_1_1_keyframe}{Keyframe}}}]{keyframe }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Check if a keyframe is good for adding using information about relative rotation and translation
+@return If keyframe passes checks
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_map_a2f4804050397d59933e98f778bbbfef6}\label{class_mapping_1_1_map_a2f4804050397d59933e98f778bbbfef6}} 
+\index{Map@{Map}!plot@{plot}}
+\index{plot@{plot}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily  None plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{plt.\+figure}]{fig,  }\item[{int }]{subsample\+Factor = {\ttfamily 5},  }\item[{bool }]{show = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Plot map points on plt figure
+@param[in] fig plt figure to plot on @todo Currently unused
+@param[in] subsampleFactor Subsampling amount to do for feature points plotting
+                           Controls density of plotted points. Higher = less dense
+@param[in] show Whether to plt.show()
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_mapping_1_1_map_a71b2362e9de31ea699a730abaa8f3cd6}\label{class_mapping_1_1_map_a71b2362e9de31ea699a730abaa8f3cd6}} 
+\index{Map@{Map}!updateInternalTraj@{updateInternalTraj}}
+\index{updateInternalTraj@{updateInternalTraj}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{updateInternalTraj()}{updateInternalTraj()}}
+{\footnotesize\ttfamily def update\+Internal\+Traj (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}}]{traj }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_mapping_1_1_map_a8d5e95f4d6054db64fd36facd315f2e6}\label{class_mapping_1_1_map_a8d5e95f4d6054db64fd36facd315f2e6}} 
+\index{Map@{Map}!estTraj@{estTraj}}
+\index{estTraj@{estTraj}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{estTraj}{estTraj}}
+{\footnotesize\ttfamily est\+Traj}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_ac133126788d5db734ec6f70884178ea8}\label{class_mapping_1_1_map_ac133126788d5db734ec6f70884178ea8}} 
+\index{Map@{Map}!filePaths@{filePaths}}
+\index{filePaths@{filePaths}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{filePaths}{filePaths}}
+{\footnotesize\ttfamily file\+Paths}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_a8d579ebe0582eed800eb106350236c4a}\label{class_mapping_1_1_map_a8d579ebe0582eed800eb106350236c4a}} 
+\index{Map@{Map}!imgPathArr@{imgPathArr}}
+\index{imgPathArr@{imgPathArr}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{imgPathArr}{imgPathArr}}
+{\footnotesize\ttfamily img\+Path\+Arr}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_a8ce2f0b893bb0be63c6e98aa3f2a0233}\label{class_mapping_1_1_map_a8ce2f0b893bb0be63c6e98aa3f2a0233}} 
+\index{Map@{Map}!keyframes@{keyframes}}
+\index{keyframes@{keyframes}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{keyframes}{keyframes}}
+{\footnotesize\ttfamily keyframes}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_a2b1c4b0bf8907122b4696c04f05a72ce}\label{class_mapping_1_1_map_a2b1c4b0bf8907122b4696c04f05a72ce}} 
+\index{Map@{Map}!mapPoints@{mapPoints}}
+\index{mapPoints@{mapPoints}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{mapPoints}{mapPoints}}
+{\footnotesize\ttfamily map\+Points}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_ada038ff63190b4fbc01af8dace29ec1f}\label{class_mapping_1_1_map_ada038ff63190b4fbc01af8dace29ec1f}} 
+\index{Map@{Map}!sequenceName@{sequenceName}}
+\index{sequenceName@{sequenceName}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{sequenceName}{sequenceName}}
+{\footnotesize\ttfamily sequence\+Name}
+
+\mbox{\Hypertarget{class_mapping_1_1_map_a8ef2335bbb2c7c07c8e2b35959b03c52}\label{class_mapping_1_1_map_a8ef2335bbb2c7c07c8e2b35959b03c52}} 
+\index{Map@{Map}!sequenceSize@{sequenceSize}}
+\index{sequenceSize@{sequenceSize}!Map@{Map}}
+\doxysubsubsection{\texorpdfstring{sequenceSize}{sequenceSize}}
+{\footnotesize\ttfamily sequence\+Size}
+

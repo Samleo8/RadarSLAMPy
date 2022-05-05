@@ -1,0 +1,27 @@
+A Python reimplementation of odometry and mapping component of Radar\+SLAM by Hong et al. \mbox{[}1,2\mbox{]}.
+
+Final Paper\+: \href{https://github.com/Samleo8/RadarSLAMPy/blob/master/raw-roam.pdf}{\texttt{ {\bfseries{RAW-\/\+ROAM\+: An Open-\/\+Source Implementation of Adverse Weather Radar\+SLAM}}}}\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{Results (\+Odometry)}\label{md__r_e_a_d_m_e_autotoc_md1}
+With Motion Compensation
+
+
+
+Without Motion Compensation\+:
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{Running Code}\label{md__r_e_a_d_m_e_autotoc_md2}
+Requires Python. Tested on Python \texorpdfstring{$>$}{>}= 3.\+9.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip install -\/r requirements.txt}
+\DoxyCodeLine{python3 RawROAMSystem.py <DATASET\_NAME> [START\_FRAME\_IND [END\_FRAME\_IND]]}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{Radar Sequences}\label{md__r_e_a_d_m_e_autotoc_md3}
+Radar sequences can be obtained from \href{https://oxford-robotics-institute.github.io/radar-robotcar-dataset/datasets}{\texttt{ Oxford Radar Robot\+Car Dataset}} and should be placed in the {\ttfamily ./data} folder. The folder organization listed as {\ttfamily full\+\_\+seq\+\_\+1} is an example of how the directory looks like, and is taken from the \href{https://oxford-robotics-institute.github.io/radar-robotcar-dataset/datasets/2019-01-10-11-46-21-radar-oxford-10k}{\texttt{ {\ttfamily 10-\/11-\/46-\/21} sequence}}.\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{Documentation}\label{md__r_e_a_d_m_e_autotoc_md4}
+See the \href{./doc/html/index.html}{\texttt{ docs}}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{Relevant Papers}\label{md__r_e_a_d_m_e_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item \href{https://arxiv.org/abs/2104.05347}{\texttt{ Radar\+SLAM (2021)}}
+\item \href{https://arxiv.org/abs/2005.02198}{\texttt{ Radar\+SLAM (2020)}}
+\item \href{https://ieeexplore.ieee.org/document/9197231}{\texttt{ Pha\+RaO}} 
+\end{DoxyEnumerate}

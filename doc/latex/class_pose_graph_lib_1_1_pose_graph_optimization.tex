@@ -1,0 +1,51 @@
+\hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization}{}\doxysection{Pose\+Graph\+Optimization Class Reference}
+\label{class_pose_graph_lib_1_1_pose_graph_optimization}\index{PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_pose_graph_optimization_ae64f0875afe3067b97ba370b354b9213}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_pose_graph_optimization_af7e7eb351601c9a4569e9bf1566035a5}{optimize}} (self, max\+\_\+iterations=20)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_pose_graph_optimization_a822c2871ea7b5f9131d36e4b7ebd239b}{add\+\_\+vertex}} (self, id, pose, fixed=False)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_pose_graph_optimization_a6a199750c0620c6a47c7b455c27f3625}{add\+\_\+edge}} (self, vertices, measurement, information=np.\+eye(6), robust\+\_\+kernel=None)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_pose_graph_optimization_a8b1e208660dd8873de527e140998d048}{get\+\_\+pose}} (self, id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization_ae64f0875afe3067b97ba370b354b9213}\label{class_pose_graph_lib_1_1_pose_graph_optimization_ae64f0875afe3067b97ba370b354b9213}} 
+\index{PoseGraphOptimization@{PoseGraphOptimization}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization_a6a199750c0620c6a47c7b455c27f3625}\label{class_pose_graph_lib_1_1_pose_graph_optimization_a6a199750c0620c6a47c7b455c27f3625}} 
+\index{PoseGraphOptimization@{PoseGraphOptimization}!add\_edge@{add\_edge}}
+\index{add\_edge@{add\_edge}!PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsubsection{\texorpdfstring{add\_edge()}{add\_edge()}}
+{\footnotesize\ttfamily def add\+\_\+edge (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{vertices,  }\item[{}]{measurement,  }\item[{}]{information = {\ttfamily np.eye(6)},  }\item[{}]{robust\+\_\+kernel = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization_a822c2871ea7b5f9131d36e4b7ebd239b}\label{class_pose_graph_lib_1_1_pose_graph_optimization_a822c2871ea7b5f9131d36e4b7ebd239b}} 
+\index{PoseGraphOptimization@{PoseGraphOptimization}!add\_vertex@{add\_vertex}}
+\index{add\_vertex@{add\_vertex}!PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsubsection{\texorpdfstring{add\_vertex()}{add\_vertex()}}
+{\footnotesize\ttfamily def add\+\_\+vertex (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{id,  }\item[{}]{pose,  }\item[{}]{fixed = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization_a8b1e208660dd8873de527e140998d048}\label{class_pose_graph_lib_1_1_pose_graph_optimization_a8b1e208660dd8873de527e140998d048}} 
+\index{PoseGraphOptimization@{PoseGraphOptimization}!get\_pose@{get\_pose}}
+\index{get\_pose@{get\_pose}!PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsubsection{\texorpdfstring{get\_pose()}{get\_pose()}}
+{\footnotesize\ttfamily def get\+\_\+pose (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{id }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_pose_graph_optimization_af7e7eb351601c9a4569e9bf1566035a5}\label{class_pose_graph_lib_1_1_pose_graph_optimization_af7e7eb351601c9a4569e9bf1566035a5}} 
+\index{PoseGraphOptimization@{PoseGraphOptimization}!optimize@{optimize}}
+\index{optimize@{optimize}!PoseGraphOptimization@{PoseGraphOptimization}}
+\doxysubsubsection{\texorpdfstring{optimize()}{optimize()}}
+{\footnotesize\ttfamily def optimize (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{max\+\_\+iterations = {\ttfamily 20} }\end{DoxyParamCaption})}
+

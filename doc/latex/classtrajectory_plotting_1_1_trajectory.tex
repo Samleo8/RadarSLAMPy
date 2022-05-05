@@ -1,0 +1,116 @@
+\hypertarget{classtrajectory_plotting_1_1_trajectory}{}\doxysection{Trajectory Class Reference}
+\label{classtrajectory_plotting_1_1_trajectory}\index{Trajectory@{Trajectory}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_a71a1a749bd09d5ebf80433b59ec5bf4c}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ada03328a9187736162c7277d89ef159e}{timestamps}}, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ad852f76f56388944f342af3b11bd2c31}{poses}})
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_a7a7a8f886746f69fa22f688534e5eb41}{get\+Ground\+Truth\+Deltas\+At\+Time}} (self, time)
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_a75e78dbec634ef9815d87f0a8fd101a4}{append\+Relative\+Deltas}} (self, time, d\+\_\+xyth)
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_a18b62f49e9be3d5913bfddf1409241a5}{append\+Relative\+Transform}} (self, time, R, h)
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_a08950a5574e6fa031de10f01899414a7}{append\+Absolute\+Transform}} (self, time, pose)
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_af71c2208e017a99508ff89271af73f04}{get\+Pose\+At\+Times}} (self, times)
+\item 
+def \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ab6639608bd1c7a82abfd40ea1f53b904}{plot}} (self, title=\textquotesingle{}My \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}\textquotesingle{}, save\+Path=False)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ada03328a9187736162c7277d89ef159e}{timestamps}}
+\item 
+\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ad852f76f56388944f342af3b11bd2c31}{poses}}
+\item 
+\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory_ae295f4fa8996d01631c561ab3cb77670}{pose\+\_\+transform}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_a71a1a749bd09d5ebf80433b59ec5bf4c}\label{classtrajectory_plotting_1_1_trajectory_a71a1a749bd09d5ebf80433b59ec5bf4c}} 
+\index{Trajectory@{Trajectory}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{timestamps,  }\item[{}]{poses }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@param[in] timestamps np.ndarray of sorted timestamps (N)
+@param[in] pose_matrices np.ndarray of poses (N x 3)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_a08950a5574e6fa031de10f01899414a7}\label{classtrajectory_plotting_1_1_trajectory_a08950a5574e6fa031de10f01899414a7}} 
+\index{Trajectory@{Trajectory}!appendAbsoluteTransform@{appendAbsoluteTransform}}
+\index{appendAbsoluteTransform@{appendAbsoluteTransform}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{appendAbsoluteTransform()}{appendAbsoluteTransform()}}
+{\footnotesize\ttfamily def append\+Absolute\+Transform (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time,  }\item[{}]{pose }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Append a relative transform to the trajectory
+       h should already be scaled by radar resolution
+@param[in] time timestamp of the transform
+@param[in] pose pose vector (3, )
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_a75e78dbec634ef9815d87f0a8fd101a4}\label{classtrajectory_plotting_1_1_trajectory_a75e78dbec634ef9815d87f0a8fd101a4}} 
+\index{Trajectory@{Trajectory}!appendRelativeDeltas@{appendRelativeDeltas}}
+\index{appendRelativeDeltas@{appendRelativeDeltas}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{appendRelativeDeltas()}{appendRelativeDeltas()}}
+{\footnotesize\ttfamily def append\+Relative\+Deltas (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time,  }\item[{}]{d\+\_\+xyth }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_a18b62f49e9be3d5913bfddf1409241a5}\label{classtrajectory_plotting_1_1_trajectory_a18b62f49e9be3d5913bfddf1409241a5}} 
+\index{Trajectory@{Trajectory}!appendRelativeTransform@{appendRelativeTransform}}
+\index{appendRelativeTransform@{appendRelativeTransform}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{appendRelativeTransform()}{appendRelativeTransform()}}
+{\footnotesize\ttfamily def append\+Relative\+Transform (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time,  }\item[{}]{R,  }\item[{}]{h }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Append a relative transform to the trajectory
+       h should already be scaled by radar resolution
+@param[in] time timestamp of the transform
+@param[in] R rotation matrix (2 x 2)
+@param[in] h translation vector (2 x 1)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_a7a7a8f886746f69fa22f688534e5eb41}\label{classtrajectory_plotting_1_1_trajectory_a7a7a8f886746f69fa22f688534e5eb41}} 
+\index{Trajectory@{Trajectory}!getGroundTruthDeltasAtTime@{getGroundTruthDeltasAtTime}}
+\index{getGroundTruthDeltasAtTime@{getGroundTruthDeltasAtTime}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{getGroundTruthDeltasAtTime()}{getGroundTruthDeltasAtTime()}}
+{\footnotesize\ttfamily def get\+Ground\+Truth\+Deltas\+At\+Time (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Given a timestamp, return the ground truth deltas at that time in (dx, dy, dth) list for debugging
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_af71c2208e017a99508ff89271af73f04}\label{classtrajectory_plotting_1_1_trajectory_af71c2208e017a99508ff89271af73f04}} 
+\index{Trajectory@{Trajectory}!getPoseAtTimes@{getPoseAtTimes}}
+\index{getPoseAtTimes@{getPoseAtTimes}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{getPoseAtTimes()}{getPoseAtTimes()}}
+{\footnotesize\ttfamily def get\+Pose\+At\+Times (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{times }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Given timestamps, return the pose at that time using cubic interpolation
+@param[in] times np.ndarray of sorted timestamps
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_ab6639608bd1c7a82abfd40ea1f53b904}\label{classtrajectory_plotting_1_1_trajectory_ab6639608bd1c7a82abfd40ea1f53b904}} 
+\index{Trajectory@{Trajectory}!plot@{plot}}
+\index{plot@{plot}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily def plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{title = {\ttfamily \textquotesingle{}My~\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}\textquotesingle{}},  }\item[{}]{save\+Path = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_ae295f4fa8996d01631c561ab3cb77670}\label{classtrajectory_plotting_1_1_trajectory_ae295f4fa8996d01631c561ab3cb77670}} 
+\index{Trajectory@{Trajectory}!pose\_transform@{pose\_transform}}
+\index{pose\_transform@{pose\_transform}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{pose\_transform}{pose\_transform}}
+{\footnotesize\ttfamily pose\+\_\+transform}
+
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_ad852f76f56388944f342af3b11bd2c31}\label{classtrajectory_plotting_1_1_trajectory_ad852f76f56388944f342af3b11bd2c31}} 
+\index{Trajectory@{Trajectory}!poses@{poses}}
+\index{poses@{poses}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{poses}{poses}}
+{\footnotesize\ttfamily poses}
+
+\mbox{\Hypertarget{classtrajectory_plotting_1_1_trajectory_ada03328a9187736162c7277d89ef159e}\label{classtrajectory_plotting_1_1_trajectory_ada03328a9187736162c7277d89ef159e}} 
+\index{Trajectory@{Trajectory}!timestamps@{timestamps}}
+\index{timestamps@{timestamps}!Trajectory@{Trajectory}}
+\doxysubsubsection{\texorpdfstring{timestamps}{timestamps}}
+{\footnotesize\ttfamily timestamps}
+

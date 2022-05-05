@@ -1,0 +1,250 @@
+\hypertarget{classmotion_distortion_1_1_motion_distortion_solver}{}\doxysection{Motion\+Distortion\+Solver Class Reference}
+\label{classmotion_distortion_1_1_motion_distortion_solver}\index{MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a3f22b34fa12c1f655ed25c4286a467ec}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}}, T\+\_\+wj, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a7ae9c91f3c812a21666616d48fbe3ac8}{sigma\+\_\+p}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e071ef606c97ccac78bde51b78f6edf}{sigma\+\_\+v}}, frequency=\mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}})
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a7f16413ad010eda322f733ea904fdbd3}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a7ae9c91f3c812a21666616d48fbe3ac8}{sigma\+\_\+p}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e071ef606c97ccac78bde51b78f6edf}{sigma\+\_\+v}}, frequency=\mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}})
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a716b0a6bdc489d052e4243c840ed336f}{update\+\_\+problem}} (self, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}}, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}}, T\+\_\+wj, \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0514aabed091ee5e2f35766eb01eced6}{debug}}=False)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a44ec490a2fa6ee1f2b5a971fa270541f}{infer\+\_\+velocity}} (self, transform)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a71b1396a9f04a79e3115d693419ccf45}{expected\+\_\+observed\+\_\+pts}} (self, T\+\_\+wj)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_ab508478fa9741dac7d287ff768cc0788}{error\+\_\+vector}} (self, params)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0354ae991f4cc0144ce33e1fdb469a20}{error}} (self, v\+\_\+j, T\+\_\+wj)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a2d68bc205a33412b11c6dcb28fc17d67}{jacobian\+\_\+vector}} (self, params)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a2fc868177b0b6b3e920e4619aad77171}{jacobian}} (self, v\+\_\+j, T\+\_\+wj)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a771350ea3f844ac8fca4338337419242}{optimize}} (self, max\+\_\+iters=20)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_abac4fa4418ddc34ea1b8a6f28ac42c3d}{optimize\+\_\+library}} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a537d4d68fc42a4376fa5f6b6a961b57a}{compute\+\_\+time\+\_\+deltas}} (period, points)
+\item 
+def \mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a5f3489f6d7167cec6bc6fddf8a1d75bd}{undistort}} (v\+\_\+j, points, period=1/\mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}}, times=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0a395e89714f60150df6675faaa1f6cb}{T\+\_\+wj0}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a071a910fd6194ba61a5d9cf24569b393}{T\+\_\+wj0\+\_\+inv}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e515884ff3ebc059c605589aec689b7}{p\+\_\+w}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_aa9fffd513bf2e2cbfe44da13aa4a69bf}{p\+\_\+jt}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0937342a2f4d12c7784f942bfe386536}{T\+\_\+wj\+\_\+initial}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_ad7beefc4bde186fd252b285986218942}{total\+\_\+scan\+\_\+time}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a9f1d2973eab93bf4884920981c129781}{v\+\_\+j\+\_\+initial}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a7ae9c91f3c812a21666616d48fbe3ac8}{sigma\+\_\+p}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0e071ef606c97ccac78bde51b78f6edf}{sigma\+\_\+v}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a1d4048f86eeeda5fdd5ff70c2667fd8d}{info\+\_\+vector}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_af3c2f70b3a5027fce7c3161665b6b6af}{dT}}
+\item 
+\mbox{\hyperlink{classmotion_distortion_1_1_motion_distortion_solver_a0514aabed091ee5e2f35766eb01eced6}{debug}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a3f22b34fa12c1f655ed25c4286a467ec}\label{classmotion_distortion_1_1_motion_distortion_solver_a3f22b34fa12c1f655ed25c4286a467ec}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{T\+\_\+wj0,  }\item[{}]{p\+\_\+w,  }\item[{}]{p\+\_\+jt,  }\item[{}]{T\+\_\+wj,  }\item[{}]{sigma\+\_\+p,  }\item[{}]{sigma\+\_\+v,  }\item[{}]{frequency = {\ttfamily \mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a7f16413ad010eda322f733ea904fdbd3}\label{classmotion_distortion_1_1_motion_distortion_solver_a7f16413ad010eda322f733ea904fdbd3}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{sigma\+\_\+p,  }\item[{}]{sigma\+\_\+v,  }\item[{}]{frequency = {\ttfamily \mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}}} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a537d4d68fc42a4376fa5f6b6a961b57a}\label{classmotion_distortion_1_1_motion_distortion_solver_a537d4d68fc42a4376fa5f6b6a961b57a}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!compute\_time\_deltas@{compute\_time\_deltas}}
+\index{compute\_time\_deltas@{compute\_time\_deltas}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{compute\_time\_deltas()}{compute\_time\_deltas()}}
+{\footnotesize\ttfamily def compute\+\_\+time\+\_\+deltas (\begin{DoxyParamCaption}\item[{}]{period,  }\item[{}]{points }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}Get the time deltas for each point. This depends solely on where the
+points are in scan angle. The further away from center, the greater the
+time displacement, and therefore the higher time delta. We use this time
+delta to help us transform the points into an undistorted frame. Note 
+that this is an estimate computed from distorted images. It is a good
+idea to re-run this function once an undistorted frame is obtained for
+better estimates.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0354ae991f4cc0144ce33e1fdb469a20}\label{classmotion_distortion_1_1_motion_distortion_solver_a0354ae991f4cc0144ce33e1fdb469a20}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!error@{error}}
+\index{error@{error}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily def error (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{v\+\_\+j,  }\item[{}]{T\+\_\+wj }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return the Cauchy robust error between the undistorted points and their
+estimated observed positions and the velocity error.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_ab508478fa9741dac7d287ff768cc0788}\label{classmotion_distortion_1_1_motion_distortion_solver_ab508478fa9741dac7d287ff768cc0788}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!error\_vector@{error\_vector}}
+\index{error\_vector@{error\_vector}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{error\_vector()}{error\_vector()}}
+{\footnotesize\ttfamily def error\+\_\+vector (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Because we are optimizing over rotations, we choose to keep the rotation
+in a theta form, we have to do matrix exponential in here to convert
+into the SO(1) form, then augment to the rotation-translation transform
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a71b1396a9f04a79e3115d693419ccf45}\label{classmotion_distortion_1_1_motion_distortion_solver_a71b1396a9f04a79e3115d693419ccf45}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!expected\_observed\_pts@{expected\_observed\_pts}}
+\index{expected\_observed\_pts@{expected\_observed\_pts}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{expected\_observed\_pts()}{expected\_observed\_pts()}}
+{\footnotesize\ttfamily def expected\+\_\+observed\+\_\+pts (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{T\+\_\+wj }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns the estimated positions of points based on their world location
+estimates and the current best fit transform
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a44ec490a2fa6ee1f2b5a971fa270541f}\label{classmotion_distortion_1_1_motion_distortion_solver_a44ec490a2fa6ee1f2b5a971fa270541f}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!infer\_velocity@{infer\_velocity}}
+\index{infer\_velocity@{infer\_velocity}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{infer\_velocity()}{infer\_velocity()}}
+{\footnotesize\ttfamily def infer\+\_\+velocity (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{transform }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a2fc868177b0b6b3e920e4619aad77171}\label{classmotion_distortion_1_1_motion_distortion_solver_a2fc868177b0b6b3e920e4619aad77171}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!jacobian@{jacobian}}
+\index{jacobian@{jacobian}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{jacobian()}{jacobian()}}
+{\footnotesize\ttfamily def jacobian (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{v\+\_\+j,  }\item[{}]{T\+\_\+wj }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Compute the Jacobian. This has two parts, as defined by the RadarSLAM
+paper:
+J_p -   gradient of point error and velocity error wrt pose terms Tx,
+        Ty, Ttheta
+J_v -   gradient of point error and velocity error wrt velocity terms
+        vx, vy, vtheta
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a2d68bc205a33412b11c6dcb28fc17d67}\label{classmotion_distortion_1_1_motion_distortion_solver_a2d68bc205a33412b11c6dcb28fc17d67}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!jacobian\_vector@{jacobian\_vector}}
+\index{jacobian\_vector@{jacobian\_vector}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{jacobian\_vector()}{jacobian\_vector()}}
+{\footnotesize\ttfamily def jacobian\+\_\+vector (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a771350ea3f844ac8fca4338337419242}\label{classmotion_distortion_1_1_motion_distortion_solver_a771350ea3f844ac8fca4338337419242}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!optimize@{optimize}}
+\index{optimize@{optimize}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{optimize()}{optimize()}}
+{\footnotesize\ttfamily def optimize (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{max\+\_\+iters = {\ttfamily 20} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_abac4fa4418ddc34ea1b8a6f28ac42c3d}\label{classmotion_distortion_1_1_motion_distortion_solver_abac4fa4418ddc34ea1b8a6f28ac42c3d}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!optimize\_library@{optimize\_library}}
+\index{optimize\_library@{optimize\_library}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{optimize\_library()}{optimize\_library()}}
+{\footnotesize\ttfamily def optimize\+\_\+library (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Optimize using the LM implementation in the scipy library.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a5f3489f6d7167cec6bc6fddf8a1d75bd}\label{classmotion_distortion_1_1_motion_distortion_solver_a5f3489f6d7167cec6bc6fddf8a1d75bd}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!undistort@{undistort}}
+\index{undistort@{undistort}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{undistort()}{undistort()}}
+{\footnotesize\ttfamily def undistort (\begin{DoxyParamCaption}\item[{}]{v\+\_\+j,  }\item[{}]{points,  }\item[{}]{period = {\ttfamily 1~/~\mbox{\hyperlink{namespacemotion_distortion_a9e4a472297e345628c1e8db1788c1f47}{RADAR\+\_\+\+SCAN\+\_\+\+FREQUENCY}}},  }\item[{}]{times = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}Computes a new set of undistorted observed points, based on the current
+best estimate of v_T, T_wj, dT
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a716b0a6bdc489d052e4243c840ed336f}\label{classmotion_distortion_1_1_motion_distortion_solver_a716b0a6bdc489d052e4243c840ed336f}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!update\_problem@{update\_problem}}
+\index{update\_problem@{update\_problem}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{update\_problem()}{update\_problem()}}
+{\footnotesize\ttfamily def update\+\_\+problem (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{T\+\_\+wj0,  }\item[{}]{p\+\_\+w,  }\item[{}]{p\+\_\+jt,  }\item[{}]{T\+\_\+wj,  }\item[{}]{debug = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0514aabed091ee5e2f35766eb01eced6}\label{classmotion_distortion_1_1_motion_distortion_solver_a0514aabed091ee5e2f35766eb01eced6}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!debug@{debug}}
+\index{debug@{debug}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{debug}{debug}}
+{\footnotesize\ttfamily debug}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_af3c2f70b3a5027fce7c3161665b6b6af}\label{classmotion_distortion_1_1_motion_distortion_solver_af3c2f70b3a5027fce7c3161665b6b6af}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!dT@{dT}}
+\index{dT@{dT}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{dT}{dT}}
+{\footnotesize\ttfamily dT}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a1d4048f86eeeda5fdd5ff70c2667fd8d}\label{classmotion_distortion_1_1_motion_distortion_solver_a1d4048f86eeeda5fdd5ff70c2667fd8d}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!info\_vector@{info\_vector}}
+\index{info\_vector@{info\_vector}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{info\_vector}{info\_vector}}
+{\footnotesize\ttfamily info\+\_\+vector}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_aa9fffd513bf2e2cbfe44da13aa4a69bf}\label{classmotion_distortion_1_1_motion_distortion_solver_aa9fffd513bf2e2cbfe44da13aa4a69bf}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!p\_jt@{p\_jt}}
+\index{p\_jt@{p\_jt}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{p\_jt}{p\_jt}}
+{\footnotesize\ttfamily p\+\_\+jt}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0e515884ff3ebc059c605589aec689b7}\label{classmotion_distortion_1_1_motion_distortion_solver_a0e515884ff3ebc059c605589aec689b7}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!p\_w@{p\_w}}
+\index{p\_w@{p\_w}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{p\_w}{p\_w}}
+{\footnotesize\ttfamily p\+\_\+w}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a7ae9c91f3c812a21666616d48fbe3ac8}\label{classmotion_distortion_1_1_motion_distortion_solver_a7ae9c91f3c812a21666616d48fbe3ac8}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!sigma\_p@{sigma\_p}}
+\index{sigma\_p@{sigma\_p}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{sigma\_p}{sigma\_p}}
+{\footnotesize\ttfamily sigma\+\_\+p}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0e071ef606c97ccac78bde51b78f6edf}\label{classmotion_distortion_1_1_motion_distortion_solver_a0e071ef606c97ccac78bde51b78f6edf}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!sigma\_v@{sigma\_v}}
+\index{sigma\_v@{sigma\_v}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{sigma\_v}{sigma\_v}}
+{\footnotesize\ttfamily sigma\+\_\+v}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0a395e89714f60150df6675faaa1f6cb}\label{classmotion_distortion_1_1_motion_distortion_solver_a0a395e89714f60150df6675faaa1f6cb}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!T\_wj0@{T\_wj0}}
+\index{T\_wj0@{T\_wj0}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{T\_wj0}{T\_wj0}}
+{\footnotesize\ttfamily T\+\_\+wj0}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a071a910fd6194ba61a5d9cf24569b393}\label{classmotion_distortion_1_1_motion_distortion_solver_a071a910fd6194ba61a5d9cf24569b393}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!T\_wj0\_inv@{T\_wj0\_inv}}
+\index{T\_wj0\_inv@{T\_wj0\_inv}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{T\_wj0\_inv}{T\_wj0\_inv}}
+{\footnotesize\ttfamily T\+\_\+wj0\+\_\+inv}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a0937342a2f4d12c7784f942bfe386536}\label{classmotion_distortion_1_1_motion_distortion_solver_a0937342a2f4d12c7784f942bfe386536}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!T\_wj\_initial@{T\_wj\_initial}}
+\index{T\_wj\_initial@{T\_wj\_initial}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{T\_wj\_initial}{T\_wj\_initial}}
+{\footnotesize\ttfamily T\+\_\+wj\+\_\+initial}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_ad7beefc4bde186fd252b285986218942}\label{classmotion_distortion_1_1_motion_distortion_solver_ad7beefc4bde186fd252b285986218942}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!total\_scan\_time@{total\_scan\_time}}
+\index{total\_scan\_time@{total\_scan\_time}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{total\_scan\_time}{total\_scan\_time}}
+{\footnotesize\ttfamily total\+\_\+scan\+\_\+time}
+
+\mbox{\Hypertarget{classmotion_distortion_1_1_motion_distortion_solver_a9f1d2973eab93bf4884920981c129781}\label{classmotion_distortion_1_1_motion_distortion_solver_a9f1d2973eab93bf4884920981c129781}} 
+\index{MotionDistortionSolver@{MotionDistortionSolver}!v\_j\_initial@{v\_j\_initial}}
+\index{v\_j\_initial@{v\_j\_initial}!MotionDistortionSolver@{MotionDistortionSolver}}
+\doxysubsubsection{\texorpdfstring{v\_j\_initial}{v\_j\_initial}}
+{\footnotesize\ttfamily v\+\_\+j\+\_\+initial}
+

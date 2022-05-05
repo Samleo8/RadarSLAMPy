@@ -1,0 +1,259 @@
+\hypertarget{namespaceparse_data}{}\doxysection{parse\+Data Namespace Reference}
+\label{namespaceparse_data}\index{parseData@{parseData}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Tuple\mbox{[}np.\+ndarray, float, float, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceparse_data_a9e426a68efc45366f9a6f6783d7660a5}{extract\+Data\+From\+Radar\+Image}} (np.\+ndarray polar\+Img\+Data, float max\+Range\+ClipM=\mbox{\hyperlink{namespaceparse_data_a63cc91387ebc1ec23ea351b8cf4d8c24}{MAX\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+\+DEFAULT}})
+\item 
+def \mbox{\hyperlink{namespaceparse_data_a41a7777dda4396b3ef8ee2fbb10cea2e}{draw\+CVPoint}} (np.\+ndarray img, \mbox{\hyperlink{class_coord_1_1_cart_coord}{Cart\+Coord}} point, Tuple\mbox{[}int, int, int\mbox{]} point\+\_\+color=(0, 0, 255))
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_a553fc4256c8cecae88df08c33914983e}{convert\+Cartesian\+Image\+To\+Polar}} (np.\+ndarray \mbox{\hyperlink{namespaceparse_data_afd970fd9434c5d9f93551cb140a8bf63}{img\+Cart}}, bool log\+Polar\+Mode=False, Tuple\mbox{[}int, int\mbox{]} shape\+HW=None)
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_aa28b753fcba74d91ea125fbc1035c60d}{convert\+Polar\+Image\+To\+Cartesian}} (np.\+ndarray \mbox{\hyperlink{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}{img\+Polar}}, bool log\+Polar\+Mode=False, int downsample\+Factor=\mbox{\hyperlink{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}{DOWNSAMPLE\+\_\+\+FACTOR}}, bool change\+Global\+Range\+Resolution=False)
+\item 
+def \mbox{\hyperlink{namespaceparse_data_a608f255c49e53c775f4095f98b721e88}{convert\+Polar\+Img\+To\+Log\+Polar}} (np.\+ndarray \mbox{\hyperlink{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}{img\+Polar}})
+\item 
+Tuple\mbox{[}np.\+ndarray, float, float, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceparse_data_ac055b87b5e7ae8930fbae66eea74ee5a}{get\+Data\+From\+Img\+Paths\+By\+Index}} (List\mbox{[}str\mbox{]} img\+Path\+Arr, int index)
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_a693d72eb158b3187d467637850c1be17}{get\+Polar\+Image\+From\+Img\+Paths}} (List\mbox{[}str\mbox{]} img\+Path\+Arr, int index)
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_a36e96b28ee694506251cc890843fc71c}{get\+Cart\+Image\+From\+Img\+Paths}} (List\mbox{[}str\mbox{]} img\+Path\+Arr, int index)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{namespaceparse_data_a15cc603507e025614d75be46af8c7236}{get\+Radar\+Img\+Paths}} (str \mbox{\hyperlink{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, str \mbox{\hyperlink{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_ae891ad024b063e91ca7ec43883074676}{get\+Radar\+Stream\+Polar}} (str \mbox{\hyperlink{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, str \mbox{\hyperlink{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{namespaceparse_data_a4839997a207abe23d2e932bf8606065c}{RANGE\+\_\+\+RESOLUTION\+\_\+M}} = 0.\+0432
+\item 
+int \mbox{\hyperlink{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}{DOWNSAMPLE\+\_\+\+FACTOR}} = 2
+\item 
+float \mbox{\hyperlink{namespaceparse_data_a59f0fd548af922cd02e62fb7a73819e8}{RANGE\+\_\+\+RESOLUTION\+\_\+\+CART\+\_\+M}} = \mbox{\hyperlink{namespaceparse_data_a4839997a207abe23d2e932bf8606065c}{RANGE\+\_\+\+RESOLUTION\+\_\+M}} $\ast$ \mbox{\hyperlink{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}{DOWNSAMPLE\+\_\+\+FACTOR}}
+\item 
+float \mbox{\hyperlink{namespaceparse_data_a63cc91387ebc1ec23ea351b8cf4d8c24}{MAX\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+\+DEFAULT}} = 87.\+5
+\item 
+int \mbox{\hyperlink{namespaceparse_data_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_afd7616dc1e1f2275cbaab68388060ecc}{stream\+Arr}} = \mbox{\hyperlink{namespaceparse_data_ae891ad024b063e91ca7ec43883074676}{get\+Radar\+Stream\+Polar}}(\mbox{\hyperlink{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_a5a1c66393231cdb3bd1d18745913faf7}{n\+Imgs}} = stream\+Arr.\+shape\mbox{[}2\mbox{]}
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}{img\+Polar}} = \mbox{\hyperlink{namespaceparse_data_afd7616dc1e1f2275cbaab68388060ecc}{stream\+Arr}}\mbox{[}\+:, \+:, i\mbox{]}
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceparse_data_afd970fd9434c5d9f93551cb140a8bf63}{img\+Cart}} = \mbox{\hyperlink{namespaceparse_data_aa28b753fcba74d91ea125fbc1035c60d}{convert\+Polar\+Image\+To\+Cartesian}}(\mbox{\hyperlink{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}{img\+Polar}})
+\item 
+\mbox{\hyperlink{namespaceparse_data_ae0323a9039add2978bf5b49550572c7c}{c}} = cv2.\+wait\+Key(100)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceparse_data_a553fc4256c8cecae88df08c33914983e}\label{namespaceparse_data_a553fc4256c8cecae88df08c33914983e}} 
+\index{parseData@{parseData}!convertCartesianImageToPolar@{convertCartesianImageToPolar}}
+\index{convertCartesianImageToPolar@{convertCartesianImageToPolar}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{convertCartesianImageToPolar()}{convertCartesianImageToPolar()}}
+{\footnotesize\ttfamily  np.\+ndarray parse\+Data.\+convert\+Cartesian\+Image\+To\+Polar (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{img\+Cart,  }\item[{bool }]{log\+Polar\+Mode = {\ttfamily False},  }\item[{Tuple\mbox{[}int, int\mbox{]} }]{shape\+HW = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Converts Cartesian image to (potentially log) polar
+@param[in] imgPolar Polar image to convert
+@param[in] logPolarMode Whether to convert in log-polar mode
+
+@return imgCart Converted Cartesian image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_aa28b753fcba74d91ea125fbc1035c60d}\label{namespaceparse_data_aa28b753fcba74d91ea125fbc1035c60d}} 
+\index{parseData@{parseData}!convertPolarImageToCartesian@{convertPolarImageToCartesian}}
+\index{convertPolarImageToCartesian@{convertPolarImageToCartesian}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{convertPolarImageToCartesian()}{convertPolarImageToCartesian()}}
+{\footnotesize\ttfamily  np.\+ndarray parse\+Data.\+convert\+Polar\+Image\+To\+Cartesian (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{img\+Polar,  }\item[{bool }]{log\+Polar\+Mode = {\ttfamily False},  }\item[{int }]{downsample\+Factor = {\ttfamily \mbox{\hyperlink{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}{DOWNSAMPLE\+\_\+\+FACTOR}}},  }\item[{bool }]{change\+Global\+Range\+Resolution = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Converts polar image to Cartesian formats
+@param[in] imgPolar Polar image to convert
+@param[in] logPolarMode Whether to convert in log-polar mode
+@param[in] downsampleFactor How much to downsample Cartesian image for performance improvements
+@param[in] changeGlobalRangeResolution Whether or not to change the
+                                       global range resolution needed
+                                       for accurate px to m conversions
+
+@return imgCart Converted Cartesian image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_a608f255c49e53c775f4095f98b721e88}\label{namespaceparse_data_a608f255c49e53c775f4095f98b721e88}} 
+\index{parseData@{parseData}!convertPolarImgToLogPolar@{convertPolarImgToLogPolar}}
+\index{convertPolarImgToLogPolar@{convertPolarImgToLogPolar}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{convertPolarImgToLogPolar()}{convertPolarImgToLogPolar()}}
+{\footnotesize\ttfamily def parse\+Data.\+convert\+Polar\+Img\+To\+Log\+Polar (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{img\+Polar }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Convert an image in polar form into log-polar form
+@note Involves converting from polar to Cartesian to back again
+@see convertPolarImageToCartesian(), convertCartesianImageToPolar()\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_a41a7777dda4396b3ef8ee2fbb10cea2e}\label{namespaceparse_data_a41a7777dda4396b3ef8ee2fbb10cea2e}} 
+\index{parseData@{parseData}!drawCVPoint@{drawCVPoint}}
+\index{drawCVPoint@{drawCVPoint}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{drawCVPoint()}{drawCVPoint()}}
+{\footnotesize\ttfamily def parse\+Data.\+draw\+CVPoint (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{img,  }\item[{\mbox{\hyperlink{class_coord_1_1_cart_coord}{Cart\+Coord}}}]{point,  }\item[{Tuple\mbox{[}int, int, int\mbox{]} }]{point\+\_\+color = {\ttfamily (0,~0,~255)} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceparse_data_a9e426a68efc45366f9a6f6783d7660a5}\label{namespaceparse_data_a9e426a68efc45366f9a6f6783d7660a5}} 
+\index{parseData@{parseData}!extractDataFromRadarImage@{extractDataFromRadarImage}}
+\index{extractDataFromRadarImage@{extractDataFromRadarImage}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{extractDataFromRadarImage()}{extractDataFromRadarImage()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}np.\+ndarray, float, float, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} parse\+Data.\+extract\+Data\+From\+Radar\+Image (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{polar\+Img\+Data,  }\item[{float }]{max\+Range\+ClipM = {\ttfamily \mbox{\hyperlink{namespaceparse_data_a63cc91387ebc1ec23ea351b8cf4d8c24}{MAX\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+\+DEFAULT}}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Decode a single Oxford Radar RobotCar Dataset radar example
+@param[in] polarImgData cv image
+@param[in] maxRangeClipM Max range to clip data, in meters. Negative number for no clip
+@return
+    range_azimuth_data (np.ndarray): Radar power readings along each azimuth
+    range_resolution (float): Range resolution of the polar radar data (metres per pixel)
+    azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
+    azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
+    valid (np.ndarray) Mask of whether azimuth data is an original sensor reading or interpolated from adjacent
+        azimuths
+    timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_a36e96b28ee694506251cc890843fc71c}\label{namespaceparse_data_a36e96b28ee694506251cc890843fc71c}} 
+\index{parseData@{parseData}!getCartImageFromImgPaths@{getCartImageFromImgPaths}}
+\index{getCartImageFromImgPaths@{getCartImageFromImgPaths}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{getCartImageFromImgPaths()}{getCartImageFromImgPaths()}}
+{\footnotesize\ttfamily  np.\+ndarray parse\+Data.\+get\+Cart\+Image\+From\+Img\+Paths (\begin{DoxyParamCaption}\item[{List\mbox{[}str\mbox{]}}]{img\+Path\+Arr,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get polar image from image path array, indexing accordingly
+@param[in] imgPathArr List of image path as strings
+@param[in] index Index to index into
+
+@return imgCart Cartesian image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_ac055b87b5e7ae8930fbae66eea74ee5a}\label{namespaceparse_data_ac055b87b5e7ae8930fbae66eea74ee5a}} 
+\index{parseData@{parseData}!getDataFromImgPathsByIndex@{getDataFromImgPathsByIndex}}
+\index{getDataFromImgPathsByIndex@{getDataFromImgPathsByIndex}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{getDataFromImgPathsByIndex()}{getDataFromImgPathsByIndex()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}np.\+ndarray, float, float, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} parse\+Data.\+get\+Data\+From\+Img\+Paths\+By\+Index (\begin{DoxyParamCaption}\item[{List\mbox{[}str\mbox{]}}]{img\+Path\+Arr,  }\item[{int }]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get information from image path array, indexing accordingly
+@param[in] imgPathArr List of image path as strings
+@param[in] index Index to index into
+
+@return
+    imgPolar (np.ndarray): Radar power readings along each azimuth
+    azimuth_resolution (float): Azimuth resolution of the polar radar data (radians per pixel)
+    range_resolution (float): Range resolution of the polar radar data (metres per pixel)
+    azimuths (np.ndarray): Rotation for each polar radar azimuth (radians)
+    valid (np.ndarray) Mask of whether azimuth data is an original sensor reading or interpolated from adjacent
+        azimuths
+    timestamps (np.ndarray): Timestamp for each azimuth in int64 (UNIX time)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_a693d72eb158b3187d467637850c1be17}\label{namespaceparse_data_a693d72eb158b3187d467637850c1be17}} 
+\index{parseData@{parseData}!getPolarImageFromImgPaths@{getPolarImageFromImgPaths}}
+\index{getPolarImageFromImgPaths@{getPolarImageFromImgPaths}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{getPolarImageFromImgPaths()}{getPolarImageFromImgPaths()}}
+{\footnotesize\ttfamily  np.\+ndarray parse\+Data.\+get\+Polar\+Image\+From\+Img\+Paths (\begin{DoxyParamCaption}\item[{List\mbox{[}str\mbox{]}}]{img\+Path\+Arr,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get polar image from image path array, indexing accordingly
+@param[in] imgPathArr List of image path as strings
+@param[in] index Index to index into
+
+@return imgPolar Polar image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_a15cc603507e025614d75be46af8c7236}\label{namespaceparse_data_a15cc603507e025614d75be46af8c7236}} 
+\index{parseData@{parseData}!getRadarImgPaths@{getRadarImgPaths}}
+\index{getRadarImgPaths@{getRadarImgPaths}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{getRadarImgPaths()}{getRadarImgPaths()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} parse\+Data.\+get\+Radar\+Img\+Paths (\begin{DoxyParamCaption}\item[{str}]{data\+Path,  }\item[{str}]{timestamp\+Path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Obtain list of radar image paths
+
+@param[in] dataPath Path to radar image data
+@param[in] timestampPath Path to radar timestamp data
+
+@return list of strings containing paths to radar image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceparse_data_ae891ad024b063e91ca7ec43883074676}\label{namespaceparse_data_ae891ad024b063e91ca7ec43883074676}} 
+\index{parseData@{parseData}!getRadarStreamPolar@{getRadarStreamPolar}}
+\index{getRadarStreamPolar@{getRadarStreamPolar}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{getRadarStreamPolar()}{getRadarStreamPolar()}}
+{\footnotesize\ttfamily  np.\+ndarray parse\+Data.\+get\+Radar\+Stream\+Polar (\begin{DoxyParamCaption}\item[{str}]{data\+Path,  }\item[{str}]{timestamp\+Path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Returns np array of radar images in POLAR format
+@param[in] dataPath Path to radar image data
+@param[in] timestampPath Path to radar timestamp data
+
+@return radar range-azimuth image (W x H x N)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceparse_data_ae0323a9039add2978bf5b49550572c7c}\label{namespaceparse_data_ae0323a9039add2978bf5b49550572c7c}} 
+\index{parseData@{parseData}!c@{c}}
+\index{c@{c}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily c = cv2.\+wait\+Key(100)}
+
+\mbox{\Hypertarget{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}\label{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}} 
+\index{parseData@{parseData}!dataPath@{dataPath}}
+\index{dataPath@{dataPath}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{dataPath}{dataPath}}
+{\footnotesize\ttfamily data\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})}
+
+\mbox{\Hypertarget{namespaceparse_data_a0d700e6dfa2a9f624cd51f991a793585}\label{namespaceparse_data_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{parseData@{parseData}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}\label{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}} 
+\index{parseData@{parseData}!DOWNSAMPLE\_FACTOR@{DOWNSAMPLE\_FACTOR}}
+\index{DOWNSAMPLE\_FACTOR@{DOWNSAMPLE\_FACTOR}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{DOWNSAMPLE\_FACTOR}{DOWNSAMPLE\_FACTOR}}
+{\footnotesize\ttfamily int DOWNSAMPLE\+\_\+\+FACTOR = 2}
+
+\mbox{\Hypertarget{namespaceparse_data_afd970fd9434c5d9f93551cb140a8bf63}\label{namespaceparse_data_afd970fd9434c5d9f93551cb140a8bf63}} 
+\index{parseData@{parseData}!imgCart@{imgCart}}
+\index{imgCart@{imgCart}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{imgCart}{imgCart}}
+{\footnotesize\ttfamily np.\+ndarray img\+Cart = \mbox{\hyperlink{namespaceparse_data_aa28b753fcba74d91ea125fbc1035c60d}{convert\+Polar\+Image\+To\+Cartesian}}(\mbox{\hyperlink{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}{img\+Polar}})}
+
+\mbox{\Hypertarget{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}\label{namespaceparse_data_ab5b20adc8fe382f5829e2c07334689c0}} 
+\index{parseData@{parseData}!imgPolar@{imgPolar}}
+\index{imgPolar@{imgPolar}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{imgPolar}{imgPolar}}
+{\footnotesize\ttfamily np.\+ndarray img\+Polar = \mbox{\hyperlink{namespaceparse_data_afd7616dc1e1f2275cbaab68388060ecc}{stream\+Arr}}\mbox{[}\+:, \+:, i\mbox{]}}
+
+\mbox{\Hypertarget{namespaceparse_data_a63cc91387ebc1ec23ea351b8cf4d8c24}\label{namespaceparse_data_a63cc91387ebc1ec23ea351b8cf4d8c24}} 
+\index{parseData@{parseData}!MAX\_RANGE\_CLIP\_DEFAULT@{MAX\_RANGE\_CLIP\_DEFAULT}}
+\index{MAX\_RANGE\_CLIP\_DEFAULT@{MAX\_RANGE\_CLIP\_DEFAULT}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{MAX\_RANGE\_CLIP\_DEFAULT}{MAX\_RANGE\_CLIP\_DEFAULT}}
+{\footnotesize\ttfamily float MAX\+\_\+\+RANGE\+\_\+\+CLIP\+\_\+\+DEFAULT = 87.\+5}
+
+\mbox{\Hypertarget{namespaceparse_data_a5a1c66393231cdb3bd1d18745913faf7}\label{namespaceparse_data_a5a1c66393231cdb3bd1d18745913faf7}} 
+\index{parseData@{parseData}!nImgs@{nImgs}}
+\index{nImgs@{nImgs}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{nImgs}{nImgs}}
+{\footnotesize\ttfamily np.\+ndarray n\+Imgs = stream\+Arr.\+shape\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{namespaceparse_data_a59f0fd548af922cd02e62fb7a73819e8}\label{namespaceparse_data_a59f0fd548af922cd02e62fb7a73819e8}} 
+\index{parseData@{parseData}!RANGE\_RESOLUTION\_CART\_M@{RANGE\_RESOLUTION\_CART\_M}}
+\index{RANGE\_RESOLUTION\_CART\_M@{RANGE\_RESOLUTION\_CART\_M}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{RANGE\_RESOLUTION\_CART\_M}{RANGE\_RESOLUTION\_CART\_M}}
+{\footnotesize\ttfamily float RANGE\+\_\+\+RESOLUTION\+\_\+\+CART\+\_\+M = \mbox{\hyperlink{namespaceparse_data_a4839997a207abe23d2e932bf8606065c}{RANGE\+\_\+\+RESOLUTION\+\_\+M}} $\ast$ \mbox{\hyperlink{namespaceparse_data_a574381b982eec58cb6b83b809bf23c5f}{DOWNSAMPLE\+\_\+\+FACTOR}}}
+
+\mbox{\Hypertarget{namespaceparse_data_a4839997a207abe23d2e932bf8606065c}\label{namespaceparse_data_a4839997a207abe23d2e932bf8606065c}} 
+\index{parseData@{parseData}!RANGE\_RESOLUTION\_M@{RANGE\_RESOLUTION\_M}}
+\index{RANGE\_RESOLUTION\_M@{RANGE\_RESOLUTION\_M}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{RANGE\_RESOLUTION\_M}{RANGE\_RESOLUTION\_M}}
+{\footnotesize\ttfamily float RANGE\+\_\+\+RESOLUTION\+\_\+M = 0.\+0432}
+
+\mbox{\Hypertarget{namespaceparse_data_afd7616dc1e1f2275cbaab68388060ecc}\label{namespaceparse_data_afd7616dc1e1f2275cbaab68388060ecc}} 
+\index{parseData@{parseData}!streamArr@{streamArr}}
+\index{streamArr@{streamArr}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{streamArr}{streamArr}}
+{\footnotesize\ttfamily np.\+ndarray stream\+Arr = \mbox{\hyperlink{namespaceparse_data_ae891ad024b063e91ca7ec43883074676}{get\+Radar\+Stream\+Polar}}(\mbox{\hyperlink{namespaceparse_data_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})}
+
+\mbox{\Hypertarget{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}\label{namespaceparse_data_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{parseData@{parseData}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!parseData@{parseData}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+

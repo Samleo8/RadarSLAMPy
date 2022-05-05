@@ -1,0 +1,111 @@
+\hypertarget{namespace_raw_r_o_a_m_system}{}\doxysection{Raw\+ROAMSystem Namespace Reference}
+\label{namespace_raw_r_o_a_m_system}\index{RawROAMSystem@{RawROAMSystem}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system}{Raw\+ROAMSystem}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_raw_r_o_a_m_system_a9d912e1ca0fa7da394e152167652474f}{RADAR\+\_\+\+CART\+\_\+\+CENTER}} = np.\+array(\mbox{[}1012, 1012\mbox{]})
+\item 
+int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_a3a8a505694cddaa9655fa95d969ad7d5}{want\+To\+Plot}} = -\/1
+\item 
+int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}{start\+Seq\+Ind}} = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0
+\item 
+int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_a58496a66cbc7a6dfb37042c7e7731cdf}{end\+Seq\+Ind}} = int(sys.\+argv\mbox{[}3\mbox{]}) if len(sys.\+argv) $>$ 3 else -\/1
+\item 
+int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_abc00d48bd1d419b17ec367d6d5becaef}{REMOVE\+\_\+\+OLD\+\_\+\+RESULTS}} = bool(int(sys.\+argv\mbox{[}4\mbox{]})) if len(sys.\+argv) $>$ 4 else False
+\item 
+dictionary \mbox{\hyperlink{namespace_raw_r_o_a_m_system_ade0809af2b538933a9e6736a3675a088}{param\+Flags}}
+\item 
+\mbox{\hyperlink{namespace_raw_r_o_a_m_system_ac4ca86dead4518ac4fd6e30172db3d9e}{system}}
+\item 
+\mbox{\hyperlink{namespace_raw_r_o_a_m_system_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}} = system.\+file\+Paths\mbox{[}\char`\"{}img\+Save\char`\"{}\mbox{]}
+\item 
+\mbox{\hyperlink{namespace_raw_r_o_a_m_system_a4575c573acd9741770c3a97dac5062ba}{traj\+Save\+Path}} = system.\+file\+Paths\mbox{[}\char`\"{}traj\+Save\char`\"{}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a0d700e6dfa2a9f624cd51f991a793585}\label{namespace_raw_r_o_a_m_system_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{RawROAMSystem@{RawROAMSystem}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a58496a66cbc7a6dfb37042c7e7731cdf}\label{namespace_raw_r_o_a_m_system_a58496a66cbc7a6dfb37042c7e7731cdf}} 
+\index{RawROAMSystem@{RawROAMSystem}!endSeqInd@{endSeqInd}}
+\index{endSeqInd@{endSeqInd}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{endSeqInd}{endSeqInd}}
+{\footnotesize\ttfamily int end\+Seq\+Ind = int(sys.\+argv\mbox{[}3\mbox{]}) if len(sys.\+argv) $>$ 3 else -\/1}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a3ab4a737af4a26ba845d42353015fa10}\label{namespace_raw_r_o_a_m_system_a3ab4a737af4a26ba845d42353015fa10}} 
+\index{RawROAMSystem@{RawROAMSystem}!imgSavePath@{imgSavePath}}
+\index{imgSavePath@{imgSavePath}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{imgSavePath}{imgSavePath}}
+{\footnotesize\ttfamily img\+Save\+Path = system.\+file\+Paths\mbox{[}\char`\"{}img\+Save\char`\"{}\mbox{]}}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_ade0809af2b538933a9e6736a3675a088}\label{namespace_raw_r_o_a_m_system_ade0809af2b538933a9e6736a3675a088}} 
+\index{RawROAMSystem@{RawROAMSystem}!paramFlags@{paramFlags}}
+\index{paramFlags@{paramFlags}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{paramFlags}{paramFlags}}
+{\footnotesize\ttfamily dictionary param\+Flags}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  \{}
+\DoxyCodeLine{2         \textcolor{stringliteral}{"{}rejectOutliers"{}}: \textcolor{keyword}{True},}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"{}useFMT"{}}: \textcolor{keyword}{False},}
+\DoxyCodeLine{4         \textcolor{comment}{\# Below all currently unused actually}}
+\DoxyCodeLine{5         \textcolor{stringliteral}{"{}useANMS"{}}: \textcolor{keyword}{False},}
+\DoxyCodeLine{6         \textcolor{stringliteral}{"{}correctMotionDistortion"{}}: \textcolor{keyword}{False}}
+\DoxyCodeLine{7     \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a9d912e1ca0fa7da394e152167652474f}\label{namespace_raw_r_o_a_m_system_a9d912e1ca0fa7da394e152167652474f}} 
+\index{RawROAMSystem@{RawROAMSystem}!RADAR\_CART\_CENTER@{RADAR\_CART\_CENTER}}
+\index{RADAR\_CART\_CENTER@{RADAR\_CART\_CENTER}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{RADAR\_CART\_CENTER}{RADAR\_CART\_CENTER}}
+{\footnotesize\ttfamily RADAR\+\_\+\+CART\+\_\+\+CENTER = np.\+array(\mbox{[}1012, 1012\mbox{]})}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_abc00d48bd1d419b17ec367d6d5becaef}\label{namespace_raw_r_o_a_m_system_abc00d48bd1d419b17ec367d6d5becaef}} 
+\index{RawROAMSystem@{RawROAMSystem}!REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}}
+\index{REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{REMOVE\_OLD\_RESULTS}{REMOVE\_OLD\_RESULTS}}
+{\footnotesize\ttfamily int REMOVE\+\_\+\+OLD\+\_\+\+RESULTS = bool(int(sys.\+argv\mbox{[}4\mbox{]})) if len(sys.\+argv) $>$ 4 else False}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}\label{namespace_raw_r_o_a_m_system_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}} 
+\index{RawROAMSystem@{RawROAMSystem}!startSeqInd@{startSeqInd}}
+\index{startSeqInd@{startSeqInd}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{startSeqInd}{startSeqInd}}
+{\footnotesize\ttfamily int start\+Seq\+Ind = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_ac4ca86dead4518ac4fd6e30172db3d9e}\label{namespace_raw_r_o_a_m_system_ac4ca86dead4518ac4fd6e30172db3d9e}} 
+\index{RawROAMSystem@{RawROAMSystem}!system@{system}}
+\index{system@{system}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{system}{system}}
+{\footnotesize\ttfamily system}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  \mbox{\hyperlink{namespace_raw_r_o_a_m_system}{RawROAMSystem}}(datasetName,}
+\DoxyCodeLine{2                            paramFlags=paramFlags,}
+\DoxyCodeLine{3                            hasGroundTruth=\textcolor{keyword}{True})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a4575c573acd9741770c3a97dac5062ba}\label{namespace_raw_r_o_a_m_system_a4575c573acd9741770c3a97dac5062ba}} 
+\index{RawROAMSystem@{RawROAMSystem}!trajSavePath@{trajSavePath}}
+\index{trajSavePath@{trajSavePath}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{trajSavePath}{trajSavePath}}
+{\footnotesize\ttfamily traj\+Save\+Path = system.\+file\+Paths\mbox{[}\char`\"{}traj\+Save\char`\"{}\mbox{]}}
+
+\mbox{\Hypertarget{namespace_raw_r_o_a_m_system_a3a8a505694cddaa9655fa95d969ad7d5}\label{namespace_raw_r_o_a_m_system_a3a8a505694cddaa9655fa95d969ad7d5}} 
+\index{RawROAMSystem@{RawROAMSystem}!wantToPlot@{wantToPlot}}
+\index{wantToPlot@{wantToPlot}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{wantToPlot}{wantToPlot}}
+{\footnotesize\ttfamily int want\+To\+Plot = -\/1}
+

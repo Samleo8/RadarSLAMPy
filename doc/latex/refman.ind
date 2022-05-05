@@ -1,0 +1,1233 @@
+\begin{theindex}
+
+  \item {\_\_init\_\_}
+    \subitem {BundleAdjustment}, \hyperpage{67}
+    \subitem {CartCoord}, \hyperpage{69}
+    \subitem {Keyframe}, \hyperpage{72}
+    \subitem {Map}, \hyperpage{75}
+    \subitem {MotionDistortionSolver}, \hyperpage{78}
+    \subitem {PolarCoord}, \hyperpage{83}
+    \subitem {PoseGraphOptimization}, \hyperpage{85}
+    \subitem {RawROAMSystem}, \hyperpage{87}
+    \subitem {Tracker}, \hyperpage{91}
+    \subitem {Trajectory}, \hyperpage{94}
+  \item {\_\_str\_\_}
+    \subitem {CartCoord}, \hyperpage{69}
+    \subitem {PolarCoord}, \hyperpage{84}
+
+  \indexspace
+
+  \item {A}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {A\_inv}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {adaptiveNMS}
+    \subitem {getFeatures}, \hyperpage{19}
+  \item {add}
+    \subitem {CartCoord}, \hyperpage{70}
+  \item {add\_edge}
+    \subitem {BundleAdjustment}, \hyperpage{67}
+    \subitem {PoseGraphOptimization}, \hyperpage{85}
+  \item {add\_point}
+    \subitem {BundleAdjustment}, \hyperpage{67}
+  \item {add\_pose}
+    \subitem {BundleAdjustment}, \hyperpage{68}
+  \item {add\_vertex}
+    \subitem {PoseGraphOptimization}, \hyperpage{85}
+  \item {addCoord}
+    \subitem {CartCoord}, \hyperpage{70}
+  \item {addKeyframe}
+    \subitem {Map}, \hyperpage{76}
+  \item {addNoise}
+    \subitem {genFakeData}, \hyperpage{15}
+  \item {alpha}
+    \subitem {getTransformKLT}, \hyperpage{30}
+    \subitem {outlierRejection}, \hyperpage{39}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {ANMS}, \hyperpage{9}
+    \subitem {ssc}, \hyperpage{9}
+  \item {appendAbsoluteTransform}
+    \subitem {Trajectory}, \hyperpage{94}
+  \item {appendNewFeatures}
+    \subitem {getFeatures}, \hyperpage{19}
+  \item {appendRelativeDeltas}
+    \subitem {Trajectory}, \hyperpage{94}
+  \item {appendRelativeTransform}
+    \subitem {Trajectory}, \hyperpage{95}
+  \item {asTuple}
+    \subitem {CartCoord}, \hyperpage{70}
+    \subitem {PolarCoord}, \hyperpage{84}
+
+  \indexspace
+
+  \item {bad\_new}
+    \subitem {getTransformKLT}, \hyperpage{30}
+  \item {bad\_old}
+    \subitem {getTransformKLT}, \hyperpage{30}
+  \item {blobCoord}
+    \subitem {getTransformKLT}, \hyperpage{30}
+  \item {blobIndices}
+    \subitem {getFeatures}, \hyperpage{20}
+  \item {blobSigma}
+    \subitem {getFeatures}, \hyperpage{20}
+  \item {blobX}
+    \subitem {getFeatures}, \hyperpage{20}
+  \item {blobY}
+    \subitem {getFeatures}, \hyperpage{20}
+  \item {block}
+    \subitem {trajectoryPlotting}, \hyperpage{60}
+  \item {BundleAdjustment}, \hyperpage{67}
+    \subitem {\_\_init\_\_}, \hyperpage{67}
+    \subitem {add\_edge}, \hyperpage{67}
+    \subitem {add\_point}, \hyperpage{67}
+    \subitem {add\_pose}, \hyperpage{68}
+    \subitem {get\_point}, \hyperpage{68}
+    \subitem {get\_pose}, \hyperpage{68}
+    \subitem {optimize}, \hyperpage{68}
+
+  \indexspace
+
+  \item {c}
+    \subitem {getPointCloud}, \hyperpage{24}
+    \subitem {parseData}, \hyperpage{45}
+  \item {calculateFeatureLossThreshold}
+    \subitem {getFeatures}, \hyperpage{19}
+  \item {calculateTransform}
+    \subitem {getTransformKLT}, \hyperpage{27}
+  \item {calculateTransformDth}
+    \subitem {getTransformKLT}, \hyperpage{28}
+  \item {calculateTransformDxDth}
+    \subitem {getTransformKLT}, \hyperpage{28}
+  \item {calculateTransformSVD}
+    \subitem {getTransformKLT}, \hyperpage{28}
+  \item {CartCoord}, \hyperpage{69}
+    \subitem {\_\_init\_\_}, \hyperpage{69}
+    \subitem {\_\_str\_\_}, \hyperpage{69}
+    \subitem {add}, \hyperpage{70}
+    \subitem {addCoord}, \hyperpage{70}
+    \subitem {asTuple}, \hyperpage{70}
+    \subitem {getAngle}, \hyperpage{70}
+    \subitem {getDistance}, \hyperpage{70}
+    \subitem {getX}, \hyperpage{70}
+    \subitem {getY}, \hyperpage{71}
+    \subitem {scale}, \hyperpage{71}
+    \subitem {scaleX}, \hyperpage{71}
+    \subitem {scaleY}, \hyperpage{71}
+    \subitem {sub}, \hyperpage{71}
+    \subitem {x}, \hyperpage{71}
+    \subitem {y}, \hyperpage{72}
+  \item {clear}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {color}
+    \subitem {getFeatures}, \hyperpage{20}
+  \item {compute\_time\_deltas}
+    \subitem {MotionDistortionSolver}, \hyperpage{79}
+  \item {computePosesRMSE}
+    \subitem {trajectoryPlotting}, \hyperpage{59}
+  \item {convertCartesianImageToPolar}
+    \subitem {parseData}, \hyperpage{42}
+  \item {convertFeaturesLocalToGlobal}
+    \subitem {Keyframe}, \hyperpage{73}
+  \item {convertPolarImageToCartesian}
+    \subitem {parseData}, \hyperpage{42}
+  \item {convertPolarImgToLogPolar}
+    \subitem {parseData}, \hyperpage{43}
+  \item {convertPolarPointsToCartesian}
+    \subitem {genFakeData}, \hyperpage{15}
+  \item {convertPoseToTransform}
+    \subitem {utils}, \hyperpage{62}
+  \item {convertRandHtoDeltas}
+    \subitem {utils}, \hyperpage{62}
+  \item {convertTransformToPose}
+    \subitem {utils}, \hyperpage{62}
+  \item {Coord}, \hyperpage{9}
+  \item {coord}
+    \subitem {getFeatures}, \hyperpage{21}
+  \item {copyFromOtherKeyframe}
+    \subitem {Keyframe}, \hyperpage{73}
+  \item {corrStatus}
+    \subitem {getTransformKLT}, \hyperpage{30}
+  \item {cov\_p}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+  \item {cov\_v}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+  \item {createOutliers}
+    \subitem {genFakeData}, \hyperpage{15}
+  \item {currentFrame}
+    \subitem {testMotionDistortion}, \hyperpage{50}
+  \item {currImg}
+    \subitem {getTransformKLT}, \hyperpage{30}
+  \item {currImgCart}
+    \subitem {FMT}, \hyperpage{12}
+  \item {currImgPolar}
+    \subitem {FMT}, \hyperpage{12}
+  \item {currTimestamp}
+    \subitem {getTransformKLT}, \hyperpage{30}
+
+  \indexspace
+
+  \item {dataPath}
+    \subitem {FMT}, \hyperpage{12}
+    \subitem {getFeatures}, \hyperpage{21}
+    \subitem {getPointCloud}, \hyperpage{24}
+    \subitem {getTransformKLT}, \hyperpage{30}
+    \subitem {parseData}, \hyperpage{45}
+  \item {datasetName}
+    \subitem {getFeatures}, \hyperpage{21}
+    \subitem {getPointCloud}, \hyperpage{24}
+    \subitem {getTransformKLT}, \hyperpage{31}
+    \subitem {parseData}, \hyperpage{45}
+    \subitem {RawROAMSystem}, \hyperpage{47}
+    \subitem {trajectoryPlotting}, \hyperpage{60}
+  \item {debug}
+    \subitem {MotionDistortionSolver}, \hyperpage{81}
+  \item {DEFAULT\_FEATURE\_PARAMS}
+    \subitem {getFeatures}, \hyperpage{21}
+  \item {DIST\_THRESHOLD\_M}
+    \subitem {outlierRejection}, \hyperpage{39}
+  \item {DIST\_THRESHOLD\_PX}
+    \subitem {outlierRejection}, \hyperpage{39}
+  \item {distort}
+    \subitem {genFakeData}, \hyperpage{16}
+  \item {distorted}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+  \item {DISTSQ\_THRESHOLD\_PX}
+    \subitem {outlierRejection}, \hyperpage{39}
+  \item {DOWNSAMPLE\_FACTOR}
+    \subitem {parseData}, \hyperpage{45}
+  \item {drawCVPoint}
+    \subitem {parseData}, \hyperpage{43}
+  \item {dT}
+    \subitem {MotionDistortionSolver}, \hyperpage{81}
+  \item {dth}
+    \subitem {getTransformKLT}, \hyperpage{31}
+  \item {dx}
+    \subitem {getTransformKLT}, \hyperpage{31}
+
+  \indexspace
+
+  \item {end}
+    \subitem {getFeatures}, \hyperpage{21}
+  \item {endSeqInd}
+    \subitem {FMT}, \hyperpage{12}
+    \subitem {RawROAMSystem}, \hyperpage{47}
+  \item {ERR\_THRESHOLD}
+    \subitem {getTransformKLT}, \hyperpage{31}
+  \item {error}
+    \subitem {MotionDistortionSolver}, \hyperpage{79}
+  \item {error\_vector}
+    \subitem {MotionDistortionSolver}, \hyperpage{79}
+  \item {est\_deltas}
+    \subitem {getTransformKLT}, \hyperpage{31}
+  \item {estimateTransformUsingDelats}
+    \subitem {getTransformKLT}, \hyperpage{28}
+  \item {estPoses}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {estTraj}
+    \subitem {getTransformKLT}, \hyperpage{31}
+    \subitem {Map}, \hyperpage{77}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+    \subitem {Tracker}, \hyperpage{92}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {exist\_ok}
+    \subitem {FMT}, \hyperpage{12}
+    \subitem {getFeatures}, \hyperpage{21}
+    \subitem {getTransformKLT}, \hyperpage{31}
+  \item {expected\_observed\_pts}
+    \subitem {MotionDistortionSolver}, \hyperpage{79}
+  \item {extractDataFromRadarImage}
+    \subitem {parseData}, \hyperpage{43}
+  \item {extraLabel}
+    \subitem {getTransformKLT}, \hyperpage{31}
+
+  \indexspace
+
+  \item {f\_arr}
+    \subitem {utils}, \hyperpage{63}
+  \item {False}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {featureAzim}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {featureImgCart}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {featurePointsLocal}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {featurePointsLocalUndistorted}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {featurePolarImage}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {featurePolarIndices}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {featureRange}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {fig}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+  \item {filePaths}
+    \subitem {Map}, \hyperpage{77}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+    \subitem {Tracker}, \hyperpage{93}
+  \item {final\_undistorted}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+  \item {flatten}
+    \subitem {utils}, \hyperpage{63}
+  \item {flush}
+    \subitem {getFeatures}, \hyperpage{21}
+  \item {FMT}, \hyperpage{10}
+    \subitem {currImgCart}, \hyperpage{12}
+    \subitem {currImgPolar}, \hyperpage{12}
+    \subitem {dataPath}, \hyperpage{12}
+    \subitem {endSeqInd}, \hyperpage{12}
+    \subitem {exist\_ok}, \hyperpage{12}
+    \subitem {FMT\_DOWNSAMPLE\_FACTOR}, \hyperpage{12}
+    \subitem {FMT\_RANGE\_CLIP\_M}, \hyperpage{12}
+    \subitem {getRotationUsingFMT}, \hyperpage{10}
+    \subitem {getTranslationUsingPhaseCorrelation}, \hyperpage{11}
+    \subitem {imgPathArr}, \hyperpage{13}
+    \subitem {imgSavePath}, \hyperpage{13}
+    \subitem {imgSavePathInd}, \hyperpage{13}
+    \subitem {plotCartPolar}, \hyperpage{11}
+    \subitem {plotCartPolarWithRotation}, \hyperpage{11}
+    \subitem {prevImgCart}, \hyperpage{13}
+    \subitem {prevImgPolar}, \hyperpage{13}
+    \subitem {REMOVE\_OLD\_RESULTS}, \hyperpage{13}
+    \subitem {response}, \hyperpage{13}
+    \subitem {rotateImg}, \hyperpage{11}
+    \subitem {rotRad}, \hyperpage{14}
+    \subitem {scale}, \hyperpage{14}
+    \subitem {sequenceName}, \hyperpage{14}
+    \subitem {sequenceSize}, \hyperpage{14}
+    \subitem {startSeqInd}, \hyperpage{14}
+    \subitem {stepSize}, \hyperpage{14}
+    \subitem {timestampPath}, \hyperpage{14}
+  \item {FMT\_DOWNSAMPLE\_FACTOR}
+    \subitem {FMT}, \hyperpage{12}
+  \item {FMT\_RANGE\_CLIP\_M}
+    \subitem {FMT}, \hyperpage{12}
+  \item {FORCE\_OUTLIERS}
+    \subitem {outlierRejection}, \hyperpage{39}
+  \item {frequency}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+
+  \indexspace
+
+  \item {generateFakeCorrespondences}
+    \subitem {genFakeData}, \hyperpage{16}
+  \item {generateFakeCorrespondencesPolar}
+    \subitem {genFakeData}, \hyperpage{16}
+  \item {generateFakeFeatures}
+    \subitem {genFakeData}, \hyperpage{17}
+  \item {generateFakeFeaturesPolar}
+    \subitem {genFakeData}, \hyperpage{17}
+  \item {generateTranslationVector}
+    \subitem {genFakeData}, \hyperpage{17}
+  \item {genFakeData}, \hyperpage{15}
+    \subitem {addNoise}, \hyperpage{15}
+    \subitem {convertPolarPointsToCartesian}, \hyperpage{15}
+    \subitem {createOutliers}, \hyperpage{15}
+    \subitem {distort}, \hyperpage{16}
+    \subitem {generateFakeCorrespondences}, \hyperpage{16}
+    \subitem {generateFakeCorrespondencesPolar}, \hyperpage{16}
+    \subitem {generateFakeFeatures}, \hyperpage{17}
+    \subitem {generateFakeFeaturesPolar}, \hyperpage{17}
+    \subitem {generateTranslationVector}, \hyperpage{17}
+    \subitem {plotFakeFeatures}, \hyperpage{17}
+    \subitem {transformCoords}, \hyperpage{17}
+  \item {get\_point}
+    \subitem {BundleAdjustment}, \hyperpage{68}
+  \item {get\_pose}
+    \subitem {BundleAdjustment}, \hyperpage{68}
+    \subitem {PoseGraphOptimization}, \hyperpage{86}
+  \item {getAngle}
+    \subitem {CartCoord}, \hyperpage{70}
+  \item {getBlobsFromCart}
+    \subitem {getFeatures}, \hyperpage{19}
+  \item {getCartImageFromImgPaths}
+    \subitem {parseData}, \hyperpage{43}
+  \item {getDataFromImgPathsByIndex}
+    \subitem {parseData}, \hyperpage{44}
+  \item {getDistance}
+    \subitem {CartCoord}, \hyperpage{70}
+  \item {getFeatures}, \hyperpage{18}
+    \subitem {adaptiveNMS}, \hyperpage{19}
+    \subitem {appendNewFeatures}, \hyperpage{19}
+    \subitem {blobIndices}, \hyperpage{20}
+    \subitem {blobSigma}, \hyperpage{20}
+    \subitem {blobX}, \hyperpage{20}
+    \subitem {blobY}, \hyperpage{20}
+    \subitem {calculateFeatureLossThreshold}, \hyperpage{19}
+    \subitem {color}, \hyperpage{20}
+    \subitem {coord}, \hyperpage{21}
+    \subitem {dataPath}, \hyperpage{21}
+    \subitem {datasetName}, \hyperpage{21}
+    \subitem {DEFAULT\_FEATURE\_PARAMS}, \hyperpage{21}
+    \subitem {end}, \hyperpage{21}
+    \subitem {exist\_ok}, \hyperpage{21}
+    \subitem {flush}, \hyperpage{21}
+    \subitem {getBlobsFromCart}, \hyperpage{19}
+    \subitem {getFeatures}, \hyperpage{19}
+    \subitem {imgCart}, \hyperpage{22}
+    \subitem {imgCartBGR}, \hyperpage{22}
+    \subitem {imgPolar}, \hyperpage{22}
+    \subitem {N\_FEATURES\_BEFORE\_RETRACK}, \hyperpage{22}
+    \subitem {nImgs}, \hyperpage{22}
+    \subitem {nIndices}, \hyperpage{22}
+    \subitem {nIndicesANMS}, \hyperpage{22}
+    \subitem {PERCENT\_FEATURE\_LOSS\_THRESHOLD}, \hyperpage{22}
+    \subitem {s\_blobIndices}, \hyperpage{23}
+    \subitem {streamArr}, \hyperpage{23}
+    \subitem {timestampPath}, \hyperpage{23}
+    \subitem {toSaveImgPath}, \hyperpage{23}
+    \subitem {toSavePath}, \hyperpage{23}
+  \item {getGroundTruthDeltasAtTime}
+    \subitem {Trajectory}, \hyperpage{95}
+  \item {getGroundTruthTrajectory}
+    \subitem {trajectoryPlotting}, \hyperpage{59}
+  \item {getGroundTruthTrajectoryGPS}
+    \subitem {trajectoryPlotting}, \hyperpage{60}
+  \item {getPointCloud}, \hyperpage{23}
+    \subitem {c}, \hyperpage{24}
+    \subitem {dataPath}, \hyperpage{24}
+    \subitem {datasetName}, \hyperpage{24}
+    \subitem {featureAzim}, \hyperpage{25}
+    \subitem {featureImgCart}, \hyperpage{25}
+    \subitem {featurePolarImage}, \hyperpage{25}
+    \subitem {featurePolarIndices}, \hyperpage{25}
+    \subitem {featureRange}, \hyperpage{25}
+    \subitem {getPointCloudPolarInd}, \hyperpage{24}
+    \subitem {imgCart}, \hyperpage{25}
+    \subitem {imgCartRGB}, \hyperpage{25}
+    \subitem {imgPolar}, \hyperpage{25}
+    \subitem {nImgs}, \hyperpage{26}
+    \subitem {streamArr}, \hyperpage{26}
+    \subitem {timestampPath}, \hyperpage{26}
+  \item {getPointCloudPolarInd}
+    \subitem {getPointCloud}, \hyperpage{24}
+  \item {getPolarImageFromImgPaths}
+    \subitem {parseData}, \hyperpage{44}
+  \item {getPoseAtTimes}
+    \subitem {Trajectory}, \hyperpage{95}
+  \item {getPrunedFeaturesGlobalPosition}
+    \subitem {Keyframe}, \hyperpage{73}
+  \item {getR}
+    \subitem {PolarCoord}, \hyperpage{84}
+  \item {getRadarImgPaths}
+    \subitem {parseData}, \hyperpage{44}
+  \item {getRadarStreamPolar}
+    \subitem {parseData}, \hyperpage{45}
+  \item {getRotationMatrix}
+    \subitem {utils}, \hyperpage{63}
+  \item {getRotationUsingFMT}
+    \subitem {FMT}, \hyperpage{10}
+  \item {getTheta}
+    \subitem {PolarCoord}, \hyperpage{84}
+  \item {getTrackedPointsKLT}
+    \subitem {getTransformKLT}, \hyperpage{29}
+  \item {getTransform}
+    \subitem {Tracker}, \hyperpage{91}
+  \item {getTransformKLT}, \hyperpage{26}
+    \subitem {alpha}, \hyperpage{30}
+    \subitem {bad\_new}, \hyperpage{30}
+    \subitem {bad\_old}, \hyperpage{30}
+    \subitem {blobCoord}, \hyperpage{30}
+    \subitem {calculateTransform}, \hyperpage{27}
+    \subitem {calculateTransformDth}, \hyperpage{28}
+    \subitem {calculateTransformDxDth}, \hyperpage{28}
+    \subitem {calculateTransformSVD}, \hyperpage{28}
+    \subitem {corrStatus}, \hyperpage{30}
+    \subitem {currImg}, \hyperpage{30}
+    \subitem {currTimestamp}, \hyperpage{30}
+    \subitem {dataPath}, \hyperpage{30}
+    \subitem {datasetName}, \hyperpage{31}
+    \subitem {dth}, \hyperpage{31}
+    \subitem {dx}, \hyperpage{31}
+    \subitem {ERR\_THRESHOLD}, \hyperpage{31}
+    \subitem {est\_deltas}, \hyperpage{31}
+    \subitem {estimateTransformUsingDelats}, \hyperpage{28}
+    \subitem {estTraj}, \hyperpage{31}
+    \subitem {exist\_ok}, \hyperpage{31}
+    \subitem {extraLabel}, \hyperpage{31}
+    \subitem {getTrackedPointsKLT}, \hyperpage{29}
+    \subitem {good\_new}, \hyperpage{32}
+    \subitem {good\_old}, \hyperpage{32}
+    \subitem {gt\_deltas}, \hyperpage{32}
+    \subitem {gtTraj}, \hyperpage{32}
+    \subitem {gtTrajPath}, \hyperpage{32}
+    \subitem {h}, \hyperpage{32}
+    \subitem {imgPathArr}, \hyperpage{32}
+    \subitem {imgSavePath}, \hyperpage{32}
+    \subitem {initPose}, \hyperpage{33}
+    \subitem {initTimestamp}, \hyperpage{33}
+    \subitem {LK\_PARAMS}, \hyperpage{33}
+    \subitem {N\_FEATURES\_BEFORE\_RETRACK}, \hyperpage{33}
+    \subitem {nBadFeatures}, \hyperpage{33}
+    \subitem {nFeatures}, \hyperpage{33}
+    \subitem {nGoodFeatures}, \hyperpage{34}
+    \subitem {nImgs}, \hyperpage{34}
+    \subitem {PLOT\_BAD\_FEATURES}, \hyperpage{34}
+    \subitem {prev\_good\_old}, \hyperpage{34}
+    \subitem {prevImg}, \hyperpage{34}
+    \subitem {R}, \hyperpage{34}
+    \subitem {REMOVE\_OLD\_RESULTS}, \hyperpage{34}
+    \subitem {saveFeaturePath}, \hyperpage{34}
+    \subitem {savePath}, \hyperpage{35}
+    \subitem {show}, \hyperpage{35}
+    \subitem {start}, \hyperpage{35}
+    \subitem {startImgInd}, \hyperpage{35}
+    \subitem {timestamp}, \hyperpage{35}
+    \subitem {timestampPath}, \hyperpage{35}
+    \subitem {toSaveImgPath}, \hyperpage{35}
+    \subitem {toSaveTrajPath}, \hyperpage{36}
+    \subitem {trajSavePath}, \hyperpage{36}
+    \subitem {transformed\_pts}, \hyperpage{36}
+    \subitem {visualize\_transform}, \hyperpage{29}
+  \item {getTranslationUsingPhaseCorrelation}
+    \subitem {FMT}, \hyperpage{11}
+  \item {getX}
+    \subitem {CartCoord}, \hyperpage{70}
+  \item {getY}
+    \subitem {CartCoord}, \hyperpage{71}
+  \item {good\_new}
+    \subitem {getTransformKLT}, \hyperpage{32}
+  \item {good\_old}
+    \subitem {getTransformKLT}, \hyperpage{32}
+  \item {groundTruth}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+  \item {gt\_deltas}
+    \subitem {getTransformKLT}, \hyperpage{32}
+  \item {gtPath}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {gtTraj}
+    \subitem {getTransformKLT}, \hyperpage{32}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+    \subitem {Tracker}, \hyperpage{93}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {gtTrajPath}
+    \subitem {getTransformKLT}, \hyperpage{32}
+
+  \indexspace
+
+  \item {h}
+    \subitem {getTransformKLT}, \hyperpage{32}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {h\_fit}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+    \subitem {testTransform}, \hyperpage{56}
+  \item {hasGroundTruth}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+  \item {homogenize}
+    \subitem {utils}, \hyperpage{63}
+
+  \indexspace
+
+  \item {imgCart}
+    \subitem {getFeatures}, \hyperpage{22}
+    \subitem {getPointCloud}, \hyperpage{25}
+    \subitem {parseData}, \hyperpage{46}
+  \item {imgCartBGR}
+    \subitem {getFeatures}, \hyperpage{22}
+  \item {imgCartRGB}
+    \subitem {getPointCloud}, \hyperpage{25}
+  \item {imgPathArr}
+    \subitem {FMT}, \hyperpage{13}
+    \subitem {getTransformKLT}, \hyperpage{32}
+    \subitem {Map}, \hyperpage{77}
+    \subitem {RawROAMSystem}, \hyperpage{90}
+    \subitem {Tracker}, \hyperpage{93}
+  \item {imgPolar}
+    \subitem {getFeatures}, \hyperpage{22}
+    \subitem {getPointCloud}, \hyperpage{25}
+    \subitem {parseData}, \hyperpage{46}
+  \item {imgSavePath}
+    \subitem {FMT}, \hyperpage{13}
+    \subitem {getTransformKLT}, \hyperpage{32}
+    \subitem {RawROAMSystem}, \hyperpage{47}
+  \item {imgSavePathInd}
+    \subitem {FMT}, \hyperpage{13}
+  \item {infer\_velocity}
+    \subitem {MotionDistortionSolver}, \hyperpage{80}
+  \item {info\_vector}
+    \subitem {MotionDistortionSolver}, \hyperpage{81}
+  \item {initPose}
+    \subitem {getTransformKLT}, \hyperpage{33}
+  \item {initTimestamp}
+    \subitem {getTransformKLT}, \hyperpage{33}
+  \item {initTraj}
+    \subitem {Tracker}, \hyperpage{91}
+  \item {invert\_transform}
+    \subitem {utils}, \hyperpage{63}
+  \item {isGoodKeyframe}
+    \subitem {Map}, \hyperpage{76}
+
+  \indexspace
+
+  \item {jacobian}
+    \subitem {MotionDistortionSolver}, \hyperpage{80}
+  \item {jacobian\_vector}
+    \subitem {MotionDistortionSolver}, \hyperpage{80}
+
+  \indexspace
+
+  \item {Keyframe}, \hyperpage{72}
+    \subitem {\_\_init\_\_}, \hyperpage{72}
+    \subitem {convertFeaturesLocalToGlobal}, \hyperpage{73}
+    \subitem {copyFromOtherKeyframe}, \hyperpage{73}
+    \subitem {featurePointsLocal}, \hyperpage{74}
+    \subitem {featurePointsLocalUndistorted}, \hyperpage{74}
+    \subitem {getPrunedFeaturesGlobalPosition}, \hyperpage{73}
+    \subitem {pointCloud}, \hyperpage{74}
+    \subitem {pose}, \hyperpage{74}
+    \subitem {prunedFeaturePoints}, \hyperpage{74}
+    \subitem {prunedUndistortedLocals}, \hyperpage{74}
+    \subitem {pruneFeaturePoints}, \hyperpage{73}
+    \subitem {radarPolarImg}, \hyperpage{75}
+    \subitem {updateInfo}, \hyperpage{73}
+    \subitem {velocity}, \hyperpage{75}
+  \item {keyframe\_timestamps}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {keyframes}
+    \subitem {Map}, \hyperpage{77}
+
+  \indexspace
+
+  \item {LK\_PARAMS}
+    \subitem {getTransformKLT}, \hyperpage{33}
+
+  \indexspace
+
+  \item {Map}, \hyperpage{75}
+    \subitem {\_\_init\_\_}, \hyperpage{75}
+    \subitem {addKeyframe}, \hyperpage{76}
+    \subitem {estTraj}, \hyperpage{77}
+    \subitem {filePaths}, \hyperpage{77}
+    \subitem {imgPathArr}, \hyperpage{77}
+    \subitem {isGoodKeyframe}, \hyperpage{76}
+    \subitem {keyframes}, \hyperpage{77}
+    \subitem {mapPoints}, \hyperpage{77}
+    \subitem {plot}, \hyperpage{76}
+    \subitem {sequenceName}, \hyperpage{77}
+    \subitem {sequenceSize}, \hyperpage{77}
+    \subitem {updateInternalTraj}, \hyperpage{76}
+  \item {map}
+    \subitem {RawROAMSystem}, \hyperpage{90}
+  \item {Mapping}, \hyperpage{36}
+    \subitem {RADAR\_CART\_CENTER}, \hyperpage{36}
+    \subitem {ROT\_THRESHOLD}, \hyperpage{37}
+    \subitem {TRANS\_THRESHOLD}, \hyperpage{37}
+    \subitem {TRANS\_THRESHOLD\_SQ}, \hyperpage{37}
+  \item {mapPoints}
+    \subitem {Map}, \hyperpage{77}
+  \item {MAX\_RANGE\_CLIP\_DEFAULT}
+    \subitem {parseData}, \hyperpage{46}
+  \item {max\_translation\_m}
+    \subitem {outlierRejection}, \hyperpage{40}
+  \item {MDS}
+    \subitem {testMotionDistortion}, \hyperpage{51}
+  \item {motionDistortion}, \hyperpage{37}
+    \subitem {RADAR\_SCAN\_FREQUENCY}, \hyperpage{37}
+    \subitem {VERBOSE}, \hyperpage{37}
+  \item {MotionDistortionSolver}, \hyperpage{78}
+    \subitem {\_\_init\_\_}, \hyperpage{78}
+    \subitem {compute\_time\_deltas}, \hyperpage{79}
+    \subitem {debug}, \hyperpage{81}
+    \subitem {dT}, \hyperpage{81}
+    \subitem {error}, \hyperpage{79}
+    \subitem {error\_vector}, \hyperpage{79}
+    \subitem {expected\_observed\_pts}, \hyperpage{79}
+    \subitem {infer\_velocity}, \hyperpage{80}
+    \subitem {info\_vector}, \hyperpage{81}
+    \subitem {jacobian}, \hyperpage{80}
+    \subitem {jacobian\_vector}, \hyperpage{80}
+    \subitem {optimize}, \hyperpage{80}
+    \subitem {optimize\_library}, \hyperpage{80}
+    \subitem {p\_jt}, \hyperpage{82}
+    \subitem {p\_w}, \hyperpage{82}
+    \subitem {sigma\_p}, \hyperpage{82}
+    \subitem {sigma\_v}, \hyperpage{82}
+    \subitem {T\_wj0}, \hyperpage{82}
+    \subitem {T\_wj0\_inv}, \hyperpage{82}
+    \subitem {T\_wj\_initial}, \hyperpage{82}
+    \subitem {total\_scan\_time}, \hyperpage{82}
+    \subitem {undistort}, \hyperpage{81}
+    \subitem {update\_problem}, \hyperpage{81}
+    \subitem {v\_j\_initial}, \hyperpage{83}
+
+  \indexspace
+
+  \item {N}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {N\_FEATURES\_BEFORE\_RETRACK}
+    \subitem {getFeatures}, \hyperpage{22}
+    \subitem {getTransformKLT}, \hyperpage{33}
+  \item {n\_outliers}
+    \subitem {outlierRejection}, \hyperpage{40}
+  \item {n\_points}
+    \subitem {outlierRejection}, \hyperpage{40}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {nBadFeatures}
+    \subitem {getTransformKLT}, \hyperpage{33}
+  \item {new\_coord}
+    \subitem {outlierRejection}, \hyperpage{40}
+  \item {new\_coord\_perfect}
+    \subitem {outlierRejection}, \hyperpage{40}
+  \item {nFeatures}
+    \subitem {getTransformKLT}, \hyperpage{33}
+  \item {nGoodFeatures}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {nImgs}
+    \subitem {getFeatures}, \hyperpage{22}
+    \subitem {getPointCloud}, \hyperpage{26}
+    \subitem {getTransformKLT}, \hyperpage{34}
+    \subitem {parseData}, \hyperpage{46}
+  \item {nIndices}
+    \subitem {getFeatures}, \hyperpage{22}
+  \item {nIndicesANMS}
+    \subitem {getFeatures}, \hyperpage{22}
+  \item {noise}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {noiseToAdd}
+    \subitem {outlierRejection}, \hyperpage{40}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {noisy}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {normalize\_angles}
+    \subitem {utils}, \hyperpage{63}
+
+  \indexspace
+
+  \item {optimize}
+    \subitem {BundleAdjustment}, \hyperpage{68}
+    \subitem {MotionDistortionSolver}, \hyperpage{80}
+    \subitem {PoseGraphOptimization}, \hyperpage{86}
+  \item {optimize\_library}
+    \subitem {MotionDistortionSolver}, \hyperpage{80}
+  \item {outlier\_ind}
+    \subitem {outlierRejection}, \hyperpage{40}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {outlier\_rate}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {outlierRejection}, \hyperpage{38}
+    \subitem {alpha}, \hyperpage{39}
+    \subitem {DIST\_THRESHOLD\_M}, \hyperpage{39}
+    \subitem {DIST\_THRESHOLD\_PX}, \hyperpage{39}
+    \subitem {DISTSQ\_THRESHOLD\_PX}, \hyperpage{39}
+    \subitem {FORCE\_OUTLIERS}, \hyperpage{39}
+    \subitem {max\_translation\_m}, \hyperpage{40}
+    \subitem {n\_outliers}, \hyperpage{40}
+    \subitem {n\_points}, \hyperpage{40}
+    \subitem {new\_coord}, \hyperpage{40}
+    \subitem {new\_coord\_perfect}, \hyperpage{40}
+    \subitem {noiseToAdd}, \hyperpage{40}
+    \subitem {outlier\_ind}, \hyperpage{40}
+    \subitem {prev\_coord}, \hyperpage{40}
+    \subitem {pruned\_new\_coord}, \hyperpage{41}
+    \subitem {pruned\_prev\_coord}, \hyperpage{41}
+    \subitem {rejectOutliers}, \hyperpage{38}
+    \subitem {show}, \hyperpage{41}
+    \subitem {theta\_deg}, \hyperpage{41}
+    \subitem {theta\_max\_deg}, \hyperpage{41}
+    \subitem {title\_append}, \hyperpage{41}
+    \subitem {trans\_vec}, \hyperpage{41}
+
+  \indexspace
+
+  \item {p\_jt}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+  \item {p\_w}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+    \subitem {testMotionDistortion}, \hyperpage{52}
+  \item {paramFlags}
+    \subitem {RawROAMSystem}, \hyperpage{48}, \hyperpage{90}
+    \subitem {Tracker}, \hyperpage{93}
+  \item {params}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+  \item {parseData}, \hyperpage{42}
+    \subitem {c}, \hyperpage{45}
+    \subitem {convertCartesianImageToPolar}, \hyperpage{42}
+    \subitem {convertPolarImageToCartesian}, \hyperpage{42}
+    \subitem {convertPolarImgToLogPolar}, \hyperpage{43}
+    \subitem {dataPath}, \hyperpage{45}
+    \subitem {datasetName}, \hyperpage{45}
+    \subitem {DOWNSAMPLE\_FACTOR}, \hyperpage{45}
+    \subitem {drawCVPoint}, \hyperpage{43}
+    \subitem {extractDataFromRadarImage}, \hyperpage{43}
+    \subitem {getCartImageFromImgPaths}, \hyperpage{43}
+    \subitem {getDataFromImgPathsByIndex}, \hyperpage{44}
+    \subitem {getPolarImageFromImgPaths}, \hyperpage{44}
+    \subitem {getRadarImgPaths}, \hyperpage{44}
+    \subitem {getRadarStreamPolar}, \hyperpage{45}
+    \subitem {imgCart}, \hyperpage{46}
+    \subitem {imgPolar}, \hyperpage{46}
+    \subitem {MAX\_RANGE\_CLIP\_DEFAULT}, \hyperpage{46}
+    \subitem {nImgs}, \hyperpage{46}
+    \subitem {RANGE\_RESOLUTION\_CART\_M}, \hyperpage{46}
+    \subitem {RANGE\_RESOLUTION\_M}, \hyperpage{46}
+    \subitem {streamArr}, \hyperpage{46}
+    \subitem {timestampPath}, \hyperpage{46}
+  \item {PERCENT\_FEATURE\_LOSS\_THRESHOLD}
+    \subitem {getFeatures}, \hyperpage{22}
+  \item {period}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+  \item {plot}
+    \subitem {Map}, \hyperpage{76}
+    \subitem {RawROAMSystem}, \hyperpage{87}
+    \subitem {Tracker}, \hyperpage{92}
+    \subitem {Trajectory}, \hyperpage{95}
+  \item {PLOT\_BAD\_FEATURES}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {plotCartPolar}
+    \subitem {FMT}, \hyperpage{11}
+  \item {plotCartPolarWithRotation}
+    \subitem {FMT}, \hyperpage{11}
+  \item {plotDisplace}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+  \item {plotFakeFeatures}
+    \subitem {genFakeData}, \hyperpage{17}
+  \item {plotGtAndEstTrajectory}
+    \subitem {trajectoryPlotting}, \hyperpage{60}
+  \item {plotTraj}
+    \subitem {RawROAMSystem}, \hyperpage{87}
+  \item {plt\_full\_extent}
+    \subitem {utils}, \hyperpage{64}
+  \item {plt\_savefig\_by\_axis}
+    \subitem {utils}, \hyperpage{64}
+  \item {pointCloud}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {PolarCoord}, \hyperpage{83}
+    \subitem {\_\_init\_\_}, \hyperpage{83}
+    \subitem {\_\_str\_\_}, \hyperpage{84}
+    \subitem {asTuple}, \hyperpage{84}
+    \subitem {getR}, \hyperpage{84}
+    \subitem {getTheta}, \hyperpage{84}
+    \subitem {r}, \hyperpage{85}
+    \subitem {scaleR}, \hyperpage{84}
+    \subitem {theta}, \hyperpage{85}
+    \subitem {toCart}, \hyperpage{84}
+  \item {pose}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {pose\_transform}
+    \subitem {Trajectory}, \hyperpage{96}
+  \item {PoseGraphLib}, \hyperpage{47}
+  \item {PoseGraphOptimization}, \hyperpage{85}
+    \subitem {\_\_init\_\_}, \hyperpage{85}
+    \subitem {add\_edge}, \hyperpage{85}
+    \subitem {add\_vertex}, \hyperpage{85}
+    \subitem {get\_pose}, \hyperpage{86}
+    \subitem {optimize}, \hyperpage{86}
+  \item {poses}
+    \subitem {Trajectory}, \hyperpage{96}
+  \item {prev\_coord}
+    \subitem {outlierRejection}, \hyperpage{40}
+  \item {prev\_good\_old}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {prevImg}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {prevImgCart}
+    \subitem {FMT}, \hyperpage{13}
+  \item {prevImgPolar}
+    \subitem {FMT}, \hyperpage{13}
+  \item {pruned\_new\_coord}
+    \subitem {outlierRejection}, \hyperpage{41}
+  \item {pruned\_prev\_coord}
+    \subitem {outlierRejection}, \hyperpage{41}
+  \item {prunedFeaturePoints}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {prunedUndistortedLocals}
+    \subitem {Keyframe}, \hyperpage{74}
+  \item {pruneFeaturePoints}
+    \subitem {Keyframe}, \hyperpage{73}
+
+  \indexspace
+
+  \item {quiver}
+    \subitem {utils}, \hyperpage{64}
+
+  \indexspace
+
+  \item {R}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {r}
+    \subitem {PolarCoord}, \hyperpage{85}
+  \item {R\_fit}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {RADAR\_CART\_CENTER}
+    \subitem {Mapping}, \hyperpage{36}
+    \subitem {RawROAMSystem}, \hyperpage{48}
+  \item {RADAR\_SCAN\_FREQUENCY}
+    \subitem {motionDistortion}, \hyperpage{37}
+  \item {radarImgPathToTimestamp}
+    \subitem {utils}, \hyperpage{64}
+  \item {radarPolarImg}
+    \subitem {Keyframe}, \hyperpage{75}
+  \item {RANGE\_RESOLUTION\_CART\_M}
+    \subitem {parseData}, \hyperpage{46}
+  \item {RANGE\_RESOLUTION\_M}
+    \subitem {parseData}, \hyperpage{46}
+  \item {RawROAMSystem}, \hyperpage{47}, \hyperpage{86}
+    \subitem {\_\_init\_\_}, \hyperpage{87}
+    \subitem {datasetName}, \hyperpage{47}
+    \subitem {endSeqInd}, \hyperpage{47}
+    \subitem {estTraj}, \hyperpage{89}
+    \subitem {fig}, \hyperpage{89}
+    \subitem {filePaths}, \hyperpage{89}
+    \subitem {gtTraj}, \hyperpage{89}
+    \subitem {hasGroundTruth}, \hyperpage{89}
+    \subitem {imgPathArr}, \hyperpage{90}
+    \subitem {imgSavePath}, \hyperpage{47}
+    \subitem {map}, \hyperpage{90}
+    \subitem {paramFlags}, \hyperpage{48}, \hyperpage{90}
+    \subitem {plot}, \hyperpage{87}
+    \subitem {plotTraj}, \hyperpage{87}
+    \subitem {RADAR\_CART\_CENTER}, \hyperpage{48}
+    \subitem {REMOVE\_OLD\_RESULTS}, \hyperpage{48}
+    \subitem {run}, \hyperpage{88}
+    \subitem {sequenceName}, \hyperpage{90}
+    \subitem {sequenceSize}, \hyperpage{90}
+    \subitem {startSeqInd}, \hyperpage{48}
+    \subitem {system}, \hyperpage{48}
+    \subitem {tracker}, \hyperpage{90}
+    \subitem {trajSavePath}, \hyperpage{48}
+    \subitem {updateTrajectory}, \hyperpage{88}
+    \subitem {updateTrajectoryAbsolute}, \hyperpage{88}
+    \subitem {updateTrajFromTracker}, \hyperpage{89}
+    \subitem {wantToPlot}, \hyperpage{49}
+  \item {rejectOutliers}
+    \subitem {outlierRejection}, \hyperpage{38}
+  \item {REMOVE\_OLD\_RESULTS}
+    \subitem {FMT}, \hyperpage{13}
+    \subitem {getTransformKLT}, \hyperpage{34}
+    \subitem {RawROAMSystem}, \hyperpage{48}
+  \item {response}
+    \subitem {FMT}, \hyperpage{13}
+  \item {ROT\_THRESHOLD}
+    \subitem {Mapping}, \hyperpage{37}
+  \item {rotateImg}
+    \subitem {FMT}, \hyperpage{11}
+  \item {rotRad}
+    \subitem {FMT}, \hyperpage{14}
+  \item {run}
+    \subitem {RawROAMSystem}, \hyperpage{88}
+
+  \indexspace
+
+  \item {s\_blobIndices}
+    \subitem {getFeatures}, \hyperpage{23}
+  \item {saveFeaturePath}
+    \subitem {getTransformKLT}, \hyperpage{34}
+  \item {savePath}
+    \subitem {getTransformKLT}, \hyperpage{35}
+  \item {scale}
+    \subitem {CartCoord}, \hyperpage{71}
+    \subitem {FMT}, \hyperpage{14}
+  \item {scaleR}
+    \subitem {PolarCoord}, \hyperpage{84}
+  \item {scaleX}
+    \subitem {CartCoord}, \hyperpage{71}
+  \item {scaleY}
+    \subitem {CartCoord}, \hyperpage{71}
+  \item {sequenceName}
+    \subitem {FMT}, \hyperpage{14}
+    \subitem {Map}, \hyperpage{77}
+    \subitem {RawROAMSystem}, \hyperpage{90}
+    \subitem {Tracker}, \hyperpage{93}
+  \item {sequenceSize}
+    \subitem {FMT}, \hyperpage{14}
+    \subitem {Map}, \hyperpage{77}
+    \subitem {RawROAMSystem}, \hyperpage{90}
+    \subitem {Tracker}, \hyperpage{93}
+  \item {show}
+    \subitem {getTransformKLT}, \hyperpage{35}
+    \subitem {outlierRejection}, \hyperpage{41}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+    \subitem {testTransform}, \hyperpage{57}
+  \item {sigma\_p}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+  \item {sigma\_v}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+  \item {solution}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+  \item {srcCoord}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {srcCoord2}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {srcCoord3}
+    \subitem {testMotionDistortion}, \hyperpage{53}
+  \item {ssc}
+    \subitem {ANMS}, \hyperpage{9}
+  \item {start}
+    \subitem {getTransformKLT}, \hyperpage{35}
+  \item {startImgInd}
+    \subitem {getTransformKLT}, \hyperpage{35}
+  \item {startSeqInd}
+    \subitem {FMT}, \hyperpage{14}
+    \subitem {RawROAMSystem}, \hyperpage{48}
+  \item {stepSize}
+    \subitem {FMT}, \hyperpage{14}
+  \item {streamArr}
+    \subitem {getFeatures}, \hyperpage{23}
+    \subitem {getPointCloud}, \hyperpage{26}
+    \subitem {parseData}, \hyperpage{46}
+  \item {sub}
+    \subitem {CartCoord}, \hyperpage{71}
+  \item {system}
+    \subitem {RawROAMSystem}, \hyperpage{48}
+
+  \indexspace
+
+  \item {T\_wj}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+  \item {T\_wj0}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+  \item {T\_wj0\_inv}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+  \item {T\_wj\_initial}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+  \item {targetCoord}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {testMotionDistortion}, \hyperpage{49}
+    \subitem {A}, \hyperpage{50}
+    \subitem {A\_inv}, \hyperpage{50}
+    \subitem {alpha}, \hyperpage{50}
+    \subitem {clear}, \hyperpage{50}
+    \subitem {cov\_p}, \hyperpage{50}
+    \subitem {cov\_v}, \hyperpage{50}
+    \subitem {currentFrame}, \hyperpage{50}
+    \subitem {distorted}, \hyperpage{51}
+    \subitem {False}, \hyperpage{51}
+    \subitem {final\_undistorted}, \hyperpage{51}
+    \subitem {frequency}, \hyperpage{51}
+    \subitem {groundTruth}, \hyperpage{51}
+    \subitem {h}, \hyperpage{51}
+    \subitem {h\_fit}, \hyperpage{51}
+    \subitem {MDS}, \hyperpage{51}
+    \subitem {N}, \hyperpage{52}
+    \subitem {n\_points}, \hyperpage{52}
+    \subitem {noiseToAdd}, \hyperpage{52}
+    \subitem {noisy}, \hyperpage{52}
+    \subitem {outlier\_ind}, \hyperpage{52}
+    \subitem {outlier\_rate}, \hyperpage{52}
+    \subitem {p\_jt}, \hyperpage{52}
+    \subitem {p\_w}, \hyperpage{52}
+    \subitem {params}, \hyperpage{53}
+    \subitem {period}, \hyperpage{53}
+    \subitem {plotDisplace}, \hyperpage{53}
+    \subitem {R\_fit}, \hyperpage{53}
+    \subitem {show}, \hyperpage{53}
+    \subitem {solution}, \hyperpage{53}
+    \subitem {srcCoord2}, \hyperpage{53}
+    \subitem {srcCoord3}, \hyperpage{53}
+    \subitem {T\_wj}, \hyperpage{54}
+    \subitem {T\_wj0}, \hyperpage{54}
+    \subitem {theta\_deg}, \hyperpage{54}
+    \subitem {theta\_fit}, \hyperpage{54}
+    \subitem {title\_append}, \hyperpage{54}
+    \subitem {transform}, \hyperpage{54}
+    \subitem {undistorted}, \hyperpage{54}
+    \subitem {useOld}, \hyperpage{55}
+    \subitem {v\_j0}, \hyperpage{55}
+    \subitem {velocity}, \hyperpage{55}
+  \item {testTransform}, \hyperpage{55}
+    \subitem {A}, \hyperpage{56}
+    \subitem {A\_inv}, \hyperpage{56}
+    \subitem {alpha}, \hyperpage{56}
+    \subitem {clear}, \hyperpage{56}
+    \subitem {False}, \hyperpage{56}
+    \subitem {h}, \hyperpage{56}
+    \subitem {h\_fit}, \hyperpage{56}
+    \subitem {N}, \hyperpage{57}
+    \subitem {n\_points}, \hyperpage{57}
+    \subitem {noiseToAdd}, \hyperpage{57}
+    \subitem {noisy}, \hyperpage{57}
+    \subitem {outlier\_ind}, \hyperpage{57}
+    \subitem {outlier\_rate}, \hyperpage{57}
+    \subitem {R\_fit}, \hyperpage{57}
+    \subitem {show}, \hyperpage{57}
+    \subitem {srcCoord}, \hyperpage{58}
+    \subitem {srcCoord2}, \hyperpage{58}
+    \subitem {targetCoord}, \hyperpage{58}
+    \subitem {theta\_deg}, \hyperpage{58}
+    \subitem {theta\_fit}, \hyperpage{58}
+    \subitem {title\_append}, \hyperpage{58}
+    \subitem {useOld}, \hyperpage{58}
+  \item {theta}
+    \subitem {PolarCoord}, \hyperpage{85}
+  \item {theta\_deg}
+    \subitem {outlierRejection}, \hyperpage{41}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {theta\_fit}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {theta\_max\_deg}
+    \subitem {outlierRejection}, \hyperpage{41}
+  \item {tic}
+    \subitem {utils}, \hyperpage{64}
+  \item {timestamp}
+    \subitem {getTransformKLT}, \hyperpage{35}
+  \item {timestampPath}
+    \subitem {FMT}, \hyperpage{14}
+    \subitem {getFeatures}, \hyperpage{23}
+    \subitem {getPointCloud}, \hyperpage{26}
+    \subitem {getTransformKLT}, \hyperpage{35}
+    \subitem {parseData}, \hyperpage{46}
+    \subitem {trajectoryPlotting}, \hyperpage{61}
+  \item {timestamps}
+    \subitem {Trajectory}, \hyperpage{96}
+  \item {title\_append}
+    \subitem {outlierRejection}, \hyperpage{41}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {toc}
+    \subitem {utils}, \hyperpage{65}
+  \item {toCart}
+    \subitem {PolarCoord}, \hyperpage{84}
+  \item {toSaveImgPath}
+    \subitem {getFeatures}, \hyperpage{23}
+    \subitem {getTransformKLT}, \hyperpage{35}
+  \item {toSavePath}
+    \subitem {getFeatures}, \hyperpage{23}
+  \item {toSaveTrajPath}
+    \subitem {getTransformKLT}, \hyperpage{36}
+  \item {total\_scan\_time}
+    \subitem {MotionDistortionSolver}, \hyperpage{82}
+  \item {track}
+    \subitem {Tracker}, \hyperpage{92}
+  \item {Tracker}, \hyperpage{59}, \hyperpage{91}
+    \subitem {\_\_init\_\_}, \hyperpage{91}
+    \subitem {estTraj}, \hyperpage{92}
+    \subitem {filePaths}, \hyperpage{93}
+    \subitem {getTransform}, \hyperpage{91}
+    \subitem {gtTraj}, \hyperpage{93}
+    \subitem {imgPathArr}, \hyperpage{93}
+    \subitem {initTraj}, \hyperpage{91}
+    \subitem {paramFlags}, \hyperpage{93}
+    \subitem {plot}, \hyperpage{92}
+    \subitem {sequenceName}, \hyperpage{93}
+    \subitem {sequenceSize}, \hyperpage{93}
+    \subitem {track}, \hyperpage{92}
+  \item {tracker}
+    \subitem {RawROAMSystem}, \hyperpage{90}
+  \item {Trajectory}, \hyperpage{94}
+    \subitem {\_\_init\_\_}, \hyperpage{94}
+    \subitem {appendAbsoluteTransform}, \hyperpage{94}
+    \subitem {appendRelativeDeltas}, \hyperpage{94}
+    \subitem {appendRelativeTransform}, \hyperpage{95}
+    \subitem {getGroundTruthDeltasAtTime}, \hyperpage{95}
+    \subitem {getPoseAtTimes}, \hyperpage{95}
+    \subitem {plot}, \hyperpage{95}
+    \subitem {pose\_transform}, \hyperpage{96}
+    \subitem {poses}, \hyperpage{96}
+    \subitem {timestamps}, \hyperpage{96}
+  \item {trajectoryPlotting}, \hyperpage{59}
+    \subitem {block}, \hyperpage{60}
+    \subitem {computePosesRMSE}, \hyperpage{59}
+    \subitem {datasetName}, \hyperpage{60}
+    \subitem {estPoses}, \hyperpage{61}
+    \subitem {estTraj}, \hyperpage{61}
+    \subitem {getGroundTruthTrajectory}, \hyperpage{59}
+    \subitem {getGroundTruthTrajectoryGPS}, \hyperpage{60}
+    \subitem {gtPath}, \hyperpage{61}
+    \subitem {gtTraj}, \hyperpage{61}
+    \subitem {keyframe\_timestamps}, \hyperpage{61}
+    \subitem {noise}, \hyperpage{61}
+    \subitem {plotGtAndEstTrajectory}, \hyperpage{60}
+    \subitem {timestampPath}, \hyperpage{61}
+  \item {trajSavePath}
+    \subitem {getTransformKLT}, \hyperpage{36}
+    \subitem {RawROAMSystem}, \hyperpage{48}
+  \item {TRANS\_THRESHOLD}
+    \subitem {Mapping}, \hyperpage{37}
+  \item {TRANS\_THRESHOLD\_SQ}
+    \subitem {Mapping}, \hyperpage{37}
+  \item {trans\_vec}
+    \subitem {outlierRejection}, \hyperpage{41}
+  \item {transform}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+  \item {transformCoords}
+    \subitem {genFakeData}, \hyperpage{17}
+  \item {transformed\_pts}
+    \subitem {getTransformKLT}, \hyperpage{36}
+
+  \indexspace
+
+  \item {undistort}
+    \subitem {MotionDistortionSolver}, \hyperpage{81}
+  \item {undistorted}
+    \subitem {testMotionDistortion}, \hyperpage{54}
+  \item {update\_problem}
+    \subitem {MotionDistortionSolver}, \hyperpage{81}
+  \item {updateInfo}
+    \subitem {Keyframe}, \hyperpage{73}
+  \item {updateInternalTraj}
+    \subitem {Map}, \hyperpage{76}
+  \item {updateTrajectory}
+    \subitem {RawROAMSystem}, \hyperpage{88}
+  \item {updateTrajectoryAbsolute}
+    \subitem {RawROAMSystem}, \hyperpage{88}
+  \item {updateTrajFromTracker}
+    \subitem {RawROAMSystem}, \hyperpage{89}
+  \item {useOld}
+    \subitem {testMotionDistortion}, \hyperpage{55}
+    \subitem {testTransform}, \hyperpage{58}
+  \item {utils}, \hyperpage{62}
+    \subitem {convertPoseToTransform}, \hyperpage{62}
+    \subitem {convertRandHtoDeltas}, \hyperpage{62}
+    \subitem {convertTransformToPose}, \hyperpage{62}
+    \subitem {f\_arr}, \hyperpage{63}
+    \subitem {flatten}, \hyperpage{63}
+    \subitem {getRotationMatrix}, \hyperpage{63}
+    \subitem {homogenize}, \hyperpage{63}
+    \subitem {invert\_transform}, \hyperpage{63}
+    \subitem {normalize\_angles}, \hyperpage{63}
+    \subitem {plt\_full\_extent}, \hyperpage{64}
+    \subitem {plt\_savefig\_by\_axis}, \hyperpage{64}
+    \subitem {quiver}, \hyperpage{64}
+    \subitem {radarImgPathToTimestamp}, \hyperpage{64}
+    \subitem {tic}, \hyperpage{64}
+    \subitem {toc}, \hyperpage{65}
+
+  \indexspace
+
+  \item {v\_j0}
+    \subitem {testMotionDistortion}, \hyperpage{55}
+  \item {v\_j\_initial}
+    \subitem {MotionDistortionSolver}, \hyperpage{83}
+  \item {velocity}
+    \subitem {Keyframe}, \hyperpage{75}
+    \subitem {testMotionDistortion}, \hyperpage{55}
+  \item {VERBOSE}
+    \subitem {motionDistortion}, \hyperpage{37}
+  \item {visualize\_transform}
+    \subitem {getTransformKLT}, \hyperpage{29}
+
+  \indexspace
+
+  \item {wantToPlot}
+    \subitem {RawROAMSystem}, \hyperpage{49}
+
+  \indexspace
+
+  \item {x}
+    \subitem {CartCoord}, \hyperpage{71}
+
+  \indexspace
+
+  \item {y}
+    \subitem {CartCoord}, \hyperpage{72}
+
+\end{theindex}

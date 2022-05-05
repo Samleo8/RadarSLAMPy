@@ -1,0 +1,190 @@
+\hypertarget{namespacetest_transform}{}\doxysection{test\+Transform Namespace Reference}
+\label{namespacetest_transform}\index{testTransform@{testTransform}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacetest_transform_a7722c8ecbb62d99aee7ce68b1752f337}{N}} = 100
+\item 
+float \mbox{\hyperlink{namespacetest_transform_aeb5e3b3a31f302552b5bd35f3accd3c2}{outlier\+\_\+rate}} = 0.\+4
+\item 
+bool \mbox{\hyperlink{namespacetest_transform_ac167268f99229eb4f16b0291abb2031b}{noisy}} = \mbox{\hyperlink{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+bool \mbox{\hyperlink{namespacetest_transform_af5a541b70835126d40b66611fae2b02a}{use\+Old}} = \mbox{\hyperlink{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a48eb521013d78f7dad08a4aabe451e1b}{src\+Coord}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_ae4834211499fa0991173526c2592ef12}{target\+Coord}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_ad5ed049a2c1601e6f4f9e5d69619c804}{theta\+\_\+deg}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a5e36941b3d856737e81516acd45edc50}{h}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a2202ecdde3f1299448698af0ba3eb256}{n\+\_\+points}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a16f3add66da7caa94dad99c6e62e5160}{outlier\+\_\+ind}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a85217f3efc8710cdcda27b2298c29f80}{noise\+To\+Add}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} = \mbox{\hyperlink{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, \+:2\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}} = \mbox{\hyperlink{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, 2\+:\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}} = np.\+linalg.\+inv(\mbox{\hyperlink{namespacetest_transform_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}})
+\item 
+int \mbox{\hyperlink{namespacetest_transform_ab69a1473bbefcd69e648eed41f4cf499}{theta\+\_\+fit}} = np.\+arctan2(\mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}0, 0\mbox{]}) $\ast$ 180 / np.\+pi
+\item 
+tuple \mbox{\hyperlink{namespacetest_transform_a1b714106eb7bad251438c439fc59e407}{src\+Coord2}} = (\mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ target\+Coord.\+T + \mbox{\hyperlink{namespacetest_transform_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T
+\item 
+\mbox{\hyperlink{namespacetest_transform_adca18f0c2258ab57e96c3f009761ea85}{title\+\_\+append}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a62197192f0fbf4e0675eb37be1c4c175}{alpha}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_aebfdce4f6cc7241ba38924f77a12e7cf}{clear}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}{False}}
+\item 
+\mbox{\hyperlink{namespacetest_transform_a584efbd5d11809943039e71845b0cd7f}{show}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetest_transform_a3b98e2dffc6cb06a89dcb0d5c60a0206}\label{namespacetest_transform_a3b98e2dffc6cb06a89dcb0d5c60a0206}} 
+\index{testTransform@{testTransform}!A@{A}}
+\index{A@{A}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily A}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.block([[R\_fit, h\_fit],}
+\DoxyCodeLine{2                     [np.zeros((1, 2)), 1]])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}\label{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}} 
+\index{testTransform@{testTransform}!A\_inv@{A\_inv}}
+\index{A\_inv@{A\_inv}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{A\_inv}{A\_inv}}
+{\footnotesize\ttfamily A\+\_\+inv = np.\+linalg.\+inv(\mbox{\hyperlink{namespacetest_transform_a3b98e2dffc6cb06a89dcb0d5c60a0206}{A}})}
+
+\mbox{\Hypertarget{namespacetest_transform_a62197192f0fbf4e0675eb37be1c4c175}\label{namespacetest_transform_a62197192f0fbf4e0675eb37be1c4c175}} 
+\index{testTransform@{testTransform}!alpha@{alpha}}
+\index{alpha@{alpha}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily alpha}
+
+\mbox{\Hypertarget{namespacetest_transform_aebfdce4f6cc7241ba38924f77a12e7cf}\label{namespacetest_transform_aebfdce4f6cc7241ba38924f77a12e7cf}} 
+\index{testTransform@{testTransform}!clear@{clear}}
+\index{clear@{clear}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{clear}{clear}}
+{\footnotesize\ttfamily clear}
+
+\mbox{\Hypertarget{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}\label{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}} 
+\index{testTransform@{testTransform}!False@{False}}
+\index{False@{False}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{False}{False}}
+{\footnotesize\ttfamily False}
+
+\mbox{\Hypertarget{namespacetest_transform_a5e36941b3d856737e81516acd45edc50}\label{namespacetest_transform_a5e36941b3d856737e81516acd45edc50}} 
+\index{testTransform@{testTransform}!h@{h}}
+\index{h@{h}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily h}
+
+\mbox{\Hypertarget{namespacetest_transform_a29ad3fdd24965a3db8b834e04d27a7ea}\label{namespacetest_transform_a29ad3fdd24965a3db8b834e04d27a7ea}} 
+\index{testTransform@{testTransform}!h\_fit@{h\_fit}}
+\index{h\_fit@{h\_fit}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{h\_fit}{h\_fit}}
+{\footnotesize\ttfamily h\+\_\+fit = \mbox{\hyperlink{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, 2\+:\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest_transform_a7722c8ecbb62d99aee7ce68b1752f337}\label{namespacetest_transform_a7722c8ecbb62d99aee7ce68b1752f337}} 
+\index{testTransform@{testTransform}!N@{N}}
+\index{N@{N}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily int N = 100}
+
+\mbox{\Hypertarget{namespacetest_transform_a2202ecdde3f1299448698af0ba3eb256}\label{namespacetest_transform_a2202ecdde3f1299448698af0ba3eb256}} 
+\index{testTransform@{testTransform}!n\_points@{n\_points}}
+\index{n\_points@{n\_points}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{n\_points}{n\_points}}
+{\footnotesize\ttfamily n\+\_\+points}
+
+\mbox{\Hypertarget{namespacetest_transform_a85217f3efc8710cdcda27b2298c29f80}\label{namespacetest_transform_a85217f3efc8710cdcda27b2298c29f80}} 
+\index{testTransform@{testTransform}!noiseToAdd@{noiseToAdd}}
+\index{noiseToAdd@{noiseToAdd}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{noiseToAdd}{noiseToAdd}}
+{\footnotesize\ttfamily noise\+To\+Add}
+
+\mbox{\Hypertarget{namespacetest_transform_ac167268f99229eb4f16b0291abb2031b}\label{namespacetest_transform_ac167268f99229eb4f16b0291abb2031b}} 
+\index{testTransform@{testTransform}!noisy@{noisy}}
+\index{noisy@{noisy}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{noisy}{noisy}}
+{\footnotesize\ttfamily bool noisy = \mbox{\hyperlink{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}{False}}}
+
+\mbox{\Hypertarget{namespacetest_transform_a16f3add66da7caa94dad99c6e62e5160}\label{namespacetest_transform_a16f3add66da7caa94dad99c6e62e5160}} 
+\index{testTransform@{testTransform}!outlier\_ind@{outlier\_ind}}
+\index{outlier\_ind@{outlier\_ind}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{outlier\_ind}{outlier\_ind}}
+{\footnotesize\ttfamily outlier\+\_\+ind}
+
+\mbox{\Hypertarget{namespacetest_transform_aeb5e3b3a31f302552b5bd35f3accd3c2}\label{namespacetest_transform_aeb5e3b3a31f302552b5bd35f3accd3c2}} 
+\index{testTransform@{testTransform}!outlier\_rate@{outlier\_rate}}
+\index{outlier\_rate@{outlier\_rate}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{outlier\_rate}{outlier\_rate}}
+{\footnotesize\ttfamily float outlier\+\_\+rate = 0.\+4}
+
+\mbox{\Hypertarget{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}\label{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}} 
+\index{testTransform@{testTransform}!R\_fit@{R\_fit}}
+\index{R\_fit@{R\_fit}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{R\_fit}{R\_fit}}
+{\footnotesize\ttfamily R\+\_\+fit = \mbox{\hyperlink{namespacetest_transform_a03b4b9a49913cb27a8dff899ea68f892}{A\+\_\+inv}}\mbox{[}\+:2, \+:2\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest_transform_a584efbd5d11809943039e71845b0cd7f}\label{namespacetest_transform_a584efbd5d11809943039e71845b0cd7f}} 
+\index{testTransform@{testTransform}!show@{show}}
+\index{show@{show}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{show}{show}}
+{\footnotesize\ttfamily show}
+
+\mbox{\Hypertarget{namespacetest_transform_a48eb521013d78f7dad08a4aabe451e1b}\label{namespacetest_transform_a48eb521013d78f7dad08a4aabe451e1b}} 
+\index{testTransform@{testTransform}!srcCoord@{srcCoord}}
+\index{srcCoord@{srcCoord}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{srcCoord}{srcCoord}}
+{\footnotesize\ttfamily src\+Coord}
+
+\mbox{\Hypertarget{namespacetest_transform_a1b714106eb7bad251438c439fc59e407}\label{namespacetest_transform_a1b714106eb7bad251438c439fc59e407}} 
+\index{testTransform@{testTransform}!srcCoord2@{srcCoord2}}
+\index{srcCoord2@{srcCoord2}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{srcCoord2}{srcCoord2}}
+{\footnotesize\ttfamily tuple src\+Coord2 = (\mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}} @ target\+Coord.\+T + \mbox{\hyperlink{namespacetest_transform_a29ad3fdd24965a3db8b834e04d27a7ea}{h\+\_\+fit}}).T}
+
+\mbox{\Hypertarget{namespacetest_transform_ae4834211499fa0991173526c2592ef12}\label{namespacetest_transform_ae4834211499fa0991173526c2592ef12}} 
+\index{testTransform@{testTransform}!targetCoord@{targetCoord}}
+\index{targetCoord@{targetCoord}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{targetCoord}{targetCoord}}
+{\footnotesize\ttfamily target\+Coord}
+
+\mbox{\Hypertarget{namespacetest_transform_ad5ed049a2c1601e6f4f9e5d69619c804}\label{namespacetest_transform_ad5ed049a2c1601e6f4f9e5d69619c804}} 
+\index{testTransform@{testTransform}!theta\_deg@{theta\_deg}}
+\index{theta\_deg@{theta\_deg}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{theta\_deg}{theta\_deg}}
+{\footnotesize\ttfamily theta\+\_\+deg}
+
+\mbox{\Hypertarget{namespacetest_transform_ab69a1473bbefcd69e648eed41f4cf499}\label{namespacetest_transform_ab69a1473bbefcd69e648eed41f4cf499}} 
+\index{testTransform@{testTransform}!theta\_fit@{theta\_fit}}
+\index{theta\_fit@{theta\_fit}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{theta\_fit}{theta\_fit}}
+{\footnotesize\ttfamily int theta\+\_\+fit = np.\+arctan2(\mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}1, 0\mbox{]}, \mbox{\hyperlink{namespacetest_transform_a50ec735237ea65bfb54b2b8155ccf738}{R\+\_\+fit}}\mbox{[}0, 0\mbox{]}) $\ast$ 180 / np.\+pi}
+
+\mbox{\Hypertarget{namespacetest_transform_adca18f0c2258ab57e96c3f009761ea85}\label{namespacetest_transform_adca18f0c2258ab57e96c3f009761ea85}} 
+\index{testTransform@{testTransform}!title\_append@{title\_append}}
+\index{title\_append@{title\_append}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{title\_append}{title\_append}}
+{\footnotesize\ttfamily title\+\_\+append}
+
+\mbox{\Hypertarget{namespacetest_transform_af5a541b70835126d40b66611fae2b02a}\label{namespacetest_transform_af5a541b70835126d40b66611fae2b02a}} 
+\index{testTransform@{testTransform}!useOld@{useOld}}
+\index{useOld@{useOld}!testTransform@{testTransform}}
+\doxysubsubsection{\texorpdfstring{useOld}{useOld}}
+{\footnotesize\ttfamily bool use\+Old = \mbox{\hyperlink{namespacetest_transform_a36cde68b055f3f2ee671020af4ccf4e2}{False}}}
+

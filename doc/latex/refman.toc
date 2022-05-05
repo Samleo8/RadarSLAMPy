@@ -1,0 +1,511 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}RAW-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ROAM\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Really Adverse Weather-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Radar Odometry and Mapping (Python reimplementation of Radar\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}SLAM)}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Results (\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Odometry)}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Running Code}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Radar Sequences}{1}{subsection.1.2.1}%
+\contentsline {section}{\numberline {1.3}Documentation}{1}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Relevant Papers}{1}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Namespace Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Packages}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Hierarchical Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class Hierarchy}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Class Index}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Class List}{7}{section.4.1}%
+\contentsline {chapter}{\numberline {5}Namespace Documentation}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}ANMS Namespace Reference}{9}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Function Documentation}{9}{subsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.1.1}ssc()}{9}{subsubsection.5.1.1.1}%
+\contentsline {section}{\numberline {5.2}Coord Namespace Reference}{9}{section.5.2}%
+\contentsline {section}{\numberline {5.3}FMT Namespace Reference}{10}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Function Documentation}{10}{subsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.1}getRotationUsingFMT()}{10}{subsubsection.5.3.1.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.2}getTranslationUsingPhaseCorrelation()}{11}{subsubsection.5.3.1.2}%
+\contentsline {subsubsection}{\numberline {5.3.1.3}plotCartPolar()}{11}{subsubsection.5.3.1.3}%
+\contentsline {subsubsection}{\numberline {5.3.1.4}plotCartPolarWithRotation()}{11}{subsubsection.5.3.1.4}%
+\contentsline {subsubsection}{\numberline {5.3.1.5}rotateImg()}{11}{subsubsection.5.3.1.5}%
+\contentsline {subsection}{\numberline {5.3.2}Variable Documentation}{12}{subsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.1}currImgCart}{12}{subsubsection.5.3.2.1}%
+\contentsline {subsubsection}{\numberline {5.3.2.2}currImgPolar}{12}{subsubsection.5.3.2.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.3}dataPath}{12}{subsubsection.5.3.2.3}%
+\contentsline {subsubsection}{\numberline {5.3.2.4}endSeqInd}{12}{subsubsection.5.3.2.4}%
+\contentsline {subsubsection}{\numberline {5.3.2.5}exist\_ok}{12}{subsubsection.5.3.2.5}%
+\contentsline {subsubsection}{\numberline {5.3.2.6}FMT\_DOWNSAMPLE\_FACTOR}{12}{subsubsection.5.3.2.6}%
+\contentsline {subsubsection}{\numberline {5.3.2.7}FMT\_RANGE\_CLIP\_M}{13}{subsubsection.5.3.2.7}%
+\contentsline {subsubsection}{\numberline {5.3.2.8}imgPathArr}{13}{subsubsection.5.3.2.8}%
+\contentsline {subsubsection}{\numberline {5.3.2.9}imgSavePath}{13}{subsubsection.5.3.2.9}%
+\contentsline {subsubsection}{\numberline {5.3.2.10}imgSavePathInd}{13}{subsubsection.5.3.2.10}%
+\contentsline {subsubsection}{\numberline {5.3.2.11}prevImgCart}{13}{subsubsection.5.3.2.11}%
+\contentsline {subsubsection}{\numberline {5.3.2.12}prevImgPolar}{13}{subsubsection.5.3.2.12}%
+\contentsline {subsubsection}{\numberline {5.3.2.13}REMOVE\_OLD\_RESULTS}{13}{subsubsection.5.3.2.13}%
+\contentsline {subsubsection}{\numberline {5.3.2.14}response}{14}{subsubsection.5.3.2.14}%
+\contentsline {subsubsection}{\numberline {5.3.2.15}rotRad}{14}{subsubsection.5.3.2.15}%
+\contentsline {subsubsection}{\numberline {5.3.2.16}scale}{14}{subsubsection.5.3.2.16}%
+\contentsline {subsubsection}{\numberline {5.3.2.17}sequenceName}{14}{subsubsection.5.3.2.17}%
+\contentsline {subsubsection}{\numberline {5.3.2.18}sequenceSize}{14}{subsubsection.5.3.2.18}%
+\contentsline {subsubsection}{\numberline {5.3.2.19}startSeqInd}{14}{subsubsection.5.3.2.19}%
+\contentsline {subsubsection}{\numberline {5.3.2.20}stepSize}{14}{subsubsection.5.3.2.20}%
+\contentsline {subsubsection}{\numberline {5.3.2.21}timestampPath}{14}{subsubsection.5.3.2.21}%
+\contentsline {section}{\numberline {5.4}gen\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Fake\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Namespace Reference}{15}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Function Documentation}{15}{subsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.1}addNoise()}{15}{subsubsection.5.4.1.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.2}convertPolarPointsToCartesian()}{15}{subsubsection.5.4.1.2}%
+\contentsline {subsubsection}{\numberline {5.4.1.3}createOutliers()}{16}{subsubsection.5.4.1.3}%
+\contentsline {subsubsection}{\numberline {5.4.1.4}distort()}{16}{subsubsection.5.4.1.4}%
+\contentsline {subsubsection}{\numberline {5.4.1.5}generateFakeCorrespondences()}{16}{subsubsection.5.4.1.5}%
+\contentsline {subsubsection}{\numberline {5.4.1.6}generateFakeCorrespondencesPolar()}{17}{subsubsection.5.4.1.6}%
+\contentsline {subsubsection}{\numberline {5.4.1.7}generateFakeFeatures()}{17}{subsubsection.5.4.1.7}%
+\contentsline {subsubsection}{\numberline {5.4.1.8}generateFakeFeaturesPolar()}{17}{subsubsection.5.4.1.8}%
+\contentsline {subsubsection}{\numberline {5.4.1.9}generateTranslationVector()}{17}{subsubsection.5.4.1.9}%
+\contentsline {subsubsection}{\numberline {5.4.1.10}plotFakeFeatures()}{17}{subsubsection.5.4.1.10}%
+\contentsline {subsubsection}{\numberline {5.4.1.11}transformCoords()}{18}{subsubsection.5.4.1.11}%
+\contentsline {section}{\numberline {5.5}get\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Features Namespace Reference}{18}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Function Documentation}{19}{subsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.1.1}adaptiveNMS()}{19}{subsubsection.5.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.5.1.2}appendNewFeatures()}{19}{subsubsection.5.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.5.1.3}calculateFeatureLossThreshold()}{19}{subsubsection.5.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.5.1.4}getBlobsFromCart()}{19}{subsubsection.5.5.1.4}%
+\contentsline {subsubsection}{\numberline {5.5.1.5}getFeatures()}{20}{subsubsection.5.5.1.5}%
+\contentsline {subsection}{\numberline {5.5.2}Variable Documentation}{20}{subsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.1}blobIndices}{20}{subsubsection.5.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.5.2.2}blobSigma}{20}{subsubsection.5.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.3}blobX}{20}{subsubsection.5.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.5.2.4}blobY}{20}{subsubsection.5.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.5.2.5}color}{21}{subsubsection.5.5.2.5}%
+\contentsline {subsubsection}{\numberline {5.5.2.6}coord}{21}{subsubsection.5.5.2.6}%
+\contentsline {subsubsection}{\numberline {5.5.2.7}dataPath}{21}{subsubsection.5.5.2.7}%
+\contentsline {subsubsection}{\numberline {5.5.2.8}datasetName}{21}{subsubsection.5.5.2.8}%
+\contentsline {subsubsection}{\numberline {5.5.2.9}DEFAULT\_FEATURE\_PARAMS}{21}{subsubsection.5.5.2.9}%
+\contentsline {subsubsection}{\numberline {5.5.2.10}end}{21}{subsubsection.5.5.2.10}%
+\contentsline {subsubsection}{\numberline {5.5.2.11}exist\_ok}{21}{subsubsection.5.5.2.11}%
+\contentsline {subsubsection}{\numberline {5.5.2.12}flush}{22}{subsubsection.5.5.2.12}%
+\contentsline {subsubsection}{\numberline {5.5.2.13}imgCart}{22}{subsubsection.5.5.2.13}%
+\contentsline {subsubsection}{\numberline {5.5.2.14}imgCartBGR}{22}{subsubsection.5.5.2.14}%
+\contentsline {subsubsection}{\numberline {5.5.2.15}imgPolar}{22}{subsubsection.5.5.2.15}%
+\contentsline {subsubsection}{\numberline {5.5.2.16}N\_FEATURES\_BEFORE\_RETRACK}{22}{subsubsection.5.5.2.16}%
+\contentsline {subsubsection}{\numberline {5.5.2.17}nImgs}{22}{subsubsection.5.5.2.17}%
+\contentsline {subsubsection}{\numberline {5.5.2.18}nIndices}{22}{subsubsection.5.5.2.18}%
+\contentsline {subsubsection}{\numberline {5.5.2.19}nIndicesANMS}{22}{subsubsection.5.5.2.19}%
+\contentsline {subsubsection}{\numberline {5.5.2.20}PERCENT\_FEATURE\_LOSS\_THRESHOLD}{23}{subsubsection.5.5.2.20}%
+\contentsline {subsubsection}{\numberline {5.5.2.21}s\_blobIndices}{23}{subsubsection.5.5.2.21}%
+\contentsline {subsubsection}{\numberline {5.5.2.22}streamArr}{23}{subsubsection.5.5.2.22}%
+\contentsline {subsubsection}{\numberline {5.5.2.23}timestampPath}{23}{subsubsection.5.5.2.23}%
+\contentsline {subsubsection}{\numberline {5.5.2.24}toSaveImgPath}{23}{subsubsection.5.5.2.24}%
+\contentsline {subsubsection}{\numberline {5.5.2.25}toSavePath}{23}{subsubsection.5.5.2.25}%
+\contentsline {section}{\numberline {5.6}get\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Point\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Cloud Namespace Reference}{23}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Function Documentation}{24}{subsection.5.6.1}%
+\contentsline {subsubsection}{\numberline {5.6.1.1}getPointCloudPolarInd()}{24}{subsubsection.5.6.1.1}%
+\contentsline {subsection}{\numberline {5.6.2}Variable Documentation}{24}{subsection.5.6.2}%
+\contentsline {subsubsection}{\numberline {5.6.2.1}c}{24}{subsubsection.5.6.2.1}%
+\contentsline {subsubsection}{\numberline {5.6.2.2}dataPath}{24}{subsubsection.5.6.2.2}%
+\contentsline {subsubsection}{\numberline {5.6.2.3}datasetName}{25}{subsubsection.5.6.2.3}%
+\contentsline {subsubsection}{\numberline {5.6.2.4}featureAzim}{25}{subsubsection.5.6.2.4}%
+\contentsline {subsubsection}{\numberline {5.6.2.5}featureImgCart}{25}{subsubsection.5.6.2.5}%
+\contentsline {subsubsection}{\numberline {5.6.2.6}featurePolarImage}{25}{subsubsection.5.6.2.6}%
+\contentsline {subsubsection}{\numberline {5.6.2.7}featurePolarIndices}{25}{subsubsection.5.6.2.7}%
+\contentsline {subsubsection}{\numberline {5.6.2.8}featureRange}{25}{subsubsection.5.6.2.8}%
+\contentsline {subsubsection}{\numberline {5.6.2.9}imgCart}{25}{subsubsection.5.6.2.9}%
+\contentsline {subsubsection}{\numberline {5.6.2.10}imgCartRGB}{25}{subsubsection.5.6.2.10}%
+\contentsline {subsubsection}{\numberline {5.6.2.11}imgPolar}{26}{subsubsection.5.6.2.11}%
+\contentsline {subsubsection}{\numberline {5.6.2.12}nImgs}{26}{subsubsection.5.6.2.12}%
+\contentsline {subsubsection}{\numberline {5.6.2.13}streamArr}{26}{subsubsection.5.6.2.13}%
+\contentsline {subsubsection}{\numberline {5.6.2.14}timestampPath}{26}{subsubsection.5.6.2.14}%
+\contentsline {section}{\numberline {5.7}get\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Transform\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}KLT Namespace Reference}{26}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Function Documentation}{27}{subsection.5.7.1}%
+\contentsline {subsubsection}{\numberline {5.7.1.1}calculateTransform()}{28}{subsubsection.5.7.1.1}%
+\contentsline {subsubsection}{\numberline {5.7.1.2}calculateTransformDth()}{28}{subsubsection.5.7.1.2}%
+\contentsline {subsubsection}{\numberline {5.7.1.3}calculateTransformDxDth()}{28}{subsubsection.5.7.1.3}%
+\contentsline {subsubsection}{\numberline {5.7.1.4}calculateTransformSVD()}{28}{subsubsection.5.7.1.4}%
+\contentsline {subsubsection}{\numberline {5.7.1.5}estimateTransformUsingDelats()}{29}{subsubsection.5.7.1.5}%
+\contentsline {subsubsection}{\numberline {5.7.1.6}getTrackedPointsKLT()}{29}{subsubsection.5.7.1.6}%
+\contentsline {subsubsection}{\numberline {5.7.1.7}visualize\_transform()}{29}{subsubsection.5.7.1.7}%
+\contentsline {subsection}{\numberline {5.7.2}Variable Documentation}{30}{subsection.5.7.2}%
+\contentsline {subsubsection}{\numberline {5.7.2.1}alpha}{30}{subsubsection.5.7.2.1}%
+\contentsline {subsubsection}{\numberline {5.7.2.2}bad\_new}{30}{subsubsection.5.7.2.2}%
+\contentsline {subsubsection}{\numberline {5.7.2.3}bad\_old}{30}{subsubsection.5.7.2.3}%
+\contentsline {subsubsection}{\numberline {5.7.2.4}blobCoord}{30}{subsubsection.5.7.2.4}%
+\contentsline {subsubsection}{\numberline {5.7.2.5}corrStatus}{30}{subsubsection.5.7.2.5}%
+\contentsline {subsubsection}{\numberline {5.7.2.6}currImg}{30}{subsubsection.5.7.2.6}%
+\contentsline {subsubsection}{\numberline {5.7.2.7}currTimestamp}{30}{subsubsection.5.7.2.7}%
+\contentsline {subsubsection}{\numberline {5.7.2.8}dataPath}{31}{subsubsection.5.7.2.8}%
+\contentsline {subsubsection}{\numberline {5.7.2.9}datasetName}{31}{subsubsection.5.7.2.9}%
+\contentsline {subsubsection}{\numberline {5.7.2.10}dth}{31}{subsubsection.5.7.2.10}%
+\contentsline {subsubsection}{\numberline {5.7.2.11}dx}{31}{subsubsection.5.7.2.11}%
+\contentsline {subsubsection}{\numberline {5.7.2.12}ERR\_THRESHOLD}{31}{subsubsection.5.7.2.12}%
+\contentsline {subsubsection}{\numberline {5.7.2.13}est\_deltas}{31}{subsubsection.5.7.2.13}%
+\contentsline {subsubsection}{\numberline {5.7.2.14}estTraj}{31}{subsubsection.5.7.2.14}%
+\contentsline {subsubsection}{\numberline {5.7.2.15}exist\_ok}{31}{subsubsection.5.7.2.15}%
+\contentsline {subsubsection}{\numberline {5.7.2.16}extraLabel}{32}{subsubsection.5.7.2.16}%
+\contentsline {subsubsection}{\numberline {5.7.2.17}good\_new}{32}{subsubsection.5.7.2.17}%
+\contentsline {subsubsection}{\numberline {5.7.2.18}good\_old}{32}{subsubsection.5.7.2.18}%
+\contentsline {subsubsection}{\numberline {5.7.2.19}gt\_deltas}{32}{subsubsection.5.7.2.19}%
+\contentsline {subsubsection}{\numberline {5.7.2.20}gtTraj}{32}{subsubsection.5.7.2.20}%
+\contentsline {subsubsection}{\numberline {5.7.2.21}gtTrajPath}{32}{subsubsection.5.7.2.21}%
+\contentsline {subsubsection}{\numberline {5.7.2.22}h}{32}{subsubsection.5.7.2.22}%
+\contentsline {subsubsection}{\numberline {5.7.2.23}imgPathArr}{32}{subsubsection.5.7.2.23}%
+\contentsline {subsubsection}{\numberline {5.7.2.24}imgSavePath}{33}{subsubsection.5.7.2.24}%
+\contentsline {subsubsection}{\numberline {5.7.2.25}initPose}{33}{subsubsection.5.7.2.25}%
+\contentsline {subsubsection}{\numberline {5.7.2.26}initTimestamp}{33}{subsubsection.5.7.2.26}%
+\contentsline {subsubsection}{\numberline {5.7.2.27}LK\_PARAMS}{33}{subsubsection.5.7.2.27}%
+\contentsline {subsubsection}{\numberline {5.7.2.28}N\_FEATURES\_BEFORE\_RETRACK}{33}{subsubsection.5.7.2.28}%
+\contentsline {subsubsection}{\numberline {5.7.2.29}nBadFeatures}{33}{subsubsection.5.7.2.29}%
+\contentsline {subsubsection}{\numberline {5.7.2.30}nFeatures}{34}{subsubsection.5.7.2.30}%
+\contentsline {subsubsection}{\numberline {5.7.2.31}nGoodFeatures}{34}{subsubsection.5.7.2.31}%
+\contentsline {subsubsection}{\numberline {5.7.2.32}nImgs}{34}{subsubsection.5.7.2.32}%
+\contentsline {subsubsection}{\numberline {5.7.2.33}PLOT\_BAD\_FEATURES}{34}{subsubsection.5.7.2.33}%
+\contentsline {subsubsection}{\numberline {5.7.2.34}prev\_good\_old}{34}{subsubsection.5.7.2.34}%
+\contentsline {subsubsection}{\numberline {5.7.2.35}prevImg}{34}{subsubsection.5.7.2.35}%
+\contentsline {subsubsection}{\numberline {5.7.2.36}R}{34}{subsubsection.5.7.2.36}%
+\contentsline {subsubsection}{\numberline {5.7.2.37}REMOVE\_OLD\_RESULTS}{34}{subsubsection.5.7.2.37}%
+\contentsline {subsubsection}{\numberline {5.7.2.38}saveFeaturePath}{35}{subsubsection.5.7.2.38}%
+\contentsline {subsubsection}{\numberline {5.7.2.39}savePath}{35}{subsubsection.5.7.2.39}%
+\contentsline {subsubsection}{\numberline {5.7.2.40}show}{35}{subsubsection.5.7.2.40}%
+\contentsline {subsubsection}{\numberline {5.7.2.41}start}{35}{subsubsection.5.7.2.41}%
+\contentsline {subsubsection}{\numberline {5.7.2.42}startImgInd}{35}{subsubsection.5.7.2.42}%
+\contentsline {subsubsection}{\numberline {5.7.2.43}timestamp}{35}{subsubsection.5.7.2.43}%
+\contentsline {subsubsection}{\numberline {5.7.2.44}timestampPath}{35}{subsubsection.5.7.2.44}%
+\contentsline {subsubsection}{\numberline {5.7.2.45}toSaveImgPath}{36}{subsubsection.5.7.2.45}%
+\contentsline {subsubsection}{\numberline {5.7.2.46}toSaveTrajPath}{36}{subsubsection.5.7.2.46}%
+\contentsline {subsubsection}{\numberline {5.7.2.47}trajSavePath}{36}{subsubsection.5.7.2.47}%
+\contentsline {subsubsection}{\numberline {5.7.2.48}transformed\_pts}{36}{subsubsection.5.7.2.48}%
+\contentsline {section}{\numberline {5.8}Mapping Namespace Reference}{36}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}Variable Documentation}{36}{subsection.5.8.1}%
+\contentsline {subsubsection}{\numberline {5.8.1.1}RADAR\_CART\_CENTER}{37}{subsubsection.5.8.1.1}%
+\contentsline {subsubsection}{\numberline {5.8.1.2}ROT\_THRESHOLD}{37}{subsubsection.5.8.1.2}%
+\contentsline {subsubsection}{\numberline {5.8.1.3}TRANS\_THRESHOLD}{37}{subsubsection.5.8.1.3}%
+\contentsline {subsubsection}{\numberline {5.8.1.4}TRANS\_THRESHOLD\_SQ}{37}{subsubsection.5.8.1.4}%
+\contentsline {section}{\numberline {5.9}motion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Distortion Namespace Reference}{37}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Variable Documentation}{37}{subsection.5.9.1}%
+\contentsline {subsubsection}{\numberline {5.9.1.1}RADAR\_SCAN\_FREQUENCY}{37}{subsubsection.5.9.1.1}%
+\contentsline {subsubsection}{\numberline {5.9.1.2}VERBOSE}{38}{subsubsection.5.9.1.2}%
+\contentsline {section}{\numberline {5.10}outlier\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Rejection Namespace Reference}{38}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Function Documentation}{38}{subsection.5.10.1}%
+\contentsline {subsubsection}{\numberline {5.10.1.1}rejectOutliers()}{39}{subsubsection.5.10.1.1}%
+\contentsline {subsection}{\numberline {5.10.2}Variable Documentation}{39}{subsection.5.10.2}%
+\contentsline {subsubsection}{\numberline {5.10.2.1}alpha}{39}{subsubsection.5.10.2.1}%
+\contentsline {subsubsection}{\numberline {5.10.2.2}DIST\_THRESHOLD\_M}{39}{subsubsection.5.10.2.2}%
+\contentsline {subsubsection}{\numberline {5.10.2.3}DIST\_THRESHOLD\_PX}{39}{subsubsection.5.10.2.3}%
+\contentsline {subsubsection}{\numberline {5.10.2.4}DISTSQ\_THRESHOLD\_PX}{39}{subsubsection.5.10.2.4}%
+\contentsline {subsubsection}{\numberline {5.10.2.5}FORCE\_OUTLIERS}{40}{subsubsection.5.10.2.5}%
+\contentsline {subsubsection}{\numberline {5.10.2.6}max\_translation\_m}{40}{subsubsection.5.10.2.6}%
+\contentsline {subsubsection}{\numberline {5.10.2.7}n\_outliers}{40}{subsubsection.5.10.2.7}%
+\contentsline {subsubsection}{\numberline {5.10.2.8}n\_points}{40}{subsubsection.5.10.2.8}%
+\contentsline {subsubsection}{\numberline {5.10.2.9}new\_coord}{40}{subsubsection.5.10.2.9}%
+\contentsline {subsubsection}{\numberline {5.10.2.10}new\_coord\_perfect}{40}{subsubsection.5.10.2.10}%
+\contentsline {subsubsection}{\numberline {5.10.2.11}noiseToAdd}{40}{subsubsection.5.10.2.11}%
+\contentsline {subsubsection}{\numberline {5.10.2.12}outlier\_ind}{40}{subsubsection.5.10.2.12}%
+\contentsline {subsubsection}{\numberline {5.10.2.13}prev\_coord}{41}{subsubsection.5.10.2.13}%
+\contentsline {subsubsection}{\numberline {5.10.2.14}pruned\_new\_coord}{41}{subsubsection.5.10.2.14}%
+\contentsline {subsubsection}{\numberline {5.10.2.15}pruned\_prev\_coord}{41}{subsubsection.5.10.2.15}%
+\contentsline {subsubsection}{\numberline {5.10.2.16}show}{41}{subsubsection.5.10.2.16}%
+\contentsline {subsubsection}{\numberline {5.10.2.17}theta\_deg}{41}{subsubsection.5.10.2.17}%
+\contentsline {subsubsection}{\numberline {5.10.2.18}theta\_max\_deg}{41}{subsubsection.5.10.2.18}%
+\contentsline {subsubsection}{\numberline {5.10.2.19}title\_append}{41}{subsubsection.5.10.2.19}%
+\contentsline {subsubsection}{\numberline {5.10.2.20}trans\_vec}{41}{subsubsection.5.10.2.20}%
+\contentsline {section}{\numberline {5.11}parse\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Namespace Reference}{42}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Function Documentation}{42}{subsection.5.11.1}%
+\contentsline {subsubsection}{\numberline {5.11.1.1}convertCartesianImageToPolar()}{42}{subsubsection.5.11.1.1}%
+\contentsline {subsubsection}{\numberline {5.11.1.2}convertPolarImageToCartesian()}{43}{subsubsection.5.11.1.2}%
+\contentsline {subsubsection}{\numberline {5.11.1.3}convertPolarImgToLogPolar()}{43}{subsubsection.5.11.1.3}%
+\contentsline {subsubsection}{\numberline {5.11.1.4}drawCVPoint()}{43}{subsubsection.5.11.1.4}%
+\contentsline {subsubsection}{\numberline {5.11.1.5}extractDataFromRadarImage()}{43}{subsubsection.5.11.1.5}%
+\contentsline {subsubsection}{\numberline {5.11.1.6}getCartImageFromImgPaths()}{44}{subsubsection.5.11.1.6}%
+\contentsline {subsubsection}{\numberline {5.11.1.7}getDataFromImgPathsByIndex()}{44}{subsubsection.5.11.1.7}%
+\contentsline {subsubsection}{\numberline {5.11.1.8}getPolarImageFromImgPaths()}{44}{subsubsection.5.11.1.8}%
+\contentsline {subsubsection}{\numberline {5.11.1.9}getRadarImgPaths()}{45}{subsubsection.5.11.1.9}%
+\contentsline {subsubsection}{\numberline {5.11.1.10}getRadarStreamPolar()}{45}{subsubsection.5.11.1.10}%
+\contentsline {subsection}{\numberline {5.11.2}Variable Documentation}{45}{subsection.5.11.2}%
+\contentsline {subsubsection}{\numberline {5.11.2.1}c}{45}{subsubsection.5.11.2.1}%
+\contentsline {subsubsection}{\numberline {5.11.2.2}dataPath}{45}{subsubsection.5.11.2.2}%
+\contentsline {subsubsection}{\numberline {5.11.2.3}datasetName}{45}{subsubsection.5.11.2.3}%
+\contentsline {subsubsection}{\numberline {5.11.2.4}DOWNSAMPLE\_FACTOR}{46}{subsubsection.5.11.2.4}%
+\contentsline {subsubsection}{\numberline {5.11.2.5}imgCart}{46}{subsubsection.5.11.2.5}%
+\contentsline {subsubsection}{\numberline {5.11.2.6}imgPolar}{46}{subsubsection.5.11.2.6}%
+\contentsline {subsubsection}{\numberline {5.11.2.7}MAX\_RANGE\_CLIP\_DEFAULT}{46}{subsubsection.5.11.2.7}%
+\contentsline {subsubsection}{\numberline {5.11.2.8}nImgs}{46}{subsubsection.5.11.2.8}%
+\contentsline {subsubsection}{\numberline {5.11.2.9}RANGE\_RESOLUTION\_CART\_M}{46}{subsubsection.5.11.2.9}%
+\contentsline {subsubsection}{\numberline {5.11.2.10}RANGE\_RESOLUTION\_M}{46}{subsubsection.5.11.2.10}%
+\contentsline {subsubsection}{\numberline {5.11.2.11}streamArr}{46}{subsubsection.5.11.2.11}%
+\contentsline {subsubsection}{\numberline {5.11.2.12}timestampPath}{47}{subsubsection.5.11.2.12}%
+\contentsline {section}{\numberline {5.12}Pose\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Lib Namespace Reference}{47}{section.5.12}%
+\contentsline {section}{\numberline {5.13}Raw\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ROAMSystem Namespace Reference}{47}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Variable Documentation}{47}{subsection.5.13.1}%
+\contentsline {subsubsection}{\numberline {5.13.1.1}datasetName}{47}{subsubsection.5.13.1.1}%
+\contentsline {subsubsection}{\numberline {5.13.1.2}endSeqInd}{47}{subsubsection.5.13.1.2}%
+\contentsline {subsubsection}{\numberline {5.13.1.3}imgSavePath}{48}{subsubsection.5.13.1.3}%
+\contentsline {subsubsection}{\numberline {5.13.1.4}paramFlags}{48}{subsubsection.5.13.1.4}%
+\contentsline {subsubsection}{\numberline {5.13.1.5}RADAR\_CART\_CENTER}{48}{subsubsection.5.13.1.5}%
+\contentsline {subsubsection}{\numberline {5.13.1.6}REMOVE\_OLD\_RESULTS}{48}{subsubsection.5.13.1.6}%
+\contentsline {subsubsection}{\numberline {5.13.1.7}startSeqInd}{48}{subsubsection.5.13.1.7}%
+\contentsline {subsubsection}{\numberline {5.13.1.8}system}{48}{subsubsection.5.13.1.8}%
+\contentsline {subsubsection}{\numberline {5.13.1.9}trajSavePath}{49}{subsubsection.5.13.1.9}%
+\contentsline {subsubsection}{\numberline {5.13.1.10}wantToPlot}{49}{subsubsection.5.13.1.10}%
+\contentsline {section}{\numberline {5.14}test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Motion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Distortion Namespace Reference}{49}{section.5.14}%
+\contentsline {subsection}{\numberline {5.14.1}Variable Documentation}{50}{subsection.5.14.1}%
+\contentsline {subsubsection}{\numberline {5.14.1.1}A}{50}{subsubsection.5.14.1.1}%
+\contentsline {subsubsection}{\numberline {5.14.1.2}A\_inv}{50}{subsubsection.5.14.1.2}%
+\contentsline {subsubsection}{\numberline {5.14.1.3}alpha}{50}{subsubsection.5.14.1.3}%
+\contentsline {subsubsection}{\numberline {5.14.1.4}clear}{50}{subsubsection.5.14.1.4}%
+\contentsline {subsubsection}{\numberline {5.14.1.5}cov\_p}{50}{subsubsection.5.14.1.5}%
+\contentsline {subsubsection}{\numberline {5.14.1.6}cov\_v}{50}{subsubsection.5.14.1.6}%
+\contentsline {subsubsection}{\numberline {5.14.1.7}currentFrame}{51}{subsubsection.5.14.1.7}%
+\contentsline {subsubsection}{\numberline {5.14.1.8}distorted}{51}{subsubsection.5.14.1.8}%
+\contentsline {subsubsection}{\numberline {5.14.1.9}False}{51}{subsubsection.5.14.1.9}%
+\contentsline {subsubsection}{\numberline {5.14.1.10}final\_undistorted}{51}{subsubsection.5.14.1.10}%
+\contentsline {subsubsection}{\numberline {5.14.1.11}frequency}{51}{subsubsection.5.14.1.11}%
+\contentsline {subsubsection}{\numberline {5.14.1.12}groundTruth}{51}{subsubsection.5.14.1.12}%
+\contentsline {subsubsection}{\numberline {5.14.1.13}h}{51}{subsubsection.5.14.1.13}%
+\contentsline {subsubsection}{\numberline {5.14.1.14}h\_fit}{51}{subsubsection.5.14.1.14}%
+\contentsline {subsubsection}{\numberline {5.14.1.15}MDS}{52}{subsubsection.5.14.1.15}%
+\contentsline {subsubsection}{\numberline {5.14.1.16}N}{52}{subsubsection.5.14.1.16}%
+\contentsline {subsubsection}{\numberline {5.14.1.17}n\_points}{52}{subsubsection.5.14.1.17}%
+\contentsline {subsubsection}{\numberline {5.14.1.18}noiseToAdd}{52}{subsubsection.5.14.1.18}%
+\contentsline {subsubsection}{\numberline {5.14.1.19}noisy}{52}{subsubsection.5.14.1.19}%
+\contentsline {subsubsection}{\numberline {5.14.1.20}outlier\_ind}{52}{subsubsection.5.14.1.20}%
+\contentsline {subsubsection}{\numberline {5.14.1.21}outlier\_rate}{52}{subsubsection.5.14.1.21}%
+\contentsline {subsubsection}{\numberline {5.14.1.22}p\_jt}{52}{subsubsection.5.14.1.22}%
+\contentsline {subsubsection}{\numberline {5.14.1.23}p\_w}{53}{subsubsection.5.14.1.23}%
+\contentsline {subsubsection}{\numberline {5.14.1.24}params}{53}{subsubsection.5.14.1.24}%
+\contentsline {subsubsection}{\numberline {5.14.1.25}period}{53}{subsubsection.5.14.1.25}%
+\contentsline {subsubsection}{\numberline {5.14.1.26}plotDisplace}{53}{subsubsection.5.14.1.26}%
+\contentsline {subsubsection}{\numberline {5.14.1.27}R\_fit}{53}{subsubsection.5.14.1.27}%
+\contentsline {subsubsection}{\numberline {5.14.1.28}show}{53}{subsubsection.5.14.1.28}%
+\contentsline {subsubsection}{\numberline {5.14.1.29}solution}{53}{subsubsection.5.14.1.29}%
+\contentsline {subsubsection}{\numberline {5.14.1.30}srcCoord2}{53}{subsubsection.5.14.1.30}%
+\contentsline {subsubsection}{\numberline {5.14.1.31}srcCoord3}{54}{subsubsection.5.14.1.31}%
+\contentsline {subsubsection}{\numberline {5.14.1.32}T\_wj}{54}{subsubsection.5.14.1.32}%
+\contentsline {subsubsection}{\numberline {5.14.1.33}T\_wj0}{54}{subsubsection.5.14.1.33}%
+\contentsline {subsubsection}{\numberline {5.14.1.34}theta\_deg}{54}{subsubsection.5.14.1.34}%
+\contentsline {subsubsection}{\numberline {5.14.1.35}theta\_fit}{54}{subsubsection.5.14.1.35}%
+\contentsline {subsubsection}{\numberline {5.14.1.36}title\_append}{54}{subsubsection.5.14.1.36}%
+\contentsline {subsubsection}{\numberline {5.14.1.37}transform}{54}{subsubsection.5.14.1.37}%
+\contentsline {subsubsection}{\numberline {5.14.1.38}undistorted}{55}{subsubsection.5.14.1.38}%
+\contentsline {subsubsection}{\numberline {5.14.1.39}useOld}{55}{subsubsection.5.14.1.39}%
+\contentsline {subsubsection}{\numberline {5.14.1.40}v\_j0}{55}{subsubsection.5.14.1.40}%
+\contentsline {subsubsection}{\numberline {5.14.1.41}velocity}{55}{subsubsection.5.14.1.41}%
+\contentsline {section}{\numberline {5.15}test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Transform Namespace Reference}{55}{section.5.15}%
+\contentsline {subsection}{\numberline {5.15.1}Variable Documentation}{56}{subsection.5.15.1}%
+\contentsline {subsubsection}{\numberline {5.15.1.1}A}{56}{subsubsection.5.15.1.1}%
+\contentsline {subsubsection}{\numberline {5.15.1.2}A\_inv}{56}{subsubsection.5.15.1.2}%
+\contentsline {subsubsection}{\numberline {5.15.1.3}alpha}{56}{subsubsection.5.15.1.3}%
+\contentsline {subsubsection}{\numberline {5.15.1.4}clear}{56}{subsubsection.5.15.1.4}%
+\contentsline {subsubsection}{\numberline {5.15.1.5}False}{56}{subsubsection.5.15.1.5}%
+\contentsline {subsubsection}{\numberline {5.15.1.6}h}{56}{subsubsection.5.15.1.6}%
+\contentsline {subsubsection}{\numberline {5.15.1.7}h\_fit}{57}{subsubsection.5.15.1.7}%
+\contentsline {subsubsection}{\numberline {5.15.1.8}N}{57}{subsubsection.5.15.1.8}%
+\contentsline {subsubsection}{\numberline {5.15.1.9}n\_points}{57}{subsubsection.5.15.1.9}%
+\contentsline {subsubsection}{\numberline {5.15.1.10}noiseToAdd}{57}{subsubsection.5.15.1.10}%
+\contentsline {subsubsection}{\numberline {5.15.1.11}noisy}{57}{subsubsection.5.15.1.11}%
+\contentsline {subsubsection}{\numberline {5.15.1.12}outlier\_ind}{57}{subsubsection.5.15.1.12}%
+\contentsline {subsubsection}{\numberline {5.15.1.13}outlier\_rate}{57}{subsubsection.5.15.1.13}%
+\contentsline {subsubsection}{\numberline {5.15.1.14}R\_fit}{57}{subsubsection.5.15.1.14}%
+\contentsline {subsubsection}{\numberline {5.15.1.15}show}{58}{subsubsection.5.15.1.15}%
+\contentsline {subsubsection}{\numberline {5.15.1.16}srcCoord}{58}{subsubsection.5.15.1.16}%
+\contentsline {subsubsection}{\numberline {5.15.1.17}srcCoord2}{58}{subsubsection.5.15.1.17}%
+\contentsline {subsubsection}{\numberline {5.15.1.18}targetCoord}{58}{subsubsection.5.15.1.18}%
+\contentsline {subsubsection}{\numberline {5.15.1.19}theta\_deg}{58}{subsubsection.5.15.1.19}%
+\contentsline {subsubsection}{\numberline {5.15.1.20}theta\_fit}{58}{subsubsection.5.15.1.20}%
+\contentsline {subsubsection}{\numberline {5.15.1.21}title\_append}{58}{subsubsection.5.15.1.21}%
+\contentsline {subsubsection}{\numberline {5.15.1.22}useOld}{58}{subsubsection.5.15.1.22}%
+\contentsline {section}{\numberline {5.16}Tracker Namespace Reference}{59}{section.5.16}%
+\contentsline {section}{\numberline {5.17}trajectory\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Plotting Namespace Reference}{59}{section.5.17}%
+\contentsline {subsection}{\numberline {5.17.1}Function Documentation}{59}{subsection.5.17.1}%
+\contentsline {subsubsection}{\numberline {5.17.1.1}computePosesRMSE()}{59}{subsubsection.5.17.1.1}%
+\contentsline {subsubsection}{\numberline {5.17.1.2}getGroundTruthTrajectory()}{60}{subsubsection.5.17.1.2}%
+\contentsline {subsubsection}{\numberline {5.17.1.3}getGroundTruthTrajectoryGPS()}{60}{subsubsection.5.17.1.3}%
+\contentsline {subsubsection}{\numberline {5.17.1.4}plotGtAndEstTrajectory()}{60}{subsubsection.5.17.1.4}%
+\contentsline {subsection}{\numberline {5.17.2}Variable Documentation}{60}{subsection.5.17.2}%
+\contentsline {subsubsection}{\numberline {5.17.2.1}block}{60}{subsubsection.5.17.2.1}%
+\contentsline {subsubsection}{\numberline {5.17.2.2}datasetName}{61}{subsubsection.5.17.2.2}%
+\contentsline {subsubsection}{\numberline {5.17.2.3}estPoses}{61}{subsubsection.5.17.2.3}%
+\contentsline {subsubsection}{\numberline {5.17.2.4}estTraj}{61}{subsubsection.5.17.2.4}%
+\contentsline {subsubsection}{\numberline {5.17.2.5}gtPath}{61}{subsubsection.5.17.2.5}%
+\contentsline {subsubsection}{\numberline {5.17.2.6}gtTraj}{61}{subsubsection.5.17.2.6}%
+\contentsline {subsubsection}{\numberline {5.17.2.7}keyframe\_timestamps}{61}{subsubsection.5.17.2.7}%
+\contentsline {subsubsection}{\numberline {5.17.2.8}noise}{61}{subsubsection.5.17.2.8}%
+\contentsline {subsubsection}{\numberline {5.17.2.9}timestampPath}{62}{subsubsection.5.17.2.9}%
+\contentsline {section}{\numberline {5.18}utils Namespace Reference}{62}{section.5.18}%
+\contentsline {subsection}{\numberline {5.18.1}Function Documentation}{62}{subsection.5.18.1}%
+\contentsline {subsubsection}{\numberline {5.18.1.1}convertPoseToTransform()}{62}{subsubsection.5.18.1.1}%
+\contentsline {subsubsection}{\numberline {5.18.1.2}convertRandHtoDeltas()}{62}{subsubsection.5.18.1.2}%
+\contentsline {subsubsection}{\numberline {5.18.1.3}convertTransformToPose()}{63}{subsubsection.5.18.1.3}%
+\contentsline {subsubsection}{\numberline {5.18.1.4}f\_arr()}{63}{subsubsection.5.18.1.4}%
+\contentsline {subsubsection}{\numberline {5.18.1.5}flatten()}{63}{subsubsection.5.18.1.5}%
+\contentsline {subsubsection}{\numberline {5.18.1.6}getRotationMatrix()}{63}{subsubsection.5.18.1.6}%
+\contentsline {subsubsection}{\numberline {5.18.1.7}homogenize()}{63}{subsubsection.5.18.1.7}%
+\contentsline {subsubsection}{\numberline {5.18.1.8}invert\_transform()}{63}{subsubsection.5.18.1.8}%
+\contentsline {subsubsection}{\numberline {5.18.1.9}normalize\_angles()}{64}{subsubsection.5.18.1.9}%
+\contentsline {subsubsection}{\numberline {5.18.1.10}plt\_full\_extent()}{64}{subsubsection.5.18.1.10}%
+\contentsline {subsubsection}{\numberline {5.18.1.11}plt\_savefig\_by\_axis()}{64}{subsubsection.5.18.1.11}%
+\contentsline {subsubsection}{\numberline {5.18.1.12}quiver()}{64}{subsubsection.5.18.1.12}%
+\contentsline {subsubsection}{\numberline {5.18.1.13}radarImgPathToTimestamp()}{64}{subsubsection.5.18.1.13}%
+\contentsline {subsubsection}{\numberline {5.18.1.14}tic()}{65}{subsubsection.5.18.1.14}%
+\contentsline {subsubsection}{\numberline {5.18.1.15}toc()}{65}{subsubsection.5.18.1.15}%
+\contentsline {chapter}{\numberline {6}Class Documentation}{67}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Bundle\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Adjustment Class Reference}{67}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Constructor \& Destructor Documentation}{67}{subsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.1.1}\_\_init\_\_()}{67}{subsubsection.6.1.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Member Function Documentation}{67}{subsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.2.1}add\_edge()}{67}{subsubsection.6.1.2.1}%
+\contentsline {subsubsection}{\numberline {6.1.2.2}add\_point()}{68}{subsubsection.6.1.2.2}%
+\contentsline {subsubsection}{\numberline {6.1.2.3}add\_pose()}{68}{subsubsection.6.1.2.3}%
+\contentsline {subsubsection}{\numberline {6.1.2.4}get\_point()}{68}{subsubsection.6.1.2.4}%
+\contentsline {subsubsection}{\numberline {6.1.2.5}get\_pose()}{68}{subsubsection.6.1.2.5}%
+\contentsline {subsubsection}{\numberline {6.1.2.6}optimize()}{68}{subsubsection.6.1.2.6}%
+\contentsline {section}{\numberline {6.2}Cart\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coord Class Reference}{69}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{69}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Constructor \& Destructor Documentation}{69}{subsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.1}\_\_init\_\_()}{69}{subsubsection.6.2.2.1}%
+\contentsline {subsection}{\numberline {6.2.3}Member Function Documentation}{69}{subsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.1}\_\_str\_\_()}{70}{subsubsection.6.2.3.1}%
+\contentsline {subsubsection}{\numberline {6.2.3.2}add()}{70}{subsubsection.6.2.3.2}%
+\contentsline {subsubsection}{\numberline {6.2.3.3}addCoord()}{70}{subsubsection.6.2.3.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.4}asTuple()}{70}{subsubsection.6.2.3.4}%
+\contentsline {subsubsection}{\numberline {6.2.3.5}getAngle()}{70}{subsubsection.6.2.3.5}%
+\contentsline {subsubsection}{\numberline {6.2.3.6}getDistance()}{70}{subsubsection.6.2.3.6}%
+\contentsline {subsubsection}{\numberline {6.2.3.7}getX()}{71}{subsubsection.6.2.3.7}%
+\contentsline {subsubsection}{\numberline {6.2.3.8}getY()}{71}{subsubsection.6.2.3.8}%
+\contentsline {subsubsection}{\numberline {6.2.3.9}scale()}{71}{subsubsection.6.2.3.9}%
+\contentsline {subsubsection}{\numberline {6.2.3.10}scaleX()}{71}{subsubsection.6.2.3.10}%
+\contentsline {subsubsection}{\numberline {6.2.3.11}scaleY()}{71}{subsubsection.6.2.3.11}%
+\contentsline {subsubsection}{\numberline {6.2.3.12}sub()}{71}{subsubsection.6.2.3.12}%
+\contentsline {subsection}{\numberline {6.2.4}Member Data Documentation}{71}{subsection.6.2.4}%
+\contentsline {subsubsection}{\numberline {6.2.4.1}x}{72}{subsubsection.6.2.4.1}%
+\contentsline {subsubsection}{\numberline {6.2.4.2}y}{72}{subsubsection.6.2.4.2}%
+\contentsline {section}{\numberline {6.3}Keyframe Class Reference}{72}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Constructor \& Destructor Documentation}{72}{subsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.1.1}\_\_init\_\_()}{72}{subsubsection.6.3.1.1}%
+\contentsline {subsection}{\numberline {6.3.2}Member Function Documentation}{73}{subsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}convertFeaturesLocalToGlobal()}{73}{subsubsection.6.3.2.1}%
+\contentsline {subsubsection}{\numberline {6.3.2.2}copyFromOtherKeyframe()}{73}{subsubsection.6.3.2.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.3}getPrunedFeaturesGlobalPosition()}{73}{subsubsection.6.3.2.3}%
+\contentsline {subsubsection}{\numberline {6.3.2.4}pruneFeaturePoints()}{73}{subsubsection.6.3.2.4}%
+\contentsline {subsubsection}{\numberline {6.3.2.5}updateInfo()}{74}{subsubsection.6.3.2.5}%
+\contentsline {subsection}{\numberline {6.3.3}Member Data Documentation}{74}{subsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.1}featurePointsLocal}{74}{subsubsection.6.3.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.3.2}featurePointsLocalUndistorted}{74}{subsubsection.6.3.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3.3}pointCloud}{74}{subsubsection.6.3.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.4}pose}{74}{subsubsection.6.3.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.3.5}prunedFeaturePoints}{74}{subsubsection.6.3.3.5}%
+\contentsline {subsubsection}{\numberline {6.3.3.6}prunedUndistortedLocals}{75}{subsubsection.6.3.3.6}%
+\contentsline {subsubsection}{\numberline {6.3.3.7}radarPolarImg}{75}{subsubsection.6.3.3.7}%
+\contentsline {subsubsection}{\numberline {6.3.3.8}velocity}{75}{subsubsection.6.3.3.8}%
+\contentsline {section}{\numberline {6.4}Map Class Reference}{75}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Constructor \& Destructor Documentation}{75}{subsection.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.4.1.1}\_\_init\_\_()}{75}{subsubsection.6.4.1.1}%
+\contentsline {subsection}{\numberline {6.4.2}Member Function Documentation}{76}{subsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.1}addKeyframe()}{76}{subsubsection.6.4.2.1}%
+\contentsline {subsubsection}{\numberline {6.4.2.2}isGoodKeyframe()}{76}{subsubsection.6.4.2.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.3}plot()}{76}{subsubsection.6.4.2.3}%
+\contentsline {subsubsection}{\numberline {6.4.2.4}updateInternalTraj()}{76}{subsubsection.6.4.2.4}%
+\contentsline {subsection}{\numberline {6.4.3}Member Data Documentation}{77}{subsection.6.4.3}%
+\contentsline {subsubsection}{\numberline {6.4.3.1}estTraj}{77}{subsubsection.6.4.3.1}%
+\contentsline {subsubsection}{\numberline {6.4.3.2}filePaths}{77}{subsubsection.6.4.3.2}%
+\contentsline {subsubsection}{\numberline {6.4.3.3}imgPathArr}{77}{subsubsection.6.4.3.3}%
+\contentsline {subsubsection}{\numberline {6.4.3.4}keyframes}{77}{subsubsection.6.4.3.4}%
+\contentsline {subsubsection}{\numberline {6.4.3.5}mapPoints}{77}{subsubsection.6.4.3.5}%
+\contentsline {subsubsection}{\numberline {6.4.3.6}sequenceName}{77}{subsubsection.6.4.3.6}%
+\contentsline {subsubsection}{\numberline {6.4.3.7}sequenceSize}{77}{subsubsection.6.4.3.7}%
+\contentsline {section}{\numberline {6.5}Motion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Distortion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Solver Class Reference}{78}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Constructor \& Destructor Documentation}{78}{subsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.1.1}\_\_init\_\_()\hspace {0.1cm}{\footnotesize \ttfamily [1/2]}}{78}{subsubsection.6.5.1.1}%
+\contentsline {subsubsection}{\numberline {6.5.1.2}\_\_init\_\_()\hspace {0.1cm}{\footnotesize \ttfamily [2/2]}}{79}{subsubsection.6.5.1.2}%
+\contentsline {subsection}{\numberline {6.5.2}Member Function Documentation}{79}{subsection.6.5.2}%
+\contentsline {subsubsection}{\numberline {6.5.2.1}compute\_time\_deltas()}{79}{subsubsection.6.5.2.1}%
+\contentsline {subsubsection}{\numberline {6.5.2.2}error()}{79}{subsubsection.6.5.2.2}%
+\contentsline {subsubsection}{\numberline {6.5.2.3}error\_vector()}{79}{subsubsection.6.5.2.3}%
+\contentsline {subsubsection}{\numberline {6.5.2.4}expected\_observed\_pts()}{80}{subsubsection.6.5.2.4}%
+\contentsline {subsubsection}{\numberline {6.5.2.5}infer\_velocity()}{80}{subsubsection.6.5.2.5}%
+\contentsline {subsubsection}{\numberline {6.5.2.6}jacobian()}{80}{subsubsection.6.5.2.6}%
+\contentsline {subsubsection}{\numberline {6.5.2.7}jacobian\_vector()}{80}{subsubsection.6.5.2.7}%
+\contentsline {subsubsection}{\numberline {6.5.2.8}optimize()}{80}{subsubsection.6.5.2.8}%
+\contentsline {subsubsection}{\numberline {6.5.2.9}optimize\_library()}{81}{subsubsection.6.5.2.9}%
+\contentsline {subsubsection}{\numberline {6.5.2.10}undistort()}{81}{subsubsection.6.5.2.10}%
+\contentsline {subsubsection}{\numberline {6.5.2.11}update\_problem()}{81}{subsubsection.6.5.2.11}%
+\contentsline {subsection}{\numberline {6.5.3}Member Data Documentation}{81}{subsection.6.5.3}%
+\contentsline {subsubsection}{\numberline {6.5.3.1}debug}{81}{subsubsection.6.5.3.1}%
+\contentsline {subsubsection}{\numberline {6.5.3.2}dT}{81}{subsubsection.6.5.3.2}%
+\contentsline {subsubsection}{\numberline {6.5.3.3}info\_vector}{82}{subsubsection.6.5.3.3}%
+\contentsline {subsubsection}{\numberline {6.5.3.4}p\_jt}{82}{subsubsection.6.5.3.4}%
+\contentsline {subsubsection}{\numberline {6.5.3.5}p\_w}{82}{subsubsection.6.5.3.5}%
+\contentsline {subsubsection}{\numberline {6.5.3.6}sigma\_p}{82}{subsubsection.6.5.3.6}%
+\contentsline {subsubsection}{\numberline {6.5.3.7}sigma\_v}{82}{subsubsection.6.5.3.7}%
+\contentsline {subsubsection}{\numberline {6.5.3.8}T\_wj0}{82}{subsubsection.6.5.3.8}%
+\contentsline {subsubsection}{\numberline {6.5.3.9}T\_wj0\_inv}{82}{subsubsection.6.5.3.9}%
+\contentsline {subsubsection}{\numberline {6.5.3.10}T\_wj\_initial}{82}{subsubsection.6.5.3.10}%
+\contentsline {subsubsection}{\numberline {6.5.3.11}total\_scan\_time}{83}{subsubsection.6.5.3.11}%
+\contentsline {subsubsection}{\numberline {6.5.3.12}v\_j\_initial}{83}{subsubsection.6.5.3.12}%
+\contentsline {section}{\numberline {6.6}Polar\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Coord Class Reference}{83}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Detailed Description}{83}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Constructor \& Destructor Documentation}{83}{subsection.6.6.2}%
+\contentsline {subsubsection}{\numberline {6.6.2.1}\_\_init\_\_()}{83}{subsubsection.6.6.2.1}%
+\contentsline {subsection}{\numberline {6.6.3}Member Function Documentation}{84}{subsection.6.6.3}%
+\contentsline {subsubsection}{\numberline {6.6.3.1}\_\_str\_\_()}{84}{subsubsection.6.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.6.3.2}asTuple()}{84}{subsubsection.6.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.6.3.3}getR()}{84}{subsubsection.6.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.6.3.4}getTheta()}{84}{subsubsection.6.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.6.3.5}scaleR()}{84}{subsubsection.6.6.3.5}%
+\contentsline {subsubsection}{\numberline {6.6.3.6}toCart()}{84}{subsubsection.6.6.3.6}%
+\contentsline {subsection}{\numberline {6.6.4}Member Data Documentation}{85}{subsection.6.6.4}%
+\contentsline {subsubsection}{\numberline {6.6.4.1}r}{85}{subsubsection.6.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.6.4.2}theta}{85}{subsubsection.6.6.4.2}%
+\contentsline {section}{\numberline {6.7}Pose\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Graph\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Optimization Class Reference}{85}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}Constructor \& Destructor Documentation}{85}{subsection.6.7.1}%
+\contentsline {subsubsection}{\numberline {6.7.1.1}\_\_init\_\_()}{85}{subsubsection.6.7.1.1}%
+\contentsline {subsection}{\numberline {6.7.2}Member Function Documentation}{85}{subsection.6.7.2}%
+\contentsline {subsubsection}{\numberline {6.7.2.1}add\_edge()}{85}{subsubsection.6.7.2.1}%
+\contentsline {subsubsection}{\numberline {6.7.2.2}add\_vertex()}{86}{subsubsection.6.7.2.2}%
+\contentsline {subsubsection}{\numberline {6.7.2.3}get\_pose()}{86}{subsubsection.6.7.2.3}%
+\contentsline {subsubsection}{\numberline {6.7.2.4}optimize()}{86}{subsubsection.6.7.2.4}%
+\contentsline {section}{\numberline {6.8}Raw\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ROAMSystem Class Reference}{86}{section.6.8}%
+\contentsline {subsection}{\numberline {6.8.1}Constructor \& Destructor Documentation}{87}{subsection.6.8.1}%
+\contentsline {subsubsection}{\numberline {6.8.1.1}\_\_init\_\_()}{87}{subsubsection.6.8.1.1}%
+\contentsline {subsection}{\numberline {6.8.2}Member Function Documentation}{87}{subsection.6.8.2}%
+\contentsline {subsubsection}{\numberline {6.8.2.1}plot()}{87}{subsubsection.6.8.2.1}%
+\contentsline {subsubsection}{\numberline {6.8.2.2}plotTraj()}{88}{subsubsection.6.8.2.2}%
+\contentsline {subsubsection}{\numberline {6.8.2.3}run()}{88}{subsubsection.6.8.2.3}%
+\contentsline {subsubsection}{\numberline {6.8.2.4}updateTrajectory()}{88}{subsubsection.6.8.2.4}%
+\contentsline {subsubsection}{\numberline {6.8.2.5}updateTrajectoryAbsolute()}{89}{subsubsection.6.8.2.5}%
+\contentsline {subsubsection}{\numberline {6.8.2.6}updateTrajFromTracker()}{89}{subsubsection.6.8.2.6}%
+\contentsline {subsection}{\numberline {6.8.3}Member Data Documentation}{89}{subsection.6.8.3}%
+\contentsline {subsubsection}{\numberline {6.8.3.1}estTraj}{89}{subsubsection.6.8.3.1}%
+\contentsline {subsubsection}{\numberline {6.8.3.2}fig}{89}{subsubsection.6.8.3.2}%
+\contentsline {subsubsection}{\numberline {6.8.3.3}filePaths}{89}{subsubsection.6.8.3.3}%
+\contentsline {subsubsection}{\numberline {6.8.3.4}gtTraj}{89}{subsubsection.6.8.3.4}%
+\contentsline {subsubsection}{\numberline {6.8.3.5}hasGroundTruth}{90}{subsubsection.6.8.3.5}%
+\contentsline {subsubsection}{\numberline {6.8.3.6}imgPathArr}{90}{subsubsection.6.8.3.6}%
+\contentsline {subsubsection}{\numberline {6.8.3.7}map}{90}{subsubsection.6.8.3.7}%
+\contentsline {subsubsection}{\numberline {6.8.3.8}paramFlags}{90}{subsubsection.6.8.3.8}%
+\contentsline {subsubsection}{\numberline {6.8.3.9}sequenceName}{90}{subsubsection.6.8.3.9}%
+\contentsline {subsubsection}{\numberline {6.8.3.10}sequenceSize}{90}{subsubsection.6.8.3.10}%
+\contentsline {subsubsection}{\numberline {6.8.3.11}tracker}{90}{subsubsection.6.8.3.11}%
+\contentsline {section}{\numberline {6.9}Tracker Class Reference}{91}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Constructor \& Destructor Documentation}{91}{subsection.6.9.1}%
+\contentsline {subsubsection}{\numberline {6.9.1.1}\_\_init\_\_()}{91}{subsubsection.6.9.1.1}%
+\contentsline {subsection}{\numberline {6.9.2}Member Function Documentation}{91}{subsection.6.9.2}%
+\contentsline {subsubsection}{\numberline {6.9.2.1}getTransform()}{91}{subsubsection.6.9.2.1}%
+\contentsline {subsubsection}{\numberline {6.9.2.2}initTraj()}{92}{subsubsection.6.9.2.2}%
+\contentsline {subsubsection}{\numberline {6.9.2.3}plot()}{92}{subsubsection.6.9.2.3}%
+\contentsline {subsubsection}{\numberline {6.9.2.4}track()}{92}{subsubsection.6.9.2.4}%
+\contentsline {subsection}{\numberline {6.9.3}Member Data Documentation}{92}{subsection.6.9.3}%
+\contentsline {subsubsection}{\numberline {6.9.3.1}estTraj}{93}{subsubsection.6.9.3.1}%
+\contentsline {subsubsection}{\numberline {6.9.3.2}filePaths}{93}{subsubsection.6.9.3.2}%
+\contentsline {subsubsection}{\numberline {6.9.3.3}gtTraj}{93}{subsubsection.6.9.3.3}%
+\contentsline {subsubsection}{\numberline {6.9.3.4}imgPathArr}{93}{subsubsection.6.9.3.4}%
+\contentsline {subsubsection}{\numberline {6.9.3.5}paramFlags}{93}{subsubsection.6.9.3.5}%
+\contentsline {subsubsection}{\numberline {6.9.3.6}sequenceName}{93}{subsubsection.6.9.3.6}%
+\contentsline {subsubsection}{\numberline {6.9.3.7}sequenceSize}{93}{subsubsection.6.9.3.7}%
+\contentsline {section}{\numberline {6.10}Trajectory Class Reference}{94}{section.6.10}%
+\contentsline {subsection}{\numberline {6.10.1}Constructor \& Destructor Documentation}{94}{subsection.6.10.1}%
+\contentsline {subsubsection}{\numberline {6.10.1.1}\_\_init\_\_()}{94}{subsubsection.6.10.1.1}%
+\contentsline {subsection}{\numberline {6.10.2}Member Function Documentation}{94}{subsection.6.10.2}%
+\contentsline {subsubsection}{\numberline {6.10.2.1}appendAbsoluteTransform()}{94}{subsubsection.6.10.2.1}%
+\contentsline {subsubsection}{\numberline {6.10.2.2}appendRelativeDeltas()}{95}{subsubsection.6.10.2.2}%
+\contentsline {subsubsection}{\numberline {6.10.2.3}appendRelativeTransform()}{95}{subsubsection.6.10.2.3}%
+\contentsline {subsubsection}{\numberline {6.10.2.4}getGroundTruthDeltasAtTime()}{95}{subsubsection.6.10.2.4}%
+\contentsline {subsubsection}{\numberline {6.10.2.5}getPoseAtTimes()}{95}{subsubsection.6.10.2.5}%
+\contentsline {subsubsection}{\numberline {6.10.2.6}plot()}{96}{subsubsection.6.10.2.6}%
+\contentsline {subsection}{\numberline {6.10.3}Member Data Documentation}{96}{subsection.6.10.3}%
+\contentsline {subsubsection}{\numberline {6.10.3.1}pose\_transform}{96}{subsubsection.6.10.3.1}%
+\contentsline {subsubsection}{\numberline {6.10.3.2}poses}{96}{subsubsection.6.10.3.2}%
+\contentsline {subsubsection}{\numberline {6.10.3.3}timestamps}{96}{subsubsection.6.10.3.3}%
+\contentsline {chapter}{Index}{97}{section*.49}%

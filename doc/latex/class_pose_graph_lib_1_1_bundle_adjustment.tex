@@ -1,0 +1,67 @@
+\hypertarget{class_pose_graph_lib_1_1_bundle_adjustment}{}\doxysection{Bundle\+Adjustment Class Reference}
+\label{class_pose_graph_lib_1_1_bundle_adjustment}\index{BundleAdjustment@{BundleAdjustment}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_ae64f0875afe3067b97ba370b354b9213}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_acb41507945373592650a226a5c330e4e}{optimize}} (self, max\+\_\+iterations=10)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_a9a15c780e8d512f3252c1a8f9764bfc2}{add\+\_\+pose}} (self, pose\+\_\+id, pose, cam, fixed=False)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_a6fd42378608542f13e1c2492cfb7dd74}{add\+\_\+point}} (self, point\+\_\+id, point, fixed=False, marginalized=True)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_afd2f2f2c53ede9e8de84f631d89d0a4d}{add\+\_\+edge}} (self, point\+\_\+id, pose\+\_\+id, measurement, information=np.\+eye(2), robust\+\_\+kernel=g2o.\+Robust\+Kernel\+Huber(np.\+sqrt(5.\+991)))
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_a9f3d0b5aea3681f1c07d7f88111f537e}{get\+\_\+pose}} (self, pose\+\_\+id)
+\item 
+def \mbox{\hyperlink{class_pose_graph_lib_1_1_bundle_adjustment_adbdf5c885f53f5d357c6ef664aa0b1a7}{get\+\_\+point}} (self, point\+\_\+id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_ae64f0875afe3067b97ba370b354b9213}\label{class_pose_graph_lib_1_1_bundle_adjustment_ae64f0875afe3067b97ba370b354b9213}} 
+\index{BundleAdjustment@{BundleAdjustment}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_afd2f2f2c53ede9e8de84f631d89d0a4d}\label{class_pose_graph_lib_1_1_bundle_adjustment_afd2f2f2c53ede9e8de84f631d89d0a4d}} 
+\index{BundleAdjustment@{BundleAdjustment}!add\_edge@{add\_edge}}
+\index{add\_edge@{add\_edge}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{add\_edge()}{add\_edge()}}
+{\footnotesize\ttfamily def add\+\_\+edge (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{point\+\_\+id,  }\item[{}]{pose\+\_\+id,  }\item[{}]{measurement,  }\item[{}]{information = {\ttfamily np.eye(2)},  }\item[{}]{robust\+\_\+kernel = {\ttfamily g2o.RobustKernelHuber( ~~~~~~~~~~~~~~~~~~~~~np.sqrt(5.991))} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_a6fd42378608542f13e1c2492cfb7dd74}\label{class_pose_graph_lib_1_1_bundle_adjustment_a6fd42378608542f13e1c2492cfb7dd74}} 
+\index{BundleAdjustment@{BundleAdjustment}!add\_point@{add\_point}}
+\index{add\_point@{add\_point}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{add\_point()}{add\_point()}}
+{\footnotesize\ttfamily def add\+\_\+point (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{point\+\_\+id,  }\item[{}]{point,  }\item[{}]{fixed = {\ttfamily False},  }\item[{}]{marginalized = {\ttfamily True} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_a9a15c780e8d512f3252c1a8f9764bfc2}\label{class_pose_graph_lib_1_1_bundle_adjustment_a9a15c780e8d512f3252c1a8f9764bfc2}} 
+\index{BundleAdjustment@{BundleAdjustment}!add\_pose@{add\_pose}}
+\index{add\_pose@{add\_pose}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{add\_pose()}{add\_pose()}}
+{\footnotesize\ttfamily def add\+\_\+pose (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{pose\+\_\+id,  }\item[{}]{pose,  }\item[{}]{cam,  }\item[{}]{fixed = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_adbdf5c885f53f5d357c6ef664aa0b1a7}\label{class_pose_graph_lib_1_1_bundle_adjustment_adbdf5c885f53f5d357c6ef664aa0b1a7}} 
+\index{BundleAdjustment@{BundleAdjustment}!get\_point@{get\_point}}
+\index{get\_point@{get\_point}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{get\_point()}{get\_point()}}
+{\footnotesize\ttfamily def get\+\_\+point (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{point\+\_\+id }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_a9f3d0b5aea3681f1c07d7f88111f537e}\label{class_pose_graph_lib_1_1_bundle_adjustment_a9f3d0b5aea3681f1c07d7f88111f537e}} 
+\index{BundleAdjustment@{BundleAdjustment}!get\_pose@{get\_pose}}
+\index{get\_pose@{get\_pose}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{get\_pose()}{get\_pose()}}
+{\footnotesize\ttfamily def get\+\_\+pose (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{pose\+\_\+id }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_pose_graph_lib_1_1_bundle_adjustment_acb41507945373592650a226a5c330e4e}\label{class_pose_graph_lib_1_1_bundle_adjustment_acb41507945373592650a226a5c330e4e}} 
+\index{BundleAdjustment@{BundleAdjustment}!optimize@{optimize}}
+\index{optimize@{optimize}!BundleAdjustment@{BundleAdjustment}}
+\doxysubsubsection{\texorpdfstring{optimize()}{optimize()}}
+{\footnotesize\ttfamily def optimize (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{max\+\_\+iterations = {\ttfamily 10} }\end{DoxyParamCaption})}
+

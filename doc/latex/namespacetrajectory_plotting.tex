@@ -1,0 +1,154 @@
+\hypertarget{namespacetrajectory_plotting}{}\doxysection{trajectory\+Plotting Namespace Reference}
+\label{namespacetrajectory_plotting}\index{trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_ad97043d2e531a6e8fa6a96f2fa1c626e}{compute\+Poses\+RMSE}} (gt\+Poses, \mbox{\hyperlink{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}{est\+Poses}})
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_a016ffc757367f9b328db391698f8042f}{plot\+Gt\+And\+Est\+Trajectory}} (\mbox{\hyperlink{namespacetrajectory_plotting_a1be80d6bbf048641b45053e009e0dbdd}{gt\+Traj}}, \mbox{\hyperlink{namespacetrajectory_plotting_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}, title=\textquotesingle{}GT and EST Trajectories\textquotesingle{}, info=None, save\+Path=None, arrow=False)
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_a1fdedfe2db4ca15dc9cf2cc8b501756d}{get\+Ground\+Truth\+Trajectory}} (\mbox{\hyperlink{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}{gt\+Path}})
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_a8d09aef19b822c81eca8b7ea4e45b98d}{get\+Ground\+Truth\+Trajectory\+GPS}} (\mbox{\hyperlink{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}{gt\+Path}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacetrajectory_plotting_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}{gt\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}gps\char`\"{}, \char`\"{}gps.\+csv\char`\"{})
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_a1be80d6bbf048641b45053e009e0dbdd}{gt\+Traj}} = \mbox{\hyperlink{namespacetrajectory_plotting_a8d09aef19b822c81eca8b7ea4e45b98d}{get\+Ground\+Truth\+Trajectory\+GPS}}(\mbox{\hyperlink{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}{gt\+Path}})
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}{keyframe\+\_\+timestamps}}
+\item 
+def \mbox{\hyperlink{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}{est\+Poses}} = gt\+Traj.\+get\+Pose\+At\+Times(\mbox{\hyperlink{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}{keyframe\+\_\+timestamps}})
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_a5f275402fe7e3f672eab8b802e8913ca}{noise}}
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}} = \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}(\mbox{\hyperlink{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}{keyframe\+\_\+timestamps}}, \mbox{\hyperlink{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}{est\+Poses}})
+\item 
+\mbox{\hyperlink{namespacetrajectory_plotting_a17afa58b2bc574dedcd1cc02e1fdf165}{block}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacetrajectory_plotting_ad97043d2e531a6e8fa6a96f2fa1c626e}\label{namespacetrajectory_plotting_ad97043d2e531a6e8fa6a96f2fa1c626e}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!computePosesRMSE@{computePosesRMSE}}
+\index{computePosesRMSE@{computePosesRMSE}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{computePosesRMSE()}{computePosesRMSE()}}
+{\footnotesize\ttfamily def trajectory\+Plotting.\+compute\+Poses\+RMSE (\begin{DoxyParamCaption}\item[{}]{gt\+Poses,  }\item[{}]{est\+Poses }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Compute the Root Mean Square Error between the prediction and the actual poses
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacetrajectory_plotting_a1fdedfe2db4ca15dc9cf2cc8b501756d}\label{namespacetrajectory_plotting_a1fdedfe2db4ca15dc9cf2cc8b501756d}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!getGroundTruthTrajectory@{getGroundTruthTrajectory}}
+\index{getGroundTruthTrajectory@{getGroundTruthTrajectory}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{getGroundTruthTrajectory()}{getGroundTruthTrajectory()}}
+{\footnotesize\ttfamily def trajectory\+Plotting.\+get\+Ground\+Truth\+Trajectory (\begin{DoxyParamCaption}\item[{}]{gt\+Path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Returns ground truth trajectory given radar_odometry.csv
+@param[in] gtPath Path to ground truth file
+@return Trajectory object
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacetrajectory_plotting_a8d09aef19b822c81eca8b7ea4e45b98d}\label{namespacetrajectory_plotting_a8d09aef19b822c81eca8b7ea4e45b98d}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!getGroundTruthTrajectoryGPS@{getGroundTruthTrajectoryGPS}}
+\index{getGroundTruthTrajectoryGPS@{getGroundTruthTrajectoryGPS}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{getGroundTruthTrajectoryGPS()}{getGroundTruthTrajectoryGPS()}}
+{\footnotesize\ttfamily def trajectory\+Plotting.\+get\+Ground\+Truth\+Trajectory\+GPS (\begin{DoxyParamCaption}\item[{}]{gt\+Path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Returns ground truth trajectory given gps.csv
+@param[in] gtPath Path to ground truth file
+@return Trajectory object
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacetrajectory_plotting_a016ffc757367f9b328db391698f8042f}\label{namespacetrajectory_plotting_a016ffc757367f9b328db391698f8042f}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!plotGtAndEstTrajectory@{plotGtAndEstTrajectory}}
+\index{plotGtAndEstTrajectory@{plotGtAndEstTrajectory}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{plotGtAndEstTrajectory()}{plotGtAndEstTrajectory()}}
+{\footnotesize\ttfamily def trajectory\+Plotting.\+plot\+Gt\+And\+Est\+Trajectory (\begin{DoxyParamCaption}\item[{}]{gt\+Traj,  }\item[{}]{est\+Traj,  }\item[{}]{title = {\ttfamily \textquotesingle{}GT~and~EST~Trajectories\textquotesingle{}},  }\item[{}]{info = {\ttfamily None},  }\item[{}]{save\+Path = {\ttfamily None},  }\item[{}]{arrow = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Plot ground truth trajectory and estimated trajectory
+@param[in] gtTrajectory Ground truth trajectory
+@param[in] estTrajectory Estimated trajectory
+@param[in] title Title of the plot
+@param[in] info Extra information to write in text
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetrajectory_plotting_a17afa58b2bc574dedcd1cc02e1fdf165}\label{namespacetrajectory_plotting_a17afa58b2bc574dedcd1cc02e1fdf165}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!block@{block}}
+\index{block@{block}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{block}{block}}
+{\footnotesize\ttfamily block}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a0d700e6dfa2a9f624cd51f991a793585}\label{namespacetrajectory_plotting_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}\label{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!estPoses@{estPoses}}
+\index{estPoses@{estPoses}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{estPoses}{estPoses}}
+{\footnotesize\ttfamily def est\+Poses = gt\+Traj.\+get\+Pose\+At\+Times(\mbox{\hyperlink{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}{keyframe\+\_\+timestamps}})}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a8d5e95f4d6054db64fd36facd315f2e6}\label{namespacetrajectory_plotting_a8d5e95f4d6054db64fd36facd315f2e6}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!estTraj@{estTraj}}
+\index{estTraj@{estTraj}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{estTraj}{estTraj}}
+{\footnotesize\ttfamily est\+Traj = \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}(\mbox{\hyperlink{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}{keyframe\+\_\+timestamps}}, \mbox{\hyperlink{namespacetrajectory_plotting_a1874cfdbfd36b762a0c028c0cde1979b}{est\+Poses}})}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}\label{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!gtPath@{gtPath}}
+\index{gtPath@{gtPath}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{gtPath}{gtPath}}
+{\footnotesize\ttfamily gt\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}gps\char`\"{}, \char`\"{}gps.\+csv\char`\"{})}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a1be80d6bbf048641b45053e009e0dbdd}\label{namespacetrajectory_plotting_a1be80d6bbf048641b45053e009e0dbdd}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!gtTraj@{gtTraj}}
+\index{gtTraj@{gtTraj}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{gtTraj}{gtTraj}}
+{\footnotesize\ttfamily def gt\+Traj = \mbox{\hyperlink{namespacetrajectory_plotting_a8d09aef19b822c81eca8b7ea4e45b98d}{get\+Ground\+Truth\+Trajectory\+GPS}}(\mbox{\hyperlink{namespacetrajectory_plotting_a3135d377c1653c1d35443c74ae0589d9}{gt\+Path}})}
+
+\mbox{\Hypertarget{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}\label{namespacetrajectory_plotting_a37f904f43339b2c0cc7d86e8cfb6d836}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!keyframe\_timestamps@{keyframe\_timestamps}}
+\index{keyframe\_timestamps@{keyframe\_timestamps}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{keyframe\_timestamps}{keyframe\_timestamps}}
+{\footnotesize\ttfamily keyframe\+\_\+timestamps}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.arange(}
+\DoxyCodeLine{2         gtTraj.timestamps[0], gtTraj.timestamps[-\/1],}
+\DoxyCodeLine{3         (gtTraj.timestamps[-\/1] -\/ gtTraj.timestamps[0]) / 1000)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetrajectory_plotting_a5f275402fe7e3f672eab8b802e8913ca}\label{namespacetrajectory_plotting_a5f275402fe7e3f672eab8b802e8913ca}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!noise@{noise}}
+\index{noise@{noise}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{noise}{noise}}
+{\footnotesize\ttfamily noise}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.random.multivariate\_normal(mean=(.01, .05),}
+\DoxyCodeLine{2                                           cov=np.array([[.8, .2], [.2, .8]]) *}
+\DoxyCodeLine{3                                           1e-\/2,}
+\DoxyCodeLine{4                                           size=(keyframe\_timestamps.shape[0]))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetrajectory_plotting_ac559b123c3618ef31794f03fb8742e8e}\label{namespacetrajectory_plotting_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{trajectoryPlotting@{trajectoryPlotting}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!trajectoryPlotting@{trajectoryPlotting}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+

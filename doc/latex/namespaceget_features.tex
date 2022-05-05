@@ -1,0 +1,295 @@
+\hypertarget{namespaceget_features}{}\doxysection{get\+Features Namespace Reference}
+\label{namespaceget_features}\index{getFeatures@{getFeatures}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceget_features_a0ec79941c6b79baef593909536cf5833}{get\+Blobs\+From\+Cart}} (np.\+ndarray cart\+Image, int min\+\_\+sigma=1, int max\+\_\+sigma=30, int num\+\_\+sigma=10, threshold=0.\+01, method=\char`\"{}doh\char`\"{})
+\item 
+def \mbox{\hyperlink{namespaceget_features_ae8382cc7430856b5063266ad1c87a5d4}{calculate\+Feature\+Loss\+Threshold}} (n\+Initial\+Features)
+\item 
+def \mbox{\hyperlink{namespaceget_features_a5bfbafee19410b1af43185ec6b0022cf}{adaptive\+NMS}} (img, blobs, ret\+\_\+points=200, tolerance=0.\+1)
+\item 
+def \mbox{\hyperlink{namespaceget_features_a9d9b7405369034b3d3c7f94c9db65d7e}{get\+Features}} (img, dict feature\+\_\+params=\mbox{\hyperlink{namespaceget_features_abe72605eaafb6f440b8368038490ef5e}{DEFAULT\+\_\+\+FEATURE\+\_\+\+PARAMS}})
+\item 
+def \mbox{\hyperlink{namespaceget_features_afca08058596f3843b6bee711cbabe674}{append\+New\+Features}} (src\+Img, old\+Features\+Coord)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceget_features_abe72605eaafb6f440b8368038490ef5e}{DEFAULT\+\_\+\+FEATURE\+\_\+\+PARAMS}}
+\item 
+float \mbox{\hyperlink{namespaceget_features_ace997372c39f64ff25edb675036cdf98}{PERCENT\+\_\+\+FEATURE\+\_\+\+LOSS\+\_\+\+THRESHOLD}} = 0.\+75
+\item 
+int \mbox{\hyperlink{namespaceget_features_a5a1ecb7fe1a4f12cba5dfa099fb10bba}{N\+\_\+\+FEATURES\+\_\+\+BEFORE\+\_\+\+RETRACK}} = 60
+\item 
+int \mbox{\hyperlink{namespaceget_features_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceget_features_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_features_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_features_afb358f48b1646c750fb9da6c6585be2b}{end}}
+\item 
+\mbox{\hyperlink{namespaceget_features_acb793f7781c82b09ae5aba2ddea15941}{flush}}
+\item 
+\mbox{\hyperlink{namespaceget_features_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}} = get\+Radar\+Stream\+Polar(\mbox{\hyperlink{namespaceget_features_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_features_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+\mbox{\hyperlink{namespaceget_features_a012224f6fb0d9dcb13f93fb89f037799}{n\+Imgs}} = stream\+Arr.\+shape\mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_features_a596ed4974cf087011c3566c6d7a0b46e}{to\+Save\+Path}} = os.\+path.\+join(\char`\"{}.\char`\"{}, \char`\"{}img\char`\"{}, \char`\"{}blob\char`\"{}, dataset\+Name)
+\item 
+\mbox{\hyperlink{namespaceget_features_a0dd30d2c854453a5a754e2a81c971651}{exist\+\_\+ok}}
+\item 
+\mbox{\hyperlink{namespaceget_features_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}} = \mbox{\hyperlink{namespaceget_features_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}}\mbox{[}\+:, \+:, img\+No\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}} = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_features_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceget_features_acf196203986789887c8a9bacc6da5fe7}{blob\+Indices}}
+\item 
+def \mbox{\hyperlink{namespaceget_features_a1800715a9a0efa70440b9cbac95fb2fd}{s\+\_\+blob\+Indices}} = \mbox{\hyperlink{namespaceget_features_a5bfbafee19410b1af43185ec6b0022cf}{adaptive\+NMS}}(\mbox{\hyperlink{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, \mbox{\hyperlink{namespaceget_features_acf196203986789887c8a9bacc6da5fe7}{blob\+Indices}})
+\item 
+int \mbox{\hyperlink{namespaceget_features_a8e0762c5a3e319f481e485a7ef229d52}{img\+Cart\+BGR}} = cv2.\+cvt\+Color(\mbox{\hyperlink{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, cv2.\+COLOR\+\_\+\+GRAY2\+BGR) $\ast$ 255
+\item 
+np.\+ndarray \mbox{\hyperlink{namespaceget_features_afe0b2b0f8f2978793660014703b32251}{n\+Indices}} = blob\+Indices.\+shape\mbox{[}0\mbox{]}
+\item 
+def \mbox{\hyperlink{namespaceget_features_a29780b3849a623c52a306ab69585385c}{n\+Indices\+ANMS}} = s\+\_\+blob\+Indices.\+shape\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_features_aa8ebde97c28b77d3f8550a0e885ffe7b}{blobY}}
+\item 
+\mbox{\hyperlink{namespaceget_features_a6bdef3ee8d485940c1c686546b5efbbc}{blobX}}
+\item 
+\mbox{\hyperlink{namespaceget_features_a6094d13377d1fec9c88b87f81b4bdb5f}{blob\+Sigma}}
+\item 
+tuple \mbox{\hyperlink{namespaceget_features_a35c778d114d90fd36619e81a44f47a9d}{coord}} = (\mbox{\hyperlink{namespaceget_features_a6bdef3ee8d485940c1c686546b5efbbc}{blobX}}, \mbox{\hyperlink{namespaceget_features_aa8ebde97c28b77d3f8550a0e885ffe7b}{blobY}})
+\item 
+tuple \mbox{\hyperlink{namespaceget_features_aa2873ec3849a18fe7e6928280f89b403}{color}} = (0, 255, 0)
+\item 
+\mbox{\hyperlink{namespaceget_features_a2797efdfd7b06e306947463a2a9b9017}{to\+Save\+Img\+Path}} = os.\+path.\+join(\mbox{\hyperlink{namespaceget_features_a596ed4974cf087011c3566c6d7a0b46e}{to\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceget_features_a5bfbafee19410b1af43185ec6b0022cf}\label{namespaceget_features_a5bfbafee19410b1af43185ec6b0022cf}} 
+\index{getFeatures@{getFeatures}!adaptiveNMS@{adaptiveNMS}}
+\index{adaptiveNMS@{adaptiveNMS}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{adaptiveNMS()}{adaptiveNMS()}}
+{\footnotesize\ttfamily def get\+Features.\+adaptive\+NMS (\begin{DoxyParamCaption}\item[{}]{img,  }\item[{}]{blobs,  }\item[{}]{ret\+\_\+points = {\ttfamily 200},  }\item[{}]{tolerance = {\ttfamily 0.1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceget_features_afca08058596f3843b6bee711cbabe674}\label{namespaceget_features_afca08058596f3843b6bee711cbabe674}} 
+\index{getFeatures@{getFeatures}!appendNewFeatures@{appendNewFeatures}}
+\index{appendNewFeatures@{appendNewFeatures}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{appendNewFeatures()}{appendNewFeatures()}}
+{\footnotesize\ttfamily def get\+Features.\+append\+New\+Features (\begin{DoxyParamCaption}\item[{}]{src\+Img,  }\item[{}]{old\+Features\+Coord }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Append new features obtained from srcImg onto oldFeaturesCoord array
+@see getFeatures()
+
+@param[in] srcImg Source image to obtain features on
+@param[in] oldFeaturesCoord (K x 2) array of [x, y] coordinate of features
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_features_ae8382cc7430856b5063266ad1c87a5d4}\label{namespaceget_features_ae8382cc7430856b5063266ad1c87a5d4}} 
+\index{getFeatures@{getFeatures}!calculateFeatureLossThreshold@{calculateFeatureLossThreshold}}
+\index{calculateFeatureLossThreshold@{calculateFeatureLossThreshold}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{calculateFeatureLossThreshold()}{calculateFeatureLossThreshold()}}
+{\footnotesize\ttfamily def get\+Features.\+calculate\+Feature\+Loss\+Threshold (\begin{DoxyParamCaption}\item[{}]{n\+Initial\+Features }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceget_features_a0ec79941c6b79baef593909536cf5833}\label{namespaceget_features_a0ec79941c6b79baef593909536cf5833}} 
+\index{getFeatures@{getFeatures}!getBlobsFromCart@{getBlobsFromCart}}
+\index{getBlobsFromCart@{getBlobsFromCart}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{getBlobsFromCart()}{getBlobsFromCart()}}
+{\footnotesize\ttfamily  np.\+ndarray get\+Features.\+get\+Blobs\+From\+Cart (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{cart\+Image,  }\item[{int }]{min\+\_\+sigma = {\ttfamily 1},  }\item[{int }]{max\+\_\+sigma = {\ttfamily 30},  }\item[{int }]{num\+\_\+sigma = {\ttfamily 10},  }\item[{}]{threshold = {\ttfamily 0.01},  }\item[{}]{method = {\ttfamily \char`\"{}doh\char`\"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Given a radar image, generate a list of (K x 3)
+       blob indices based on Determinant of Hessian
+@note Uses default params from skimage.features function
+
+@param[in] cartImage Cartesian radar image
+
+@return (K x 3) Np array of blob coordinates with each row [r, c, sigma] being coordinates and sigma of detected blobs
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_features_a9d9b7405369034b3d3c7f94c9db65d7e}\label{namespaceget_features_a9d9b7405369034b3d3c7f94c9db65d7e}} 
+\index{getFeatures@{getFeatures}!getFeatures@{getFeatures}}
+\index{getFeatures@{getFeatures}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{getFeatures()}{getFeatures()}}
+{\footnotesize\ttfamily def get\+Features.\+get\+Features (\begin{DoxyParamCaption}\item[{}]{img,  }\item[{dict }]{feature\+\_\+params = {\ttfamily \mbox{\hyperlink{namespaceget_features_abe72605eaafb6f440b8368038490ef5e}{DEFAULT\+\_\+\+FEATURE\+\_\+\+PARAMS}}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get features from image using Hessian blob detector
+@param[in] img Image to detect features from 
+@param[in] feature_params Parameters for feature detection, @see DEFAULT_FEATURE_PARAMS
+
+@return blobCoord (K x 2) array of [x, y] coordinates of center of blobs on the image
+@return blobRadii (K x 1) array of radius of blobs
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceget_features_acf196203986789887c8a9bacc6da5fe7}\label{namespaceget_features_acf196203986789887c8a9bacc6da5fe7}} 
+\index{getFeatures@{getFeatures}!blobIndices@{blobIndices}}
+\index{blobIndices@{blobIndices}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{blobIndices}{blobIndices}}
+{\footnotesize\ttfamily np.\+ndarray blob\+Indices}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  getBlobsFromCart(imgCart,}
+\DoxyCodeLine{2                                        min\_sigma=0.01,}
+\DoxyCodeLine{3                                        max\_sigma=10,}
+\DoxyCodeLine{4                                        num\_sigma=3,}
+\DoxyCodeLine{5                                        threshold=.0005,}
+\DoxyCodeLine{6                                        method=\textcolor{stringliteral}{"{}doh"{}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_features_a6094d13377d1fec9c88b87f81b4bdb5f}\label{namespaceget_features_a6094d13377d1fec9c88b87f81b4bdb5f}} 
+\index{getFeatures@{getFeatures}!blobSigma@{blobSigma}}
+\index{blobSigma@{blobSigma}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{blobSigma}{blobSigma}}
+{\footnotesize\ttfamily blob\+Sigma}
+
+\mbox{\Hypertarget{namespaceget_features_a6bdef3ee8d485940c1c686546b5efbbc}\label{namespaceget_features_a6bdef3ee8d485940c1c686546b5efbbc}} 
+\index{getFeatures@{getFeatures}!blobX@{blobX}}
+\index{blobX@{blobX}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{blobX}{blobX}}
+{\footnotesize\ttfamily blobX}
+
+\mbox{\Hypertarget{namespaceget_features_aa8ebde97c28b77d3f8550a0e885ffe7b}\label{namespaceget_features_aa8ebde97c28b77d3f8550a0e885ffe7b}} 
+\index{getFeatures@{getFeatures}!blobY@{blobY}}
+\index{blobY@{blobY}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{blobY}{blobY}}
+{\footnotesize\ttfamily blobY}
+
+\mbox{\Hypertarget{namespaceget_features_aa2873ec3849a18fe7e6928280f89b403}\label{namespaceget_features_aa2873ec3849a18fe7e6928280f89b403}} 
+\index{getFeatures@{getFeatures}!color@{color}}
+\index{color@{color}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{color}{color}}
+{\footnotesize\ttfamily tuple color = (0, 255, 0)}
+
+\mbox{\Hypertarget{namespaceget_features_a35c778d114d90fd36619e81a44f47a9d}\label{namespaceget_features_a35c778d114d90fd36619e81a44f47a9d}} 
+\index{getFeatures@{getFeatures}!coord@{coord}}
+\index{coord@{coord}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{coord}{coord}}
+{\footnotesize\ttfamily tuple coord = (\mbox{\hyperlink{namespaceget_features_a6bdef3ee8d485940c1c686546b5efbbc}{blobX}}, \mbox{\hyperlink{namespaceget_features_aa8ebde97c28b77d3f8550a0e885ffe7b}{blobY}})}
+
+\mbox{\Hypertarget{namespaceget_features_abef58ec544fb87b0bc3d6657c3824bfc}\label{namespaceget_features_abef58ec544fb87b0bc3d6657c3824bfc}} 
+\index{getFeatures@{getFeatures}!dataPath@{dataPath}}
+\index{dataPath@{dataPath}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{dataPath}{dataPath}}
+{\footnotesize\ttfamily data\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_features_a0d700e6dfa2a9f624cd51f991a793585}\label{namespaceget_features_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{getFeatures@{getFeatures}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespaceget_features_abe72605eaafb6f440b8368038490ef5e}\label{namespaceget_features_abe72605eaafb6f440b8368038490ef5e}} 
+\index{getFeatures@{getFeatures}!DEFAULT\_FEATURE\_PARAMS@{DEFAULT\_FEATURE\_PARAMS}}
+\index{DEFAULT\_FEATURE\_PARAMS@{DEFAULT\_FEATURE\_PARAMS}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_FEATURE\_PARAMS}{DEFAULT\_FEATURE\_PARAMS}}
+{\footnotesize\ttfamily DEFAULT\+\_\+\+FEATURE\+\_\+\+PARAMS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  dict(}
+\DoxyCodeLine{2     min\_sigma=0.01,}
+\DoxyCodeLine{3     max\_sigma=10,}
+\DoxyCodeLine{4     num\_sigma=3,}
+\DoxyCodeLine{5     threshold=.0005,  \textcolor{comment}{\# lower threshold for more features}}
+\DoxyCodeLine{6     method=\textcolor{stringliteral}{"{}doh"{}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_features_afb358f48b1646c750fb9da6c6585be2b}\label{namespaceget_features_afb358f48b1646c750fb9da6c6585be2b}} 
+\index{getFeatures@{getFeatures}!end@{end}}
+\index{end@{end}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{end}{end}}
+{\footnotesize\ttfamily end}
+
+\mbox{\Hypertarget{namespaceget_features_a0dd30d2c854453a5a754e2a81c971651}\label{namespaceget_features_a0dd30d2c854453a5a754e2a81c971651}} 
+\index{getFeatures@{getFeatures}!exist\_ok@{exist\_ok}}
+\index{exist\_ok@{exist\_ok}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{exist\_ok}{exist\_ok}}
+{\footnotesize\ttfamily exist\+\_\+ok}
+
+\mbox{\Hypertarget{namespaceget_features_acb793f7781c82b09ae5aba2ddea15941}\label{namespaceget_features_acb793f7781c82b09ae5aba2ddea15941}} 
+\index{getFeatures@{getFeatures}!flush@{flush}}
+\index{flush@{flush}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{flush}{flush}}
+{\footnotesize\ttfamily flush}
+
+\mbox{\Hypertarget{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}\label{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}} 
+\index{getFeatures@{getFeatures}!imgCart@{imgCart}}
+\index{imgCart@{imgCart}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{imgCart}{imgCart}}
+{\footnotesize\ttfamily img\+Cart = convert\+Polar\+Image\+To\+Cartesian(\mbox{\hyperlink{namespaceget_features_ab7f52fe3c12ded088797a6fbcabd31fc}{img\+Polar}})}
+
+\mbox{\Hypertarget{namespaceget_features_a8e0762c5a3e319f481e485a7ef229d52}\label{namespaceget_features_a8e0762c5a3e319f481e485a7ef229d52}} 
+\index{getFeatures@{getFeatures}!imgCartBGR@{imgCartBGR}}
+\index{imgCartBGR@{imgCartBGR}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{imgCartBGR}{imgCartBGR}}
+{\footnotesize\ttfamily int img\+Cart\+BGR = cv2.\+cvt\+Color(\mbox{\hyperlink{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, cv2.\+COLOR\+\_\+\+GRAY2\+BGR) $\ast$ 255}
+
+\mbox{\Hypertarget{namespaceget_features_ab7f52fe3c12ded088797a6fbcabd31fc}\label{namespaceget_features_ab7f52fe3c12ded088797a6fbcabd31fc}} 
+\index{getFeatures@{getFeatures}!imgPolar@{imgPolar}}
+\index{imgPolar@{imgPolar}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{imgPolar}{imgPolar}}
+{\footnotesize\ttfamily img\+Polar = \mbox{\hyperlink{namespaceget_features_a662fb0cf784aecaa685e2a1bd9b430ab}{stream\+Arr}}\mbox{[}\+:, \+:, img\+No\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_features_a5a1ecb7fe1a4f12cba5dfa099fb10bba}\label{namespaceget_features_a5a1ecb7fe1a4f12cba5dfa099fb10bba}} 
+\index{getFeatures@{getFeatures}!N\_FEATURES\_BEFORE\_RETRACK@{N\_FEATURES\_BEFORE\_RETRACK}}
+\index{N\_FEATURES\_BEFORE\_RETRACK@{N\_FEATURES\_BEFORE\_RETRACK}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{N\_FEATURES\_BEFORE\_RETRACK}{N\_FEATURES\_BEFORE\_RETRACK}}
+{\footnotesize\ttfamily int N\+\_\+\+FEATURES\+\_\+\+BEFORE\+\_\+\+RETRACK = 60}
+
+\mbox{\Hypertarget{namespaceget_features_a012224f6fb0d9dcb13f93fb89f037799}\label{namespaceget_features_a012224f6fb0d9dcb13f93fb89f037799}} 
+\index{getFeatures@{getFeatures}!nImgs@{nImgs}}
+\index{nImgs@{nImgs}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{nImgs}{nImgs}}
+{\footnotesize\ttfamily n\+Imgs = stream\+Arr.\+shape\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_features_afe0b2b0f8f2978793660014703b32251}\label{namespaceget_features_afe0b2b0f8f2978793660014703b32251}} 
+\index{getFeatures@{getFeatures}!nIndices@{nIndices}}
+\index{nIndices@{nIndices}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{nIndices}{nIndices}}
+{\footnotesize\ttfamily np.\+ndarray n\+Indices = blob\+Indices.\+shape\mbox{[}0\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_features_a29780b3849a623c52a306ab69585385c}\label{namespaceget_features_a29780b3849a623c52a306ab69585385c}} 
+\index{getFeatures@{getFeatures}!nIndicesANMS@{nIndicesANMS}}
+\index{nIndicesANMS@{nIndicesANMS}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{nIndicesANMS}{nIndicesANMS}}
+{\footnotesize\ttfamily def n\+Indices\+ANMS = s\+\_\+blob\+Indices.\+shape\mbox{[}0\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_features_ace997372c39f64ff25edb675036cdf98}\label{namespaceget_features_ace997372c39f64ff25edb675036cdf98}} 
+\index{getFeatures@{getFeatures}!PERCENT\_FEATURE\_LOSS\_THRESHOLD@{PERCENT\_FEATURE\_LOSS\_THRESHOLD}}
+\index{PERCENT\_FEATURE\_LOSS\_THRESHOLD@{PERCENT\_FEATURE\_LOSS\_THRESHOLD}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{PERCENT\_FEATURE\_LOSS\_THRESHOLD}{PERCENT\_FEATURE\_LOSS\_THRESHOLD}}
+{\footnotesize\ttfamily float PERCENT\+\_\+\+FEATURE\+\_\+\+LOSS\+\_\+\+THRESHOLD = 0.\+75}
+
+\mbox{\Hypertarget{namespaceget_features_a1800715a9a0efa70440b9cbac95fb2fd}\label{namespaceget_features_a1800715a9a0efa70440b9cbac95fb2fd}} 
+\index{getFeatures@{getFeatures}!s\_blobIndices@{s\_blobIndices}}
+\index{s\_blobIndices@{s\_blobIndices}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{s\_blobIndices}{s\_blobIndices}}
+{\footnotesize\ttfamily def s\+\_\+blob\+Indices = \mbox{\hyperlink{namespaceget_features_a5bfbafee19410b1af43185ec6b0022cf}{adaptive\+NMS}}(\mbox{\hyperlink{namespaceget_features_ab9927de0f2ac5e7a36f51077c9c4dafe}{img\+Cart}}, \mbox{\hyperlink{namespaceget_features_acf196203986789887c8a9bacc6da5fe7}{blob\+Indices}})}
+
+\mbox{\Hypertarget{namespaceget_features_a662fb0cf784aecaa685e2a1bd9b430ab}\label{namespaceget_features_a662fb0cf784aecaa685e2a1bd9b430ab}} 
+\index{getFeatures@{getFeatures}!streamArr@{streamArr}}
+\index{streamArr@{streamArr}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{streamArr}{streamArr}}
+{\footnotesize\ttfamily stream\+Arr = get\+Radar\+Stream\+Polar(\mbox{\hyperlink{namespaceget_features_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_features_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})}
+
+\mbox{\Hypertarget{namespaceget_features_ac559b123c3618ef31794f03fb8742e8e}\label{namespaceget_features_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{getFeatures@{getFeatures}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_features_a2797efdfd7b06e306947463a2a9b9017}\label{namespaceget_features_a2797efdfd7b06e306947463a2a9b9017}} 
+\index{getFeatures@{getFeatures}!toSaveImgPath@{toSaveImgPath}}
+\index{toSaveImgPath@{toSaveImgPath}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{toSaveImgPath}{toSaveImgPath}}
+{\footnotesize\ttfamily to\+Save\+Img\+Path = os.\+path.\+join(\mbox{\hyperlink{namespaceget_features_a596ed4974cf087011c3566c6d7a0b46e}{to\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_features_a596ed4974cf087011c3566c6d7a0b46e}\label{namespaceget_features_a596ed4974cf087011c3566c6d7a0b46e}} 
+\index{getFeatures@{getFeatures}!toSavePath@{toSavePath}}
+\index{toSavePath@{toSavePath}!getFeatures@{getFeatures}}
+\doxysubsubsection{\texorpdfstring{toSavePath}{toSavePath}}
+{\footnotesize\ttfamily to\+Save\+Path = os.\+path.\+join(\char`\"{}.\char`\"{}, \char`\"{}img\char`\"{}, \char`\"{}blob\char`\"{}, dataset\+Name)}
+

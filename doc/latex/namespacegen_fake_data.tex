@@ -1,0 +1,138 @@
+\hypertarget{namespacegen_fake_data}{}\doxysection{gen\+Fake\+Data Namespace Reference}
+\label{namespacegen_fake_data}\index{genFakeData@{genFakeData}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a1b3b698af37c150c207a5c1acbfb87b2}{transform\+Coords}} (src\+Coord, A, h)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a8a24de590353fb58d5c7d4dce36cce67}{plot\+Fake\+Features}} (src\+Coord, target\+Coord, target\+Coord2=None, title\+\_\+append=\char`\"{}\char`\"{}, alpha=1, clear=False, show=False, plot\+Displace=False)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a3c15e800e7f2ed5806ad919c0e657768}{generate\+Fake\+Correspondences}} (src\+Coord=None, n\+\_\+points=100, theta\+\_\+max\+\_\+deg=20, max\+\_\+translation\+\_\+m=3)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_aa2b3c0429ce6e0a8b72d380d8868890a}{convert\+Polar\+Points\+To\+Cartesian}} (points)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a13ccee862d67bebec295bd789557df1b}{generate\+Fake\+Correspondences\+Polar}} (current\+Frame=None, n\+\_\+points=100, theta\+\_\+max\+\_\+deg=20, max\+\_\+translation\+\_\+m=3)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a2b986854c74712290c89276485636000}{distort}} (coords, velocity, frequency, h)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a4f2fe44331e2fe3b7478d11c1a156749}{add\+Noise}} (data, variance=2.\+5)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_aa06afad9db0dd98727ea4b16c0d90df6}{create\+Outliers}} (data, n\+\_\+outliers, noise\+To\+Add=10)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a5630333dafdfe14cac998f3535043154}{generate\+Translation\+Vector}} (max\+\_\+range\+\_\+m=10)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_ac4ddf52aeaea780b6f90b7617238e0a7}{generate\+Fake\+Features}} (n\+\_\+points=100, max\+\_\+range\+\_\+m=10)
+\item 
+def \mbox{\hyperlink{namespacegen_fake_data_a88a051f71e6c953f36fd2c8529dc5965}{generate\+Fake\+Features\+Polar}} (n\+\_\+points=100, max\+\_\+range\+\_\+m=10)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacegen_fake_data_a4f2fe44331e2fe3b7478d11c1a156749}\label{namespacegen_fake_data_a4f2fe44331e2fe3b7478d11c1a156749}} 
+\index{genFakeData@{genFakeData}!addNoise@{addNoise}}
+\index{addNoise@{addNoise}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{addNoise()}{addNoise()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+add\+Noise (\begin{DoxyParamCaption}\item[{}]{data,  }\item[{}]{variance = {\ttfamily 2.5} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Add 0-mean Gaussian random noise to correspondence data
+@param[in] data Data to add noise to
+@param[in] variance Variance for Gaussian noise
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacegen_fake_data_aa2b3c0429ce6e0a8b72d380d8868890a}\label{namespacegen_fake_data_aa2b3c0429ce6e0a8b72d380d8868890a}} 
+\index{genFakeData@{genFakeData}!convertPolarPointsToCartesian@{convertPolarPointsToCartesian}}
+\index{convertPolarPointsToCartesian@{convertPolarPointsToCartesian}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{convertPolarPointsToCartesian()}{convertPolarPointsToCartesian()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+convert\+Polar\+Points\+To\+Cartesian (\begin{DoxyParamCaption}\item[{}]{points }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_aa06afad9db0dd98727ea4b16c0d90df6}\label{namespacegen_fake_data_aa06afad9db0dd98727ea4b16c0d90df6}} 
+\index{genFakeData@{genFakeData}!createOutliers@{createOutliers}}
+\index{createOutliers@{createOutliers}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{createOutliers()}{createOutliers()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+create\+Outliers (\begin{DoxyParamCaption}\item[{}]{data,  }\item[{}]{n\+\_\+outliers,  }\item[{}]{noise\+To\+Add = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Create outliers by adding a lot of noise to randomly chosen n_outliers
+@param[in] data Data to create outliers in
+@param[in] n_outliers Number of outliers forced into data
+@param[in] noiseToAdd Amount of guaranteed base noise to add
+
+@return noisy_data Noisy data with outliers
+@return outlier_ind Indices of outliers
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacegen_fake_data_a2b986854c74712290c89276485636000}\label{namespacegen_fake_data_a2b986854c74712290c89276485636000}} 
+\index{genFakeData@{genFakeData}!distort@{distort}}
+\index{distort@{distort}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{distort()}{distort()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+distort (\begin{DoxyParamCaption}\item[{}]{coords,  }\item[{}]{velocity,  }\item[{}]{frequency,  }\item[{}]{h }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_a3c15e800e7f2ed5806ad919c0e657768}\label{namespacegen_fake_data_a3c15e800e7f2ed5806ad919c0e657768}} 
+\index{genFakeData@{genFakeData}!generateFakeCorrespondences@{generateFakeCorrespondences}}
+\index{generateFakeCorrespondences@{generateFakeCorrespondences}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{generateFakeCorrespondences()}{generateFakeCorrespondences()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+generate\+Fake\+Correspondences (\begin{DoxyParamCaption}\item[{}]{src\+Coord = {\ttfamily None},  }\item[{}]{n\+\_\+points = {\ttfamily 100},  }\item[{}]{theta\+\_\+max\+\_\+deg = {\ttfamily 20},  }\item[{}]{max\+\_\+translation\+\_\+m = {\ttfamily 3} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Generate fake correspondences with transform, randomly generated from max range and degree
+@param[in] srcCoord Source coordinate to transform from. If none, will randomly generate features
+@param[in] n_points Number of points to generate, only applies if srcCoord = None
+@param[in] theta_max_deg Maximum degree of rotation
+@param[in] max_range_m Maximum range (for translation) in meters
+
+@return srcCoord Generated or passed in srcCoord
+@return targetCoord Corresponding targetCoord generated using (theta_deg, h)
+@return theta_deg Theta component of transform
+@return h Translation component of transform
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacegen_fake_data_a13ccee862d67bebec295bd789557df1b}\label{namespacegen_fake_data_a13ccee862d67bebec295bd789557df1b}} 
+\index{genFakeData@{genFakeData}!generateFakeCorrespondencesPolar@{generateFakeCorrespondencesPolar}}
+\index{generateFakeCorrespondencesPolar@{generateFakeCorrespondencesPolar}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{generateFakeCorrespondencesPolar()}{generateFakeCorrespondencesPolar()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+generate\+Fake\+Correspondences\+Polar (\begin{DoxyParamCaption}\item[{}]{current\+Frame = {\ttfamily None},  }\item[{}]{n\+\_\+points = {\ttfamily 100},  }\item[{}]{theta\+\_\+max\+\_\+deg = {\ttfamily 20},  }\item[{}]{max\+\_\+translation\+\_\+m = {\ttfamily 3} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Generate fake correspondences with transform, randomly generated from max range and degree
+@param[in] currentFrame Source coordinate to transform from. If none, will randomly generate features
+@param[in] n_points Number of points to generate, only applies if currentFrame = None
+@param[in] theta_max_deg Maximum degree of rotation
+@param[in] max_range_m Maximum range (for translation) in meters
+
+@return currentFrame Generated or passed in currentFrame
+@return targetCoord Corresponding targetCoord generated using (theta_deg, h)
+@return theta_deg Theta component of transform
+@return h Translation component of transform
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacegen_fake_data_ac4ddf52aeaea780b6f90b7617238e0a7}\label{namespacegen_fake_data_ac4ddf52aeaea780b6f90b7617238e0a7}} 
+\index{genFakeData@{genFakeData}!generateFakeFeatures@{generateFakeFeatures}}
+\index{generateFakeFeatures@{generateFakeFeatures}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{generateFakeFeatures()}{generateFakeFeatures()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+generate\+Fake\+Features (\begin{DoxyParamCaption}\item[{}]{n\+\_\+points = {\ttfamily 100},  }\item[{}]{max\+\_\+range\+\_\+m = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_a88a051f71e6c953f36fd2c8529dc5965}\label{namespacegen_fake_data_a88a051f71e6c953f36fd2c8529dc5965}} 
+\index{genFakeData@{genFakeData}!generateFakeFeaturesPolar@{generateFakeFeaturesPolar}}
+\index{generateFakeFeaturesPolar@{generateFakeFeaturesPolar}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{generateFakeFeaturesPolar()}{generateFakeFeaturesPolar()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+generate\+Fake\+Features\+Polar (\begin{DoxyParamCaption}\item[{}]{n\+\_\+points = {\ttfamily 100},  }\item[{}]{max\+\_\+range\+\_\+m = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_a5630333dafdfe14cac998f3535043154}\label{namespacegen_fake_data_a5630333dafdfe14cac998f3535043154}} 
+\index{genFakeData@{genFakeData}!generateTranslationVector@{generateTranslationVector}}
+\index{generateTranslationVector@{generateTranslationVector}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{generateTranslationVector()}{generateTranslationVector()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+generate\+Translation\+Vector (\begin{DoxyParamCaption}\item[{}]{max\+\_\+range\+\_\+m = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_a8a24de590353fb58d5c7d4dce36cce67}\label{namespacegen_fake_data_a8a24de590353fb58d5c7d4dce36cce67}} 
+\index{genFakeData@{genFakeData}!plotFakeFeatures@{plotFakeFeatures}}
+\index{plotFakeFeatures@{plotFakeFeatures}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{plotFakeFeatures()}{plotFakeFeatures()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+plot\+Fake\+Features (\begin{DoxyParamCaption}\item[{}]{src\+Coord,  }\item[{}]{target\+Coord,  }\item[{}]{target\+Coord2 = {\ttfamily None},  }\item[{}]{title\+\_\+append = {\ttfamily \char`\"{}\char`\"{}},  }\item[{}]{alpha = {\ttfamily 1},  }\item[{}]{clear = {\ttfamily False},  }\item[{}]{show = {\ttfamily False},  }\item[{}]{plot\+Displace = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacegen_fake_data_a1b3b698af37c150c207a5c1acbfb87b2}\label{namespacegen_fake_data_a1b3b698af37c150c207a5c1acbfb87b2}} 
+\index{genFakeData@{genFakeData}!transformCoords@{transformCoords}}
+\index{transformCoords@{transformCoords}!genFakeData@{genFakeData}}
+\doxysubsubsection{\texorpdfstring{transformCoords()}{transformCoords()}}
+{\footnotesize\ttfamily def gen\+Fake\+Data.\+transform\+Coords (\begin{DoxyParamCaption}\item[{}]{src\+Coord,  }\item[{}]{A,  }\item[{}]{h }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Transform coordinates to get correspondence points given A, h transformation matrix
+@param[in] srcCoord Source coordinates (K x 2)
+@param[in] A Rotation matrix (2 x 2)
+@param[in] h Translation matrix (2 x 1)
+
+@return targetCoord = A @ srcCoord + h (K x 2)
+\end{DoxyVerb}
+ 

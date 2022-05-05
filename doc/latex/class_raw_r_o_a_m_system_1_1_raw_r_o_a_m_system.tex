@@ -1,0 +1,219 @@
+\hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system}{}\doxysection{Raw\+ROAMSystem Class Reference}
+\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system}\index{RawROAMSystem@{RawROAMSystem}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aaa625e533c1d594cffd5d8032dd3eb17}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}, bool \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4eb076d8bfa712c536ede28c13d7ae7e}{param\+Flags}}=dict(), bool \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9b935ac3b117f5b7bb52024481ca6bde}{has\+Ground\+Truth}}=True)
+\item 
+def \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a01a780439bdd4eed44ec3dc476fcc7c8}{update\+Traj\+From\+Tracker}} (self)
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aeb372a8b83527187620cda92e01fcdbd}{run}} (self, int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_afbe7c1c7b1d5d8d6082cb2ecd6e392fb}{start\+Seq\+Ind}}=0, int \mbox{\hyperlink{namespace_raw_r_o_a_m_system_a58496a66cbc7a6dfb37042c7e7731cdf}{end\+Seq\+Ind}}=-\/1)
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4bfd1fc8e3e6eb9a09ead0e93bc79cdb}{update\+Trajectory}} (self, np.\+ndarray R, np.\+ndarray h, np.\+ndarray seq\+Ind)
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aa3a95039e4a0987c355da8d8ac48eb26}{update\+Trajectory\+Absolute}} (self, np.\+ndarray pose\+\_\+vector, int seq\+Ind)
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a50adb4e1f5eaab2b5d1fa4f4b9b45652}{plot}} (self, np.\+ndarray prev\+Img, np.\+ndarray curr\+Img, np.\+ndarray good\+\_\+old, np.\+ndarray good\+\_\+new, np.\+ndarray R, np.\+ndarray h, np.\+ndarray seq\+Ind, bool plot\+Map\+Points=True, bool use\+Arrow=False, bool save=True, bool show=False)
+\item 
+None \mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ab609ee8f1ec2225e40bb4c519b7d8c76}{plot\+Traj}} (self, int seq\+Ind, np.\+ndarray R, np.\+ndarray h, bool use\+Arrow=False, bool save=False, bool show=False)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4eb076d8bfa712c536ede28c13d7ae7e}{param\+Flags}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9b935ac3b117f5b7bb52024481ca6bde}{has\+Ground\+Truth}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8ef2335bbb2c7c07c8e2b35959b03c52}{sequence\+Size}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ac133126788d5db734ec6f70884178ea8}{file\+Paths}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a64aa603bc3c6c1587e7c6542452481ac}{fig}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a08c3a4c31d5817521dbdf24631e562c7}{gt\+Traj}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_abec0b9ee4648af3b77db73e8070f1736}{tracker}}
+\item 
+\mbox{\hyperlink{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9ec9dda576db2a36c42c1c3af155d07c}{map}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aaa625e533c1d594cffd5d8032dd3eb17}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aaa625e533c1d594cffd5d8032dd3eb17}} 
+\index{RawROAMSystem@{RawROAMSystem}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{sequence\+Name,  }\item[{bool }]{param\+Flags = {\ttfamily dict()},  }\item[{bool }]{has\+Ground\+Truth = {\ttfamily True} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Initializer for ROAM system
+@param[in] sequenceName Name of sequence. Should be in ./data folder
+@param[in] pararmFlags Set of flags indicating turning on and off of certain algorithm features
+                        - rejectOutliers: Whether to use graph-based outlier rejection
+                        - useANMS: Whether to use ANMS
+                        - useFMT: Whether to use FMT to correct things
+                        - correctMotionDistortion: Whether to correct for motion distortion
+@param[in] hasGroundTruth Whether sequence has ground truth to be used for plotting @deprecated
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a50adb4e1f5eaab2b5d1fa4f4b9b45652}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a50adb4e1f5eaab2b5d1fa4f4b9b45652}} 
+\index{RawROAMSystem@{RawROAMSystem}!plot@{plot}}
+\index{plot@{plot}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily  None plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{prev\+Img,  }\item[{np.\+ndarray}]{curr\+Img,  }\item[{np.\+ndarray}]{good\+\_\+old,  }\item[{np.\+ndarray}]{good\+\_\+new,  }\item[{np.\+ndarray}]{R,  }\item[{np.\+ndarray}]{h,  }\item[{np.\+ndarray}]{seq\+Ind,  }\item[{bool }]{plot\+Map\+Points = {\ttfamily True},  }\item[{bool }]{use\+Arrow = {\ttfamily False},  }\item[{bool }]{save = {\ttfamily True},  }\item[{bool }]{show = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Perform global plotting of everything, including trajectory and map points
+
+@param[in] prevImg (M x N) Previous Cartesian radar image to plot
+@param[in] currImg (M x N) Current Cartesian radar image to plot
+
+@param[in] good_old (K x 2) Good correspondence points from previous image in scan frame
+@param[in] good_new (K x 2) Good correspondence points from current image in scan frame
+
+@param[in] R (2 x 2) rotation matrix
+@param[in] h (2 x 1) translation vector
+@param[in] seqInd Sequence index
+
+@param[in] useArrow Whether to plot with arrows/triangles to indicate pose direction. 
+                    Otherwise uses plain lines.
+@param[in] save Whether to save image as png/jpg
+@param[in] show Whether to plt.show image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ab609ee8f1ec2225e40bb4c519b7d8c76}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ab609ee8f1ec2225e40bb4c519b7d8c76}} 
+\index{RawROAMSystem@{RawROAMSystem}!plotTraj@{plotTraj}}
+\index{plotTraj@{plotTraj}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{plotTraj()}{plotTraj()}}
+{\footnotesize\ttfamily  None plot\+Traj (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{seq\+Ind,  }\item[{np.\+ndarray}]{R,  }\item[{np.\+ndarray}]{h,  }\item[{bool }]{use\+Arrow = {\ttfamily False},  }\item[{bool }]{save = {\ttfamily False},  }\item[{bool }]{show = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Plot trajectory
+@param[in] seqInd Sequence index
+@param[in] R (2 x 2) rotation matrix
+@param[in] h (2 x 1) translation vector
+@param[in] useArrow Whether to plot with arrows/triangles to indicate pose direction. 
+                    Otherwise uses plain lines.
+@param[in] save Whether to save image as png/jpg
+@param[in] show Whether to plt.show image
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aeb372a8b83527187620cda92e01fcdbd}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aeb372a8b83527187620cda92e01fcdbd}} 
+\index{RawROAMSystem@{RawROAMSystem}!run@{run}}
+\index{run@{run}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily  None run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int }]{start\+Seq\+Ind = {\ttfamily 0},  }\item[{int }]{end\+Seq\+Ind = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Do a full run the ROAMing algorithm on sequence,
+       starting from and ending at specified indices, 
+       incrementally calling the @see Tracker.track() function 
+
+@param[in] startImgInd Starting index of sequence. Default 0. 
+@param[in] startImgInd Ending index of sequence. Default -1. 
+                       Negative numbers to indicate end.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4bfd1fc8e3e6eb9a09ead0e93bc79cdb}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4bfd1fc8e3e6eb9a09ead0e93bc79cdb}} 
+\index{RawROAMSystem@{RawROAMSystem}!updateTrajectory@{updateTrajectory}}
+\index{updateTrajectory@{updateTrajectory}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{updateTrajectory()}{updateTrajectory()}}
+{\footnotesize\ttfamily  None update\+Trajectory (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{R,  }\item[{np.\+ndarray}]{h,  }\item[{np.\+ndarray}]{seq\+Ind }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Update trajectory using R,h matrices
+
+@param[in] R (2 x 2) rotation matrix
+@param[in] h (2 x 1) translation vector
+@param[in] seqInd Sequence index, used for visualization/plotting
+
+@note Updates internal trajectory
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aa3a95039e4a0987c355da8d8ac48eb26}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_aa3a95039e4a0987c355da8d8ac48eb26}} 
+\index{RawROAMSystem@{RawROAMSystem}!updateTrajectoryAbsolute@{updateTrajectoryAbsolute}}
+\index{updateTrajectoryAbsolute@{updateTrajectoryAbsolute}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{updateTrajectoryAbsolute()}{updateTrajectoryAbsolute()}}
+{\footnotesize\ttfamily  None update\+Trajectory\+Absolute (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{pose\+\_\+vector,  }\item[{int}]{seq\+Ind }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Update trajectory using pose vector
+
+@param[in] pose_vector (3, ) pose vector
+@param[in] seqInd Sequence index, used for visualization/plotting
+
+@note Updates internal trajectory
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a01a780439bdd4eed44ec3dc476fcc7c8}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a01a780439bdd4eed44ec3dc476fcc7c8}} 
+\index{RawROAMSystem@{RawROAMSystem}!updateTrajFromTracker@{updateTrajFromTracker}}
+\index{updateTrajFromTracker@{updateTrajFromTracker}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{updateTrajFromTracker()}{updateTrajFromTracker()}}
+{\footnotesize\ttfamily def update\+Traj\+From\+Tracker (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d5e95f4d6054db64fd36facd315f2e6}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d5e95f4d6054db64fd36facd315f2e6}} 
+\index{RawROAMSystem@{RawROAMSystem}!estTraj@{estTraj}}
+\index{estTraj@{estTraj}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{estTraj}{estTraj}}
+{\footnotesize\ttfamily est\+Traj}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a64aa603bc3c6c1587e7c6542452481ac}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a64aa603bc3c6c1587e7c6542452481ac}} 
+\index{RawROAMSystem@{RawROAMSystem}!fig@{fig}}
+\index{fig@{fig}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{fig}{fig}}
+{\footnotesize\ttfamily fig}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ac133126788d5db734ec6f70884178ea8}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ac133126788d5db734ec6f70884178ea8}} 
+\index{RawROAMSystem@{RawROAMSystem}!filePaths@{filePaths}}
+\index{filePaths@{filePaths}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{filePaths}{filePaths}}
+{\footnotesize\ttfamily file\+Paths}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a08c3a4c31d5817521dbdf24631e562c7}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a08c3a4c31d5817521dbdf24631e562c7}} 
+\index{RawROAMSystem@{RawROAMSystem}!gtTraj@{gtTraj}}
+\index{gtTraj@{gtTraj}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{gtTraj}{gtTraj}}
+{\footnotesize\ttfamily gt\+Traj}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9b935ac3b117f5b7bb52024481ca6bde}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9b935ac3b117f5b7bb52024481ca6bde}} 
+\index{RawROAMSystem@{RawROAMSystem}!hasGroundTruth@{hasGroundTruth}}
+\index{hasGroundTruth@{hasGroundTruth}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{hasGroundTruth}{hasGroundTruth}}
+{\footnotesize\ttfamily has\+Ground\+Truth}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d579ebe0582eed800eb106350236c4a}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8d579ebe0582eed800eb106350236c4a}} 
+\index{RawROAMSystem@{RawROAMSystem}!imgPathArr@{imgPathArr}}
+\index{imgPathArr@{imgPathArr}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{imgPathArr}{imgPathArr}}
+{\footnotesize\ttfamily img\+Path\+Arr}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9ec9dda576db2a36c42c1c3af155d07c}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a9ec9dda576db2a36c42c1c3af155d07c}} 
+\index{RawROAMSystem@{RawROAMSystem}!map@{map}}
+\index{map@{map}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{map}{map}}
+{\footnotesize\ttfamily map}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4eb076d8bfa712c536ede28c13d7ae7e}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a4eb076d8bfa712c536ede28c13d7ae7e}} 
+\index{RawROAMSystem@{RawROAMSystem}!paramFlags@{paramFlags}}
+\index{paramFlags@{paramFlags}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{paramFlags}{paramFlags}}
+{\footnotesize\ttfamily param\+Flags}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ada038ff63190b4fbc01af8dace29ec1f}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_ada038ff63190b4fbc01af8dace29ec1f}} 
+\index{RawROAMSystem@{RawROAMSystem}!sequenceName@{sequenceName}}
+\index{sequenceName@{sequenceName}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{sequenceName}{sequenceName}}
+{\footnotesize\ttfamily sequence\+Name}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8ef2335bbb2c7c07c8e2b35959b03c52}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_a8ef2335bbb2c7c07c8e2b35959b03c52}} 
+\index{RawROAMSystem@{RawROAMSystem}!sequenceSize@{sequenceSize}}
+\index{sequenceSize@{sequenceSize}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{sequenceSize}{sequenceSize}}
+{\footnotesize\ttfamily sequence\+Size}
+
+\mbox{\Hypertarget{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_abec0b9ee4648af3b77db73e8070f1736}\label{class_raw_r_o_a_m_system_1_1_raw_r_o_a_m_system_abec0b9ee4648af3b77db73e8070f1736}} 
+\index{RawROAMSystem@{RawROAMSystem}!tracker@{tracker}}
+\index{tracker@{tracker}!RawROAMSystem@{RawROAMSystem}}
+\doxysubsubsection{\texorpdfstring{tracker}{tracker}}
+{\footnotesize\ttfamily tracker}
+

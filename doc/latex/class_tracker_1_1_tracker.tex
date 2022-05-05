@@ -1,0 +1,136 @@
+\hypertarget{class_tracker_1_1_tracker}{}\doxysection{Tracker Class Reference}
+\label{class_tracker_1_1_tracker}\index{Tracker@{Tracker}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{class_tracker_1_1_tracker_a50cd44879d0981e765b880213eb46692}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{class_tracker_1_1_tracker_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}, list\mbox{[}str\mbox{]} \mbox{\hyperlink{class_tracker_1_1_tracker_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, dict\mbox{[}str\mbox{]} \mbox{\hyperlink{class_tracker_1_1_tracker_ac133126788d5db734ec6f70884178ea8}{file\+Paths}}, dict\mbox{[}bool\mbox{]} \mbox{\hyperlink{class_tracker_1_1_tracker_a4eb076d8bfa712c536ede28c13d7ae7e}{param\+Flags}})
+\item 
+def \mbox{\hyperlink{class_tracker_1_1_tracker_a8d30f4090822251a3fea3db1e53ce83c}{init\+Traj}} (self, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{class_tracker_1_1_tracker_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}, \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}} \mbox{\hyperlink{class_tracker_1_1_tracker_a08c3a4c31d5817521dbdf24631e562c7}{gt\+Traj}}=None)
+\item 
+Tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{class_tracker_1_1_tracker_a5502aeee99457c25dc9237a16f102fd9}{track}} (self, np.\+ndarray prev\+Img\+Cart, np.\+ndarray curr\+Img\+Cart, np.\+ndarray prev\+Img\+Polar, np.\+ndarray curr\+Img\+Polar, np.\+ndarray feature\+Coord, int seq\+Ind)
+\item 
+Tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{class_tracker_1_1_tracker_a8072a77a7c03adb53639fb97c7a04b5b}{get\+Transform}} (self, np.\+ndarray src\+Coord, np.\+ndarray target\+Coord, bool pixel)
+\item 
+def \mbox{\hyperlink{class_tracker_1_1_tracker_a8038366cd3daf819bf43b24c7c4b3371}{plot}} (self, prev\+Img, curr\+Img, good\+\_\+old, good\+\_\+new, seq\+Ind, save=True, show=False)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_ada038ff63190b4fbc01af8dace29ec1f}{sequence\+Name}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_a8ef2335bbb2c7c07c8e2b35959b03c52}{sequence\+Size}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_ac133126788d5db734ec6f70884178ea8}{file\+Paths}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_a4eb076d8bfa712c536ede28c13d7ae7e}{param\+Flags}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}}
+\item 
+\mbox{\hyperlink{class_tracker_1_1_tracker_a08c3a4c31d5817521dbdf24631e562c7}{gt\+Traj}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a50cd44879d0981e765b880213eb46692}\label{class_tracker_1_1_tracker_a50cd44879d0981e765b880213eb46692}} 
+\index{Tracker@{Tracker}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{sequence\+Name,  }\item[{list\mbox{[}str\mbox{]}}]{img\+Path\+Arr,  }\item[{dict\mbox{[}str\mbox{]}}]{file\+Paths,  }\item[{dict\mbox{[}bool\mbox{]}}]{param\+Flags }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a8072a77a7c03adb53639fb97c7a04b5b}\label{class_tracker_1_1_tracker_a8072a77a7c03adb53639fb97c7a04b5b}} 
+\index{Tracker@{Tracker}!getTransform@{getTransform}}
+\index{getTransform@{getTransform}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{getTransform()}{getTransform()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{src\+Coord,  }\item[{np.\+ndarray}]{target\+Coord,  }\item[{bool}]{pixel }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Obtain transform from coordinate correspondnces
+
+@param[in] srcCoord Coordinates of src feature points (K' x 2) in [x, y] format
+@param[in] targetCoord Coordinates of target feature points (K' x 2) in [x, y] format
+
+@note target = R @ src + h
+@return R rotation matrix (2 x 2)
+@return h translation matrix (2 x 1), units in meters [m]
+\end{DoxyVerb}
+ \mbox{\Hypertarget{class_tracker_1_1_tracker_a8d30f4090822251a3fea3db1e53ce83c}\label{class_tracker_1_1_tracker_a8d30f4090822251a3fea3db1e53ce83c}} 
+\index{Tracker@{Tracker}!initTraj@{initTraj}}
+\index{initTraj@{initTraj}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{initTraj()}{initTraj()}}
+{\footnotesize\ttfamily def init\+Traj (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}}]{est\+Traj,  }\item[{\mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}} }]{gt\+Traj = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a8038366cd3daf819bf43b24c7c4b3371}\label{class_tracker_1_1_tracker_a8038366cd3daf819bf43b24c7c4b3371}} 
+\index{Tracker@{Tracker}!plot@{plot}}
+\index{plot@{plot}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily def plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{prev\+Img,  }\item[{}]{curr\+Img,  }\item[{}]{good\+\_\+old,  }\item[{}]{good\+\_\+new,  }\item[{}]{seq\+Ind,  }\item[{}]{save = {\ttfamily True},  }\item[{}]{show = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a5502aeee99457c25dc9237a16f102fd9}\label{class_tracker_1_1_tracker_a5502aeee99457c25dc9237a16f102fd9}} 
+\index{Tracker@{Tracker}!track@{track}}
+\index{track@{track}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{track()}{track()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} track (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{prev\+Img\+Cart,  }\item[{np.\+ndarray}]{curr\+Img\+Cart,  }\item[{np.\+ndarray}]{prev\+Img\+Polar,  }\item[{np.\+ndarray}]{curr\+Img\+Polar,  }\item[{np.\+ndarray}]{feature\+Coord,  }\item[{int}]{seq\+Ind }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Track based on previous and current image
+
+@param[in] prevImg Previous Cartesian radar image (N x N)
+@param[in] prevImg Current Cartesian radar image (N x N)
+@param[in] prevImg Previous polar radar image (? x ?)
+@param[in] prevImg Current polar radar image (? x ?)
+
+@param[in] blobCoord Coordinates of feature points (K x 2) in [x, y] format
+
+@return good_old Coordinates of old good feature points (K' x 2) in [x, y] format
+@return good_new Coordinates of new good feature points (K' x 2) in [x, y] format
+@return angleRotRad Angle used to rotate image
+@return corrStatus (K x 2) correspondence status @note Needed for mapping to track keyframe points
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a8d5e95f4d6054db64fd36facd315f2e6}\label{class_tracker_1_1_tracker_a8d5e95f4d6054db64fd36facd315f2e6}} 
+\index{Tracker@{Tracker}!estTraj@{estTraj}}
+\index{estTraj@{estTraj}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{estTraj}{estTraj}}
+{\footnotesize\ttfamily est\+Traj}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_ac133126788d5db734ec6f70884178ea8}\label{class_tracker_1_1_tracker_ac133126788d5db734ec6f70884178ea8}} 
+\index{Tracker@{Tracker}!filePaths@{filePaths}}
+\index{filePaths@{filePaths}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{filePaths}{filePaths}}
+{\footnotesize\ttfamily file\+Paths}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a08c3a4c31d5817521dbdf24631e562c7}\label{class_tracker_1_1_tracker_a08c3a4c31d5817521dbdf24631e562c7}} 
+\index{Tracker@{Tracker}!gtTraj@{gtTraj}}
+\index{gtTraj@{gtTraj}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{gtTraj}{gtTraj}}
+{\footnotesize\ttfamily gt\+Traj}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a8d579ebe0582eed800eb106350236c4a}\label{class_tracker_1_1_tracker_a8d579ebe0582eed800eb106350236c4a}} 
+\index{Tracker@{Tracker}!imgPathArr@{imgPathArr}}
+\index{imgPathArr@{imgPathArr}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{imgPathArr}{imgPathArr}}
+{\footnotesize\ttfamily img\+Path\+Arr}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a4eb076d8bfa712c536ede28c13d7ae7e}\label{class_tracker_1_1_tracker_a4eb076d8bfa712c536ede28c13d7ae7e}} 
+\index{Tracker@{Tracker}!paramFlags@{paramFlags}}
+\index{paramFlags@{paramFlags}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{paramFlags}{paramFlags}}
+{\footnotesize\ttfamily param\+Flags}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_ada038ff63190b4fbc01af8dace29ec1f}\label{class_tracker_1_1_tracker_ada038ff63190b4fbc01af8dace29ec1f}} 
+\index{Tracker@{Tracker}!sequenceName@{sequenceName}}
+\index{sequenceName@{sequenceName}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{sequenceName}{sequenceName}}
+{\footnotesize\ttfamily sequence\+Name}
+
+\mbox{\Hypertarget{class_tracker_1_1_tracker_a8ef2335bbb2c7c07c8e2b35959b03c52}\label{class_tracker_1_1_tracker_a8ef2335bbb2c7c07c8e2b35959b03c52}} 
+\index{Tracker@{Tracker}!sequenceSize@{sequenceSize}}
+\index{sequenceSize@{sequenceSize}!Tracker@{Tracker}}
+\doxysubsubsection{\texorpdfstring{sequenceSize}{sequenceSize}}
+{\footnotesize\ttfamily sequence\+Size}
+

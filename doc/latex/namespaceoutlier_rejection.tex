@@ -1,0 +1,202 @@
+\hypertarget{namespaceoutlier_rejection}{}\doxysection{outlier\+Rejection Namespace Reference}
+\label{namespaceoutlier_rejection}\index{outlierRejection@{outlierRejection}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceoutlier_rejection_abe332cee7e7dd62325f3d3977b7695cc}{reject\+Outliers}} (np.\+ndarray \mbox{\hyperlink{namespaceoutlier_rejection_abb949c00e517693eadcd7dba40403020}{prev\+\_\+coord}}, np.\+ndarray \mbox{\hyperlink{namespaceoutlier_rejection_af059cdd6419168c9dbdeff4cf4b0b775}{new\+\_\+coord}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{namespaceoutlier_rejection_a1c211780ce1ff21c7bfb6a6774120f16}{DIST\+\_\+\+THRESHOLD\+\_\+M}} = 0.\+5
+\item 
+float \mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}} = \mbox{\hyperlink{namespaceoutlier_rejection_a1c211780ce1ff21c7bfb6a6774120f16}{DIST\+\_\+\+THRESHOLD\+\_\+M}} / RANGE\+\_\+\+RESOLUTION\+\_\+\+CART\+\_\+M
+\item 
+float \mbox{\hyperlink{namespaceoutlier_rejection_a3ad17c677614a9c975c73a1ac35e0cb9}{DISTSQ\+\_\+\+THRESHOLD\+\_\+\+PX}} = \mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}} $\ast$ \mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}}
+\item 
+bool \mbox{\hyperlink{namespaceoutlier_rejection_a6d399314f187a822309539b80a54a60d}{FORCE\+\_\+\+OUTLIERS}} = True
+\item 
+int \mbox{\hyperlink{namespaceoutlier_rejection_a2202ecdde3f1299448698af0ba3eb256}{n\+\_\+points}} = 100
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a644efa9be834d5512b3c3f95fecb636c}{n\+\_\+outliers}} = int(\mbox{\hyperlink{namespaceoutlier_rejection_a2202ecdde3f1299448698af0ba3eb256}{n\+\_\+points}} $\ast$ 0.\+2)
+\item 
+int \mbox{\hyperlink{namespaceoutlier_rejection_ad1aa2538c2e1a7556cc668bd67b4bff6}{theta\+\_\+max\+\_\+deg}} = 20
+\item 
+int \mbox{\hyperlink{namespaceoutlier_rejection_a19c16bb0a566f43231b7cec31757cd12}{max\+\_\+translation\+\_\+m}} = 5
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_abb949c00e517693eadcd7dba40403020}{prev\+\_\+coord}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_af059cdd6419168c9dbdeff4cf4b0b775}{new\+\_\+coord}} = add\+Noise(new\+\_\+coord, variance=\mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}} / 10)
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_ad5ed049a2c1601e6f4f9e5d69619c804}{theta\+\_\+deg}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a57b2042477f45ffac90299611ca75467}{trans\+\_\+vec}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a04b9553e65e1a1461832f347cb5e942a}{new\+\_\+coord\+\_\+perfect}} = new\+\_\+coord.\+copy()
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a16f3add66da7caa94dad99c6e62e5160}{outlier\+\_\+ind}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a85217f3efc8710cdcda27b2298c29f80}{noise\+To\+Add}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_ac4f2fa8ef2ad08a8ce87667b9e847366}{pruned\+\_\+prev\+\_\+coord}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_af01450d8e397ca1aa936330694f1a3ff}{pruned\+\_\+new\+\_\+coord}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a62197192f0fbf4e0675eb37be1c4c175}{alpha}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_a584efbd5d11809943039e71845b0cd7f}{show}}
+\item 
+\mbox{\hyperlink{namespaceoutlier_rejection_adca18f0c2258ab57e96c3f009761ea85}{title\+\_\+append}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceoutlier_rejection_abe332cee7e7dd62325f3d3977b7695cc}\label{namespaceoutlier_rejection_abe332cee7e7dd62325f3d3977b7695cc}} 
+\index{outlierRejection@{outlierRejection}!rejectOutliers@{rejectOutliers}}
+\index{rejectOutliers@{rejectOutliers}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{rejectOutliers()}{rejectOutliers()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} outlier\+Rejection.\+reject\+Outliers (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{prev\+\_\+coord,  }\item[{np.\+ndarray }]{new\+\_\+coord }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Reject outliers by using radar geometry to find dynamic/moving features
+
+@details For the first and second feature set, form a graph G1 and G2,
+where each point is a feature, and each edge is the distance between the 2 points.
+Because of radar geometry, the distance between any 2 points in G1 should be the 
+same (within threshold) as the same points in G2. 
+
+This is thus equivalent to forming an unweighted graph G, expressed as an adjacency matrix
+where if the difference in distance between i and j < thresh, then entry = 1, 0 otherwise.
+We then form the inlier set by finding the maximal clique in G.
+
+@note  It is assumeed that the points correspond with each other
+
+@param[in] prev_coord       (K x 2) Coordinates of features which are being tracked from [x,y]
+@param[in] new_coord        (K x 2) New coordinates of features which are tracked to [x,y]
+
+@return pruned_prev_coord   (k x 2) Pruned previous coordinates
+@return pruned_new_coord    (k x 2) Pruned current/new coordinates
+@return pruning_mask        (K x 2) Pruning mask
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceoutlier_rejection_a62197192f0fbf4e0675eb37be1c4c175}\label{namespaceoutlier_rejection_a62197192f0fbf4e0675eb37be1c4c175}} 
+\index{outlierRejection@{outlierRejection}!alpha@{alpha}}
+\index{alpha@{alpha}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily alpha}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a1c211780ce1ff21c7bfb6a6774120f16}\label{namespaceoutlier_rejection_a1c211780ce1ff21c7bfb6a6774120f16}} 
+\index{outlierRejection@{outlierRejection}!DIST\_THRESHOLD\_M@{DIST\_THRESHOLD\_M}}
+\index{DIST\_THRESHOLD\_M@{DIST\_THRESHOLD\_M}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{DIST\_THRESHOLD\_M}{DIST\_THRESHOLD\_M}}
+{\footnotesize\ttfamily float DIST\+\_\+\+THRESHOLD\+\_\+M = 0.\+5}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}\label{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}} 
+\index{outlierRejection@{outlierRejection}!DIST\_THRESHOLD\_PX@{DIST\_THRESHOLD\_PX}}
+\index{DIST\_THRESHOLD\_PX@{DIST\_THRESHOLD\_PX}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{DIST\_THRESHOLD\_PX}{DIST\_THRESHOLD\_PX}}
+{\footnotesize\ttfamily float DIST\+\_\+\+THRESHOLD\+\_\+\+PX = \mbox{\hyperlink{namespaceoutlier_rejection_a1c211780ce1ff21c7bfb6a6774120f16}{DIST\+\_\+\+THRESHOLD\+\_\+M}} / RANGE\+\_\+\+RESOLUTION\+\_\+\+CART\+\_\+M}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a3ad17c677614a9c975c73a1ac35e0cb9}\label{namespaceoutlier_rejection_a3ad17c677614a9c975c73a1ac35e0cb9}} 
+\index{outlierRejection@{outlierRejection}!DISTSQ\_THRESHOLD\_PX@{DISTSQ\_THRESHOLD\_PX}}
+\index{DISTSQ\_THRESHOLD\_PX@{DISTSQ\_THRESHOLD\_PX}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{DISTSQ\_THRESHOLD\_PX}{DISTSQ\_THRESHOLD\_PX}}
+{\footnotesize\ttfamily float DISTSQ\+\_\+\+THRESHOLD\+\_\+\+PX = \mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}} $\ast$ \mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}}}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a6d399314f187a822309539b80a54a60d}\label{namespaceoutlier_rejection_a6d399314f187a822309539b80a54a60d}} 
+\index{outlierRejection@{outlierRejection}!FORCE\_OUTLIERS@{FORCE\_OUTLIERS}}
+\index{FORCE\_OUTLIERS@{FORCE\_OUTLIERS}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{FORCE\_OUTLIERS}{FORCE\_OUTLIERS}}
+{\footnotesize\ttfamily bool FORCE\+\_\+\+OUTLIERS = True}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a19c16bb0a566f43231b7cec31757cd12}\label{namespaceoutlier_rejection_a19c16bb0a566f43231b7cec31757cd12}} 
+\index{outlierRejection@{outlierRejection}!max\_translation\_m@{max\_translation\_m}}
+\index{max\_translation\_m@{max\_translation\_m}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{max\_translation\_m}{max\_translation\_m}}
+{\footnotesize\ttfamily max\+\_\+translation\+\_\+m = 5}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a644efa9be834d5512b3c3f95fecb636c}\label{namespaceoutlier_rejection_a644efa9be834d5512b3c3f95fecb636c}} 
+\index{outlierRejection@{outlierRejection}!n\_outliers@{n\_outliers}}
+\index{n\_outliers@{n\_outliers}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{n\_outliers}{n\_outliers}}
+{\footnotesize\ttfamily n\+\_\+outliers = int(\mbox{\hyperlink{namespaceoutlier_rejection_a2202ecdde3f1299448698af0ba3eb256}{n\+\_\+points}} $\ast$ 0.\+2)}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a2202ecdde3f1299448698af0ba3eb256}\label{namespaceoutlier_rejection_a2202ecdde3f1299448698af0ba3eb256}} 
+\index{outlierRejection@{outlierRejection}!n\_points@{n\_points}}
+\index{n\_points@{n\_points}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{n\_points}{n\_points}}
+{\footnotesize\ttfamily n\+\_\+points = 100}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_af059cdd6419168c9dbdeff4cf4b0b775}\label{namespaceoutlier_rejection_af059cdd6419168c9dbdeff4cf4b0b775}} 
+\index{outlierRejection@{outlierRejection}!new\_coord@{new\_coord}}
+\index{new\_coord@{new\_coord}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{new\_coord}{new\_coord}}
+{\footnotesize\ttfamily new\+\_\+coord = add\+Noise(new\+\_\+coord, variance=\mbox{\hyperlink{namespaceoutlier_rejection_aa1a900cf7b7e48e9c35a34904a9310af}{DIST\+\_\+\+THRESHOLD\+\_\+\+PX}} / 10)}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a04b9553e65e1a1461832f347cb5e942a}\label{namespaceoutlier_rejection_a04b9553e65e1a1461832f347cb5e942a}} 
+\index{outlierRejection@{outlierRejection}!new\_coord\_perfect@{new\_coord\_perfect}}
+\index{new\_coord\_perfect@{new\_coord\_perfect}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{new\_coord\_perfect}{new\_coord\_perfect}}
+{\footnotesize\ttfamily new\+\_\+coord\+\_\+perfect = new\+\_\+coord.\+copy()}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a85217f3efc8710cdcda27b2298c29f80}\label{namespaceoutlier_rejection_a85217f3efc8710cdcda27b2298c29f80}} 
+\index{outlierRejection@{outlierRejection}!noiseToAdd@{noiseToAdd}}
+\index{noiseToAdd@{noiseToAdd}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{noiseToAdd}{noiseToAdd}}
+{\footnotesize\ttfamily noise\+To\+Add}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a16f3add66da7caa94dad99c6e62e5160}\label{namespaceoutlier_rejection_a16f3add66da7caa94dad99c6e62e5160}} 
+\index{outlierRejection@{outlierRejection}!outlier\_ind@{outlier\_ind}}
+\index{outlier\_ind@{outlier\_ind}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{outlier\_ind}{outlier\_ind}}
+{\footnotesize\ttfamily outlier\+\_\+ind}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_abb949c00e517693eadcd7dba40403020}\label{namespaceoutlier_rejection_abb949c00e517693eadcd7dba40403020}} 
+\index{outlierRejection@{outlierRejection}!prev\_coord@{prev\_coord}}
+\index{prev\_coord@{prev\_coord}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{prev\_coord}{prev\_coord}}
+{\footnotesize\ttfamily prev\+\_\+coord}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_af01450d8e397ca1aa936330694f1a3ff}\label{namespaceoutlier_rejection_af01450d8e397ca1aa936330694f1a3ff}} 
+\index{outlierRejection@{outlierRejection}!pruned\_new\_coord@{pruned\_new\_coord}}
+\index{pruned\_new\_coord@{pruned\_new\_coord}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{pruned\_new\_coord}{pruned\_new\_coord}}
+{\footnotesize\ttfamily pruned\+\_\+new\+\_\+coord}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_ac4f2fa8ef2ad08a8ce87667b9e847366}\label{namespaceoutlier_rejection_ac4f2fa8ef2ad08a8ce87667b9e847366}} 
+\index{outlierRejection@{outlierRejection}!pruned\_prev\_coord@{pruned\_prev\_coord}}
+\index{pruned\_prev\_coord@{pruned\_prev\_coord}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{pruned\_prev\_coord}{pruned\_prev\_coord}}
+{\footnotesize\ttfamily pruned\+\_\+prev\+\_\+coord}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a584efbd5d11809943039e71845b0cd7f}\label{namespaceoutlier_rejection_a584efbd5d11809943039e71845b0cd7f}} 
+\index{outlierRejection@{outlierRejection}!show@{show}}
+\index{show@{show}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{show}{show}}
+{\footnotesize\ttfamily show}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_ad5ed049a2c1601e6f4f9e5d69619c804}\label{namespaceoutlier_rejection_ad5ed049a2c1601e6f4f9e5d69619c804}} 
+\index{outlierRejection@{outlierRejection}!theta\_deg@{theta\_deg}}
+\index{theta\_deg@{theta\_deg}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{theta\_deg}{theta\_deg}}
+{\footnotesize\ttfamily theta\+\_\+deg}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_ad1aa2538c2e1a7556cc668bd67b4bff6}\label{namespaceoutlier_rejection_ad1aa2538c2e1a7556cc668bd67b4bff6}} 
+\index{outlierRejection@{outlierRejection}!theta\_max\_deg@{theta\_max\_deg}}
+\index{theta\_max\_deg@{theta\_max\_deg}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{theta\_max\_deg}{theta\_max\_deg}}
+{\footnotesize\ttfamily theta\+\_\+max\+\_\+deg = 20}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_adca18f0c2258ab57e96c3f009761ea85}\label{namespaceoutlier_rejection_adca18f0c2258ab57e96c3f009761ea85}} 
+\index{outlierRejection@{outlierRejection}!title\_append@{title\_append}}
+\index{title\_append@{title\_append}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{title\_append}{title\_append}}
+{\footnotesize\ttfamily title\+\_\+append}
+
+\mbox{\Hypertarget{namespaceoutlier_rejection_a57b2042477f45ffac90299611ca75467}\label{namespaceoutlier_rejection_a57b2042477f45ffac90299611ca75467}} 
+\index{outlierRejection@{outlierRejection}!trans\_vec@{trans\_vec}}
+\index{trans\_vec@{trans\_vec}!outlierRejection@{outlierRejection}}
+\doxysubsubsection{\texorpdfstring{trans\_vec}{trans\_vec}}
+{\footnotesize\ttfamily trans\+\_\+vec}
+

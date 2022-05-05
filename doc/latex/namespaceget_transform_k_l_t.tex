@@ -1,0 +1,543 @@
+\hypertarget{namespaceget_transform_k_l_t}{}\doxysection{get\+Transform\+KLT Namespace Reference}
+\label{namespaceget_transform_k_l_t}\index{getTransformKLT@{getTransformKLT}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{namespaceget_transform_k_l_t_a14efd28bd750b3627d98d5be79bac379}{visualize\+\_\+transform}} (np.\+ndarray \mbox{\hyperlink{namespaceget_transform_k_l_t_a2859654ba27c6c8017869a188748e446}{prev\+Img}}, np.\+ndarray \mbox{\hyperlink{namespaceget_transform_k_l_t_a7030b1f08a51af7a83a292a5d887733c}{curr\+Img}}, np.\+ndarray prev\+Feature\+Coord, np.\+ndarray new\+Feature\+Coord, float \mbox{\hyperlink{namespaceget_transform_k_l_t_a62197192f0fbf4e0675eb37be1c4c175}{alpha}}=1, str \mbox{\hyperlink{namespaceget_transform_k_l_t_af458882b9b7797c19efdc0d53203b2e4}{extra\+Label}}=\char`\"{}\char`\"{}, bool \mbox{\hyperlink{namespaceget_transform_k_l_t_a584efbd5d11809943039e71845b0cd7f}{show}}=False)
+\item 
+def \mbox{\hyperlink{namespaceget_transform_k_l_t_aec2c9cf17d6e459e271c80aa5376bfba}{estimate\+Transform\+Using\+Delats}} (np.\+ndarray src\+Coords, np.\+ndarray target\+Coords)
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceget_transform_k_l_t_a57049ac993252c8c3b8302ef994e7e5d}{calculate\+Transform\+SVD}} (np.\+ndarray src\+Coords, np.\+ndarray target\+Coords)
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceget_transform_k_l_t_a5247db70b7a571740c7f595efd3cb24e}{calculate\+Transform\+Dth}} (np.\+ndarray src\+Coords, np.\+ndarray target\+Coords)
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceget_transform_k_l_t_a2e0ccc9d641f582521e59400a74ed8bf}{calculate\+Transform\+Dx\+Dth}} (np.\+ndarray src\+Coords, np.\+ndarray target\+Coords)
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceget_transform_k_l_t_ae26aaa718930078284fc40d348d091be}{calculate\+Transform}} (np.\+ndarray src\+Coords, np.\+ndarray target\+Coords)
+\item 
+tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} \mbox{\hyperlink{namespaceget_transform_k_l_t_a15357d00ea355252f4f042f054c0ecca}{get\+Tracked\+Points\+KLT}} (np.\+ndarray src\+Img, np.\+ndarray target\+Img, np.\+ndarray blob\+Coord\+Src)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespaceget_transform_k_l_t_aee649bd757375f54cb00357ecdf164a0}{PLOT\+\_\+\+BAD\+\_\+\+FEATURES}} = False
+\item 
+int \mbox{\hyperlink{namespaceget_transform_k_l_t_a5a1ecb7fe1a4f12cba5dfa099fb10bba}{N\+\_\+\+FEATURES\+\_\+\+BEFORE\+\_\+\+RETRACK}} = 60
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_abafedb46c85f0c231fcfe7083f7ceae6}{LK\+\_\+\+PARAMS}}
+\item 
+int \mbox{\hyperlink{namespaceget_transform_k_l_t_afe12a2a7d5c2b32fa7cb5b98139ea2e7}{ERR\+\_\+\+THRESHOLD}} = 10
+\item 
+int \mbox{\hyperlink{namespaceget_transform_k_l_t_a0d700e6dfa2a9f624cd51f991a793585}{dataset\+Name}} = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}
+\item 
+int \mbox{\hyperlink{namespaceget_transform_k_l_t_ae4502b0a2a023faba5a5ea0da218d623}{start\+Img\+Ind}} = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0
+\item 
+int \mbox{\hyperlink{namespaceget_transform_k_l_t_abc00d48bd1d419b17ec367d6d5becaef}{REMOVE\+\_\+\+OLD\+\_\+\+RESULTS}} = bool(int(sys.\+argv\mbox{[}3\mbox{]})) if len(sys.\+argv) $>$ 3 else False
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}} = get\+Radar\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_transform_k_l_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a012224f6fb0d9dcb13f93fb89f037799}{n\+Imgs}} = len(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a4575c573acd9741770c3a97dac5062ba}{traj\+Save\+Path}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a776784c483557d4b64ced9d3423bdb4c}{save\+Feature\+Path}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a0dd30d2c854453a5a754e2a81c971651}{exist\+\_\+ok}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a2859654ba27c6c8017869a188748e446}{prev\+Img}} = get\+Cart\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, img\+No)
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_ab9f5ca1d8e721da9310e0e6689a1ecff}{blob\+Coord}} = data\mbox{[}\char`\"{}blob\+Coord\char`\"{}\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_aa926dcdb7bac0d33b238c31e26b39275}{gt\+Traj\+Path}} = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}gt\char`\"{}, \char`\"{}radar\+\_\+odometry.\+csv\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a08c3a4c31d5817521dbdf24631e562c7}{gt\+Traj}} = get\+Ground\+Truth\+Trajectory(\mbox{\hyperlink{namespaceget_transform_k_l_t_aa926dcdb7bac0d33b238c31e26b39275}{gt\+Traj\+Path}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}{init\+Timestamp}} = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_ae4502b0a2a023faba5a5ea0da218d623}{start\+Img\+Ind}}\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_ab5fca5820e0a2b2742ba664eb8931e57}{init\+Pose}} = gt\+Traj.\+get\+Pose\+At\+Times(\mbox{\hyperlink{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}{init\+Timestamp}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d5e95f4d6054db64fd36facd315f2e6}{est\+Traj}} = \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}(\mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}{init\+Timestamp}}\mbox{]}, \mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_ab5fca5820e0a2b2742ba664eb8931e57}{init\+Pose}}\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a45be5cadab0e8b0e395d21a6e7f85ca7}{good\+\_\+old}} = None
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a550769bbd4e7537ff90a656f5b0c23b2}{start}} = tic()
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a7030b1f08a51af7a83a292a5d887733c}{curr\+Img}} = get\+Cart\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, img\+No)
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a2327e63b5316a77636521af36e611518}{prev\+\_\+good\+\_\+old}} = \mbox{\hyperlink{namespaceget_transform_k_l_t_a45be5cadab0e8b0e395d21a6e7f85ca7}{good\+\_\+old}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_ae52bd29a36c41945a19cd0c56c5efebc}{good\+\_\+new}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a64e5e9d133965546d92e7de800454c3d}{bad\+\_\+new}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a6e4f9c6a6f5046478d8c0c0dc1bfdd93}{bad\+\_\+old}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a0197cb5e5c380ebb913e29e92eb18c83}{corr\+Status}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_ac3251f460d048fe4ae016b44b7d7d370}{n\+Good\+Features}} = good\+\_\+new.\+shape\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a1a8e9592154f2e95676d6e7e13aa77b1}{n\+Bad\+Features}} = bad\+\_\+new.\+shape\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a191221b7abb5cc30e04160ad276a2404}{n\+Features}} = \mbox{\hyperlink{namespaceget_transform_k_l_t_ac3251f460d048fe4ae016b44b7d7d370}{n\+Good\+Features}} + \mbox{\hyperlink{namespaceget_transform_k_l_t_a1a8e9592154f2e95676d6e7e13aa77b1}{n\+Bad\+Features}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}{R}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}{h}}
+\item 
+tuple \mbox{\hyperlink{namespaceget_transform_k_l_t_a5709b84de1dc903d78a2f503b956e541}{transformed\+\_\+pts}} = (\mbox{\hyperlink{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}{R}} @ good\+\_\+new.\+T + \mbox{\hyperlink{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}{h}}).T
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a584efbd5d11809943039e71845b0cd7f}{show}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a6d09892567e78d7f00528e9cabeec3b3}{curr\+Timestamp}} = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}img\+No\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a24aecbea81eae21b50e7dedc92066c6e}{gt\+\_\+deltas}} = gt\+Traj.\+get\+Ground\+Truth\+Deltas\+At\+Time(\mbox{\hyperlink{namespaceget_transform_k_l_t_a6d09892567e78d7f00528e9cabeec3b3}{curr\+Timestamp}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}{est\+\_\+deltas}} = convert\+Rand\+Hto\+Deltas(\mbox{\hyperlink{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}{R}}, \mbox{\hyperlink{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}{h}})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a62197192f0fbf4e0675eb37be1c4c175}{alpha}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_af458882b9b7797c19efdc0d53203b2e4}{extra\+Label}}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a2797efdfd7b06e306947463a2a9b9017}{to\+Save\+Img\+Path}} = os.\+path.\+join(\mbox{\hyperlink{namespaceget_transform_k_l_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a71e24db6312e99e75bdc49e89d65948e}{timestamp}} = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}img\+No\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_aacddc911cdfe5cd5ec97b084754542d4}{dx}} = \mbox{\hyperlink{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}{est\+\_\+deltas}}\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a1771cf24eb9fba7812cc70ad9642945d}{dth}} = \mbox{\hyperlink{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}{est\+\_\+deltas}}\mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_aa51f3d18d70a9ff98f22758e37152ac6}{to\+Save\+Traj\+Path}} = os.\+path.\+join(\mbox{\hyperlink{namespaceget_transform_k_l_t_a4575c573acd9741770c3a97dac5062ba}{traj\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})
+\item 
+\mbox{\hyperlink{namespaceget_transform_k_l_t_a07670d1a0d3d0aa33543d1546c86bab0}{save\+Path}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ae26aaa718930078284fc40d348d091be}\label{namespaceget_transform_k_l_t_ae26aaa718930078284fc40d348d091be}} 
+\index{getTransformKLT@{getTransformKLT}!calculateTransform@{calculateTransform}}
+\index{calculateTransform@{calculateTransform}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{calculateTransform()}{calculateTransform()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform\+KLT.\+calculate\+Transform (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Coords,  }\item[{np.\+ndarray}]{target\+Coords }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Calculate transform given 2 point correspondences.
+
+TODO: Make this work with SVD 
+@see getCorrespondences.py
+Inputs:
+srcCoords       - (N, 2) array of source points
+targetCoords    - (N, 2) array of target points
+Outputs:
+(R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
+                  to old points srcCoords to get new points targetCoords, i.e.
+                  R * srcCoords + h = targetCoords
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_transform_k_l_t_a5247db70b7a571740c7f595efd3cb24e}\label{namespaceget_transform_k_l_t_a5247db70b7a571740c7f595efd3cb24e}} 
+\index{getTransformKLT@{getTransformKLT}!calculateTransformDth@{calculateTransformDth}}
+\index{calculateTransformDth@{calculateTransformDth}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{calculateTransformDth()}{calculateTransformDth()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform\+KLT.\+calculate\+Transform\+Dth (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Coords,  }\item[{np.\+ndarray}]{target\+Coords }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a2e0ccc9d641f582521e59400a74ed8bf}\label{namespaceget_transform_k_l_t_a2e0ccc9d641f582521e59400a74ed8bf}} 
+\index{getTransformKLT@{getTransformKLT}!calculateTransformDxDth@{calculateTransformDxDth}}
+\index{calculateTransformDxDth@{calculateTransformDxDth}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{calculateTransformDxDth()}{calculateTransformDxDth()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform\+KLT.\+calculate\+Transform\+Dx\+Dth (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Coords,  }\item[{np.\+ndarray}]{target\+Coords }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a57049ac993252c8c3b8302ef994e7e5d}\label{namespaceget_transform_k_l_t_a57049ac993252c8c3b8302ef994e7e5d}} 
+\index{getTransformKLT@{getTransformKLT}!calculateTransformSVD@{calculateTransformSVD}}
+\index{calculateTransformSVD@{calculateTransformSVD}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{calculateTransformSVD()}{calculateTransformSVD()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform\+KLT.\+calculate\+Transform\+SVD (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Coords,  }\item[{np.\+ndarray}]{target\+Coords }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Calculate transform given 2 point correspondences using SVD.
+Conventions:
+Rx1 + h = x0
+
+Reference: https://www.sciencedirect.com/science/article/pii/002192909400116L
+           http://nghiaho.com/?page_id=671
+@see getCorrespondences.py
+Inputs:
+srcCoords       - (N, 2) array of source points, x0
+targetCoords    - (N, 2) array of target points, x1
+Outputs:
+(R, h)          - (2 x 2), (2 x 1) arrays: rotation and translation. Apply
+                  to old points srcCoords to get new points targetCoords, i.e.
+                  R * srcCoords + h = targetCoords
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_transform_k_l_t_aec2c9cf17d6e459e271c80aa5376bfba}\label{namespaceget_transform_k_l_t_aec2c9cf17d6e459e271c80aa5376bfba}} 
+\index{getTransformKLT@{getTransformKLT}!estimateTransformUsingDelats@{estimateTransformUsingDelats}}
+\index{estimateTransformUsingDelats@{estimateTransformUsingDelats}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{estimateTransformUsingDelats()}{estimateTransformUsingDelats()}}
+{\footnotesize\ttfamily def get\+Transform\+KLT.\+estimate\+Transform\+Using\+Delats (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Coords,  }\item[{np.\+ndarray}]{target\+Coords }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Estimate KLT [x, y] frame translation by taking average of deltaX and deltaYs from source
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_transform_k_l_t_a15357d00ea355252f4f042f054c0ecca}\label{namespaceget_transform_k_l_t_a15357d00ea355252f4f042f054c0ecca}} 
+\index{getTransformKLT@{getTransformKLT}!getTrackedPointsKLT@{getTrackedPointsKLT}}
+\index{getTrackedPointsKLT@{getTrackedPointsKLT}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{getTrackedPointsKLT()}{getTrackedPointsKLT()}}
+{\footnotesize\ttfamily  tuple\mbox{[}np.\+ndarray, np.\+ndarray, np.\+ndarray, np.\+ndarray, np.\+ndarray\mbox{]} get\+Transform\+KLT.\+get\+Tracked\+Points\+KLT (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{src\+Img,  }\item[{np.\+ndarray}]{target\+Img,  }\item[{np.\+ndarray }]{blob\+Coord\+Src }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Get tracked points using the OpenCV KLT algorithm given the
+       src and target img, and points from the src img to track
+
+@param[in] srcIimg      (M x N) Source image
+@param[in] targetImg    (M x N) Target image
+@param[in] blobIndicesSrc Indices source features (K x 2) (potentially (K x 3)) @note [x, y] format
+
+@note  Will append k more features if it finds that there are not enough features to track
+@note  Will also prune away features. Hence might have K' points instead
+
+@return good_new    (K'  x 2) New points considered as good correspondences
+@return good_old    (K'  x 2) Old points considered as good correspondences
+
+@return bad_new     (K'' x 2) New points considered as bad correspondences 
+@return bad_old     (K'' x 2) Old points considered as bad correspondences
+
+@return correspondenceStatus    ((K + k) x 2) Status of correspondences (1 for valid, 0 for invalid/error) 
+\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceget_transform_k_l_t_a14efd28bd750b3627d98d5be79bac379}\label{namespaceget_transform_k_l_t_a14efd28bd750b3627d98d5be79bac379}} 
+\index{getTransformKLT@{getTransformKLT}!visualize\_transform@{visualize\_transform}}
+\index{visualize\_transform@{visualize\_transform}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{visualize\_transform()}{visualize\_transform()}}
+{\footnotesize\ttfamily  None get\+Transform\+KLT.\+visualize\+\_\+transform (\begin{DoxyParamCaption}\item[{np.\+ndarray}]{prev\+Img,  }\item[{np.\+ndarray}]{curr\+Img,  }\item[{np.\+ndarray}]{prev\+Feature\+Coord,  }\item[{np.\+ndarray}]{new\+Feature\+Coord,  }\item[{float }]{alpha = {\ttfamily 1},  }\item[{str }]{extra\+Label = {\ttfamily \char`\"{}\char`\"{}},  }\item[{bool }]{show = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Visualize transform of good and bad points in 2 images
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}plt.subplot(1, 2, 1)
+plt.imshow(prevImg)
+plt.scatter(prevFeatureInd[:, 1],
+            prevFeatureInd[:, 0],
+            marker='.',
+            color='red')
+plt.title("Old Image")
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a62197192f0fbf4e0675eb37be1c4c175}\label{namespaceget_transform_k_l_t_a62197192f0fbf4e0675eb37be1c4c175}} 
+\index{getTransformKLT@{getTransformKLT}!alpha@{alpha}}
+\index{alpha@{alpha}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily alpha}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a64e5e9d133965546d92e7de800454c3d}\label{namespaceget_transform_k_l_t_a64e5e9d133965546d92e7de800454c3d}} 
+\index{getTransformKLT@{getTransformKLT}!bad\_new@{bad\_new}}
+\index{bad\_new@{bad\_new}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{bad\_new}{bad\_new}}
+{\footnotesize\ttfamily bad\+\_\+new}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a6e4f9c6a6f5046478d8c0c0dc1bfdd93}\label{namespaceget_transform_k_l_t_a6e4f9c6a6f5046478d8c0c0dc1bfdd93}} 
+\index{getTransformKLT@{getTransformKLT}!bad\_old@{bad\_old}}
+\index{bad\_old@{bad\_old}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{bad\_old}{bad\_old}}
+{\footnotesize\ttfamily bad\+\_\+old}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ab9f5ca1d8e721da9310e0e6689a1ecff}\label{namespaceget_transform_k_l_t_ab9f5ca1d8e721da9310e0e6689a1ecff}} 
+\index{getTransformKLT@{getTransformKLT}!blobCoord@{blobCoord}}
+\index{blobCoord@{blobCoord}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{blobCoord}{blobCoord}}
+{\footnotesize\ttfamily blob\+Coord = data\mbox{[}\char`\"{}blob\+Coord\char`\"{}\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a0197cb5e5c380ebb913e29e92eb18c83}\label{namespaceget_transform_k_l_t_a0197cb5e5c380ebb913e29e92eb18c83}} 
+\index{getTransformKLT@{getTransformKLT}!corrStatus@{corrStatus}}
+\index{corrStatus@{corrStatus}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{corrStatus}{corrStatus}}
+{\footnotesize\ttfamily corr\+Status}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a7030b1f08a51af7a83a292a5d887733c}\label{namespaceget_transform_k_l_t_a7030b1f08a51af7a83a292a5d887733c}} 
+\index{getTransformKLT@{getTransformKLT}!currImg@{currImg}}
+\index{currImg@{currImg}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{currImg}{currImg}}
+{\footnotesize\ttfamily curr\+Img = get\+Cart\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, img\+No)}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a6d09892567e78d7f00528e9cabeec3b3}\label{namespaceget_transform_k_l_t_a6d09892567e78d7f00528e9cabeec3b3}} 
+\index{getTransformKLT@{getTransformKLT}!currTimestamp@{currTimestamp}}
+\index{currTimestamp@{currTimestamp}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{currTimestamp}{currTimestamp}}
+{\footnotesize\ttfamily curr\+Timestamp = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}img\+No\mbox{]})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_abef58ec544fb87b0bc3d6657c3824bfc}\label{namespaceget_transform_k_l_t_abef58ec544fb87b0bc3d6657c3824bfc}} 
+\index{getTransformKLT@{getTransformKLT}!dataPath@{dataPath}}
+\index{dataPath@{dataPath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{dataPath}{dataPath}}
+{\footnotesize\ttfamily data\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a0d700e6dfa2a9f624cd51f991a793585}\label{namespaceget_transform_k_l_t_a0d700e6dfa2a9f624cd51f991a793585}} 
+\index{getTransformKLT@{getTransformKLT}!datasetName@{datasetName}}
+\index{datasetName@{datasetName}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{datasetName}{datasetName}}
+{\footnotesize\ttfamily int dataset\+Name = sys.\+argv\mbox{[}1\mbox{]} if len(sys.\+argv) $>$ 1 else \char`\"{}tiny\char`\"{}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a1771cf24eb9fba7812cc70ad9642945d}\label{namespaceget_transform_k_l_t_a1771cf24eb9fba7812cc70ad9642945d}} 
+\index{getTransformKLT@{getTransformKLT}!dth@{dth}}
+\index{dth@{dth}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{dth}{dth}}
+{\footnotesize\ttfamily dth = \mbox{\hyperlink{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}{est\+\_\+deltas}}\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_aacddc911cdfe5cd5ec97b084754542d4}\label{namespaceget_transform_k_l_t_aacddc911cdfe5cd5ec97b084754542d4}} 
+\index{getTransformKLT@{getTransformKLT}!dx@{dx}}
+\index{dx@{dx}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{dx}{dx}}
+{\footnotesize\ttfamily dx = \mbox{\hyperlink{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}{est\+\_\+deltas}}\mbox{[}0\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_afe12a2a7d5c2b32fa7cb5b98139ea2e7}\label{namespaceget_transform_k_l_t_afe12a2a7d5c2b32fa7cb5b98139ea2e7}} 
+\index{getTransformKLT@{getTransformKLT}!ERR\_THRESHOLD@{ERR\_THRESHOLD}}
+\index{ERR\_THRESHOLD@{ERR\_THRESHOLD}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{ERR\_THRESHOLD}{ERR\_THRESHOLD}}
+{\footnotesize\ttfamily int ERR\+\_\+\+THRESHOLD = 10}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}\label{namespaceget_transform_k_l_t_aa12b25e34c9134c20bd08a8c04a4aae8}} 
+\index{getTransformKLT@{getTransformKLT}!est\_deltas@{est\_deltas}}
+\index{est\_deltas@{est\_deltas}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{est\_deltas}{est\_deltas}}
+{\footnotesize\ttfamily est\+\_\+deltas = convert\+Rand\+Hto\+Deltas(\mbox{\hyperlink{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}{R}}, \mbox{\hyperlink{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}{h}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a8d5e95f4d6054db64fd36facd315f2e6}\label{namespaceget_transform_k_l_t_a8d5e95f4d6054db64fd36facd315f2e6}} 
+\index{getTransformKLT@{getTransformKLT}!estTraj@{estTraj}}
+\index{estTraj@{estTraj}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{estTraj}{estTraj}}
+{\footnotesize\ttfamily est\+Traj = \mbox{\hyperlink{classtrajectory_plotting_1_1_trajectory}{Trajectory}}(\mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}{init\+Timestamp}}\mbox{]}, \mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_ab5fca5820e0a2b2742ba664eb8931e57}{init\+Pose}}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a0dd30d2c854453a5a754e2a81c971651}\label{namespaceget_transform_k_l_t_a0dd30d2c854453a5a754e2a81c971651}} 
+\index{getTransformKLT@{getTransformKLT}!exist\_ok@{exist\_ok}}
+\index{exist\_ok@{exist\_ok}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{exist\_ok}{exist\_ok}}
+{\footnotesize\ttfamily exist\+\_\+ok}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_af458882b9b7797c19efdc0d53203b2e4}\label{namespaceget_transform_k_l_t_af458882b9b7797c19efdc0d53203b2e4}} 
+\index{getTransformKLT@{getTransformKLT}!extraLabel@{extraLabel}}
+\index{extraLabel@{extraLabel}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{extraLabel}{extraLabel}}
+{\footnotesize\ttfamily extra\+Label}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ae52bd29a36c41945a19cd0c56c5efebc}\label{namespaceget_transform_k_l_t_ae52bd29a36c41945a19cd0c56c5efebc}} 
+\index{getTransformKLT@{getTransformKLT}!good\_new@{good\_new}}
+\index{good\_new@{good\_new}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{good\_new}{good\_new}}
+{\footnotesize\ttfamily good\+\_\+new}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a45be5cadab0e8b0e395d21a6e7f85ca7}\label{namespaceget_transform_k_l_t_a45be5cadab0e8b0e395d21a6e7f85ca7}} 
+\index{getTransformKLT@{getTransformKLT}!good\_old@{good\_old}}
+\index{good\_old@{good\_old}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{good\_old}{good\_old}}
+{\footnotesize\ttfamily good\+\_\+old = None}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a24aecbea81eae21b50e7dedc92066c6e}\label{namespaceget_transform_k_l_t_a24aecbea81eae21b50e7dedc92066c6e}} 
+\index{getTransformKLT@{getTransformKLT}!gt\_deltas@{gt\_deltas}}
+\index{gt\_deltas@{gt\_deltas}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{gt\_deltas}{gt\_deltas}}
+{\footnotesize\ttfamily gt\+\_\+deltas = gt\+Traj.\+get\+Ground\+Truth\+Deltas\+At\+Time(\mbox{\hyperlink{namespaceget_transform_k_l_t_a6d09892567e78d7f00528e9cabeec3b3}{curr\+Timestamp}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a08c3a4c31d5817521dbdf24631e562c7}\label{namespaceget_transform_k_l_t_a08c3a4c31d5817521dbdf24631e562c7}} 
+\index{getTransformKLT@{getTransformKLT}!gtTraj@{gtTraj}}
+\index{gtTraj@{gtTraj}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{gtTraj}{gtTraj}}
+{\footnotesize\ttfamily gt\+Traj = get\+Ground\+Truth\+Trajectory(\mbox{\hyperlink{namespaceget_transform_k_l_t_aa926dcdb7bac0d33b238c31e26b39275}{gt\+Traj\+Path}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_aa926dcdb7bac0d33b238c31e26b39275}\label{namespaceget_transform_k_l_t_aa926dcdb7bac0d33b238c31e26b39275}} 
+\index{getTransformKLT@{getTransformKLT}!gtTrajPath@{gtTrajPath}}
+\index{gtTrajPath@{gtTrajPath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{gtTrajPath}{gtTrajPath}}
+{\footnotesize\ttfamily gt\+Traj\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}gt\char`\"{}, \char`\"{}radar\+\_\+odometry.\+csv\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}\label{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}} 
+\index{getTransformKLT@{getTransformKLT}!h@{h}}
+\index{h@{h}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily h}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}\label{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}} 
+\index{getTransformKLT@{getTransformKLT}!imgPathArr@{imgPathArr}}
+\index{imgPathArr@{imgPathArr}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{imgPathArr}{imgPathArr}}
+{\footnotesize\ttfamily img\+Path\+Arr = get\+Radar\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_abef58ec544fb87b0bc3d6657c3824bfc}{data\+Path}}, \mbox{\hyperlink{namespaceget_transform_k_l_t_ac559b123c3618ef31794f03fb8742e8e}{timestamp\+Path}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a3ab4a737af4a26ba845d42353015fa10}\label{namespaceget_transform_k_l_t_a3ab4a737af4a26ba845d42353015fa10}} 
+\index{getTransformKLT@{getTransformKLT}!imgSavePath@{imgSavePath}}
+\index{imgSavePath@{imgSavePath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{imgSavePath}{imgSavePath}}
+{\footnotesize\ttfamily img\+Save\+Path}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  os.path.join(\textcolor{stringliteral}{"{}."{}}, \textcolor{stringliteral}{"{}img"{}}, \textcolor{stringliteral}{"{}track\_klt\_thresholding"{}},}
+\DoxyCodeLine{2                                datasetName)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ab5fca5820e0a2b2742ba664eb8931e57}\label{namespaceget_transform_k_l_t_ab5fca5820e0a2b2742ba664eb8931e57}} 
+\index{getTransformKLT@{getTransformKLT}!initPose@{initPose}}
+\index{initPose@{initPose}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{initPose}{initPose}}
+{\footnotesize\ttfamily init\+Pose = gt\+Traj.\+get\+Pose\+At\+Times(\mbox{\hyperlink{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}{init\+Timestamp}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}\label{namespaceget_transform_k_l_t_a2435800391d95bbda30c8aee08e55c54}} 
+\index{getTransformKLT@{getTransformKLT}!initTimestamp@{initTimestamp}}
+\index{initTimestamp@{initTimestamp}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{initTimestamp}{initTimestamp}}
+{\footnotesize\ttfamily init\+Timestamp = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}\mbox{\hyperlink{namespaceget_transform_k_l_t_ae4502b0a2a023faba5a5ea0da218d623}{start\+Img\+Ind}}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_abafedb46c85f0c231fcfe7083f7ceae6}\label{namespaceget_transform_k_l_t_abafedb46c85f0c231fcfe7083f7ceae6}} 
+\index{getTransformKLT@{getTransformKLT}!LK\_PARAMS@{LK\_PARAMS}}
+\index{LK\_PARAMS@{LK\_PARAMS}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{LK\_PARAMS}{LK\_PARAMS}}
+{\footnotesize\ttfamily LK\+\_\+\+PARAMS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  dict(}
+\DoxyCodeLine{2     \textcolor{comment}{\# level of pyramid search}}
+\DoxyCodeLine{3     maxLevel=3,}
+\DoxyCodeLine{4     \textcolor{comment}{\# termination criteria}}
+\DoxyCodeLine{5     criteria=(cv2.TERM\_CRITERIA\_EPS | cv2.TERM\_CRITERIA\_COUNT, 10, 0.03))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a5a1ecb7fe1a4f12cba5dfa099fb10bba}\label{namespaceget_transform_k_l_t_a5a1ecb7fe1a4f12cba5dfa099fb10bba}} 
+\index{getTransformKLT@{getTransformKLT}!N\_FEATURES\_BEFORE\_RETRACK@{N\_FEATURES\_BEFORE\_RETRACK}}
+\index{N\_FEATURES\_BEFORE\_RETRACK@{N\_FEATURES\_BEFORE\_RETRACK}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{N\_FEATURES\_BEFORE\_RETRACK}{N\_FEATURES\_BEFORE\_RETRACK}}
+{\footnotesize\ttfamily int N\+\_\+\+FEATURES\+\_\+\+BEFORE\+\_\+\+RETRACK = 60}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a1a8e9592154f2e95676d6e7e13aa77b1}\label{namespaceget_transform_k_l_t_a1a8e9592154f2e95676d6e7e13aa77b1}} 
+\index{getTransformKLT@{getTransformKLT}!nBadFeatures@{nBadFeatures}}
+\index{nBadFeatures@{nBadFeatures}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{nBadFeatures}{nBadFeatures}}
+{\footnotesize\ttfamily n\+Bad\+Features = bad\+\_\+new.\+shape\mbox{[}0\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a191221b7abb5cc30e04160ad276a2404}\label{namespaceget_transform_k_l_t_a191221b7abb5cc30e04160ad276a2404}} 
+\index{getTransformKLT@{getTransformKLT}!nFeatures@{nFeatures}}
+\index{nFeatures@{nFeatures}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{nFeatures}{nFeatures}}
+{\footnotesize\ttfamily n\+Features = \mbox{\hyperlink{namespaceget_transform_k_l_t_ac3251f460d048fe4ae016b44b7d7d370}{n\+Good\+Features}} + \mbox{\hyperlink{namespaceget_transform_k_l_t_a1a8e9592154f2e95676d6e7e13aa77b1}{n\+Bad\+Features}}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ac3251f460d048fe4ae016b44b7d7d370}\label{namespaceget_transform_k_l_t_ac3251f460d048fe4ae016b44b7d7d370}} 
+\index{getTransformKLT@{getTransformKLT}!nGoodFeatures@{nGoodFeatures}}
+\index{nGoodFeatures@{nGoodFeatures}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{nGoodFeatures}{nGoodFeatures}}
+{\footnotesize\ttfamily n\+Good\+Features = good\+\_\+new.\+shape\mbox{[}0\mbox{]}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a012224f6fb0d9dcb13f93fb89f037799}\label{namespaceget_transform_k_l_t_a012224f6fb0d9dcb13f93fb89f037799}} 
+\index{getTransformKLT@{getTransformKLT}!nImgs@{nImgs}}
+\index{nImgs@{nImgs}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{nImgs}{nImgs}}
+{\footnotesize\ttfamily n\+Imgs = len(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_aee649bd757375f54cb00357ecdf164a0}\label{namespaceget_transform_k_l_t_aee649bd757375f54cb00357ecdf164a0}} 
+\index{getTransformKLT@{getTransformKLT}!PLOT\_BAD\_FEATURES@{PLOT\_BAD\_FEATURES}}
+\index{PLOT\_BAD\_FEATURES@{PLOT\_BAD\_FEATURES}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{PLOT\_BAD\_FEATURES}{PLOT\_BAD\_FEATURES}}
+{\footnotesize\ttfamily bool PLOT\+\_\+\+BAD\+\_\+\+FEATURES = False}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a2327e63b5316a77636521af36e611518}\label{namespaceget_transform_k_l_t_a2327e63b5316a77636521af36e611518}} 
+\index{getTransformKLT@{getTransformKLT}!prev\_good\_old@{prev\_good\_old}}
+\index{prev\_good\_old@{prev\_good\_old}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{prev\_good\_old}{prev\_good\_old}}
+{\footnotesize\ttfamily prev\+\_\+good\+\_\+old = \mbox{\hyperlink{namespaceget_transform_k_l_t_a45be5cadab0e8b0e395d21a6e7f85ca7}{good\+\_\+old}}}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a2859654ba27c6c8017869a188748e446}\label{namespaceget_transform_k_l_t_a2859654ba27c6c8017869a188748e446}} 
+\index{getTransformKLT@{getTransformKLT}!prevImg@{prevImg}}
+\index{prevImg@{prevImg}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{prevImg}{prevImg}}
+{\footnotesize\ttfamily prev\+Img = get\+Cart\+Image\+From\+Img\+Paths(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}, img\+No)}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}\label{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}} 
+\index{getTransformKLT@{getTransformKLT}!R@{R}}
+\index{R@{R}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{R}{R}}
+{\footnotesize\ttfamily R}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_abc00d48bd1d419b17ec367d6d5becaef}\label{namespaceget_transform_k_l_t_abc00d48bd1d419b17ec367d6d5becaef}} 
+\index{getTransformKLT@{getTransformKLT}!REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}}
+\index{REMOVE\_OLD\_RESULTS@{REMOVE\_OLD\_RESULTS}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{REMOVE\_OLD\_RESULTS}{REMOVE\_OLD\_RESULTS}}
+{\footnotesize\ttfamily int REMOVE\+\_\+\+OLD\+\_\+\+RESULTS = bool(int(sys.\+argv\mbox{[}3\mbox{]})) if len(sys.\+argv) $>$ 3 else False}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a776784c483557d4b64ced9d3423bdb4c}\label{namespaceget_transform_k_l_t_a776784c483557d4b64ced9d3423bdb4c}} 
+\index{getTransformKLT@{getTransformKLT}!saveFeaturePath@{saveFeaturePath}}
+\index{saveFeaturePath@{saveFeaturePath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{saveFeaturePath}{saveFeaturePath}}
+{\footnotesize\ttfamily save\+Feature\+Path}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  os.path.join(}
+\DoxyCodeLine{2         imgSavePath.strip(os.path.sep) + f\textcolor{stringliteral}{"{}\_\{imgNo\}.npz"{}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a07670d1a0d3d0aa33543d1546c86bab0}\label{namespaceget_transform_k_l_t_a07670d1a0d3d0aa33543d1546c86bab0}} 
+\index{getTransformKLT@{getTransformKLT}!savePath@{savePath}}
+\index{savePath@{savePath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{savePath}{savePath}}
+{\footnotesize\ttfamily save\+Path}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a584efbd5d11809943039e71845b0cd7f}\label{namespaceget_transform_k_l_t_a584efbd5d11809943039e71845b0cd7f}} 
+\index{getTransformKLT@{getTransformKLT}!show@{show}}
+\index{show@{show}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{show}{show}}
+{\footnotesize\ttfamily show}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a550769bbd4e7537ff90a656f5b0c23b2}\label{namespaceget_transform_k_l_t_a550769bbd4e7537ff90a656f5b0c23b2}} 
+\index{getTransformKLT@{getTransformKLT}!start@{start}}
+\index{start@{start}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily start = tic()}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ae4502b0a2a023faba5a5ea0da218d623}\label{namespaceget_transform_k_l_t_ae4502b0a2a023faba5a5ea0da218d623}} 
+\index{getTransformKLT@{getTransformKLT}!startImgInd@{startImgInd}}
+\index{startImgInd@{startImgInd}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{startImgInd}{startImgInd}}
+{\footnotesize\ttfamily int start\+Img\+Ind = int(sys.\+argv\mbox{[}2\mbox{]}) if len(sys.\+argv) $>$ 2 else 0}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a71e24db6312e99e75bdc49e89d65948e}\label{namespaceget_transform_k_l_t_a71e24db6312e99e75bdc49e89d65948e}} 
+\index{getTransformKLT@{getTransformKLT}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{timestamp}{timestamp}}
+{\footnotesize\ttfamily timestamp = radar\+Img\+Path\+To\+Timestamp(\mbox{\hyperlink{namespaceget_transform_k_l_t_a8d579ebe0582eed800eb106350236c4a}{img\+Path\+Arr}}\mbox{[}img\+No\mbox{]})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_ac559b123c3618ef31794f03fb8742e8e}\label{namespaceget_transform_k_l_t_ac559b123c3618ef31794f03fb8742e8e}} 
+\index{getTransformKLT@{getTransformKLT}!timestampPath@{timestampPath}}
+\index{timestampPath@{timestampPath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{timestampPath}{timestampPath}}
+{\footnotesize\ttfamily timestamp\+Path = os.\+path.\+join(\char`\"{}data\char`\"{}, dataset\+Name, \char`\"{}radar.\+timestamps\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a2797efdfd7b06e306947463a2a9b9017}\label{namespaceget_transform_k_l_t_a2797efdfd7b06e306947463a2a9b9017}} 
+\index{getTransformKLT@{getTransformKLT}!toSaveImgPath@{toSaveImgPath}}
+\index{toSaveImgPath@{toSaveImgPath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{toSaveImgPath}{toSaveImgPath}}
+{\footnotesize\ttfamily to\+Save\+Img\+Path = os.\+path.\+join(\mbox{\hyperlink{namespaceget_transform_k_l_t_a3ab4a737af4a26ba845d42353015fa10}{img\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_aa51f3d18d70a9ff98f22758e37152ac6}\label{namespaceget_transform_k_l_t_aa51f3d18d70a9ff98f22758e37152ac6}} 
+\index{getTransformKLT@{getTransformKLT}!toSaveTrajPath@{toSaveTrajPath}}
+\index{toSaveTrajPath@{toSaveTrajPath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{toSaveTrajPath}{toSaveTrajPath}}
+{\footnotesize\ttfamily to\+Save\+Traj\+Path = os.\+path.\+join(\mbox{\hyperlink{namespaceget_transform_k_l_t_a4575c573acd9741770c3a97dac5062ba}{traj\+Save\+Path}}, f\char`\"{}\{img\+No\+:04d\}.jpg\char`\"{})}
+
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a4575c573acd9741770c3a97dac5062ba}\label{namespaceget_transform_k_l_t_a4575c573acd9741770c3a97dac5062ba}} 
+\index{getTransformKLT@{getTransformKLT}!trajSavePath@{trajSavePath}}
+\index{trajSavePath@{trajSavePath}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{trajSavePath}{trajSavePath}}
+{\footnotesize\ttfamily traj\+Save\+Path}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  os.path.join(\textcolor{stringliteral}{"{}."{}}, \textcolor{stringliteral}{"{}img"{}}, \textcolor{stringliteral}{"{}track\_klt\_thresholding"{}},}
+\DoxyCodeLine{2                                 datasetName + \textcolor{stringliteral}{'\_traj'})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceget_transform_k_l_t_a5709b84de1dc903d78a2f503b956e541}\label{namespaceget_transform_k_l_t_a5709b84de1dc903d78a2f503b956e541}} 
+\index{getTransformKLT@{getTransformKLT}!transformed\_pts@{transformed\_pts}}
+\index{transformed\_pts@{transformed\_pts}!getTransformKLT@{getTransformKLT}}
+\doxysubsubsection{\texorpdfstring{transformed\_pts}{transformed\_pts}}
+{\footnotesize\ttfamily transformed\+\_\+pts = (\mbox{\hyperlink{namespaceget_transform_k_l_t_acb95449a94688af33f6e9bb090cf2936}{R}} @ good\+\_\+new.\+T + \mbox{\hyperlink{namespaceget_transform_k_l_t_a5e36941b3d856737e81516acd45edc50}{h}}).T}
+
