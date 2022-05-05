@@ -221,11 +221,10 @@ class Map():
         @param[in] fig plt figure to plot on @todo do this
         '''
         # TODO: For now, plot all the keyframe feature points
+        points_global = np.empty((0, 2))
         for kf in self.keyframes:
-            points_local = kf.featurePointsLocal
-            points_global = kf.convertFeaturesLocalToGlobal(points_local)
-            
-            plt.scatter(points_global[:, 0], points_global[:, 1], marker='+', color='red',label='Map Points')
+            points_global = np.vstack((points_global,kf.getPrunedFeaturesGlobalPosition()))
+        plt.scatter(points_global[:, 0], points_global[:, 1], marker='+', color='g',alpha=.8,label='Map Points')
 
         if show:
             plt.show()

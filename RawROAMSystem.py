@@ -250,7 +250,7 @@ class RawROAMSystem():
                 print("\nAdding keyframe...\n")
 
                 #old_kf.copyFromOtherKeyframe(possible_kf)
-                #self.map.addKeyframe(possible_kf)
+                self.map.addKeyframe(possible_kf)
 
                 # TODO: Aliasing above? old_kf is never assigned the object possible_kf,
                 # map ends up with a list of N pointers to the same keyframe
@@ -271,8 +271,9 @@ class RawROAMSystem():
                 self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
                         seqInd, save = True, show = False)
             else:
-                self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
-                        seqInd, save = False, show = False)
+                if seqInd % 3 == 0:
+                    self.plot(prevImgCart, currImgCart, good_old, good_new, R, h,
+                            seqInd, save = False, show = False)
             # Update incremental variables
             blobCoord = good_new.copy()
             prevImgCart = currImgCart
@@ -319,7 +320,7 @@ class RawROAMSystem():
 
         ax2 = self.fig.add_subplot(1, 2, 2)
         # TODO: Plotting for map points
-        #self.map.plot(self.fig, show=False)
+        self.map.plot(self.fig, show=False)
 
         self.plotTraj(seqInd, R, h, save=False, show=False)
 
